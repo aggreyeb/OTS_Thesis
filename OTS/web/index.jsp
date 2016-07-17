@@ -83,7 +83,14 @@
         
         <div class="container">
             <div class="jumbotron">
-                <h4> Welcome! General Information about  the system will be here .Please read role specific information below</h4>
+                <h5>
+                    Welcome! <br><br>
+                   Online Test System is an application for teachers, students, and administrator to streamline their common daily tasks. Teachers can use the system to create and manage their knowledge maps (KMs) as well generating students’ assessments automatically from the KMs created.
+                   Student can also use the system to register for course(s) and take test on the course they have registered.
+                   Administrators can use the system to create and manage student and teachers account. 
+                   
+                </h5>
+               
             </div>
             <div class="row">
                 <div class="col-lg-4">
@@ -94,7 +101,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Administrator information
+                        Please contact senior administrator to get information on how to create an account. 
                     </div>
                     <div class="panel-footer">
                         
@@ -107,7 +114,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Student Information information
+                        Please contact your teacher to get information on how to create an account.
                     </div>
                     <div class="panel-footer">
                         
@@ -121,7 +128,8 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Teacher Information information
+                        <b>Please use the link below to create an account</b>
+                        <a href="register-teacher.jsp">Create Account</a>
                     </div>
                     <div class="panel-footer">
                         
