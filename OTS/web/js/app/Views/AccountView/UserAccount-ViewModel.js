@@ -1,16 +1,18 @@
 var OTS=OTS||{};
-OTS.ViewModels.AccountViewModel=function(){
-   var me=this;
+ OTS.ViewModels=OTS.ViewModels||{};
+OTS.ViewModels.UserAccountViewModel=function(){
+  
+    var me=this;
    //Callbacks
    var forgetPasswordCallback=null;
    var retreivePasswordCallback=null;
    var createAccountCallback=null;
    
-   me.FirstName=ko.observable("");
-   me.LastName=ko.observable("");
-   me.LoginEmail=ko.observable("");
-   me.Password=ko.observable("");
-   me.RepeatPassword=ko.observable("");
+   me.FirstName=ko.observable("Testing abca");
+   me.LastName=ko.observable("a");
+   me.LoginEmail=ko.observable("b@test.com");
+   me.Password=ko.observable("p");
+   me.RepeatPassword=ko.observable("p");
    me.ForgetPasswordEmail=ko.observable("");
    me.ForgetPasswordPanelVisible=ko.observable(false);
    
@@ -55,5 +57,40 @@ OTS.ViewModels.AccountViewModel=function(){
            retreivePasswordCallback({Email: me.ForgetPasswordEmail()});
        }
    };
+   
+ 
+   me.IsValid=function(){
+       var valid=true;
+       if(me.FirstName()===""){
+           valid=false;
+       }
+       
+      if(me.LastName()===""){
+           valid=false;
+       } 
+       
+       if(me.LoginEmail()===""){
+           valid=false;
+       }
+       
+        if(me.Password===""){
+           valid=false;
+       }
+       if(me.RepeatPassword()===""){
+           valid=false;
+       }
+       
+       if(me.Password() !==me.RepeatPassword()){
+            valid=false;
+       }
+      
+      return valid;
+   };
+   
+   
+     me.CanSubmit=ko.computed(function(){
+       
+       return me.IsValid();
+   });
 };
 
