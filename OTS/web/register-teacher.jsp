@@ -61,7 +61,7 @@
             <div class="row">
              
                 <div class="col-lg-3">
-                    Left
+                    <p></p>
                 </div>
           <div class="col-lg-6 ">
                     <div id="account-message-box" class="alert alert-success"></div>
@@ -116,7 +116,7 @@
             </div>
           </div>
                 <div class="col-lg-3">
-                    Right
+                    <p></p>
                 </div>
             </div>
         </div>

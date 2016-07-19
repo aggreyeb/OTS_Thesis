@@ -116,14 +116,19 @@ public class UserManagementServlet extends Servlet {
                 users.ResetPassword(userTypeId);
                   break;   
                   
-                 case "SaveBatchUsers":
+                case "SaveBatchUsers":
                 String batchdata=  request.getParameter("data");
                 UserAccountItem[] batchitems=(UserAccountItem[])(new Gson().fromJson(batchdata , UserAccountItem[].class));
                 users= new OTS.ObjectModels.Users(response,db);
                 users.SaveBatch(batchitems);
                   break;  
                      
-                     
+                case "RegisterTeacher":  
+                String  TeacherRegistration=  request.getParameter("data");
+                UserAccountItem TeacherRegistrationItem=(UserAccountItem)(new Gson().fromJson(TeacherRegistration , UserAccountItem.class));
+                users= new OTS.ObjectModels.Users(response,db);
+                users.RegisterNewTeacher(TeacherRegistrationItem, new OTS.ObjectModels.Courses(db),response);
+                    break;
               default:
                   response.UpdateError("Invalid action");
                   response.UpdateID(0);

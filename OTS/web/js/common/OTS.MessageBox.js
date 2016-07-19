@@ -11,7 +11,7 @@ OTS.MessageBox = function(divContainer) {
         $("#" + container).hide();
     };
 
-	me.DisplyError = function (htmlMessage) {
+	me.DisplayError = function (htmlMessage) {
 		$("#" + container).html(htmlMessage);
 		$("#" + container).removeClass("alert  alert-success");
 		$("#" + container).removeClass("alert alert-warning");

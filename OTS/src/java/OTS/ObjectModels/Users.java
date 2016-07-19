@@ -180,6 +180,67 @@ public class Users {
        
     }
     
+    
+      public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
+        String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology,Advance Biology"};
+          List<String> list=new ArrayList();
+          
+          try{
+        
+            if(!this.HasEmail(userAccount)){
+                  
+                     Useraccount ua= new Useraccount();
+                     ua.setUserName(userAccount.Email);
+                     ua.setPassword(userAccount.Password);
+                     ua.setIsLocked(Boolean.FALSE);
+                     this.dataSource.Save(ua);
+
+                    Usertype ut= (Usertype)dataSource.Find(Usertype.class, new Integer(userAccount.UserTypeId));
+                    OTS.DataModels.User user= new OTS.DataModels.User(ua,userAccount.FirstName,userAccount.LastName);
+                    user.setFirstName(userAccount.FirstName);
+                    user.setLastName(userAccount.LastName);
+                    user.setEmail(userAccount.Email);
+                    user.setPhone(userAccount.Phone);
+                    user.setUsertype(ut);
+                    user.setUseraccount(ua);
+                    this.dataSource.Save(user);
+                    userAccount.Id=user.getUserId();
+
+                    Random rnd = new Random();
+                    int val=  rnd.nextInt(2);
+                    String selectedCourse=AutoCourses[val];
+
+                    CourseItem item = new CourseItem();
+                    item.Name=selectedCourse;
+                    item.Number= Integer.toString(new Random().nextInt(700));
+                    courses.Save(item, response);
+
+                    item.Name=selectedCourse + "Level " + " "+ item.CourseTypeId;
+                    //Update the Course Name
+                    courses.Save(item, response);
+        
+                   //Assign the course to teacher
+                   courses.AssignTeacherCourse(item.CourseTypeId, user.getUserId(), response);
+                   response.UpdateID(user.getUserId());
+                   response.ChangeContent(new Gson().toJson(userAccount));
+                   response.ChangeStatus("ok");
+              }
+              else{
+                response.ChangeContent("");
+                response.ChangeStatus(":Email already exist");
+              }    
+        }
+        catch(Throwable ex){
+        response.UpdateID(0);
+        response.ChangeContent("");
+        response.ChangeStatus("exception");
+        response.UpdateError(ex.toString());
+       // this.dataSource.Rollback();
+        }
+        finally{
+          //this.dataSource.Close();
+        }
+    }
     protected void CreateUser(UserAccountItem userAccount){
         try{
         //this.dataSource.Open();

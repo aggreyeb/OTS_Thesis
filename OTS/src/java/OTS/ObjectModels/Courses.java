@@ -70,6 +70,7 @@ public class Courses {
             newCourse.setNumber(courseItem.Number);
             newCourse.setName(courseItem.Name);
             this.dataSource.Save(newCourse);
+            courseItem.CourseTypeId=newCourse.getCourseTypeId();
           }
           else{
               ac.setNumber(courseItem.Number);
