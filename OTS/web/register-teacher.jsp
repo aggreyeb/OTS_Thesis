@@ -14,6 +14,7 @@
         <META HTTP-EQUIV="Expires" CONTENT="-1">
          <meta http-equiv="cache-control" content="no-cache" />
         <link href="content/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
         <script src="scripts/jquery-2.1.0.js" type="text/javascript"></script>
         <script src="scripts/bootstrap.js" type="text/javascript"></script>
         <script src="scripts/knockout-3.1.0.js" type="text/javascript"></script>
@@ -64,8 +65,8 @@
                     <p></p>
                 </div>
           <div class="col-lg-6 ">
-                    <div id="account-message-box" class="alert alert-success"></div>
-           <div>
+            <div id="account-message-box" class="alert alert-success"></div>
+            <div data-bind="visible:AccountFormVisible">
              <h3> <span class="label label-default">Create Account</span></h3>
               <form class="form-horizontal" role="form">
                  <div class="form-group">
@@ -100,7 +101,7 @@
                </div>
                <div class="form-group"> 
                  <div class="col-sm-offset-2 col-sm-10">
-                     <button  data-bind="enable:CanSubmit, click:CreateAccount" type="submit" class="btn btn-primary pull-right">Submit</button>
+                     <button  data-bind="enable:CanSubmit, click:CreateAccount" type="submit" class="btn btn-primary pull-right">Submit <i id="create-account-spinner" class="" style="font-size:24px"></i></button>
                  </div>
                </div>
                 </form>

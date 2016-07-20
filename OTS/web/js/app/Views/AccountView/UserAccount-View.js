@@ -4,19 +4,23 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
      var viewModel= useraccountViewModel|| new  OTS.ViewModels.UserAccountViewModel()
   
   var onCreateAccount=function(e){
-     $.post("UserManagementServlet",{action:"RegisterTeacher",data:JSON.stringify(e)},function(msg){
+    $("#create-account-spinner").addClass("fa fa-spinner fa-spin");
+      $.post("UserManagementServlet",{action:"RegisterTeacher",data:JSON.stringify(e)},function(msg){
             try{
                
                var message =JSON.parse(msg);
-               if(message.status==="ok"){
-                  msgBox.DisplaySuccess("<p>Your Account has been created</p>"); 
+               if(message.response.status==="ok"){
+                 viewModel.AccountFormVisible(false);
+                
+                 msgBox.DisplaySuccess("<p>Your Account has been created. <a href='index.jsp'>Login<a/> </p>" ); 
                }
                else{
+                    $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
                    msgBox.DisplayError("<p>Unable to create account. Please contact system administrator</p>"); 
                }
              
             }catch(ex){
-                
+                $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
                 alert(ex);
             }
         });
@@ -41,6 +45,7 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
        msgBox.Hide();
        viewModel.onValidationConpleted(onValidationCompleted);
        viewModel.onCreateAccount(onCreateAccount);
+       
        ko.applyBindings(viewModel);
     };
 

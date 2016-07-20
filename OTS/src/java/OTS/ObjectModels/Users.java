@@ -6,14 +6,21 @@
 
 package OTS.ObjectModels;
 
+import App.NewHibernateUtil;
+import OTS.DataModels.Academiccourse;
+import OTS.DataModels.Courseassignment;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.Useraccount;
 import OTS.DataModels.Usertype;
+import OTS.Session;
 import com.google.gson.Gson;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -184,17 +191,23 @@ public class Users {
       public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
         String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology,Advance Biology"};
           List<String> list=new ArrayList();
-          
-          try{
         
+          Transaction  tx=null;
+          SessionFactory sessionFactory =NewHibernateUtil.getSessionFactory();
+          org.hibernate.Session    session=  sessionFactory.openSession();
+          tx= session.getTransaction();
+          try{
+           tx.begin();
             if(!this.HasEmail(userAccount)){
-                  
-                     Useraccount ua= new Useraccount();
-                     ua.setUserName(userAccount.Email);
-                     ua.setPassword(userAccount.Password);
-                     ua.setIsLocked(Boolean.FALSE);
-                     this.dataSource.Save(ua);
-
+                  //Create User Account
+                    Useraccount ua= new Useraccount();
+                    ua.setUserName(userAccount.Email);
+                    ua.setPassword(userAccount.Password);
+                    ua.setIsLocked(Boolean.FALSE);
+                     //this.dataSource.Save(ua);
+                     session.save(ua);
+                     
+                    //Create User
                     Usertype ut= (Usertype)dataSource.Find(Usertype.class, new Integer(userAccount.UserTypeId));
                     OTS.DataModels.User user= new OTS.DataModels.User(ua,userAccount.FirstName,userAccount.LastName);
                     user.setFirstName(userAccount.FirstName);
@@ -203,24 +216,34 @@ public class Users {
                     user.setPhone(userAccount.Phone);
                     user.setUsertype(ut);
                     user.setUseraccount(ua);
-                    this.dataSource.Save(user);
+                   // this.dataSource.Save(user);
+                    session.save(user);
                     userAccount.Id=user.getUserId();
-
+                    
+                     //Create Course
                     Random rnd = new Random();
                     int val=  rnd.nextInt(2);
                     String selectedCourse=AutoCourses[val];
-
-                    CourseItem item = new CourseItem();
-                    item.Name=selectedCourse;
-                    item.Number= Integer.toString(new Random().nextInt(700));
-                    courses.Save(item, response);
-
-                    item.Name=selectedCourse + "Level " + " "+ item.CourseTypeId;
+                    
+                    String number= Integer.toString(new Random().nextInt(700));
+                    OTS.DataModels.Academiccourse academicCourse= new OTS.DataModels.Academiccourse();
+               
+                     academicCourse.setNumber(number);
+                     academicCourse.setName(selectedCourse);
+                     session.save(academicCourse);
+                    //Course Save
+                    academicCourse.setName(selectedCourse + " Level " + " "+ academicCourse.getCourseTypeId());
                     //Update the Course Name
-                    courses.Save(item, response);
+                   
+                    session.update(academicCourse);
         
                    //Assign the course to teacher
-                   courses.AssignTeacherCourse(item.CourseTypeId, user.getUserId(), response);
+                 //  courses.AssignTeacherCourse(item.CourseTypeId, user.getUserId(), response);
+                    String sql = "insert into courseassignment(TeacherId,CourseId,AssignOn,IsCompleted) Values(" + user.getUserId() + "," + academicCourse.getCourseTypeId() + "," + "Now()," + 0 + ")"; 
+                    Query query=session.createSQLQuery(sql);
+                    query.executeUpdate(); 
+      
+                    tx.commit();
                    response.UpdateID(user.getUserId());
                    response.ChangeContent(new Gson().toJson(userAccount));
                    response.ChangeStatus("ok");
