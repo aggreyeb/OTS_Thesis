@@ -128,8 +128,8 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <b>Please use the link below to create an account</b>
-                        <a href="register-teacher.jsp">Create Account</a>
+                        <b>Please use the links below to request for an account and reset your password</b><br>
+                        <a href="register-teacher.jsp">Request Account</a> | <a href="Password-Reset.jsp">Forget Password</a>
                     </div>
                     <div class="panel-footer">
                         

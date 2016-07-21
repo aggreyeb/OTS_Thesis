@@ -5,9 +5,10 @@ OTS.ViewModels.UserAccountViewModel=function(){
     var me=this;
    //Callbacks
    var forgetPasswordCallback=null;
-   var retreivePasswordCallback=null;
    var createAccountCallback=null;
    var validationCallback=null;
+   var passwordResetCallback=null;
+   var passwordResetValidationCallback=null;
    
    me.FirstName=ko.observable("");
    me.LastName=ko.observable("");
@@ -17,12 +18,27 @@ OTS.ViewModels.UserAccountViewModel=function(){
    me.ForgetPasswordEmail=ko.observable("");
    me.ForgetPasswordPanelVisible=ko.observable(false);
    me.AccountFormVisible=ko.observable(true);
+   me.FormHeading=ko.observable("");
+   
+   me.onPasswordReset=function($passwordResetCallback){
+        if($passwordResetCallback===undefined ||$passwordResetCallback===null ){
+            throw new Error("$passwordResetCallback is not a function");
+        }
+        passwordResetCallback=$passwordResetCallback;
+   };
    
    me.onValidationConpleted=function($validationCallback){
         if($validationCallback===undefined ||$validationCallback===null ){
             throw new Error("$validationCallback is not a function");
         }
         validationCallback=$validationCallback;
+   };
+   
+   me.onPasswordResetCompleted=function($passwordResetValidationCallback){
+        if($passwordResetValidationCallback===undefined ||$passwordResetValidationCallback===null ){
+            throw new Error("$passwordResetCallback is not a function");
+        }
+        passwordResetValidationCallback=$passwordResetValidationCallback;
    };
    
    me.onForgetPassword=function($forgetPasswordCallback){
@@ -32,18 +48,22 @@ OTS.ViewModels.UserAccountViewModel=function(){
         forgetPasswordCallback=$forgetPasswordCallback;
    };
    
-   me.onRetreivePassword=function($retreivePasswordCallback){
-        if($retreivePasswordCallback===undefined ||$retreivePasswordCallback===null ){
-            throw new Error("$retreivePasswordCallback is not a function");
-        }
-        retreivePasswordCallback=$retreivePasswordCallback;
-   };
    
    me.onCreateAccount=function($createAccountCallback){
         if($createAccountCallback===undefined ||$createAccountCallback===null ){
             throw new Error("$createAccountCallback is not a function");
         }
         createAccountCallback=$createAccountCallback;
+   };
+   
+   me.PasswordReset=function(){
+      if(passwordResetCallback!==null){
+          var item={
+              Email:me.LoginEmail(),
+              Password:me.Password(),
+          };
+           passwordResetCallback(item);
+      }
    };
    
    me.CreateAccount=function(){
@@ -78,14 +98,55 @@ OTS.ViewModels.UserAccountViewModel=function(){
         return re.test(email);
     };
    
-   me.RetreivePassword=function(){
-       if(retreivePasswordCallback!==null){
-           retreivePasswordCallback({Email: me.ForgetPasswordEmail()});
+  
+ 
+     me.ResetPasswordValidation=function(){
+       var valid=true;
+       var errors=[];
+       if(me.LoginEmail()===""){
+           valid=false;
+           
+            errors.push("Email required");
        }
+       
+       if(!me.IsValidEmail(me.LoginEmail())){
+           valid=false;
+           errors.push("Invalid Email Address");
+       }
+       
+        if(me.Password()===""){
+           valid=false;
+           
+            errors.push("Password required");
+       }
+       if(me.RepeatPassword()===""){
+           valid=false;
+           
+            errors.push("Repeat password required");
+       }
+       
+       if(me.Password() !==me.RepeatPassword()){
+            valid=false;
+             errors.push("Password and  Repeat password are not the same");
+       }
+     
+      return {
+          IsValid:valid,
+          Errors:errors
+         };
+      
    };
    
- 
-   me.Validate=function(){
+   me.CanResetPassword=ko.computed(function(){
+        var result= me.ResetPasswordValidation();
+        
+       if(passwordResetValidationCallback!==null){
+          passwordResetValidationCallback({IsValid:result.IsValid,Errors:result.Errors})
+       }
+       return result.IsValid;
+   });
+   
+    me.Validate=function(){
        var valid=true;
        var errors=[];
      
@@ -130,7 +191,7 @@ OTS.ViewModels.UserAccountViewModel=function(){
       return {
           IsValid:valid,
           Errors:errors
-         }
+         };
       
    };
    
@@ -143,5 +204,13 @@ OTS.ViewModels.UserAccountViewModel=function(){
        }
        return result.IsValid;
    });
+ 
+ 
+  
+   
+   
+   
+ 
+ 
 };
 

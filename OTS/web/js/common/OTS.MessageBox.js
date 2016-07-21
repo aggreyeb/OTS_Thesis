@@ -12,7 +12,8 @@ OTS.MessageBox = function(divContainer) {
     };
 
 	me.DisplayError = function (htmlMessage) {
-		$("#" + container).html(htmlMessage);
+		$("#" + container).empty();
+                $("#" + container).html(htmlMessage);
 		$("#" + container).removeClass("alert  alert-success");
 		$("#" + container).removeClass("alert alert-warning");
 		$("#" + container).removeClass("alert alert-info");
@@ -21,7 +22,8 @@ OTS.MessageBox = function(divContainer) {
 	};
 
 	me.DisplaySuccess = function (html) {
-		$("#" + container).html(html);
+		$("#" + container).empty();
+                $("#" + container).html(html);
 		$("#" + container).removeClass("alert alert-warning");
 		$("#" + container).removeClass("alert alert-danger");
 		$("#" + container).removeClass("alert alert-info");
@@ -30,7 +32,8 @@ OTS.MessageBox = function(divContainer) {
 	};
 
    me.DisplayInformation = function (html) {
-		$("#" + container).html(html);
+		$("#" + container).empty();
+                $("#" + container).html(html);
 		$("#" + container).removeClass("alert alert-warning");
 		$("#" + container).removeClass("alert alert-danger");
 		$("#" + container).removeClass("alert alert-success");
@@ -39,7 +42,8 @@ OTS.MessageBox = function(divContainer) {
    };
 
    me.DisplayWarning = function (html) {
-   		$("#" + container).html(html);
+   		$("#" + container).empty();
+                $("#" + container).html(html);
    		$("#" + container).removeClass("alert alert-danger");
    		$("#" + container).removeClass("alert alert-success");
    		$("#" + container).removeClass("alert alert-info");

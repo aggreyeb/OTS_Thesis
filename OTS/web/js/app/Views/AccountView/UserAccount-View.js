@@ -1,7 +1,11 @@
 var OTS=OTS||{};
 OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
-     var msgBox=messageBox|| new OTS.MessageBox("account-message-box");
-     var viewModel= useraccountViewModel|| new  OTS.ViewModels.UserAccountViewModel()
+     var msgBox=messageBox|| new OTS.MessageBox("message-box");
+     var viewModel= useraccountViewModel|| new  OTS.ViewModels.UserAccountViewModel();
+     
+   var onPasswordReset=function(e){
+         alert("Test");
+    };
   
   var onCreateAccount=function(e){
     $("#create-account-spinner").addClass("fa fa-spinner fa-spin");
@@ -39,13 +43,34 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
           msgBox.Hide(); 
        }
    };
+   
+      var onPasswordResetCompleted=function(e){
+       if(!e.IsValid){
+         var errors="<ul>";
+         for(var i=0;i<e.Errors.length;i++){
+          errors+="<li>" + e.Errors[i]  + "</li>";
+         }
+         errors+="</ul>";
+         msgBox.DisplayError("<p>" + errors +  "</p>");
+       }
+       else{
+          msgBox.Hide(); 
+       }
+   };
     
     OTS.Views.UserAccountView.prototype.Render = function () {
-       console.log("UserAccountView");
+       console.log("Forget Password");
        msgBox.Hide();
-       viewModel.onValidationConpleted(onValidationCompleted);
+      // viewModel.FormHeading("Reset Password1");
+     var input= $("#txtPasswordReset").val();
+     if(input ==="PasswordReset"){
+          viewModel.onPasswordResetCompleted(onPasswordResetCompleted);
+     }
+     else{
+        viewModel.onValidationConpleted(onValidationCompleted);  
+     }
        viewModel.onCreateAccount(onCreateAccount);
-       
+       viewModel.onPasswordReset(onPasswordReset);
        ko.applyBindings(viewModel);
     };
 
