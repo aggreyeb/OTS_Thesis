@@ -4,7 +4,26 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
      var viewModel= useraccountViewModel|| new  OTS.ViewModels.UserAccountViewModel();
      
    var onPasswordReset=function(e){
-         alert("Test");
+          $("#create-account-spinner").addClass("fa fa-spinner fa-spin");
+      $.post("UserManagementServlet",{action:"ResetPassword",email:e.Email,password:e.Password},function(msg){
+            try{
+               
+               var message =JSON.parse(msg);
+               if(message.response.status==="ok"){
+                 viewModel.AccountFormVisible(false);
+                
+                 msgBox.DisplaySuccess("<p>Your Password has been reset. <a href='index.jsp'>Login<a/> </p>" ); 
+               }
+               else{
+                    $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
+                   msgBox.DisplayError("<p>" + message.response.error + "</p>"); 
+               }
+             
+            }catch(ex){
+                $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
+                alert(ex);
+            }
+        });
     };
   
   var onCreateAccount=function(e){
@@ -20,7 +39,7 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
                }
                else{
                     $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
-                   msgBox.DisplayError("<p>Unable to create account. Please contact system administrator</p>"); 
+                   msgBox.DisplayError("<p>" + message.response.error + "</p>"); 
                }
              
             }catch(ex){

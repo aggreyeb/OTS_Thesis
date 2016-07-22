@@ -106,6 +106,7 @@ public class Users {
     }
     
     
+    
     public void Delete(int userId){
         
         try{
@@ -188,6 +189,41 @@ public class Users {
     }
     
     
+     public void ResetPassword(String email,String password){
+         try{
+         String sql="Select * from useraccount where UserName=" + "'" + email + "'";
+         List<AccountItem> userAccounts= new ArrayList();
+         this.dataSource.ExecuteCustomDataSet(sql, userAccounts,AccountItem.class);
+         if(userAccounts.size()>0){
+            
+             AccountItem userAccount=(AccountItem)userAccounts.get(0);
+             Useraccount UpdateuserAccount=(Useraccount)this.dataSource.Find(Useraccount.class, new Integer(userAccount.UserAccountId));
+             UpdateuserAccount.setPassword(password);
+             this.dataSource.Update(UpdateuserAccount); 
+             response.ChangeContent("");
+             response.ChangeStatus("ok");
+             
+         }
+         else{
+             response.ChangeContent("");
+             response.ChangeStatus("fail");
+         }
+             
+         }
+         catch(Throwable ex){
+        response.UpdateID(0);
+        response.ChangeContent("");
+        response.ChangeStatus("exception");
+        response.UpdateError(ex.toString());
+      
+        }
+        finally{
+          //this.dataSource.Close();
+        }
+       
+     }
+    
+    
       public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
         String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology,Advance Biology"};
           List<String> list=new ArrayList();
@@ -250,7 +286,8 @@ public class Users {
               }
               else{
                 response.ChangeContent("");
-                response.ChangeStatus(":Email already exist");
+                response.ChangeStatus("fail");
+                response.UpdateError("Email already exist");
               }    
         }
         catch(Throwable ex){
@@ -258,7 +295,7 @@ public class Users {
         response.ChangeContent("");
         response.ChangeStatus("exception");
         response.UpdateError(ex.toString());
-       // this.dataSource.Rollback();
+      
         }
         finally{
           //this.dataSource.Close();

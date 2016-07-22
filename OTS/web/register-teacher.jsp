@@ -105,15 +105,6 @@
                  </div>
                </div>
                 </form>
-             <a data-bind="click:ForgetPassword" href="#">Forget Password?</a>  
-             <div data-bind="visible:ForgetPasswordPanelVisible">
-                 <div class="form-group">
-                 <label class="control-label col-sm-2" for="forgetPassword"> Email:</label>
-                 <div class="col-sm-10">
-                   <input type="email" class="form-control" id="forgetPassword" placeholder="Enter email">
-                 </div>
-               </div> 
-             </div>
             </div>
           </div>
                 <div class="col-lg-3">

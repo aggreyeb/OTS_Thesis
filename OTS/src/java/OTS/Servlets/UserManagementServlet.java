@@ -111,9 +111,10 @@ public class UserManagementServlet extends Servlet {
                   break;
                   
               case "ResetPassword":  
-                userTypeId= Integer.parseInt(request.getParameter("userId"));
-                users= new OTS.ObjectModels.Users(response,db);
-                users.ResetPassword(userTypeId);
+               String  email= request.getParameter("email");
+               String password=request.getParameter("password");
+               users= new OTS.ObjectModels.Users(response,db);
+               users.ResetPassword(email, password);
                   break;   
                   
                 case "SaveBatchUsers":
@@ -129,6 +130,7 @@ public class UserManagementServlet extends Servlet {
                 users= new OTS.ObjectModels.Users(response,db);
                 users.RegisterNewTeacher(TeacherRegistrationItem, new OTS.ObjectModels.Courses(db),response);
                     break;
+               
               default:
                   response.UpdateError("Invalid action");
                   response.UpdateID(0);

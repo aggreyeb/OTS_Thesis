@@ -85,7 +85,7 @@
             <div class="jumbotron">
                 <h5>
                     Welcome! <br><br>
-                   Online Test System is an application for teachers, students, and administrator to streamline their common daily tasks. Teachers can use the system to create and manage their knowledge maps (KMs) as well generating students’ assessments automatically from the KMs created.
+                   Online Test System is an application for teachers, students, and administrator to streamline their common daily tasks. Teachers can use the system to create and manage their knowledge maps (KMs) as well generating multiple choice questions from the KMs they create.
                    Student can also use the system to register for course(s) and take test on the course they have registered.
                    Administrators can use the system to create and manage student and teachers account. 
                    
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Please contact senior administrator to get information on how to create an account. 
+                        Please contact senior administrator to get information on how to request an account. 
                     </div>
                     <div class="panel-footer">
                         
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Please contact your teacher to get information on how to create an account.
+                        Please contact your teacher to get information on how to request an account.
                     </div>
                     <div class="panel-footer">
                         
