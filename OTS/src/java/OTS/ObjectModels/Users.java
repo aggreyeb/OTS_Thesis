@@ -16,6 +16,7 @@ import OTS.Session;
 import com.google.gson.Gson;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import org.hibernate.Query;
@@ -225,9 +226,8 @@ public class Users {
     
     
       public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
-        String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology,Advance Biology"};
-          List<String> list=new ArrayList();
-        
+        String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology","Advance Biology"};
+         
           Transaction  tx=null;
           SessionFactory sessionFactory =NewHibernateUtil.getSessionFactory();
           org.hibernate.Session    session=  sessionFactory.openSession();
@@ -254,11 +254,9 @@ public class Users {
                     user.setUseraccount(ua);
                    // this.dataSource.Save(user);
                     session.save(user);
-                    userAccount.Id=user.getUserId();
-                    
-                     //Create Course
-                    Random rnd = new Random();
-                    int val=  rnd.nextInt(2);
+                 
+                    int val=  (int) (Math.random() * 3);
+                     
                     String selectedCourse=AutoCourses[val];
                     
                     String number= Integer.toString(new Random().nextInt(700));

@@ -39,7 +39,7 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
                }
                else{
                     $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
-                   msgBox.DisplayError("<p>" + message.response.error + "</p>"); 
+                   msgBox.DisplayError("<p>" + message.response.error + ".Unable to create account. Please use another email address</p>"); 
                }
              
             }catch(ex){

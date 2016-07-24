@@ -67,7 +67,7 @@
           <div class="col-lg-6 ">
             <div id="account-message-box" class="alert alert-success"></div>
             <div data-bind="visible:AccountFormVisible">
-             <h3> <span class="label label-default">Create Account</span></h3>
+             <h3> <span class="label label-default">Request Account</span></h3>
               <form class="form-horizontal" role="form">
                  <div class="form-group">
                  <label class="control-label col-sm-2" for="txtFirstName">Firstname:</label>
@@ -82,7 +82,7 @@
                  </div>
                </div>
                <div class="form-group">
-                 <label class="control-label col-sm-2" for="email">Email:</label>
+                 <label class="control-label col-sm-2" for="email">Login Email:</label>
                  <div class="col-sm-10">
                      <input data-bind="value:LoginEmail" type="email" class="form-control" id="email" placeholder="Enter email: This will your login email">
                  </div>
