@@ -75,11 +75,8 @@
         <script src="scripts/knockout.mapping-latest.js" type="text/javascript"></script>
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
-      
-        <!--<script src="scripts/popover.js" type="text/javascript"></script>-->
-        <script src="js/OTS.Ajax.js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
-        <script src="js/EventBus.js" type="text/javascript"></script>
+        <!--<script src="scripts/popover.js" type="text/javascript"></script>-->
         <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
         <script>

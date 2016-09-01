@@ -113,7 +113,7 @@ OTS.ViewModels.TestGenerationViewModel=function(){
    var progressBar={};
    var testItemOptions= new  OTS.TestItemOptions().Seed();
    var msgBox= new OTS.MessageBox("div-myMessageBox");
-   var ajax= new OTS.Ajax();
+  
    
    var  conceptHierarchyInitialize=false;
    me.CognitiveTypeList=ko.observableArray([]);

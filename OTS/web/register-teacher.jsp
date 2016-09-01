@@ -78,13 +78,13 @@
                  <div class="form-group">
                  <label class="control-label col-sm-2" for="txtLastName">Lastname:</label>
                  <div class="col-sm-10">
-                     <input data-bind="value:LastName" type="text" class="form-control" id="txtLastName" placeholder="Enter Last">
+                     <input data-bind="value:LastName" type="text" class="form-control" id="txtLastName" placeholder="Enter Lastname">
                  </div>
                </div>
                <div class="form-group">
                  <label class="control-label col-sm-2" for="email">Login Email:</label>
                  <div class="col-sm-10">
-                     <input data-bind="value:LoginEmail" type="email" class="form-control" id="email" placeholder="Enter email: This will your login email">
+                     <input data-bind="value:LoginEmail" type="email" class="form-control" id="email" placeholder="Enter email: This will be your login email">
                  </div>
                </div>
                <div class="form-group">
