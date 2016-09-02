@@ -65,9 +65,10 @@ OTS.ViewModels.ImportKnowlegeMapView=function(){
     me.onImport=function(){
        
          var selectedKnowledgeMaps=[];
-        for(var i=0;i<me.knowledgemapList().length;i++){
-            if(me.knowledgemapList()[i].selected()===true){
-                selectedKnowledgeMaps.push(me.knowledgemapList()[i].id());
+         var items=ko.toJS(me.knowledgemapList());
+        for(var i=0;i<items.length;i++){
+            if(items[i].selected===true){
+                selectedKnowledgeMaps.push(items[i].id);
             }
         }
        var ids=  selectedKnowledgeMaps.join(",");
