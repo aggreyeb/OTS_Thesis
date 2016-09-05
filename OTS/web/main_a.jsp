@@ -50,7 +50,7 @@
         <script src="scripts/knockout.mapping-latest.js" type="text/javascript"></script>
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
-        
+        <script src="scripts/moment.js" type="text/javascript"></script>
         <script>
           <% 
        

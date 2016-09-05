@@ -111,10 +111,13 @@ public class Users {
     public void Delete(int userId){
         
         try{
+        
+            //Delete the user  
            OTS.DataModels.User user= (OTS.DataModels.User)dataSource.Find(OTS.DataModels.User.class, new Integer(userId));
            this.dataSource.Delete(user);
-           OTS.DataModels.Useraccount userAccount= (OTS.DataModels.Useraccount)dataSource.Find(OTS.DataModels.Useraccount.class, new Integer(userId));
-           this.dataSource.Delete(userAccount);
+           int accountId=user.getUseraccount().getUserAccountId();
+           OTS.DataModels.Useraccount Useraccount= (OTS.DataModels.Useraccount)dataSource.Find(OTS.DataModels.Useraccount.class, new Integer(accountId));
+           this.dataSource.Delete(Useraccount);
            response.UpdateID(userId);
            response.ChangeContent("");
            response.ChangeStatus("ok");

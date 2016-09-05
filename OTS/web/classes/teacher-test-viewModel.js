@@ -703,7 +703,7 @@ var  isValidtimeRange=function(t,st,et){
            hasError=true;
             error+="<li>End Time is required: format nn:mm</li>"
       }
-      
+      /*
       var startTime=me.form.startTime().replace("AM","").replace("PM","").trim();
       var endTime=me.form.endTime().replace("AM","").replace("PM","").trim();
      var d = new Date();	
@@ -718,23 +718,25 @@ var  isValidtimeRange=function(t,st,et){
            hasError=true;
             error+="<li>Start time can not be greater than end time</li>";
       }
-      /* 
-       if(!isValidTime(me.form.endTime())){
-           hasError=true;
-           error+="<li>Invalid End date: format nn:mm</li>"
-      }
       */
+      
+      var startTime=me.form.startTime().trim().toLowerCase();
+      var endTime=me.form.endTime().trim().toLowerCase();
+      
+      var beginTime= moment(startTime, 'h:mma');
+      var endedTime= moment(endTime, 'h:mma');
+      var before= beginTime.isBefore(endedTime);
+       if(!before){
+           //start time is greater than end time.
+            hasError=true;
+            error+="<li>Start time can not be greater than end time</li>";
+       }
+      
        if(!isNumeric(me.form.marks())){
             hasError=true;
             error+="<li>Invalid marks</li>"
        };
-      /*
-          if(!isNumeric(me.form.questions())){
-            hasError=true;
-            error+="<li>Invalid number of questions</li>"
-            
-       };
-       */
+     
        return {
            hasError:hasError,
            error :error +"</ul>" 

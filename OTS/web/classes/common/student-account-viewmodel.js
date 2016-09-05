@@ -101,12 +101,16 @@ OTS.ViewModels.StudentAccounts=function(courseAssignmentViewModel){
                           me.student.Message.push("LastName required");
                       }
                     var userType=  $("#txt-tecaher-hidden").val();
-                    if(userType===undefined || userType!=="teacher"){
+                      if(userType!==undefined && userType!==null && userType==="Teacher"){
+                          // don't do any validation
+                      }
+                      else{ 
                           if(me.userDropDownSelected()===undefined ||me.userDropDownSelected()===null){
                            me.student.HasErrors=true;
                            me.student.Message.push("Select User Type");
                          }
-                     }
+                       }
+                     
                    },
                    BuildErrorMessage:function(){
                        var html="<ul>";
@@ -121,10 +125,7 @@ OTS.ViewModels.StudentAccounts=function(courseAssignmentViewModel){
     
     me.loadUsers=function(){
          me.userList([]);
-        // if(me.SelectedUserType===me.UserType.Teacher){
-           //  me.IsTeacherSelected(true);
-       //  }
-         
+      
          $.post("UserManagementServlet",{action:"ListUsers",userTypeId: me.SelectedUserType},function(msg){
            try{
                var message =JSON.parse(msg);

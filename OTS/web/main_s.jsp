@@ -33,6 +33,7 @@
         <script src="scripts/bootstrap-select.js" type="text/javascript"></script>
         <script src="scripts/knockout-2.2.0.js" type="text/javascript"></script>
         <script src="scripts/jqTreeContextMenu.js" type="text/javascript"></script>
+     
        <!-- <script src="classes/Page.js" type="text/javascript"></script>-->
        <!-- <script src="classes/teacher/TeacherKnowledgeMapPage.js" type="text/javascript"></script>-->
         <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
@@ -49,6 +50,7 @@
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
+         <script src="scripts/moment.js" type="text/javascript"></script>
         <script>
           <% 
        

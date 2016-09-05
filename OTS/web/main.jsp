@@ -42,6 +42,7 @@
         <script src="scripts/jquery.inputmask.js" type="text/javascript"></script>
         <script src="scripts/inputmask.regex.extensions.js" type="text/javascript"></script>
         <script src="scripts/inputmask.numeric.extensions.js" type="text/javascript"></script>
+      
         
        <!-- <script src="classes/Page.js" type="text/javascript"></script>-->
        <!-- <script src="classes/teacher/TeacherKnowledgeMapPage.js" type="text/javascript"></script>-->
@@ -79,6 +80,7 @@
         <!--<script src="scripts/popover.js" type="text/javascript"></script>-->
         <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
+          <script src="scripts/moment.js" type="text/javascript"></script>
         <script>
           <% 
        
