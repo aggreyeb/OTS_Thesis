@@ -160,7 +160,9 @@ OTS.ViewModels.TestGenerationViewModel=function(){
      }
      me.TestQuestionBank([]);
       for(var i=0;i<items.length;i++){
-          me.TestQuestionBank.push(items[i]);
+          //Change to knockout item
+          var item= ko.mapping.fromJS(items[i]);
+          me.TestQuestionBank.push(item);
      }
   };
   
@@ -171,7 +173,8 @@ OTS.ViewModels.TestGenerationViewModel=function(){
      }
      me.TestSheetItems([]);
       for(var i=0;i<items.length;i++){
-          me.TestSheetItems.push(items[i]);
+          var item= ko.mapping.fromJS(items[i]);
+           me.TestSheetItems.push(item);
      }
   };
   

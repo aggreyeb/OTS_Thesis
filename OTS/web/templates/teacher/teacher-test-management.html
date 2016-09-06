@@ -216,7 +216,8 @@
     };
     
    function ToggleQuestionOptionColor(item){
-          var items=[];
+       
+        var items=[];
         for(var i=0;i<item.Parent().length;i++){
                 for(var j=0;j<item.Parent()[i].AnswerOptions().length;j++){
                     if(item.Parent()[i].AnswerOptions()[j].UniqueId()===item.UniqueId()){ 
@@ -225,15 +226,16 @@
                 }
             }
             for(var i=0;i<items.length;i++){
-                if(items[i].AnswerOptionId===item.AnswerOptionId){
+                if(items[i].AnswerOptionId()===item.AnswerOptionId()){
                     items[i].IsCorrect(true);
-                     items[i].IsChecked("true");
-                     items[i].CheckedStyle("Green");
+                    items[i].IsChecked("true");
+                    items[i].CheckedStyle("Green");
                 }
                 else{
-                     items[i].CheckedStyle("");
-                     items[i].IsCorrect(false);
-                     items[i].IsChecked("false");
+                    items[i].CheckedStyle("");
+                    items[i].IsCorrect(false);
+                    items[i].IsChecked("false");
+                   
                 }
             }
    };
@@ -241,7 +243,7 @@
   
   
   function ToggleQuestionOptionMultipleAnswersColor(item){
-          var items=[];
+        var items=[];
         for(var i=0;i<item.Parent().length;i++){
                 for(var j=0;j<item.Parent()[i].AnswerOptions().length;j++){
                     if(item.Parent()[i].AnswerOptions()[j].UniqueId()===item.UniqueId()){ 
@@ -250,16 +252,18 @@
                 }
             }
             for(var i=0;i<items.length;i++){
-                if(items[i].AnswerOptionId===item.AnswerOptionId){
+                if(items[i].AnswerOptionId()===item.AnswerOptionId()){
                     if(!items[i].IsCorrect()){
                      items[i].IsCorrect(true);
                      items[i].IsChecked("true");
                      items[i].CheckedStyle("Green");
+                    
                     }
                     else{
                       items[i].IsCorrect(false);
-                     items[i].IsChecked("false");
-                     items[i].CheckedStyle("");
+                      items[i].IsChecked("false");
+                      items[i].CheckedStyle("");
+                    
                     }
                     
                 }
