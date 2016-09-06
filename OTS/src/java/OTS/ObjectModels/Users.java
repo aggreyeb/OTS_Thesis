@@ -267,6 +267,7 @@ public class Users {
                
                      academicCourse.setNumber(number);
                      academicCourse.setName(selectedCourse);
+                     academicCourse.setDescription(selectedCourse);
                      session.save(academicCourse);
                     //Course Save
                     academicCourse.setName(selectedCourse + " Level " + " "+ academicCourse.getCourseTypeId());

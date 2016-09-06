@@ -230,10 +230,17 @@ public class Courses {
                     + " from academiccourse ac  inner join courseassignment a\n"
                     + " on ac.CourseTypeId=a.CourseId where a.TeacherId =" + userId;
 
-            List<Courseassignment> courseAssignments = new ArrayList();
-
+            List<CourseAssignmentDescription> courseAssignments = new ArrayList();
+            
            // this.dataSource.Open();
             this.dataSource.ExecuteCustomDataSet(sql, courseAssignments, CourseAssignmentDescription.class);
+            if(courseAssignments.size()>0){
+                for(CourseAssignmentDescription c:courseAssignments){
+                    if(c.Description==null || c.Description.equals("") ){
+                        c.Description=c.Description;
+                    }
+                }
+            }
             Gson g = new Gson();
             message.ChangeContent(g.toJson(courseAssignments));
             message.ChangeStatus("ok");

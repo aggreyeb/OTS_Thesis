@@ -235,6 +235,7 @@ OTS.ViewModels.TestGenerationViewModel=function(){
                    //  alert("Pass");
                     me.LoadTestSheetItems();
                       msgBox.DisplaySuccess("<p>Test sheet item(s) Updated </p>");
+                      me.CheckAllTestSheet(false);
                   }
                   else{
                      msgBox.DisplayError()("<p>Unable to update test sheet item(s) </p>");    
