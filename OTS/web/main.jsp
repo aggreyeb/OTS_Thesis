@@ -167,7 +167,7 @@
              .popover-title{width: 400px;}
              .popover-content{width:400px;}
              .action{}
-             // body { overflow-x: hidden;}
+             .body { overflow-x: hidden;}
              .container {
                     max-width: 100%;
    /* This will remove the outer padding, and push content edge to edge */
