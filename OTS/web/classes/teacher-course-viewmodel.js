@@ -2,13 +2,11 @@ var OTS=OTS||{};
 OTS.ViewModels=OTS.ViewModels||{};
 OTS.ViewModels.TeacherCoursesViewModel=function(){
     var me=this;
-    
+    var messageBox=new OTS.MessageBox("div-message-message");
     me.teacherCouresList=ko.observableArray([]);
-                                         
-  
     me.teacherKnowledgeMaps=ko.observableArray([]);
     me.selectedKnowledgeMaps=ko.observableArray([]);
-   me.tempselectedKnowledgeMaps=ko.observableArray([]);
+    me.tempselectedKnowledgeMaps=ko.observableArray([]);
     me.selectedCourse=null;
     me.selectedCourseName=ko.observable("");
     me.selectedCourseNumber=ko.observable("");
@@ -23,6 +21,51 @@ OTS.ViewModels.TeacherCoursesViewModel=function(){
     me.alreadySelected="no";
     me.courseKnowledgeMapCache=[];
     
+    //Start Editing course
+    me.CourseItem={
+        formVisible:ko.observable(false),
+        courseName:ko.observable(""),
+        Id:ko.observable(""),
+        Number:ko.observable(""),
+        SelectedItem:null
+    };
+    
+    me.OnCourseEdit=function(item){
+          me.CourseItem.courseName(item.Name);
+          me.CourseItem.Id(item.Id);
+          me.CourseItem.Number(item.Number);
+          console.log(item);
+          me.CourseItem.formVisible(true);
+          me.knowledgeMaplistVisible(false);
+          me.CourseItem.SelectedItem=item;
+    };
+    
+     me.OnCourseUpdate=function(){
+       var item=me.CourseItem.SelectedItem;
+        $.post("CourseServlet",{action:"Save",Id:me.CourseItem.Id(),Name:me.CourseItem.courseName(),Number:me.CourseItem.Number()},function(msg){
+          var message =JSON.parse(msg);
+          if(message.response.status==="ok"){
+          //Refresh List   
+          me.teacherCouresList([]);
+          me.courseKnowledgeMapCache.length=0;
+          messageBox.DisplaySuccess("Course Updated");
+          me.CourseItem.formVisible(false);
+        
+           me.LoadTeacherCourses();
+          }
+          else{
+                messageBox.DisplayError("Failed to Update Course");
+          }
+       });    
+          
+        
+    };
+    
+    me.OnCourseCancel=function(){
+        me.CourseItem.formVisible(false);
+    };
+    
+    //End entering 
      me.showLoadingMessage=function(){
            $("#div-loadingMessage").show();
       };
@@ -30,8 +73,59 @@ OTS.ViewModels.TeacherCoursesViewModel=function(){
       me.hideLoadingMessage=function(){
            $("#div-loadingMessage").hide('slow');
       };
+      
+     me.LoadTeacherCourses=function(){
+          me.showLoadingMessage();
+        
+       $.post("CourseServlet",{action:"ListTeacherCourse"},function(msg){
+        
+          me.teacherCouresList([]);
+          me.courseKnowledgeMapCache=[];
+          var message =JSON.parse(msg);
+          var contents=JSON.parse(message.response.content);
+           for(var i=0;i<contents.length;i++){
+            var item={
+                     CourseId:contents[i].Id,
+                     KnowledegeMaps:[],
+                     SelectedKnowledgeMaps:[]
+                 };
+                 me.courseKnowledgeMapCache.push(item);
+                 me.teacherCouresList.push(contents[i]);
+                 
+            }
+       });
+        //get all the knowlege map for the teacher
+       $.post("CourseServlet",{action:"ListAllCourseKnowledgeMap"},function(msg){
+          
+           var message =JSON.parse(msg);
+          var contents=JSON.parse(message.response.content);
+           for(var i=0;i<contents.length;i++){
+               contents[i].ActionText="Select";
+               contents[i].CanEnableSelect=true;
+               me.teacherKnowledgeMaps.push(contents[i]);
+            }
+             var teacherKnowledgeMaps=  ko.toJS( me.teacherKnowledgeMaps());
+            for(var i=0;i<me.courseKnowledgeMapCache.length;i++){
+              
+              var array=  me.CreateNewTeacherKnowledgMaps(teacherKnowledgeMaps);
+              me.courseKnowledgeMapCache[i].KnowledegeMaps=array;
+            }
+            
+            if(me.courseKnowledgeMapCache.length<=0){ 
+              me.ReloadTeacherCoureseKnowledgeMap();
+            }
+            
+            
+       });
+       me.hideLoadingMessage();
+     } ;
+      
     $(function(){
+       
+        me.LoadTeacherCourses();
+        messageBox.Hide();
         //get courses for teacher
+      /*
       me.showLoadingMessage();
        $.post("CourseServlet",{action:"ListTeacherCourse"},function(msg){
         
@@ -74,6 +168,7 @@ OTS.ViewModels.TeacherCoursesViewModel=function(){
             
        });
        me.hideLoadingMessage();
+       */
     });
     
      me.CreateNewTeacherKnowledgMaps=function(array){
@@ -209,6 +304,7 @@ OTS.ViewModels.TeacherCoursesViewModel=function(){
         me.selectedCourseNumber(item.Number);
         me.selectedCourseName(item.Name);
         me.knowledgeMaplistVisible(true);
+         me.CourseItem.formVisible(false);
        });
   
        // Replace Teacher knowledgemaps from the cache by course id;

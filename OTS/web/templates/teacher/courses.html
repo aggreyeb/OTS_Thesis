@@ -1,6 +1,8 @@
 
 <div class="table-responsive">
-    
+    <div id="div-message-message">
+    message box
+    </div>
     <div class="panel panel-primary">
     <div class="panel-heading hidden">
         <h3 class="panel-title">Course List</h3>
@@ -24,8 +26,9 @@
                 <td>
                   <div class="btn-group">
                     <button  data-bind="event:{click:function(item,event){$parent.onCoureseSelected(item,event)}}" type="button" class="btn btn-primary">Associate Knowledge Map (s)</button>
+                    <button  data-bind="event:{click:function(item,event){$parent.OnCourseEdit(item,event)}}" type="button" class="btn btn-default">Edit</button>
                   </div>
-                </div>
+               
                 </td>
             </tr>
         </tbody>
@@ -121,6 +124,37 @@
       
 </div>
  
+</div>
+<div data-bind="visible:CourseItem.formVisible">
+    <form  class="form-horizontal ">
+      <h4><span  class="label label-default">Edit</span></h4>
+        <div class="form-group">
+          <label class="control-label col-xs-2">Id</label>
+          <div class="col-xs-10">
+              <input data-bind="value:CourseItem.Id"  readonly="readonly" id="txt-knowledgemapname"  type="text" class="form-control" placeholder="Required Field">
+          </div>
+        </div>
+       <div class="form-group">
+          <label class="control-label col-xs-2">Number</label>
+          <div class="col-xs-10">
+           <input data-bind="value:CourseItem.Number" readonly="readonly" type="text" class="form-control" placeholder="Required Field">
+          </div>
+        </div>  
+        <div class="form-group">
+          <label class="control-label col-xs-2">Name</label>
+          <div class="col-xs-10">
+           <input data-bind="value:CourseItem.courseName"   type="text" class="form-control datepicker" placeholder="Required Field">
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <div class="col-xs-offset-2 col-xs-10">
+              <button data-bind="event:{click:function(item){OnCourseUpdate(item)}}" id="btn-update-Course"  class="btn btn-primary">Submit</button>
+              <button data-bind="event:{click:function(event){OnCourseCancel(event)}}" id="btn-cancel-course-update"  class="btn btn-default">Cancel</button>
+           
+          </div>
+        </div>
+      </form>
 </div>
 
  <script>
