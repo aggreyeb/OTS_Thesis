@@ -7,6 +7,9 @@ Aig.KnowledgeMapEditor = function(editorName,knowledgeMapsTreeView,conceptSchema
     var knowledgeMapList = new Aig.DataModel.KnowledgeMapDatabase(new Aig.LocalStorage());
     var selectedParent = null;
     var selectedNode = null;
+    
+    var conceptNodes = null;
+    var conceptNodeSelected = null;
 
     var treeView = knowledgeMapsTreeView || new Aig.TreeView();//pass datastructures to treeview
     var treeViewGenerateTreeview = new Aig.KnowledgeMapTreeView("tv-generate-items", new Aig.Serialization());
@@ -60,15 +63,29 @@ Aig.KnowledgeMapEditor = function(editorName,knowledgeMapsTreeView,conceptSchema
     };
 
     var generateTestItem = function(e) {
-        alert("Generate All the testItem");
-        var list = treeViewGenerateTreeview.ToList();
+       if (conceptNodes === null || conceptNodeSelected===null) {
+            alert("Please select root node or node and click generate");
+            return;
+        }
+    
+        var testItems = [];
+        var testGenerationItem = new Aig.Components.TestGenerationItem(conceptNodes, conceptNodeSelected);
+
+        var items = testGenerationComponents.Generate(testGenerationItem);
+        for (var i = 0; i < items.length; i++) {
+            testItems.push(items[i]);
+        }
+        conceptSchemaView.PopulateTestItems(testItems);
+       $("#message-box").html("<b><p>Number of items generated:" + testItems.length +"</p></b>")
+        
     };
 
     var generateTreeNodeSelected = function(e) {
         //var conceptNode = e;
         //var node = treeViewGenerateTreeview.FindNode(e.id);
-        var conceptNodes = treeViewGenerateTreeview.ToList();
-        var selectedNode = treeViewGenerateTreeview.NodeToList(e);
+        conceptNodes = treeViewGenerateTreeview.ToList();
+         conceptNodeSelected = treeViewGenerateTreeview.NodeToList(e);
+        /*
         var testItems = [];
 
         //if (!e.parentNodeId)
@@ -80,6 +97,7 @@ Aig.KnowledgeMapEditor = function(editorName,knowledgeMapsTreeView,conceptSchema
             testItems.push(items[i]);
         }
         conceptSchemaView.PopulateTestItems(testItems);
+        */
     };
 
     me.Render = function() {
