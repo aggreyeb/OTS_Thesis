@@ -1,0 +1,199 @@
+﻿<div class="row">
+    <div class="col-lg-3">
+        <div style="" class="panel panel-primary">
+            <div style="overflow-y: auto" class="panel-heading">Knowledge Maps</div>
+            <div class="panel-body">
+                <div id="div-tree" style="overflow-y: scroll;height: 400px"><!--Tree View--></div>
+
+            </div>
+            <div class="panel-footer"><!--Panel footer--></div>
+        </div>
+
+    </div>
+    <div class="col-lg-9">
+
+        <div id="pan-concept-schema" style="" class="panel panel-primary">
+            <div class="panel-heading">Concept Schema:<span data-bind="text:selectedNodeName"></span><div class="pull-right"><button data-bind="click:onSave" style="margin-bottom: 5px" class="btn btn-sm btn-default hide"><i id="cmd-save-pop"></i>Save</button></div></div>
+
+            <div style="margin: 5px;display: none" class="message-box alert alert-success hide">Save Done!</div>
+
+            <div class="panel-body">
+                <!--Accordian Start-->
+                <div id="accordion" class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Characteristics</a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div>
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="txtParent" class="control-label col-xs-2">Parent</label>
+                                            <div class="col-xs-10">
+                                                <input style="width:320px" data-bind="value:parentname" type="text" class="form-control" id="txtParent" placeholder="Parent">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtRelationship" class="control-label col-xs-2">Relationship with Parent</label>
+                                            <div class="col-xs-10">
+                                                <!--value:selectedRelationship,-->
+                                                <select style="width:320px" data-bind="options:relationships,optionsValue:'id',optionsText:'name',value:relationshipid, optionsCaption: 'Choose...'" class="form-control" id="txtRelationship"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="txtBehaviourDesc" class="control-label col-xs-2">Description</label>
+                                            <div class="col-xs-10">
+                                                <textarea placeholder="enter behaviour description(e.g. Stack is a linear data structure)" data-bind="value:behaviourdescription" style="margin-top: 2px; resize: horizontal; min-width: 500px;max-width: 600px" id="txtBehaviourDesc" class="form-control" placeholder="Behaviour Description"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!--behaviour description List-->
+
+                                        <div>
+                                            <div class="pull-right">
+                                                <button data-bind="click:onAddbehaviourdescription" class="btn btn-sm btn-info">Add New</button>
+                                            </div><br /><br />
+                                            <div style="border-width: 5px; border-color: lightgray;border-style: solid">
+                                                <table class="table table-bordered table-hover ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hide">Id</th>
+                                                            <th>Behaviour Description</th>
+                                                            <td><label>Actions</label></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody data-bind="foreach:behaviourDescriptions">
+                                                        <tr>
+                                                            <td data-bind="text:id" class="hide">1</td>
+                                                            <td><textarea data-bind="value:description" spellcheck="true" placeholder="enter behaviour description" style="resize: horizontal; min-width: 600px;max-width: 800px" class="form-control"></textarea></td>
+                                                            <td>
+                                                                <button data-bind="event: {click: function(data, e) {$parent.onRemovebehaviourdescription( data, e) } }" class="btn btn-sm btn-danger">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+                    <!--Attributes-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Attributes</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div style="margin: 2px" class="pull-right">
+                                    <button data-bind="click:onAddAttribute" class="btn btn-info btn-sm">Add New</button>
+                                </div>
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Value</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:attributes">
+                                        <tr>
+                                            <td><input placeholder="enter name" data-bind="value:name" class="form-control" /></td>
+                                            <td><input placeholder="enter type" data-bind="value:type" class="form-control" /></td>
+                                            <td><input placeholder="enter value" data-bind="value:attributeValue" type="text" class="form-control" /></td>
+                                            <td><button data-bind="event: {click: function(data, e) {$parent.onDeleteAttribute( data, e) } }" class="btn btn-danger btn-sm">Delete</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+
+                    <!--Functions-->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFunctions">Functions</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFunctions" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div style="margin: 2px" class="pull-right">
+                                    <button data-bind="click:onAddFunction" class="btn btn-info btn-sm">Add New</button>
+                                </div>
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Purpose</th>
+                                            <th>Pre Condition</th>
+                                            <th>Post Condition</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:functions">
+                                        <tr>
+                                            <td><input placeholder="enter name" data-bind="value:name" type="text" class="form-control" /></td>
+                                            <td><input placeholder="enter purpose" data-bind="value:purpose" type="text" class="form-control" /></td>
+                                            <td><input placeholder="enter precondition" data-bind="value:preCondition" type="text" class="form-control" /></td>
+                                            <td><input placeholder="enter post condtion" data-bind="value:postCondition" type="text" class="form-control" /></td>
+                                            <td><button data-bind="event: {click: function(data, e) {$parent.onAlgorithm( data, e) } }" class="btn btn-primary btn-sm"><i id="cmd-algorithm-popover"></i>Algorithm</button> <button data-bind="event: {click: function(data, e) {$parent.onDeleteFunction( data, e) } }" class="btn btn-danger btn-sm">Remove</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+                    <!--Applications-->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Applications</a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div>
+                                    <button data-bind="click:onAddApplication" style="margin: 2px" class="btn btn-sm btn-info pull-right ">Add New</button>
+                                </div>
+                                <div style="overflow-y: auto;width: 100%">
+                                    <table class="table table-bordered table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:applications">
+                                            <tr>
+                                                <td style="width: 90%"><textarea placeholder="enter description" data-bind="value:description" class="form-control" style="resize: horizontal; min-width: 600px;max-width: 800px"></textarea></td>
+                                                <td style="width:  10%"><button data-bind="event: {click: function(data, e) {$parent.onDeleteApplication( data, e) } }" class="btn btn-sm btn-danger">Delete</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--Accordian End-->
+            </div>
+            <div class="panel-footer"><!--Panel footer--></div>
+        </div>
+    </div>
+</div>

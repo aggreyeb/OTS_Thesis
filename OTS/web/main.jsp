@@ -14,6 +14,7 @@
          <META HTTP-EQUIV="Expires" CONTENT="-1">
          <meta http-equiv="cache-control" content="no-cache" />
         <title>Main</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
         <link href="content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
         <link href="content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         
@@ -218,6 +219,9 @@
                                      </a>
                                      <a id="lnk-student-tests" href="#" class="list-group-item">
                                          <span class="glyphicon glyphicon-list-alt"></span> Student Tests
+                                     </a>
+                                     <a id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp" class="list-group-item">
+                                         <span class="fa fa-cogs"></span><b> Item Generation Test Bench </b>
                                      </a>
                                  </div>
     
