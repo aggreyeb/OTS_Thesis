@@ -11,6 +11,7 @@ Aig.ConceptSchemaListView = function() {
     var generateTestItemsCallback;
 
     var viewModel = {
+        enableAddNew:ko.observable(false),
         id: ko.observable(""),
         text: ko.observable(""),
         parentid: ko.observable(""),

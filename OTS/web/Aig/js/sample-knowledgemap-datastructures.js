@@ -120,13 +120,10 @@ Aig.sampleDataStructures=[{
 						"description" : " data can be  located at any index position"
 					}, {
 						"id" : "",
-						"description" : "it is dynamic and  created on the heap"
+						"description" : "it has fixed  length "
 					}, {
 						"id" : "",
-						"description" : "length is fixed"
-					}, {
-						"id" : "",
-						"description" : "constant of time accessing O(1) for reading and writing."
+						"description" : "read and write access has constant  time O(1) "
 					}
 				],
 				"relationshipid" : 1,
@@ -296,10 +293,10 @@ Aig.sampleDataStructures=[{
 						"description" : "is a dynamic data structure"
 					}, {
 						"id" : "",
-						"description" : " number of nodes in a list is not fixed and can grow and shrink on demand"
+						"description" : "the  number of nodes in a list is not fixed and can grow and shrink on demand"
 					}, {
 						"id" : "",
-						"description" : "O(1) for inserting if the insertion at the head, O(n) for inserting anywhere else, O(n) for reading. in other word: i.e.. Fast writing, slow reading."
+						"description" : "it has time complexity of O(1) for inserting if the insertion at the head ,O(n) for inserting anywhere else, O(n) for reading. in other word: i.e.. Fast writing, slow reading"
 					}
 				],
 				"relationshipid" : 1,
@@ -578,10 +575,10 @@ Aig.sampleDataStructures=[{
 						],
 						"behaviourDescriptions" : [{
 								"id" : "",
-								"description" : "the elements of the priority queue are ordered according to their natural ordering"
+								"description" : "the elements of the data structure are ordered according to their natural ordering"
 							}, {
 								"id" : "",
-								"description" : "does not permit null elements"
+								"description" : "it does not permit null elements"
 							}, {
 								"id" : "",
 								"description" : "rely on natural ordering also does not permit insertion of non-comparable objects"
@@ -1580,7 +1577,7 @@ Aig.sampleDataStructures=[{
 						"name" : "Delete",
 						"purpose" : "delete item from the node",
 						"preCondition" : "",
-						"postCondition" : "item deleted from from the tree",
+						"postCondition" : "item deleted from from the data structure",
 						"algorithm" : {
 							"text" : "",
 							"timeComplexity" : ""
@@ -1663,10 +1660,10 @@ Aig.sampleDataStructures=[{
 						],
 						"functions" : [{
 								"id" : "",
-								"name" : "DirectedGraph",
-								"purpose" : "create instance of the directed graph",
+								"name" : "addEdge",
+								"purpose" : "add edge",
 								"preCondition" : "",
-								"postCondition" : "instance of the directed graph created",
+								"postCondition" : "edge added",
 								"algorithm" : {
 									"text" : "",
 									"timeComplexity" : ""
@@ -1732,10 +1729,10 @@ Aig.sampleDataStructures=[{
 						],
 						"functions" : [{
 								"id" : "",
-								"name" : "UnDirectedGraph",
-								"purpose" : "create an instance of the undirected graph",
+								"name" : "addEdge",
+								"purpose" : "add edge",
 								"preCondition" : "",
-								"postCondition" : "instance of the undirected graph created",
+								"postCondition" : "edge added",
 								"algorithm" : {
 									"text" : "",
 									"timeComplexity" : ""
@@ -1806,10 +1803,10 @@ Aig.sampleDataStructures=[{
 						],
 						"functions" : [{
 								"id" : "",
-								"name" : "WeightedGraph",
-								"purpose" : "create an instance of the weighted graph",
+								"name" : "addEdge",
+								"purpose" : "add edge",
 								"preCondition" : "",
-								"postCondition" : "instance of the weighted graph created",
+								"postCondition" : "edge added",
 								"algorithm" : {
 									"text" : "",
 									"timeComplexity" : ""
@@ -1824,7 +1821,7 @@ Aig.sampleDataStructures=[{
 						],
 						"applications" : [{
 								"id" : "",
-								"description" : "design and implement a system that allow client to minimum cost it takes to go from one city to another"
+								"description" : "design and implement a system for travel agent  to calculate the  minimum cost it takes to go from one city to another"
 							}
 						],
 						"behaviourDescriptions" : [{
