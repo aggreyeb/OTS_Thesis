@@ -22,8 +22,7 @@
         <link href="content/jqtree.css" rel="stylesheet" type="text/css"/>
         <link href="content/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
         <link href="content/bootstrap-select.css" rel="stylesheet" type="text/css"/>
-      
-        
+       
         <!--<script src="scripts/jquery-2.1.0.js" type="text/javascript"></script>-->
         <script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
        <!-- <script src="scripts/jquery-ui-1.8.24.min.js" type="text/javascript"></script>-->
@@ -83,10 +82,9 @@
         <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
         <script src="scripts/moment.js" type="text/javascript"></script>
-        
-        <link href="scripts/jPushMenu-master/css/jPushMenu.css" rel="stylesheet" type="text/css"/>
+      
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>
-          
+        <link href="scripts/jPushMenu-master/css/jPushMenu.css" rel="stylesheet" type="text/css"/>
         <script src="scripts/jPushMenu-master/js/jPushMenu.js" type="text/javascript"></script>
           
         <script>
@@ -103,28 +101,7 @@
             response.setHeader("Refresh", timeout + "; URL =./index.jsp");
         %>
         </script>
-        <script>
-            //var menu={knowlegemapcount:'#bg-knowledgemap-count'};
-           /*
-            $(function(){
-                $("#header").load("templates/header.html",function(){
-                    $("#logout").click(function(){
-                        //alert("LOGOUT");
-                        window.location.href="index.jsp";
-                    });
-                 
-                });  
-               
-                $("#leftmenu").load("templates/leftmenu.html",function(){
-                    //Register Click envents
-                });
-                $("#footer").load("templates/footer.html",function(){
-                    
-                });
-               
-            });
-          */
-        </script>
+       
         
         <script>
            
@@ -167,7 +144,7 @@
               
               
             });
-        
+         
         </script>
         <style>
           
@@ -195,79 +172,33 @@
                    
         </style>
     </head>
-    <body style="padding-top: 65px;">
-        <header id="header">  </header><br>
-      
-        <div class=" container-fluid">  
-                 <!-- Left Menu -->
-                 <div style=" padding-top: 40px" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="leftmenu">
-                           <!-- Left Menu -->
-                           <div id="div-teacher-menu" class="table-responsive">
-                                <div class="list-group1">
-                                    <a id="lnk-home" href="#"  >
-                                         <span class="glyphicon glyphicon-home"></span> Home 
-                                     </a>
-                                    <a id="lnk-assigned-courses" href="#" >
-                                         <span class="glyphicon glyphicon-book"></span> Assigned Courses 
-                                     </a>
-                                     <a id="lnk-knowledgemaps" href="#">
-                                         <span class="glyphicon glyphicon-file"></span> Knowledge Maps 
-                                     </a>
+    <body  class="cbp-spmenu-push" style="padding-top: 65px;">
+        <header id="header">  </header>
+         <!-- Left menu element-->
+     <button class="toggle-menu menu-left">Toggle Left Menu</button>
+       <!-- Left menu element-->
+   <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
+	<h3>Menu</h3>
+	<a href="#">Celery seakale</a>
+	<a href="#">Dulse daikon</a>
+	<a href="#">Zucchini garlic</a>
+	<a href="#">Catsear azuki bean</a>
+	<a href="#">Dandelion bunya</a>
+	<a href="#">Rutabaga</a>
+     </nav>
 
-                                    <a id="lnk-importknowledges" href="#">
-                                         <span class="glyphicon glyphicon-import"></span> Import Knowledge Maps 
-                                     </a>
-                                     <a id="lnk-studentaccounts" href="#" >
-                                         <span class="glyphicon glyphicon-list"></span> Student Accounts 
-                                     </a>
-                                     <a id="lnk-tests" href="#" >
-                                         <span class="glyphicon glyphicon-list-alt"></span> Tests
-                                     </a>
-                                     <a id="lnk-student-tests" href="#">
-                                         <span class="glyphicon glyphicon-list-alt"></span> Student Tests
-                                     </a>
-                                     <a id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp">
-                                         <span class="fa fa-cogs"></span><b> Item Generation Test Bench </b>
-                                     </a>
-                                 </div>
-    
-                        </div>
-                       </div>
-           
-       
-            
-             <div class="row">
-                <div class="col-lg-12">
-                    
-                     
-                      <div id="view-container" class=" panel panel-primary">
-                          <div class=" panel-heading"><span id="lbl-selected-menuitem">Welcome
-                             
-                              </span></div>
-                        <div id="view-content" class=" panel-body">
-                           General Information here
-                           <!-- Left menu element-->
-                        
-                         
-                        </div>
-                     </div>     
-                    </div>
-               </div>
-                
-           
-        </div>
         <footer id="footer">
             <div class="container">
                 
             </div>
         </footer>
-            
-            <script>
-              $(document).ready(function(){
-                 $('.toggle-menu').jPushMenu();
-              });
-             
-            </script>
-           <button class="toggle-menu menu-left push-body">Toggle Left Menu Push</button>
+    
+    <script>
+        
+        $(document).ready(function(){
+          $('.toggle-menu').jPushMenu();
+        });
+        
+    </script>
     </body>
 </html>

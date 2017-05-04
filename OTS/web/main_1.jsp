@@ -196,50 +196,51 @@
         </style>
     </head>
     <body style="padding-top: 65px;">
-        <header id="header">  </header><br>
-      
-        <div class=" container-fluid">  
-                 <!-- Left Menu -->
-                 <div style=" padding-top: 40px" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="leftmenu">
+        <header id="header">  </header>
+        <div id="mainContainer" class="container">
+     
+            <div class="row">
+               
+                <div class="col-lg-3"> <!-- Left Menu -->
+                       <div  id="leftmenu">
                            <!-- Left Menu -->
                            <div id="div-teacher-menu" class="table-responsive">
-                                <div class="list-group1">
-                                    <a id="lnk-home" href="#"  >
+                                <div class="list-group ">
+                                    <a id="lnk-home" href="#" class="list-group-item active ">
                                          <span class="glyphicon glyphicon-home"></span> Home 
                                      </a>
-                                    <a id="lnk-assigned-courses" href="#" >
+                                    <a id="lnk-assigned-courses" href="#" class="list-group-item ">
                                          <span class="glyphicon glyphicon-book"></span> Assigned Courses 
                                      </a>
-                                     <a id="lnk-knowledgemaps" href="#">
+                                     <a id="lnk-knowledgemaps" href="#" class="list-group-item ">
                                          <span class="glyphicon glyphicon-file"></span> Knowledge Maps 
                                      </a>
 
-                                    <a id="lnk-importknowledges" href="#">
+                                    <a id="lnk-importknowledges" href="#" class="list-group-item">
                                          <span class="glyphicon glyphicon-import"></span> Import Knowledge Maps 
                                      </a>
-                                     <a id="lnk-studentaccounts" href="#" >
+                                     <a id="lnk-studentaccounts" href="#" class="list-group-item">
                                          <span class="glyphicon glyphicon-list"></span> Student Accounts 
                                      </a>
-                                     <a id="lnk-tests" href="#" >
+                                     <a id="lnk-tests" href="#" class="list-group-item">
                                          <span class="glyphicon glyphicon-list-alt"></span> Tests
                                      </a>
-                                     <a id="lnk-student-tests" href="#">
+                                     <a id="lnk-student-tests" href="#" class="list-group-item">
                                          <span class="glyphicon glyphicon-list-alt"></span> Student Tests
                                      </a>
-                                     <a id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp">
+                                     <a id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp" class="list-group-item">
                                          <span class="fa fa-cogs"></span><b> Item Generation Test Bench </b>
                                      </a>
                                  </div>
     
                         </div>
                        </div>
-           
-       
-            
-             <div class="row">
-                <div class="col-lg-12">
+                 </div>
+              
+          <div class="container">
+                <div class="col-lg-9">
                     
-                     
+                        <div class="row">
                       <div id="view-container" class=" panel panel-primary">
                           <div class=" panel-heading"><span id="lbl-selected-menuitem">Welcome
                              
@@ -252,22 +253,14 @@
                         </div>
                      </div>     
                     </div>
-               </div>
-                
-           
+                    </div>
+                </div>
         </div>
+        
         <footer id="footer">
             <div class="container">
                 
             </div>
         </footer>
-            
-            <script>
-              $(document).ready(function(){
-                 $('.toggle-menu').jPushMenu();
-              });
-             
-            </script>
-           <button class="toggle-menu menu-left push-body">Toggle Left Menu Push</button>
     </body>
 </html>
