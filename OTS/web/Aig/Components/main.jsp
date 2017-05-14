@@ -24,8 +24,9 @@
         <link href="content/bootstrap-select.css" rel="stylesheet" type="text/css"/>
       
         
-       
+        <!--<script src="scripts/jquery-2.1.0.js" type="text/javascript"></script>-->
         <script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
+       <!-- <script src="scripts/jquery-ui-1.8.24.min.js" type="text/javascript"></script>-->
        <script src="scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
        
         <script src="scripts/bootstrap.js" type="text/javascript"></script>
@@ -34,7 +35,8 @@
         <script src="scripts/bootstrap-select.js" type="text/javascript"></script>
         <script src="scripts/knockout-2.2.0.js" type="text/javascript"></script>
         <script src="scripts/jqTreeContextMenu.js" type="text/javascript"></script>
-      
+        <!--script src="scripts/jquery.maskedinput.js" type="text/javascript"></script-->
+        <!--script src="scripts/mask.js" type="text/javascript"></script-->
         
         <script src="scripts/inputmask.dependencyLib.jquery.js" type="text/javascript"></script>
         <script src="scripts/inputmask.js" type="text/javascript"></script>
@@ -43,7 +45,11 @@
         <script src="scripts/inputmask.regex.extensions.js" type="text/javascript"></script>
         <script src="scripts/inputmask.numeric.extensions.js" type="text/javascript"></script>
       
+        
+       <!-- <script src="classes/Page.js" type="text/javascript"></script>-->
+       <!-- <script src="classes/teacher/TeacherKnowledgeMapPage.js" type="text/javascript"></script>-->
         <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
+
         <script src="classes/teacher/teacher-main-menu.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-welcome-view.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-assignedcourses-view.js" type="text/javascript"></script>
@@ -73,13 +79,14 @@
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
-      
+        <!--<script src="scripts/popover.js" type="text/javascript"></script>-->
         <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
         <script src="scripts/moment.js" type="text/javascript"></script>
         
         <link href="scripts/jPushMenu-master/css/jPushMenu.css" rel="stylesheet" type="text/css"/>
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>
+          
         <script src="scripts/jPushMenu-master/js/jPushMenu.js" type="text/javascript"></script>
    
         <script>
@@ -95,17 +102,13 @@
            int timeout = session.getMaxInactiveInterval();
             response.setHeader("Refresh", timeout + "; URL =./index.jsp");
         %>
-    
+            
+      
+        
         </script>
-     
-
-   <!--LOAD ALL LAYOUTS-->
-    <script src="./Aig/Components/Layouts-Components/html-layouts/header.html" id="header-layout-template" type="text/html"></script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
-     
-  
+        
+          <script src="templates/header.html"  id="header-template" type="text/html"> </script>
+          
             <script type="text/javascript">
              
              //A list of promises that need to resolve before starting
@@ -131,15 +134,10 @@
 
                     //Initialise after everything is loaded
                     $.when.apply($,loaded).done(function() {
-                    
-                       //load all the layout templates
-                       $("#header-layout-container").html($("#header-layout-template").html());
-                       $("#content-layout-container").html($("#content-layout-template").html());
-                       $("#footer-layout-container").html($("#footer-layout-template").html());
-                       $("#menu-layout-container").html($("#main-menu-layout-template").html());          
-                       
-                      
-                      $("#logout").click(function(){
+                        //Start application
+                       $("#header").html($("#header-template").html());
+                                
+                        $("#logout").click(function(){
                         //alert("LOGOUT");
                         window.location.href="index.jsp";
                        });
@@ -163,11 +161,85 @@
     </head>
     <body style="padding-top: 30px;">
         
-     <header id="header-layout-container"> </header><br>
-     <div id="content-layout-container"></div>   
-     <div id="footer-layout-container"></div>   
-     <div id="menu-layout-container"></div>  
-     
+        
+        <header id="header">  </header><br>
+        <div  id="main-menu" style="z-index: 1050; width: 250px;margin-top: 50px" class="cbp-spmenu cbp-spmenu-vertical  menu-open ">
+            <div class="pull-right"><i class="fa fa-arrow-right"></i></div>
+            <div id="div-teacher-menu" >
+              
+                                <div class="list-group">
+                                
+                                    <a  style=" background-color: #31708f" id="lnk-home" href="#" class="list-group-item active" >
+                                        <i class="fa fa-home"></i> Home
+                                     </a>
+                                  
+                                   
+                                    
+                                    <a id="lnk-assigned-courses" href="#" class="app-menu-item " >
+                                         <span class="glyphicon glyphicon-book"></span> Assigned Courses 
+                                     </a>
+                                     <a id="lnk-knowledgemaps" href="#" class="app-menu-item">
+                                         <span class="glyphicon glyphicon-file"></span> Knowledge Maps 
+                                     </a>
+
+                                    <a id="lnk-importknowledges" href="#" class="app-menu-item">
+                                         <span class="glyphicon glyphicon-import"></span> Import Knowledge Maps 
+                                     </a>
+                                     <a id="lnk-studentaccounts" href="#" class="app-menu-item" >
+                                         <span class="glyphicon glyphicon-list"></span> Student Accounts 
+                                     </a>
+                                     <a id="lnk-tests" href="#" class="app-menu-item" >
+                                         <span class="glyphicon glyphicon-list-alt"></span> Tests
+                                     </a>
+                                     <a id="lnk-student-tests" href="#" class="app-menu-item">
+                                         <span class="glyphicon glyphicon-list-alt"></span> Student Tests
+                                     </a>
+                                    
+                                     <a class="app-menu-item" id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp">
+                                         <span class="fa fa-cogs"></span><b> Item Generation Test Bench </b>
+                                     </a>
+                                   
+                          </div>
+                     
+                   </div>
+        </div>
+        
+        <div  class=" container-fluid">
+            <div class="row">
+                <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
+                    <h4>Selected Menu Item</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div id="app-content-container" class="col-xs-12">
+                      Place content here !!
+                </div>
+            </div>
+        </div>
+          
+        <div class="navbar-fixed-bottom">
+            
+        </div>
+       
     </body>
 </html>
 
+
+<!--JPushMenu Options
+
+ /* in case you want to customize class name,
+   *  do not directly edit here, use function parameter when call jPushMenu.
+   */
+	$.fn.jPushMenu.defaultOptions = {
+		bodyClass       : 'cbp-spmenu-push',
+		activeClass     : 'menu-active',
+		showLeftClass   : 'menu-left',
+		showRightClass  : 'menu-right',
+		showTopClass    : 'menu-top',
+		showBottomClass : 'menu-bottom',
+		menuOpenClass   : 'cbp-spmenu-open',
+		pushBodyClass   : 'push-body',
+		closeOnClickOutside: true
+	};
+
+-->
