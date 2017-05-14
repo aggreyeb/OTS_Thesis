@@ -31,15 +31,16 @@ OTS.ViewModels.ConceptHierarchy=function(){
        me.relationTypes=ko.observableArray([{id:'PartOf',name:'PartOf'},{id:'TypeOf',name:'TypeOf'}]);
        me.selectedRelationType=ko.observable("");
        me.changeContentHeading("Knowledge Map (" + me.currentSelectedItem.label + ")");
-         /*
+        
          $.get("templates/teacher/teacher-concept-hierarchy.html",function(msg){
            $("#view-content").empty();
            $("#view-content").append(msg);
-         */
+         
+        /*
          $.get("templates/teacher/teacher-concept-hierarchy_1.html",function(msg){
            $("#view-content").empty();
            $("#view-content").append(msg);
-           
+          */ 
           
            var conceptSchema={relationname:'',
              conceptname:'',conceptaction:'',

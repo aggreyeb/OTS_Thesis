@@ -88,7 +88,7 @@
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>
           
         <script src="scripts/jPushMenu-master/js/jPushMenu.js" type="text/javascript"></script>
-          
+   
         <script>
           <% 
        
@@ -102,73 +102,52 @@
            int timeout = session.getMaxInactiveInterval();
             response.setHeader("Refresh", timeout + "; URL =./index.jsp");
         %>
+            
+      
+        
         </script>
-        <script>
-            //var menu={knowlegemapcount:'#bg-knowledgemap-count'};
-           /*
-            $(function(){
-                $("#header").load("templates/header.html",function(){
-                    $("#logout").click(function(){
+        
+          <script src="templates/header.html"  id="header-template" type="text/html"> </script>
+          
+            <script type="text/javascript">
+             
+             //A list of promises that need to resolve before starting
+               var loaded = [];
+                    //Load all templates
+                   var $templates = $('script[type="text/html"]');
+                    $templates.each(function() {
+                        var src = $(this).attr("src");
+                        if (src) {
+                         
+                         loaded.push( //Wait for the template to load
+                                $.ajax(src, {context:this}).
+                                done(function(data) {
+                                 
+                                    $(this).html(data);
+                                })
+                            );
+                        }
+                    });
+
+                    //Wait for the DOM to be ready
+                    loaded.push($.ready);
+
+                    //Initialise after everything is loaded
+                    $.when.apply($,loaded).done(function() {
+                        //Start application
+                       $("#header").html($("#header-template").html());
+                                
+                        $("#logout").click(function(){
                         //alert("LOGOUT");
                         window.location.href="index.jsp";
+                       });
+                     
+                          
                     });
-                 
-                });  
                
-                $("#leftmenu").load("templates/leftmenu.html",function(){
-                    //Register Click envents
-                });
-                $("#footer").load("templates/footer.html",function(){
-                    
-                });
-               
-            });
-          */
-        </script>
-        
-        <script>
-           
-  
-            var view;
-            $(document).ready(function(){
-             
-             var menu= new OTS.Views.TeacherMainMenu();
-              menu.addSubscriber(new OTS.Views.WelcomeView());
-              menu.addSubscriber(new OTS.Views.AssignedCoursesView());
-              menu.addSubscriber(new OTS.Views.ImportKnowledgeMapView());
-              menu.addSubscriber(new OTS.Views.ConceptHierarchyView());
-              menu.addSubscriber(new OTS.Views.StudentAccountView());
-              menu.addSubscriber(new OTS.Views.TestsView());
-              menu.addSubscriber(new OTS.Views.KnowledgeMapView());
-              menu.addSubscriber(new OTS.Views.StudentTestsView());
-              
-              $('#btn-new-knowledgemap').popover({html:true, title:"Testing",placement:'bottom',
-                 title:function(){
-                     return  $("#frm-knowledgemap-Title").html();
-                 },content:function(){
-                     return $("#frm-knowledgemap").html();
-                 }}   
-               );
-  
-           
-               view =new   OTS.Views.KnowledgeMapsView();
-                ko.applyBindings(view,$("#mainContainer")[0]);
-                
-                 $("#sel-relationType").selectpicker();
-             
-            $("#sel-knowledgemap-action").selectpicker();
-            
-             $("#btn-new-concept-schema").popover({html:true, title:"Testing",placement:'bottom',
-                 title:function(){
-                     return  $("#frm-conceptSchem-Title").html();
-                 },content:function(){
-                     return $("#frm-conceptSchema").html();
-                 }});
-              
-              
-            });
-        
-        </script>
+             </script>
+          
+    
         <style>
           
              .form-control {width:300px;}
@@ -177,97 +156,91 @@
              .popover-content{width:400px;}
              .action{}
              .body { overflow-x: hidden;}
-             .container {
-                    max-width: 100%;
-   /* This will remove the outer padding, and push content edge to edge */
-                      padding-right: 0;
-                      padding-left: 0;
-                     }
-                     
-                     .push, footer {
-                        height: 63px;
-                    }
-                    
-                    .form-inline .form-group  input {
-                      width:190px;
-                    
-                    }
-                   
+             
         </style>
     </head>
-    <body style="padding-top: 65px;">
+    <body style="padding-top: 30px;">
+        
+        
         <header id="header">  </header><br>
-      
-        <div class=" container-fluid">  
-                 <!-- Left Menu -->
-                 <div style=" padding-top: 40px" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="leftmenu">
-                           <!-- Left Menu -->
-                           <div id="div-teacher-menu" class="table-responsive">
-                                <div class="list-group1">
-                                    <a id="lnk-home" href="#"  >
-                                         <span class="glyphicon glyphicon-home"></span> Home 
+        <div  id="main-menu" style="z-index: 1050; width: 250px;margin-top: 50px" class="cbp-spmenu cbp-spmenu-vertical  menu-open ">
+            <div class="pull-right"><i class="fa fa-arrow-right"></i></div>
+            <div id="div-teacher-menu" >
+              
+                                <div class="list-group">
+                                
+                                    <a  style=" background-color: #31708f" id="lnk-home" href="#" class="list-group-item active" >
+                                        <i class="fa fa-home"></i> Home
                                      </a>
-                                    <a id="lnk-assigned-courses" href="#" >
+                                  
+                                   
+                                    
+                                    <a id="lnk-assigned-courses" href="#" class="app-menu-item " >
                                          <span class="glyphicon glyphicon-book"></span> Assigned Courses 
                                      </a>
-                                     <a id="lnk-knowledgemaps" href="#">
+                                     <a id="lnk-knowledgemaps" href="#" class="app-menu-item">
                                          <span class="glyphicon glyphicon-file"></span> Knowledge Maps 
                                      </a>
 
-                                    <a id="lnk-importknowledges" href="#">
+                                    <a id="lnk-importknowledges" href="#" class="app-menu-item">
                                          <span class="glyphicon glyphicon-import"></span> Import Knowledge Maps 
                                      </a>
-                                     <a id="lnk-studentaccounts" href="#" >
+                                     <a id="lnk-studentaccounts" href="#" class="app-menu-item" >
                                          <span class="glyphicon glyphicon-list"></span> Student Accounts 
                                      </a>
-                                     <a id="lnk-tests" href="#" >
+                                     <a id="lnk-tests" href="#" class="app-menu-item" >
                                          <span class="glyphicon glyphicon-list-alt"></span> Tests
                                      </a>
-                                     <a id="lnk-student-tests" href="#">
+                                     <a id="lnk-student-tests" href="#" class="app-menu-item">
                                          <span class="glyphicon glyphicon-list-alt"></span> Student Tests
                                      </a>
-                                     <a id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp">
+                                    
+                                     <a class="app-menu-item" id="lnk-item-generation-test-bench" href="item-generation-test-bench.jsp">
                                          <span class="fa fa-cogs"></span><b> Item Generation Test Bench </b>
                                      </a>
-                                 </div>
-    
-                        </div>
-                       </div>
-           
-       
-            
-             <div class="row">
-                <div class="col-lg-12">
-                    
+                                   
+                          </div>
                      
-                      <div id="view-container" class=" panel panel-primary">
-                          <div class=" panel-heading"><span id="lbl-selected-menuitem">Welcome
-                             
-                              </span></div>
-                        <div id="view-content" class=" panel-body">
-                           General Information here
-                           <!-- Left menu element-->
-                        
-                         
-                        </div>
-                     </div>     
-                    </div>
-               </div>
-                
-           
+                   </div>
         </div>
-        <footer id="footer">
-            <div class="container">
-                
+        
+        <div  class=" container-fluid">
+            <div class="row">
+                <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
+                    <h5>Selected Menu Item</h5>
+                </div>
             </div>
-        </footer>
+        </div>
+          
+        <div class="navbar-fixed-bottom">
             
-            <script>
-              $(document).ready(function(){
-                 $('.toggle-menu').jPushMenu();
-              });
-             
-            </script>
-           <button class="toggle-menu menu-left push-body">Toggle Left Menu Push</button>
+        </div>
+        <!--
+        <footer id="footer">
+            
+        </footer>
+          -->  
+          
+          
     </body>
 </html>
+
+
+<!--JPushMenu Options
+
+ /* in case you want to customize class name,
+   *  do not directly edit here, use function parameter when call jPushMenu.
+   */
+	$.fn.jPushMenu.defaultOptions = {
+		bodyClass       : 'cbp-spmenu-push',
+		activeClass     : 'menu-active',
+		showLeftClass   : 'menu-left',
+		showRightClass  : 'menu-right',
+		showTopClass    : 'menu-top',
+		showBottomClass : 'menu-bottom',
+		menuOpenClass   : 'cbp-spmenu-open',
+		pushBodyClass   : 'push-body',
+		closeOnClickOutside: true
+	};
+
+-->
