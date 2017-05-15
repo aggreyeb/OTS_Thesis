@@ -4,41 +4,91 @@ OTS.AigWebApplication=function(applicationId,applicationName){
     var me=this;
     var id=applicationId;
     var name=applicationName;
-  //  var appendableControl= new Aig.Controls.AppendableControl();
-   // var readable= new Aig.HtmlTemplateDataSource(templateId);
-    
-    var menuComponent=new OTS.MenuComponent("menu-layout-container",
-                                                "main-menu-layout-template");
+    var layoutComponents= [];
+    var menuEventTargerts=[];
+   
+   var headerComponent=new OTS.HeaderLayoutComponent();
+   var contentComponent= new OTS.ContentLayoutComponent();
+   var footerComponent= new OTS.FooterLayoutComponent();
+   var menuComponent=new OTS.MenuComponent();
                                                 
-    var headerLayoutControl=new Aig.Controls.LayoutControl();
-    var contentLayoutControl=new Aig.Controls.LayoutControl("content-layout-container",
-                                                "content-layout-template");  
-    var footerLayoutControl=new Aig.Controls.LayoutControl("footer-layout-container",
-                                                "footer-layout-template");                                           
-      
+  
     var webApp=new Aig.WebApplication(id);
     var settings=null;
+    
+    var notifyComponentChanged=function(e){
+        for(var i=0;i<menuEventTargerts.length;i++){
+            var callback=menuEventTargerts[i];
+            if(callback!==undefined && callback !==null){
+                var eventArg={
+                    id:e.target.id,
+                    name:e.target.innerText.trim()
+                }
+                callback(eventArg);
+            }
+        }
+    };
+    
      me.Initialize=function(){
       //1. Read settings
       settings=webApp.ReadSettings()
-      //Render Header Layout
-      headerLayoutControl.Render(new Aig.Controls.AppendableControl("header-layout-container"),
-      new Aig.HtmlTemplateDataSource("header-layout-template"));
+     
+      layoutComponents.push(headerComponent);
+      layoutComponents.push(contentComponent);
+      layoutComponents.push(footerComponent);
+      layoutComponents.push(menuComponent);
       
-      //Render Content Layout
-       contentLayoutControl.Render(new Aig.Controls.AppendableControl("content-layout-container"),
-      new Aig.HtmlTemplateDataSource("content-layout-template"));
-      
-      //Render Footer Layout
-      footerLayoutControl.Render(new Aig.Controls.AppendableControl("footer-layout-container"),
-      new Aig.HtmlTemplateDataSource("footer-layout-template"))
-      
+      //Add Myself to the all components
+      for(var i=0;i<layoutComponents.length;i++){
+         var layoutComponent= layoutComponents[i];
+         if(layoutComponent!==null)
+             layoutComponent.AddApplication(me);
+      }
+     
       //Render Menu Component
+      headerComponent.Render();
+      contentComponent.Render();
+      footerComponent.Render();
+      menuComponent.AddEventTarget(me.OnMenuItemClicked);
       menuComponent.Render();
      };
      
       me.UnInitialize=function(){
         webApp.UnInitialize();
+     };
+     
+     me.RegisterComponentChanged=function(callbackFunction){
+         if(callbackFunction!==undefined && callbackFunction!==null){
+             menuEventTargerts.push(callbackFunction);
+         }
+     };
+     
+     me.OnMenuItemClicked=function(e){
+         var target=e.target;
+         switch (target.id){
+             case "lnk-home":
+                break;
+             case "lnk-assigned-courses":
+                 break;
+             case "lnk-knowledgemaps":
+                 break; 
+             
+             case "lnk-knowledgemaps":
+                 break; 
+                 
+              case "lnk-importknowledges":
+                 break; 
+              case "lnk-studentaccounts":
+                 break; 
+              case "lnk-tests":
+                 break; 
+             
+              case "lnk-student-tests":
+                 break; 
+              default:
+                 break;
+         }
+         notifyComponentChanged(e);
      };
 };
 OTS.AigWebApplication.prototype= new  Aig.IInitializable();

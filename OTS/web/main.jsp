@@ -89,18 +89,23 @@
         <script src="Aig/Components/App-Controls-LayoutControls/js/Controls-LayoutControl.js" type="text/javascript"></script>
         <script src="Aig/Components/App-HtmlDataSources/TemplateDataSources.js" type="text/javascript"></script>
         
-        <!--APPLICATION-->
-        <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
+        <!-- USER INTERFACE LAYOUT-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-HeaderLayoutComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-Content-LayoutComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-FooterLayoutComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
         
+        <!--APPLICATION-->
+        
+        
+          <!--WEB APPLICATION -->
+         <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
+          
         <!--DEVICE-->
         <script src="Aig/Components/Devices-Components/js/Device.js" type="text/javascript"></script>
-        
-          <!--APPLICATION SPECIFIC-->
-          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-Layout-Component.js" type="text/javascript"></script>
-          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
-          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
-          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplicationDevice.js" type="text/javascript"></script>
-       
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplicationDevice.js" type="text/javascript"></script>
+     
           <script>
           <% 
        
@@ -124,7 +129,10 @@
     <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
     <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
      
-  
+    <!--Knowledge Map List-->
+     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapList.html" id="knowledge-map-list-template" type="text/html"> </script>
+     
+     
             <script type="text/javascript">
              
              //A list of promises that need to resolve before starting

@@ -9,9 +9,26 @@ Aig.Controls.LayoutControl=function(){
     var readable;;
     var appendedCallback;
     var element;
-    var afterAppendCallback=function(uiElement){
-         element=uiElement;
-        appendedCallback(uiElement);
+    var currentApplication;
+    var componentChangedTargets=[];
+     
+    var afterAppendCallback=function(e){
+         element=e;
+         if(appendedCallback!==undefined && appendedCallback!==null )
+            appendedCallback(e);
+    };
+    
+    var componentChanged=function(e){
+       
+    };
+    
+    me.RegisterComponentChanged=function(callbackFunction){
+        if(callbackFunction!==undefined && callbackFunction!==null)
+          componentChangedTargets.push(callbackFunction);
+    };
+    
+    me.OnAppended=function(callbackFunction){
+        appendedCallback=callbackFunction;
     };
     
     me.Render=function(iAppendable,iReadable,callbackFunction){
@@ -40,6 +57,13 @@ Aig.Controls.LayoutControl=function(){
    };
    me.Rename=function(layoutComponentName){
        name=layoutComponentName;
+   };
+   
+   me.AddApplication=function(application){
+       if(application===undefined ||application===null )
+           throw new Error("application can not be null");
+       currentApplication=application;
+       currentApplication.RegisterComponentChanged(componentChanged);
    };
 };
 

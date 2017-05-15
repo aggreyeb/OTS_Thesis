@@ -53,16 +53,18 @@ Aig.Controls.AppendableControl=function(uniqueId){
     var parentElement;
     var element;
     var control= new Aig.Controls.Control();
-    me.Append=function(html){
+    me.Append=function(html,callbackFunction){
+    var callback=callbackFunction;
      parentElement=control.SelectById(id);
     // element=$(html);
-     parentElement.html(html)
+     parentElement.html(html);
+     element=control.SelectById(id);
+      callback(element);
     };
     
     me.Prepend=function(html){
      parentElement=control.SelectById(id);
-     element=$(html);
-     $(parentElement).prepend(element);
+     $(parentElement).prepend(html);
     };
 };
 
