@@ -12,6 +12,7 @@ OTS.HeaderLayoutComponent=function(){
     me.Render=function(){
         layoutControl.RegisterComponentChanged(componentChanged);
         layoutControl.Render(appendableControl,readable);
+        $('.toggle-menu').jPushMenu();
     };
     
     me.AddApplication=function(application){

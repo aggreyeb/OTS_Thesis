@@ -4,14 +4,18 @@ OTS.AigWebApplication=function(applicationId,applicationName){
     var me=this;
     var id=applicationId;
     var name=applicationName;
-    var layoutComponents= [];
     var menuEventTargerts=[];
-   
+    
+    var layoutComponents= [];
+    var initializableComponents=[];
+   //Layout Components
    var headerComponent=new OTS.HeaderLayoutComponent();
    var contentComponent= new OTS.ContentLayoutComponent();
    var footerComponent= new OTS.FooterLayoutComponent();
    var menuComponent=new OTS.MenuComponent();
-                                                
+     
+   //Initializable Components
+   var knowledgemapManagementComponent= new OTS.AigKnowledgeMapManagementComponent();
   
     var webApp=new Aig.WebApplication(id);
     var settings=null;
@@ -45,12 +49,25 @@ OTS.AigWebApplication=function(applicationId,applicationName){
              layoutComponent.AddApplication(me);
       }
      
-      //Render Menu Component
+     //Render Menu Component
       headerComponent.Render();
       contentComponent.Render();
       footerComponent.Render();
       menuComponent.AddEventTarget(me.OnMenuItemClicked);
       menuComponent.Render();
+      
+      //Initializable Components
+      initializableComponents.push(knowledgemapManagementComponent);
+      
+      for(var i=0;i<initializableComponents.length;i++){
+         var component=  initializableComponents[i];
+         if(component!==null){
+             component.AddApplication(me);
+         }
+      }
+
+
+
      };
      
       me.UnInitialize=function(){
