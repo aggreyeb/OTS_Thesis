@@ -81,8 +81,27 @@
         <link href="scripts/jPushMenu-master/css/jPushMenu.css" rel="stylesheet" type="text/css"/>
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>
         <script src="scripts/jPushMenu-master/js/jPushMenu.js" type="text/javascript"></script>
-   
-        <script>
+        
+        
+        <!--APPLICATION FRAMEWORK-->
+        <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
+        <script src="Aig/Components/App-Controls/Controls.js" type="text/javascript"></script>
+        <script src="Aig/Components/App-Controls-LayoutControls/js/Controls-LayoutControl.js" type="text/javascript"></script>
+        <script src="Aig/Components/App-HtmlDataSources/TemplateDataSources.js" type="text/javascript"></script>
+        
+        <!--APPLICATION-->
+        <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
+        
+        <!--DEVICE-->
+        <script src="Aig/Components/Devices-Components/js/Device.js" type="text/javascript"></script>
+        
+          <!--APPLICATION SPECIFIC-->
+          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-Layout-Component.js" type="text/javascript"></script>
+          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
+          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
+          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplicationDevice.js" type="text/javascript"></script>
+       
+          <script>
           <% 
        
          if (request.getHeader("Referer") == null) {
@@ -100,10 +119,10 @@
      
 
    <!--LOAD ALL LAYOUTS-->
-    <script src="./Aig/Components/Layouts-Components/html-layouts/header.html" id="header-layout-template" type="text/html"></script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
-    <script src="./Aig/Components/Layouts-Components/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
+    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/header.html" id="header-layout-template" type="text/html"></script>
+    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
+    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
+    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
      
   
             <script type="text/javascript">
@@ -133,11 +152,11 @@
                     $.when.apply($,loaded).done(function() {
                     
                        //load all the layout templates
-                       $("#header-layout-container").html($("#header-layout-template").html());
-                       $("#content-layout-container").html($("#content-layout-template").html());
-                       $("#footer-layout-container").html($("#footer-layout-template").html());
-                       $("#menu-layout-container").html($("#main-menu-layout-template").html());          
-                       
+                       // $("#header-layout-container").html($("#header-layout-template").html());
+                      // $("#content-layout-container").html($("#content-layout-template").html());
+                      // $("#footer-layout-container").html($("#footer-layout-template").html());
+                      // $("#menu-layout-container").html($("#main-menu-layout-template").html());          
+                       new OTS.AigWebApplication("app-ots","Online Test System").Initialize();
                       
                       $("#logout").click(function(){
                         //alert("LOGOUT");
