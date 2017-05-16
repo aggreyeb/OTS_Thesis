@@ -82,6 +82,18 @@
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>
         <script src="scripts/jPushMenu-master/js/jPushMenu.js" type="text/javascript"></script>
         
+        <link href="Aig/scripts/BootstrapModalPopover/lib/bootstrap-3.3.5/docs.css" rel="stylesheet" type="text/css"/>
+        <link href="Aig/scripts/bootstrap-treeview/src/css/bootstrap-treeview.css" rel="stylesheet" type="text/css"/>
+        <link href="Aig/scripts/BootstrapModalPopover/lib/prettify.css" rel="stylesheet" type="text/css"/>
+        <link href="Aig/scripts/leaflet/leaflet.css" rel="stylesheet" type="text/css"/>
+        
+         <script src="Aig/scripts/BootstrapModalPopover/src/bootstrap-modal-popover.js" type="text/javascript"></script>
+        <script src="Aig/scripts/BootstrapModalPopover/lib/prettify.js" type="text/javascript"></script>
+        <script src="Aig/scripts/BootstrapModalPopover/src/bootstrap-modal-popover.js" type="text/javascript"></script>
+        <script src="Aig/scripts/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="Aig/scripts/leaflet/esri-leaflet.js" type="text/javascript"></script>
+        <script src="Aig/scripts/bootstrap-treeview/src/js/bootstrap-treeview.js" type="text/javascript"></script>
+        
         
         <!--APPLICATION FRAMEWORK-->
         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
@@ -131,7 +143,9 @@
     <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
      
     <!--Knowledge Map List-->
-    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
      
      
