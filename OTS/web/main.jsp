@@ -110,6 +110,8 @@
         <!--APPLICATION-->
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
+        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
           
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
@@ -142,13 +144,19 @@
     <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
     <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
      
-    <!--Knowledge Map List-->
+    <!--Knowledge Map Management Templates-->
     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
      
-     
+    <!--Test/Item Generation Templates-->
+   
+    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-list.html" id="test-list-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/tests-component.html" id="tests-component-template" type="text/html"> </script>
+    
             <script type="text/javascript">
              
              //A list of promises that need to resolve before starting

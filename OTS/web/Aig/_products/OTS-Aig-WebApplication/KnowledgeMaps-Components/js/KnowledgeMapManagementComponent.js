@@ -22,11 +22,16 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     var element;
     var componentChanged=function(e){
-       me.Initialize();
+       contentContainerId=e.componentContainerId;
+        if(e.id===id){
+                me.Initialize();
+        }
+    
     };
     
     me.Initialize=function(){
         if(initialized) return;
+        $("#" + contentContainerId).empty();
         var html=   htmlTemplateDataSource.Read();
         appendableControl.Append(html,function(e){
             element=e;

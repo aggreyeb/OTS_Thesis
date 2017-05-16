@@ -2,6 +2,7 @@ var OTS=OTS||{};
 
 OTS.AigWebApplication=function(applicationId,applicationName){
     var me=this;
+    var componentContainerId="app-content-container"
     var id=applicationId;
     var name=applicationName;
     var menuEventTargerts=[];
@@ -16,6 +17,7 @@ OTS.AigWebApplication=function(applicationId,applicationName){
      
    //Initializable Components
    var knowledgemapManagementComponent= new OTS.AigKnowledgeMapManagementComponent();
+   var testManagementManagementComponent=new OTS.AigTestItemGenerationComponent();
   
     var webApp=new Aig.WebApplication(id);
     var settings=null;
@@ -26,7 +28,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
             if(callback!==undefined && callback !==null){
                 var eventArg={
                     id:e.target.id,
-                    name:e.target.innerText.trim()
+                    name:e.target.innerText.trim(),
+                    componentContainerId:e.componentContainerId
                 }
                 callback(eventArg);
             }
@@ -58,7 +61,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
       
       //Initializable Components
       initializableComponents.push(knowledgemapManagementComponent);
-      
+      initializableComponents.push(testManagementManagementComponent);
+         
       for(var i=0;i<initializableComponents.length;i++){
          var component=  initializableComponents[i];
          if(component!==null){
@@ -82,29 +86,7 @@ OTS.AigWebApplication=function(applicationId,applicationName){
      
      me.OnMenuItemClicked=function(e){
          var target=e.target;
-         switch (target.id){
-             case "lnk-home":
-                break;
-             case "lnk-assigned-courses":
-                 break;
-             case "lnk-knowledgemaps":
-                 break; 
-             
-             case "lnk-knowledgemaps":
-                 break; 
-                 
-              case "lnk-importknowledges":
-                 break; 
-              case "lnk-studentaccounts":
-                 break; 
-              case "lnk-tests":
-                 break; 
-             
-              case "lnk-student-tests":
-                 break; 
-              default:
-                 break;
-         }
+         e.componentContainerId=componentContainerId
          notifyComponentChanged(e);
      };
 };

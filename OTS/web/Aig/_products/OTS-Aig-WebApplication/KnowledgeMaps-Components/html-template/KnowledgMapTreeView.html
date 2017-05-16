@@ -1,0 +1,34 @@
+<div style="margin: 5px;border: 1px solid #ddd;margin: 1px">
+<div>
+    <div class="row">
+     <div class="col-lg-11">
+         <div style="margin-left: 5px" class="input-group">
+      <input type="text" class="form-control" placeholder="Type the name of the node...">
+      <span class="input-group-btn">
+          <button title="Add new node" class="btn btn-primary" type="button"><i class="fa fa-plus"></i></button>
+          <button title="Remove node" class="btn btn-danger" type="button"><i class="fa fa fa-times-circle-o"></i></button>
+      </span>
+    </div>
+  </div>
+    </div><br>
+    <div class="row">
+        <div style="margin-left: 5px" class="col-xs-12">
+            <label>Select Relation Type</label>
+            <select class="form-control">
+                <option value="1">TypeOf</option>
+                <option value="2">PartOf</option>
+            </select>
+        </div>
+    </div><br>
+</div>
+<div>
+    <div class="row">
+        <div class="col-xs-11">
+            <h3><span class="label label-default">Concept hierarchy</span></h3>
+            <div style="overflow-y: scroll;height: 500px" id="knowledgeMaps-tree">
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>

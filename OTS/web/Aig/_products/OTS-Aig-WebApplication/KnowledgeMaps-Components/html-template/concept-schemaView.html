@@ -1,0 +1,253 @@
+<div >
+    <h3><span class="label label-default">Concept Schema</span></h3>   
+    <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                Characteristics</a>
+              </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                 
+                  <div id="characteristic-container">
+                      <!--Parent-->
+                      <div class="row">
+                          <div class="col-xs-6">
+                              <div class="input-group">
+                                  <label style="padding-right: 80px">Parent</label>
+                                  <input class="form-control" type="text"/>
+                              </div>
+                          </div> 
+                          <div class="col-xs-6">
+                              <div class="input-group">
+                                  <label>Relationship with parent</label>
+                                  <select class="form-control">
+                                      <option value="1">TypeOf</option>
+                                      <option value="1">PartOf</option>
+                                  </select>
+                              </div>
+                          </div> 
+                      </div>
+                      <!--Description-->
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <div class="input-group">
+                                  <label style="padding-right: 448px">Description</label>
+                                  <input class="form-control"/>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <!--Behaviour Descriptions-->
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <div class="pull-left">
+                                  <h4><span class="label label-default">Behaviour Descriptions</span></h4> 
+                                  <a title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
+                                  
+                              </div>
+                          </div> 
+                      </div>
+                      
+                      <div style="border: 1px solid black;margin: 1px"  class="row">
+                          <div id="characteristic-forach-container">
+                              <div style="overflow-y: scroll;height: 100px">
+                                  <div class="col-xs-1">
+                                      <label>Id</label> 
+                                      <input style="width:60px" class="form-control" placeholder="1" type="text"/>
+                              </div> 
+                              <div class="col-xs-10">
+                                   <label>Behaviour Description</label>
+                                  <input style="width: 100%;margin-left: 2px;padding-right: 100px" class="form-control" placeholder="Behaviour Description ..." type="text"/>
+                              </div> 
+                               <div class="col-xs-1">
+                                   <div style="margin-right: 120px" >
+                                       <a class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                                   </div>
+                                   
+                               </div>
+                              </div> 
+                              
+                          </div>
+                       
+                      </div>
+                  </div>   
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                Attributes</a>
+              </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <div>
+                              <a class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i>Add New</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div style="border: 1px solid black;margin: 1px" class="row">
+                      <div style="overflow-y: scroll;height:100px " id="forEachAttributes">
+                            <div class="col-xs-4">
+                                <label>Name</label>
+                                <input style="width: 260px" type="text" class="form-control"/>
+                            </div>
+                           <div class="col-xs-4">
+                                  <label>Type</label>
+                               <input style="width: 260px" type="text" class="form-control"/>
+                            </div>  
+                            <div class="col-xs-3">
+                               <label>Value</label>
+                                <input style="width: 200px" type="text" class="form-control"/>
+                            </div> 
+                            <div class="col-xs-1 ">
+                                <a title="Delete" href="#" ><i class="fa fa-remove"></i></a>
+                            </div>
+                      </div>
+                     
+                  </div> 
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                Functions</a>
+              </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse">
+              <div class="panel-body">
+                
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <a class="btn btn-sm btn-info" href="#">Add New</a>
+                      </div>
+                  </div>
+                  <div  style="border: 1px solid black;margin-top: 2px" id="forach-function">
+                       <div class="row">
+                         
+                              <div class="col-xs-6">
+                                  <label >Name</label>
+                                   <input style="width: 100%" class="form-control" type="text"/>
+                              </div>
+                             
+                              <div class="col-xs-6">
+                                  <label >Purpose</label>
+                                  <input style="width: 100%"  class="form-control" type="text"/>
+                              </div>
+                      </div>
+                      
+                      <div class="row">
+                         
+                              <div class="col-xs-6">
+                                  <label >Pre Condition</label>
+                                   <input style="width: 100%" class="form-control" type="text"/>
+                              </div>
+                             
+                              <div class="col-xs-6">
+                                  <label >Post Condition</label>
+                                  <input style="width: 100%" class="form-control" type="text"/>
+                              </div>
+                      </div><br>
+                   
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <a title="Show or hide Algorithm editor" style="margin-bottom: 1px" data-toggle="collapse" href="#hide-show-algorithem"><span class="label label-default">Algorithm(+/-)</span></a>
+                          </div>
+                         
+                      </div> <br>
+                      
+                      <div class="panel-collapse collapse" id="hide-show-algorithem">
+                        <div class="row">
+                          <div class="col-xs-6">
+                              <textarea style="resize: horizontal;width: 500px;height: 200px"></textarea>
+                          </div>
+                        </div><br>
+                       <div class="row">
+                          <div class="col-xs-12">
+                              <label>Select Time Complexity</label>
+                              <select class="form-control">
+                                  <option value="1">O(1)</option>
+                                  <option value="1">O(nlogn)</option>
+                              </select>
+                          </div>
+                      </div>
+                      </div>
+                    
+                  </div>
+              </div><!--body-->
+            </div>
+          </div>
+        
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#applications">
+                Applications</a>
+              </h4>
+            </div>
+            <div id="applications" class="panel-collapse collapse">
+              <div class="panel-body">
+               <div class="row">
+                          <div class="col-xs-12">
+                              <div class="pull-left">
+                                
+                                  <a title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
+                                  
+                              </div>
+                          </div> 
+                      </div>
+                    
+                  <div style="border: 1px solid black;margin: 1px" class="row">
+                          <div id="Application-forach-container">
+                              <div style="overflow-y: scroll;height: 100px">
+                                  <div class="col-xs-1">
+                                       <label>Id</label> 
+                                      <input style="width:60px" class="form-control" placeholder="1" type="text"/>
+                              </div> 
+                              <div class="col-xs-10">
+                                   <label>Description</label>
+                                  <input style="width: 100%;margin-left: 2px;padding-right: 100px" class="form-control" placeholder="Behaviour Description ..." type="text"/>
+                              </div> 
+                               <div class="col-xs-1">
+                                   <div style="margin-right: 120px" >
+                                       <a class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                                   </div>
+                                   
+                               </div>
+                              </div> 
+                              
+                          </div>
+                       
+                      </div>
+                  
+              </div>
+            </div>
+          </div>
+        
+            <div class="panel panel-default hide">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#api-info">
+                Implementation  API Details</a>
+              </h4>
+            </div>
+            <div id="api-info" class="panel-collapse collapse">
+              <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat.</div>
+            </div>
+          </div>
+        
+        </div>
+</div>
