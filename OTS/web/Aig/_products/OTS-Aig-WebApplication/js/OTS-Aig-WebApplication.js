@@ -18,7 +18,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
    //Initializable Components
    var knowledgemapManagementComponent= new OTS.AigKnowledgeMapManagementComponent();
    var testManagementManagementComponent=new OTS.AigTestItemGenerationComponent();
-  
+   var courseManagementComponent=new OTS.AigCourseComponent();
+   
     var webApp=new Aig.WebApplication(id);
     var settings=null;
     
@@ -62,6 +63,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
       //Initializable Components
       initializableComponents.push(knowledgemapManagementComponent);
       initializableComponents.push(testManagementManagementComponent);
+      initializableComponents.push(courseManagementComponent);
+     
          
       for(var i=0;i<initializableComponents.length;i++){
          var component=  initializableComponents[i];

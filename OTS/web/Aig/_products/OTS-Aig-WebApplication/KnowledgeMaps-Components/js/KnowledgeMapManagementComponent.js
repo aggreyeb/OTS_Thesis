@@ -19,6 +19,12 @@ OTS.AigKnowledgeMapManagementComponent=function(){
      var htmlTemplateConcepSchemaDataSource=new Aig.HtmlTemplateDataSource("concept-schma-template");
     var appendableConcepSchemaViewControl=new Aig.Controls.AppendableControl("concept-schema-container");
    
+    var addEditKnowledgeMapDataSource=new Aig.HtmlTemplateDataSource("add-edit-knowledgemap-template");
+    var appendableaddEditKnowledgeMap=new Aig.Controls.AppendableControl("cmd-add-edit-knowledgemap");
+   
+    var importKnowledgeMapDataSource=new Aig.HtmlTemplateDataSource("import-knowledgemap-template");
+    var importappendabletKnowledgeMap=new Aig.Controls.AppendableControl("cmd-import-knowledgemaps");
+   
     
     var element;
     var componentChanged=function(e){
@@ -47,6 +53,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
      
       var conceptSchemaDatasource=  htmlTemplateConcepSchemaDataSource.Read();
       appendableConcepSchemaViewControl.Append(conceptSchemaDatasource,function(e){}) ;
+      
+      
+       var  addEditTemplateSourceHtml=  addEditKnowledgeMapDataSource.Read();
+       appendableaddEditKnowledgeMap.Append(addEditTemplateSourceHtml,function(e){})
+   
+       var importHtml =importKnowledgeMapDataSource.Read()
+       importappendabletKnowledgeMap.Append(importHtml,function(e){});
+   
+      
        
        var data = [
        {

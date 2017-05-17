@@ -94,6 +94,8 @@
         <script src="Aig/scripts/leaflet/esri-leaflet.js" type="text/javascript"></script>
         <script src="Aig/scripts/bootstrap-treeview/src/js/bootstrap-treeview.js" type="text/javascript"></script>
         
+        <link href="scripts/chosen_v1.7.0/chosen.css" rel="stylesheet" type="text/css"/>
+        <script src="scripts/chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
         
         <!--APPLICATION FRAMEWORK-->
         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
@@ -107,11 +109,14 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-FooterLayoutComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
         
-        <!--APPLICATION-->
+        <!--APPLICATION COMPONENTS-->
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
         
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
+        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Course-Components/js/CourseComponent.js" type="text/javascript"></script>
+        
           
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
@@ -139,23 +144,35 @@
      
 
    <!--LOAD ALL LAYOUTS-->
-    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/header.html" id="header-layout-template" type="text/html"></script>
-    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
-    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
-    <script src="Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
+    <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/header.html" id="header-layout-template" type="text/html"></script>
+    <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
+    <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
+    <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
      
     <!--Knowledge Map Management Templates-->
-    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
      
     <!--Test/Item Generation Templates-->
-   
-    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-list.html" id="test-list-template" type="text/html"> </script>
-    <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/tests-component.html" id="tests-component-template" type="text/html"> </script>
+  
+    <!--Knowledge Maps-->
+    
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
+    
+    
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-list.html" id="test-list-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/tests-component.html" id="tests-component-template" type="text/html"> </script>
+    
+    <!--Course Management templates-->
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-add-edit-view.html" id="course-add-edit-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-list.html" id="course-list-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-component.html" id="course-component-template" type="text/html"> </script>
+    
     
             <script type="text/javascript">
              
