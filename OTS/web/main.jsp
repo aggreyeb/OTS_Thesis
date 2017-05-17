@@ -116,8 +116,11 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
         
         <script src="Aig/_products/OTS-Aig-WebApplication/Course-Components/js/CourseComponent.js" type="text/javascript"></script>
-        
+       
+        <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentAccountsComponent.js" type="text/javascript"></script>
           
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
+        
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
@@ -154,6 +157,19 @@
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
+     
+    
+    <!--Student Accounts Templates-->
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-component.html" id="student-account-component-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-add-edit-view.html" id="student-account-add-edit-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-list.html" id="student-account-list-template" type="text/html"> </script>
+    
+     
+     <!--Student Test-->
+   
+      <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-component.html" id="students-test-component-template" type="text/html"> </script>
+      <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-add-edit-view.html" id="students-test-add-edit-template" type="text/html"> </script>
+      <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-list.html" id="students-test-list-template" type="text/html"> </script>
      
     <!--Test/Item Generation Templates-->
   
