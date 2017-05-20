@@ -11,6 +11,11 @@ OTS.ContentLayoutComponent=function(){
     var componentChanged=function(e){
       headerTitle=  control.SelectById("content-selected-component");
       headerTitle.text(e.name);
+      
+      //check if  home is clicked
+      if(e.id==="lnk-home"){
+         $(".component-content").hide();
+      }
     };
     me.Render=function(){
         layoutControl.RegisterComponentChanged(componentChanged);
