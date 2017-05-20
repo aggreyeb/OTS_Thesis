@@ -28,6 +28,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     var element;
     var control= new  Aig.Controls.Control();
+    var knowlegemapListManagement;
+    
     var componentChanged=function(e){
       // contentContainerId=e.componentContainerId;
        
@@ -157,6 +159,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        renderknowledgeMapsTreeLayouts();
        me.HideKnowledgeMapEditor();
        me.ShowKnowledgeMapListView();
+       
+       //Initialize the Views
+       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
+       knowlegemapListManagement.Render();
        initialized=true;
     };
     

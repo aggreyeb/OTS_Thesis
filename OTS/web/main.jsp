@@ -110,9 +110,12 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
         
         <!--APPLICATION COMPONENTS-->
-       <!-- <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListView.js" type="text/javascript"></script>-->
+      
+        <!--Knowledge map COMPONENT-->  
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListManagementView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
         
+      
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
         
         <script src="Aig/_products/OTS-Aig-WebApplication/Course-Components/js/CourseComponent.js" type="text/javascript"></script>

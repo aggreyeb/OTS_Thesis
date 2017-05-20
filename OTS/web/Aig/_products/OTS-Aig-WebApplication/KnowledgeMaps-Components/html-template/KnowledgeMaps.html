@@ -1,5 +1,4 @@
 
-
 <div  class="container-fluid panel-collapse collapse" id="cmd-import-knowledgemaps">
     
     --Import Knowledge map--
@@ -15,8 +14,8 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="margin-bottom: 2px" class="pull-left">
-                <a  data-toggle="collapse" href="#cmd-add-edit-knowledgemap" id="cmd-add-edit-knowledgemap" class="btn btn-sm btn-info"><i class="fa fa-plus"></i>Add New Knowledge Map</a>
-                <a data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-default"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
+                <a  data-bind="click:knowledgeMaplistViewActions.onAddNew" data-toggle="collapse" href="#cmd-add-edit-knowledgemap" id="cmd-add-edit-knowledgemap" class="btn btn-sm btn-info"><i class="fa fa-plus"></i>Add New Knowledge Map</a>
+                <a  data-bind="click:knowledgeMaplistViewActions.onshowImportView" data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-default"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
             </div>
         </div>
     </div>
@@ -26,22 +25,22 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th class="hide">Id</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-bind="foreach:knowledgeMaplistView.knowledgeMaps">
                         <tr>
-                            <td>1</td>
-                            <td>Data Structures</td>
-                            <td>Knowledge map concept</td>
+                            <td style="width:10%" class="hide" data-bind="text:id"></td>
+                            <td style="width:30%" data-bind="text:name"></td>
+                            <td style="width:60%" data-bind="text:description"></td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="#" title="Edit" ><i class="fa fa-pencil-square-o"></i></a>
-                                    <a href="#" title="Duplicate" ><i class="fa fa-files-o"></i></a>
-                                    <a href="#" title="Delete" ><i class="fa fa-remove"></i></a>
+                                    <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onEdit}" href="#" title="Edit" ><i class="fa fa-pencil-square-o"></i></a>
+                                    <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onDuplicate}" href="#" title="Duplicate" ><i class="fa fa-files-o"></i></a>
+                                    <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onDelete}" href="#" title="Delete" ><i class="fa fa-remove"></i></a>
                                 </div>
                             </td>
                         </tr>
