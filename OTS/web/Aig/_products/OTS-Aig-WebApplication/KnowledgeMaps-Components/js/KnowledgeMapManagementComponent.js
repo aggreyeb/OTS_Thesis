@@ -27,6 +27,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
     
     var element;
+    var control= new  Aig.Controls.Control();
     var componentChanged=function(e){
        contentContainerId=e.componentContainerId;
         if(e.id===id){
@@ -35,9 +36,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     };
     
-    me.Initialize=function(){
-        if(initialized) return;
-        $("#" + contentContainerId).empty();
+    var renderLayouts=function(){
+         $("#" + contentContainerId).empty();
         var html=   htmlTemplateDataSource.Read();
         appendableControl.Append(html,function(e){
             element=e;
@@ -60,48 +60,85 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
        var importHtml =importKnowledgeMapDataSource.Read()
        importappendabletKnowledgeMap.Append(importHtml,function(e){});
-   
+    };
+    
+    var renderknowledgeMapsTreeLayouts=function(){
       
-       
-       var data = [
-       {
-    text: "Parent 1",
-    nodes: [
-      {
-        text: "Child 1",
-        nodes: [
-          {
-            text: "Grandchild 1"
-          },
-          {
-            text: "Grandchild 2"
-          }
-        ]
-      },
-      {
-        text: "Child 2"
-      }
-    ]
-  },
-  {
-    text: "Parent 2"
-  },
-  {
-    text: "Parent 3"
-  },
-  {
-    text: "Parent 4"
-  },
-  {
-    text: "Parent 5"
-  }
-];
+                var data = [
+                {
+             text: "Parent 1",
+             nodes: [
+               {
+                 text: "Child 1",
+                 nodes: [
+                   {
+                     text: "Grandchild 1"
+                   },
+                   {
+                     text: "Grandchild 2"
+                   }
+                 ]
+               },
+               {
+                 text: "Child 2"
+               }
+             ]
+           },
+           {
+             text: "Parent 2"
+           },
+           {
+             text: "Parent 3"
+           },
+           {
+             text: "Parent 4"
+           },
+           {
+             text: "Parent 5"
+           }
+            ];
       
         $('#knowledgeMaps-tree').treeview({
             data: data,         // data is not optional
             backColor: ''
         });
-       
+    };
+    
+    me.ShowKnowledgeMapListView=function(){
+      
+      var knowledgeMapListPanel=  control.SelectById("pan-knowledgeMap-list");
+      var knowledgeMapListAddEditPanel=  control.SelectById("cmd-add-edit-knowledgemap");
+      knowledgeMapListPanel.show();
+      knowledgeMapListAddEditPanel.show();
+    };
+    
+     me.HideKnowledgeMapListView=function(){
+      var knowledgeMapListPanel=  control.SelectById("pan-knowledgeMap-list");
+      var knowledgeMapListAddEditPanel=  control.SelectById("cmd-add-edit-knowledgemap");
+      knowledgeMapListPanel.hide();
+      knowledgeMapListAddEditPanel.hide();
+    };
+    
+    me.ShowKnowledgeMapEditor=function(){
+      var panknowlegeMaptreevieweditor = control.SelectById("pan-knowlegeMap-treeview-editor");
+      var panconceptSchemaeditor = control.SelectById("pan-conceptSchema-editor");
+      panknowlegeMaptreevieweditor.show();
+      panconceptSchemaeditor.show();
+     };
+     
+     me.HideKnowledgeMapEditor=function(){
+      var panknowlegeMaptreevieweditor = control.SelectById("pan-knowlegeMap-treeview-editor");
+      var panconceptSchemaeditor = control.SelectById("pan-conceptSchema-editor");
+      panknowlegeMaptreevieweditor.hide();
+      panconceptSchemaeditor.hide();
+    };
+    
+    me.Initialize=function(){
+        if(initialized) return;
+       renderLayouts();
+       renderknowledgeMapsTreeLayouts();
+       me.HideKnowledgeMapEditor();
+       me.ShowKnowledgeMapListView();
        initialized=true;
     };
     
