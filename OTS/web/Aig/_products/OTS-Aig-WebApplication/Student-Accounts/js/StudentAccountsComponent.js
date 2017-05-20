@@ -4,7 +4,8 @@ OTS.AigStudentAccountComponent=function(){
     var id="lnk-studentaccounts";
     var currentApplication;
     var initialized=false;
-    var componentContainerId;
+    //var componentContainerId;
+     var control= new  Aig.Controls.Control();
    
     var basethtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("student-account-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("student-account-add-edit-template");
@@ -12,17 +13,23 @@ OTS.AigStudentAccountComponent=function(){
    
      var componentChanged=function(e){
       if(e.id===id){
-         componentContainerId=e.componentContainerId
+        // componentContainerId=e.componentContainerId
          me.Initialize();
        }
     };
     
      me.Initialize=function(){
+       
+        var allPanels=  control.SelectByClass("component-content");
+        allPanels.hide();
+        var panel=  control.SelectById("div-studentAccount-content");
+        panel.show();
          if(initialized) return;
-         $("#" + componentContainerId).empty();
+        // $("#" + componentContainerId).empty();
+      
         var basegenHtml= basethtmlTemplateDataSource.Read();
        
-        var basegenappendableControl=new Aig.Controls.AppendableControl(componentContainerId);
+        var basegenappendableControl=new Aig.Controls.AppendableControl("div-studentAccount-content");
          basegenappendableControl.Append(basegenHtml,function(e){});
        
        

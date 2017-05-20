@@ -5,7 +5,8 @@ OTS.AigCourseComponent=function(){
     var currentApplication;
     var initialized=false;
     var componentContainerId;
-   
+    var control= new  Aig.Controls.Control();
+    
     var basethtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("course-component-template");
     
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("course-add-edit-template");
@@ -13,17 +14,26 @@ OTS.AigCourseComponent=function(){
    
      var componentChanged=function(e){
       if(e.id===id){
-         componentContainerId=e.componentContainerId
+       //  componentContainerId=e.componentContainerId
          me.Initialize();
        }
     };
     
      me.Initialize=function(){
-         if(initialized) return;
-         $("#" + componentContainerId).empty();
+        var allPanels=  control.SelectByClass("component-content");
+        allPanels.hide();
+        var panel=  control.SelectById("div-courses-content");
+        panel.show();
+         
+         if(initialized)return;
+           
+         
+        // $("#" + componentContainerId).empty();
+     
+        
         var basegenHtml= basethtmlTemplateDataSource.Read();
        
-        var basegenappendableControl=new Aig.Controls.AppendableControl(componentContainerId);
+        var basegenappendableControl=new Aig.Controls.AppendableControl("div-courses-content");
          basegenappendableControl.Append(basegenHtml,function(e){});
        
        

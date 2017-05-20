@@ -2,13 +2,13 @@ var OTS=OTS||{};
 OTS.AigKnowledgeMapManagementComponent=function(){
     var me=this;
     var id="lnk-knowledgemaps";
-    var contentContainerId="app-content-container";
+  //  var contentContainerId="div-knowledgemaps-content" ;//"app-content-container";
     var tempalateId="knowledge-map-component-template";
     
      var currentApplication;
     var initialized=false;
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource(tempalateId);
-    var appendableControl=new Aig.Controls.AppendableControl(contentContainerId);
+    var appendableControl=new Aig.Controls.AppendableControl("div-knowledgemaps-content");
     
     var htmlTemplateKnowledgeMapsDataSource=new Aig.HtmlTemplateDataSource("knowledge-map-list-template");
     var appendableKnowledgeMapsControl=new Aig.Controls.AppendableControl("knowledgeMap-list-container");
@@ -29,20 +29,24 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var element;
     var control= new  Aig.Controls.Control();
     var componentChanged=function(e){
-       contentContainerId=e.componentContainerId;
+      // contentContainerId=e.componentContainerId;
+       
         if(e.id===id){
-                me.Initialize();
+          me.Initialize();
         }
     
     };
     
     var renderLayouts=function(){
-         $("#" + contentContainerId).empty();
+        // $("#" + contentContainerId).empty();
+     
+     
         var html=   htmlTemplateDataSource.Read();
         appendableControl.Append(html,function(e){
             element=e;
            
         });
+     
        
       var knowledgeMapsHtml=  htmlTemplateKnowledgeMapsDataSource.Read();
        appendableKnowledgeMapsControl.Append(knowledgeMapsHtml,function(e){});
@@ -60,6 +64,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
        var importHtml =importKnowledgeMapDataSource.Read()
        importappendabletKnowledgeMap.Append(importHtml,function(e){});
+       
+      
+       
     };
     
     var renderknowledgeMapsTreeLayouts=function(){
@@ -134,7 +141,18 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     };
     
     me.Initialize=function(){
-        if(initialized) return;
+      //var allPanels=  control.SelectByClass("component-content");
+      // allPanels.hide();
+       $(".component-content").hide();
+       var panel=  control.SelectById("div-knowledgemaps-content");
+       panel.show();
+    
+      if(initialized) {
+          $(".component-content").hide();
+       var panel=  control.SelectById("div-knowledgemaps-content");
+       panel.show();
+            return;
+      }
        renderLayouts();
        renderknowledgeMapsTreeLayouts();
        me.HideKnowledgeMapEditor();

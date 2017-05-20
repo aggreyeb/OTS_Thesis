@@ -4,22 +4,31 @@ OTS.AigTestItemGenerationComponent=function(){
     var id="lnk-tests";
     var currentApplication;
     var initialized=false;
-    var componentContainerId;
+    //var componentContainerId;
+     var control= new  Aig.Controls.Control();
+     
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource("tests-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-add-edit-template");
     var testListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-list-template");
      var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
      var componentChanged=function(e){
       if(e.id===id){
-         componentContainerId=e.componentContainerId
+        // componentContainerId=e.componentContainerId
          me.Initialize();
        }
     };
     
      me.Initialize=function(){
+       
+       var allPanels=  control.SelectByClass("component-content");
+        allPanels.hide();
+        var panel=  control.SelectById("div-Tests-content");
+        panel.show();
          if(initialized) return;
-         $("#" + componentContainerId).empty();
-       var appendableControl=new Aig.Controls.AppendableControl(componentContainerId);
+       //  $("#" + componentContainerId).empty();
+       
+       
+       var appendableControl=new Aig.Controls.AppendableControl("div-Tests-content");
        
        var baseHtml= htmlTemplateDataSource.Read();
        appendableControl.Append(baseHtml,function(e){});
