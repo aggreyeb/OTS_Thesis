@@ -153,6 +153,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       if(initialized) {
         me.HideKnowledgeMapEditor();
         me.ShowKnowlegeMapList();
+       var items=  dataDatabase.ReadAll();
+       knowlegemapListManagement.DataBind(items);
             return;
       }
        renderLayouts();
