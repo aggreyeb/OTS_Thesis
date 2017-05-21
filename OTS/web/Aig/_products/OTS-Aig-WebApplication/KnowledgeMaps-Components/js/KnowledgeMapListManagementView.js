@@ -8,6 +8,8 @@ OTS.AigKnowledeMapDataModel=function(name){
 
 OTS.AigKnowledgeMapListManagementView=function(){
     var me=this;
+    
+    var knowledgeMapComponent;
     // ******************Composite View Model ******************
     //knowledgeMaplistView:Data
     var modeType={
@@ -37,13 +39,22 @@ OTS.AigKnowledgeMapListManagementView=function(){
              me.selectedMode=modeType.New;
              me.knowledgeMaplistViewActions.saveAlertVisible(false);
         },
-        onEdit:function(data,e){
-           me.knowledgeMaplistViewActions.knowledgeMapFormTitle("Edit New KnowledgeMap");
+        onRename:function(data,e){
+           me.knowledgeMaplistViewActions.knowledgeMapFormTitle("Rename New KnowledgeMap");
            me.knowledgeMaplistView.id(data.id);
            me.knowledgeMaplistView.name(data.name);
            me.knowledgeMaplistView.description(data.description);
            me.selectedKnowledgeMap=data;
            me.selectedMode=modeType.Edit;
+        },
+        onEdit:function(){
+            me.ShowKnowledgeMapEditor();
+            me.HideKnowedgeMapList();
+        },
+        onReturnToKnowledgeMapList:function(){
+            me.HideKnowledgeMapEditor();
+            me.ShowKnowedgeMapList();
+            me.knowledgeMaplistViewActions.saveAlertVisible(false);
         },
         resetForm:function(){
              me.knowledgeMaplistView.id("");
@@ -101,6 +112,39 @@ OTS.AigKnowledgeMapListManagementView=function(){
         }
     }
     
+    me.HideSaveAlert=function(){
+         me.knowledgeMaplistViewActions.saveAlertVisible(false);
+    };
+    
+    me.ShowKnowledgeMapEditor=function(){
+       
+         knowledgeMapComponent.ShowKnowledgeMapEditor();
+        
+      
+    };
+    
+     me.HideKnowledgeMapEditor=function(){
+        knowledgeMapComponent.HideKnowledgeMapEditor();
+    };
+    
+    me.ShowKnowedgeMapList=function(){
+        knowledgeMapComponent.ShowKnowlegeMapList();
+    };
+    
+   
+    
+    me.HideKnowedgeMapList=function(){
+        knowledgeMapComponent.HideKnowlegeMapList();
+    };
+    
+    
+    me.AddKnowledgeMapComponent=function(knowledgeMapManagememtComponent){
+       if(knowledgeMapManagememtComponent!==undefined && knowledgeMapManagememtComponent!==null){
+            knowledgeMapComponent=knowledgeMapManagememtComponent;
+            return ;
+       }
+       throw new Error("knowledgeMapManagememtComponent can not be null");
+    };
     //End knowledgeMaplistView Actions
     me.Render=function(){
        me.selectedMode=modeType.New;

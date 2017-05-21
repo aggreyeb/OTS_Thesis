@@ -113,56 +113,54 @@ OTS.AigKnowledgeMapManagementComponent=function(){
         });
     };
     
-    me.ShowKnowledgeMapListView=function(){
-      
-      var knowledgeMapListPanel=  control.SelectById("pan-knowledgeMap-list");
-      var knowledgeMapListAddEditPanel=  control.SelectById("cmd-add-edit-knowledgemap");
-      knowledgeMapListPanel.show();
-      knowledgeMapListAddEditPanel.show();
-    };
-    
-     me.HideKnowledgeMapListView=function(){
-      var knowledgeMapListPanel=  control.SelectById("pan-knowledgeMap-list");
-      var knowledgeMapListAddEditPanel=  control.SelectById("cmd-add-edit-knowledgemap");
-      knowledgeMapListPanel.hide();
-      knowledgeMapListAddEditPanel.hide();
-    };
-    
     me.ShowKnowledgeMapEditor=function(){
-      var panknowlegeMaptreevieweditor = control.SelectById("pan-knowlegeMap-treeview-editor");
-      var panconceptSchemaeditor = control.SelectById("pan-conceptSchema-editor");
-      panknowlegeMaptreevieweditor.show();
-      panconceptSchemaeditor.show();
-     };
-     
-     me.HideKnowledgeMapEditor=function(){
-      var panknowlegeMaptreevieweditor = control.SelectById("pan-knowlegeMap-treeview-editor");
-      var panconceptSchemaeditor = control.SelectById("pan-conceptSchema-editor");
-      panknowlegeMaptreevieweditor.hide();
-      panconceptSchemaeditor.hide();
+      $("#pan-knowlegeMap-treeview-editor").show();
+      $("#pan-conceptSchema-editor").show();
     };
+    
+    
+    
+     me.HideKnowledgeMapEditor=function(){
+      $("#pan-knowlegeMap-treeview-editor").hide();
+      $("#pan-conceptSchema-editor").hide();
+    };
+    
+    
+    me.ShowKnowlegeMapList=function(){
+          $("#div-avilable-knowledge-mapList").show();
+          $("#cmd-add-edit-knowledgemap").show();
+    };
+    
+     me.HideKnowlegeMapList=function(){
+          $("#div-avilable-knowledge-mapList").hide();
+          $("#cmd-add-edit-knowledgemap").hide();
+    };
+    
+    //End toggle view
+    
     
     me.Initialize=function(){
-      //var allPanels=  control.SelectByClass("component-content");
-      // allPanels.hide();
+    
        $(".component-content").hide();
        var panel=  control.SelectById("div-knowledgemaps-content");
        panel.show();
     
       if(initialized) {
-          $(".component-content").hide();
-       var panel=  control.SelectById("div-knowledgemaps-content");
-       panel.show();
+        me.HideKnowledgeMapEditor();
+        me.ShowKnowlegeMapList();
             return;
       }
        renderLayouts();
        renderknowledgeMapsTreeLayouts();
        me.HideKnowledgeMapEditor();
-       me.ShowKnowledgeMapListView();
+       me.ShowKnowlegeMapList();
        
+   
        //Initialize the Views
        knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
+       knowlegemapListManagement.AddKnowledgeMapComponent(me);
        knowlegemapListManagement.Render();
+       knowlegemapListManagement.HideSaveAlert();
        initialized=true;
     };
     
