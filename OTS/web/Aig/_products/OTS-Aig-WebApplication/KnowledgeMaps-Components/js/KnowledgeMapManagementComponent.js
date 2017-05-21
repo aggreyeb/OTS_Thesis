@@ -1,6 +1,7 @@
 var OTS=OTS||{};
 OTS.AigKnowledgeMapManagementComponent=function(){
     var me=this;
+     var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
     var id="lnk-knowledgemaps";
   //  var contentContainerId="div-knowledgemaps-content" ;//"app-content-container";
     var tempalateId="knowledge-map-component-template";
@@ -106,11 +107,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
              text: "Parent 5"
            }
             ];
+            
+        
       
+      /*
         $('#knowledgeMaps-tree').treeview({
             data: data,         // data is not optional
             backColor: ''
         });
+        */
     };
     
     me.ShowKnowledgeMapEditor=function(){
@@ -161,6 +166,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        knowlegemapListManagement.AddKnowledgeMapComponent(me);
        knowlegemapListManagement.Render();
        knowlegemapListManagement.HideSaveAlert();
+       var items=  dataDatabase.ReadAll();
+       knowlegemapListManagement.DataBind(items);
        initialized=true;
     };
     

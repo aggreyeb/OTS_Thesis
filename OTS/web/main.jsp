@@ -98,10 +98,13 @@
         <script src="scripts/chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
         
         <!--APPLICATION FRAMEWORK-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/LocalStorage.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/data-model.js" type="text/javascript"></script>
         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
         <script src="Aig/Components/App-Controls/Controls.js" type="text/javascript"></script>
         <script src="Aig/Components/App-Controls-LayoutControls/js/Controls-LayoutControl.js" type="text/javascript"></script>
         <script src="Aig/Components/App-HtmlDataSources/TemplateDataSources.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/js/Serialization.js" type="text/javascript"></script>
         
         <!-- USER INTERFACE LAYOUT-->
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-HeaderLayoutComponent.js" type="text/javascript"></script>
@@ -112,6 +115,7 @@
         <!--APPLICATION COMPONENTS-->
       
         <!--Knowledge map COMPONENT-->  
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/knowledgmap-treeview.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListManagementView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
         
