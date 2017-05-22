@@ -205,6 +205,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     me.AddNode = function(selectedNode, node) {
         if (node instanceof OTS.DataModel.ConceptNode) {
             var item = me.FindNode(selectedNode.id);
+            node.parentid=selectedNode.id;
             if (item != null) {
                 item.nodes.push(node);
             }
@@ -219,27 +220,28 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     };
 
     me.RemoveNode = function(selectedNode) {
-        if (selectedNode instanceof OTS.DataModel.ConceptNode) {
+       // if (selectedNode instanceof OTS.DataModel.ConceptNode) {
             var item = me.FindNode(selectedNode.id);
-            if (item.parentNodeId) {
+           
+            if (item.parentNodeId && item.parentNodeId!==undefined
+                    && item.parentNodeId!== null && item.parentNodeId!=="" ) {
                 var parentNode = me.FindNode(item.parentNodeId);
                 if (parentNode !== null) {
                     var index = parentNode.nodes.indexOf(item);
                     if (index >= 0) {
                         parentNode.nodes.splice(index,1);
+                     
                     }
                 }
-            } else {
-                //Not the root
-                //Don't remove the root node
-            }
-         
             me.Refresh();
             var json = serializer.ToString(nodes);
-         notifyStateChange({action:changeType.DELETED,data: json,node:selectedNode});
+            // notifyStateChange({action:changeType.DELETED,data: json,node:selectedNode});
             return;
         }
-        throw new Error("node is not type of node");
+        else{
+            //don't do anything!. Its the the root
+        }
+    
     };
 
     me.AddNodes = function(parentId, nodes) {

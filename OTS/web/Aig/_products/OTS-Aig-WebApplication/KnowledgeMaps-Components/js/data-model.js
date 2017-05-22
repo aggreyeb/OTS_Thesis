@@ -40,7 +40,7 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     var me = this;
     me.id = id||"";
     me.name=text;
-    me.description="";
+    me.conceptNodeDescription="";
     me.parentNodeId = parentNodeId || "";
     me.text = text || "";
     //style
@@ -71,6 +71,7 @@ OTS.DataModel.KnowledgeMap = function(id, text, description) {
     var me = this;
     me.id = id;
     me.text = text;
+    me.name=text;
     me.description = description;
     me.nodes = []; ////collection of ConceptNodeItem
 };
