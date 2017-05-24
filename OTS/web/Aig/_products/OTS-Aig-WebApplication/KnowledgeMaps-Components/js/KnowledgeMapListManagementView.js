@@ -20,6 +20,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
         Delete:"Delete"
     };
     me.selectedKnowledgeMap=null;
+   
     me.selectedMode="";
     me.knowledgeMaplistView={
         knowledgeMaps:ko.observableArray([]),                    
@@ -55,7 +56,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.ShowKnowledgeMapEditor();
             me.HideKnowedgeMapList();
             //subcribe treeNode Selected event
-           me.selectedKnowledgeMap=data;
+          
+           
            knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
            knowledgeMapTreeView.OnStateChanged(function(e){
            var currentNodeSelected=  me.knowledgeMapEditorViewModel.selectedNode;
@@ -67,7 +69,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
                        break;
                  case "added":
                      //dataDatabase.Remove(me.selectedKnowledgeMap.id);
-                     dataDatabase.Save(me.selectedKnowledgeMap.id,e.data);
+                     var item=JSON.parse(e.data)[0];
+                     dataDatabase.Save(item.id,e.data);
                        break;
                    
                    default:
@@ -176,6 +179,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
           selectedNode:null,
           onSelectedNode:function(e){
               me.knowledgeMapEditorViewModel.selectedNode=e;
+              if(me.conceptSchema){
+                   me.conceptSchema=e.conceptSchema
+                  me.conceptSchema.parentname("lslslslslslslvcxvxc");
+              }
+             
+              
+               
+              
           },
           nodeText:ko.observable("Test Node"),
           relationTypes:ko.observableArray([{id:1,name:"TypeOf"},{id:1,name:"PartOf"}]),
@@ -288,7 +299,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
     /******************Concept Schema View Model ******************
     /* 
      */
-    conceptSchema= {
+    
+   me.conceptSchema= {
         parentid: ko.observable(""),
         parentname: ko.observable("test"),
         relationshipid: ko.observable(""),
@@ -305,41 +317,41 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
    
     
-    conceptSchemaActions={
-        addNewBehaviourDescription:function(){
+  
+        me.addNewBehaviourDescription=function(){
            
             var behaviourDescripton=new OTS.DataModel.BehaviourDescription();
-            conceptSchema.behaviourDescriptions.push(behaviourDescripton);
-        },
-         removeBehaviourDescription:function(data,event){
+            me.conceptSchema.behaviourDescriptions.push(behaviourDescripton);
+        };
+         me.removeBehaviourDescription=function(data,event){
           
-           conceptSchema.behaviourDescriptions.remove(data);
-        },
-         addAttribute:function(){
+           me.conceptSchema.behaviourDescriptions.remove(data);
+        };
+         me.addAttribute=function(){
            
             var attribute=new OTS.DataModel.Attribute();
-            conceptSchema.attributes.push(attribute);
-        },
-         removeAttribute:function(data,event){
-            conceptSchema.attributes.remove(data);
-        },
-         addFunction:function(){
+           me.conceptSchema.attributes.push(attribute);
+        };
+         removeAttribute=function(data,event){
+            me.conceptSchema.attributes.remove(data);
+        };
+         me.addFunction=function(){
            
             var _function=new OTS.DataModel.Function();
-            conceptSchema.functions.push(_function);
-        },
-        removeFunction:function(data,event){
-            conceptSchema.functions.remove(data);
-        },
+          me.conceptSchema.functions.push(_function);
+        };
+        me.removeFunction=function(data,event){
+            me.conceptSchema.functions.remove(data);
+        };
         
-        addApplication:function(){
+        me.addApplication=function(){
             var application=new OTS.DataModel.ConceptApplication();
-            conceptSchema.applications.push(application);
-        },
-        removeApplication:function(data,event){
-            conceptSchema.applications.remove(data);
-        },
-    };
+            me.conceptSchema.applications.push(application);
+        };
+        me.removeApplication=function(data,event){
+            me.conceptSchema.applications.remove(data);
+        };
+   
     
 };
 

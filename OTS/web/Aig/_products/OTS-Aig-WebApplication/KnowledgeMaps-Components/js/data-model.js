@@ -59,12 +59,14 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     //end Style
     me.tags = [];
     me.nodes = []; //collection of conceptNodes
+    me.parentname="";
     me.relationship = { id: "", name: name }
     me.behaviorDescription = "";
     me.attributes = [];
     me.functions = [];
     me.applications = [];
     me.behaviourDescriptions = [];
+   
 };
 
 OTS.DataModel.KnowledgeMap = function(id, text, description) {
