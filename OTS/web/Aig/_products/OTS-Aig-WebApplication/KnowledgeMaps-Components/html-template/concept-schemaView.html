@@ -20,15 +20,14 @@
                           <div class="col-xs-6">
                               <div class="input-group">
                                   <label style="padding-right: 80px">Parent</label>
-                                  <input class="form-control" type="text"/>
+                                  <input data-bind="value:conceptSchema.parentname" class="form-control" type="text"/>
                               </div>
                           </div> 
                           <div class="col-xs-6">
                               <div class="input-group">
                                   <label>Relationship with parent</label>
-                                  <select class="form-control">
-                                      <option value="1">TypeOf</option>
-                                      <option value="1">PartOf</option>
+                                  <select  data-bind="options:conceptSchema.relationships,optionsText: 'name',value:conceptSchema.selectedRelationship,optionsCaption: 'Choose...'" class="form-control">
+                                     
                                   </select>
                               </div>
                           </div> 
@@ -37,8 +36,8 @@
                       <div class="row">
                           <div class="col-xs-12">
                               <div class="input-group">
-                                  <label style="padding-right: 448px">Description</label>
-                                  <input class="form-control"/>
+                                  <label style="padding-right: 448px">Relationship with parent Description</label>
+                                  <input data-bind="value:conceptSchema.behaviourdescription" class="form-control"/>
                               </div>
                           </div>
                       </div>
@@ -48,34 +47,41 @@
                           <div class="col-xs-12">
                               <div class="pull-left">
                                   <h4><span class="label label-default">Behaviour Descriptions</span></h4> 
-                                  <a title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
+                                  <a data-bind="click:conceptSchemaActions.addNewBehaviourDescription" title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
                                   
                               </div>
                           </div> 
                       </div>
                       
-                      <div style="border: 1px solid black;margin: 1px"  class="row">
-                          <div id="characteristic-forach-container">
-                              <div style="overflow-y: scroll;height: 100px">
-                                  <div class="col-xs-1">
+                      <div data-bind="foreach:conceptSchema.behaviourDescriptions"id="characteristic-forach-container" style="border: 1px solid black;margin: 1px"  class="container-fluid"> 
+                          <div class="row">
+                              <div class="col-xs-1 hide ">
+                                 <div class="input-group">
                                       <label>Id</label> 
-                                      <input style="width:60px" class="form-control" placeholder="1" type="text"/>
+                                      <input  data-bind="value:id"  class="form-control" placeholder="1" type="text"/>
+                                 </div>
+  
                               </div> 
-                              <div class="col-xs-10">
-                                   <label>Behaviour Description</label>
-                                  <input style="width: 100%;margin-left: 2px;padding-right: 100px" class="form-control" placeholder="Behaviour Description ..." type="text"/>
-                              </div> 
+                              <div style="margin-bottom:  5px" class="col-xs-10">
+                                  <div class="input-group">
+                                      <label style="padding-right: 500px">Behavior Description</label>
+                                    <!--<input style="width:" data-bind="value:description"  class="form-control" placeholder="Behaviour Description ..."/>-->  
+                                    <textarea style="resize: horizontal;width: 700px" data-bind="value:description"  class="form-control" placeholder="Behaviour Description ..."></textarea>
+                                     
+                                  </div>
+                                 
+                              </div> <br>
                                <div class="col-xs-1">
-                                   <div style="margin-right: 120px" >
-                                       <a class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                                   <div>
+                                       <a  data-bind="event:{click:conceptSchemaActions.removeBehaviourDescription}" class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a><br>
                                    </div>
                                    
                                </div>
-                              </div> 
-                              
                           </div>
+                     
+                       </div>
                        
-                      </div>
+                    
                   </div>   
               </div>
             </div>
@@ -88,31 +94,31 @@
               </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
-              <div class="panel-body">
+                <div  class="panel-body">
                   <div class="row">
                       <div class="col-xs-12">
                           <div>
-                              <a class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i>Add New</a>
+                              <a data-bind="click:conceptSchemaActions.addAttribute" class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i>Add New</a>
                           </div>
                       </div>
                   </div>
                   
                   <div style="border: 1px solid black;margin: 1px" class="row">
-                      <div style="overflow-y: scroll;height:100px " id="forEachAttributes">
+                      <div data-bind="foreach:conceptSchema.attributes" style="overflow-y: scroll;height:100px " id="forEachAttributes">
                             <div class="col-xs-4">
                                 <label>Name</label>
-                                <input style="width: 260px" type="text" class="form-control"/>
+                                <input  data-bind="value:name" style="width: 260px" type="text" class="form-control"/>
                             </div>
                            <div class="col-xs-4">
                                   <label>Type</label>
-                               <input style="width: 260px" type="text" class="form-control"/>
+                                  <input data-bind="value:type" style="width: 260px" type="text" class="form-control"/>
                             </div>  
                             <div class="col-xs-3">
                                <label>Value</label>
-                                <input style="width: 200px" type="text" class="form-control"/>
+                               <input data-bind="value:attributeValue" style="width: 200px" type="text" class="form-control"/>
                             </div> 
                             <div class="col-xs-1 ">
-                                <a title="Delete" href="#" ><i class="fa fa-remove"></i></a>
+                                <a data-bind="event:{click:conceptSchemaActions.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a>
                             </div>
                       </div>
                      
@@ -132,20 +138,20 @@
                 
                   <div class="row">
                       <div class="col-xs-12">
-                          <a class="btn btn-sm btn-info" href="#">Add New</a>
+                          <a data-bind="click:conceptSchemaActions.addFunction" class="btn btn-sm btn-info" href="#">Add New</a>
                       </div>
                   </div>
-                  <div  style="border: 1px solid black;margin-top: 2px" id="forach-function">
-                       <div class="row">
+                  <div data-bind="foreach:conceptSchema.functions" style="border: 1px solid black;margin-top: 2px" id="forach-function">
+                      <div  class="row">
                          
                               <div class="col-xs-6">
                                   <label >Name</label>
-                                   <input style="width: 100%" class="form-control" type="text"/>
+                                  <input data-bind="value:name" style="width: 100%" class="form-control" type="text"/>
                               </div>
                              
                               <div class="col-xs-6">
                                   <label >Purpose</label>
-                                  <input style="width: 100%"  class="form-control" type="text"/>
+                                  <input data-bind="value:purpose" style="width: 100%"  class="form-control" type="text"/>
                               </div>
                       </div>
                       
@@ -153,12 +159,12 @@
                          
                               <div class="col-xs-6">
                                   <label >Pre Condition</label>
-                                   <input style="width: 100%" class="form-control" type="text"/>
+                                  <input data-bind="value:preCondition" style="width: 100%" class="form-control" type="text"/>
                               </div>
                              
                               <div class="col-xs-6">
                                   <label >Post Condition</label>
-                                  <input style="width: 100%" class="form-control" type="text"/>
+                                  <input data-bind="vale:postCondition" style="width: 100%" class="form-control" type="text"/>
                               </div>
                       </div><br>
                    
@@ -172,7 +178,7 @@
                       <div class="panel-collapse collapse" id="hide-show-algorithem">
                         <div class="row">
                           <div class="col-xs-6">
-                              <textarea style="resize: horizontal;width: 500px;height: 200px"></textarea>
+                              <textarea data-bind="value:algorithm.text" style="resize: horizontal;width: 500px;height: 200px"></textarea>
                           </div>
                         </div><br>
                        <div class="row">
@@ -185,7 +191,7 @@
                           </div>
                       </div>
                       </div>
-                    
+                      <hr>
                   </div>
               </div><!--body-->
             </div>
@@ -204,34 +210,43 @@
                           <div class="col-xs-12">
                               <div class="pull-left">
                                 
-                                  <a title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
+                                  <a data-bind="click:conceptSchemaActions.addApplication" title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
                                   
                               </div>
                           </div> 
                       </div>
                     
-                  <div style="border: 1px solid black;margin: 1px" class="row">
-                          <div id="Application-forach-container">
-                              <div style="overflow-y: scroll;height: 100px">
-                                  <div class="col-xs-1">
-                                       <label>Id</label> 
-                                      <input style="width:60px" class="form-control" placeholder="1" type="text"/>
-                              </div> 
-                              <div class="col-xs-10">
-                                   <label>Description</label>
-                                  <input style="width: 100%;margin-left: 2px;padding-right: 100px" class="form-control" placeholder="Behaviour Description ..." type="text"/>
+                  <div  data-bind="foreach:conceptSchema.applications" id="Application-forach-container" style="border: 1px solid black;margin: 1px; margin-bottom: 10px" class="container-fluid">
+                      <div class="row">
+                          <div >
+                              
+                                 <div class="col-xs-1">
+                                     <div class="input-group">
+                                         <label>Id</label> 
+                                         <input data-bind="value:id" style="width:60px" class="form-control" placeholder="1" type="text"/>
+                                     </div>
+                                       
+                              </div>   
+                             
+                             
+                              <div style="margin-bottom: 5px" class="col-xs-10">
+                                  <div  class="input-group">
+                                      <label style="padding-right: 300px">Description</label>
+                                   <!--<input data-bind="value:description" style="width: 100%;margin-left: 2px;padding-right: 100px" class="form-control" placeholder=" Description ..." type="text"/>-->
+                                   <textarea data-bind="value:description" style="resize: horizontal; width: 650px;margin-left: 2px;padding-right: 100px" class="form-control" placeholder=" Description ..." type="text"> </textarea>
+                                  </div>
+                                  
                               </div> 
                                <div class="col-xs-1">
                                    <div style="margin-right: 120px" >
-                                       <a class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                                       <a data-bind="event:{click:conceptSchemaActions.removeApplication}" class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a>
                                    </div>
                                    
                                </div>
                               </div> 
-                              
-                          </div>
-                       
                       </div>
+                     
+                  </div>
                   
               </div>
             </div>

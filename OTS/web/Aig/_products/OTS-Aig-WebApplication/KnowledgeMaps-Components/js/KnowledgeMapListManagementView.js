@@ -60,22 +60,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
            knowledgeMapTreeView.OnStateChanged(function(e){
            var currentNodeSelected=  me.knowledgeMapEditorViewModel.selectedNode;
              var action=  e.action;
-         
-         //  var item= JSON.parse(e.data); 
-           // item.conceptSchemas=e.data;
-          //  var json=JSON.stringify(item);
              switch(action){
                  case "updated":
-                     dataDatabase.Remove(me.selectedKnowledgeMap.id);
+                    // dataDatabase.Remove(me.selectedKnowledgeMap.id);
                      dataDatabase.Save( me.selectedKnowledgeMap.id,e.data);
                        break;
                  case "added":
-                     dataDatabase.Remove(me.selectedKnowledgeMap.id);
+                     //dataDatabase.Remove(me.selectedKnowledgeMap.id);
                      dataDatabase.Save(me.selectedKnowledgeMap.id,e.data);
                        break;
-                   case "deleted":
-                     dataDatabase.Remove( me.selectedKnowledgeMap.id);
-                       break;
+                   
                    default:
                      break;
              }
@@ -289,6 +283,62 @@ OTS.AigKnowledgeMapListManagementView=function(){
     me.Render=function(){
        me.selectedMode=modeType.New;
         ko.applyBindings(me,$("div-knowledgemaps-content")[0]);
+    };
+    
+    /******************Concept Schema View Model ******************
+    /* 
+     */
+    conceptSchema= {
+        parentid: ko.observable(""),
+        parentname: ko.observable("test"),
+        relationshipid: ko.observable(""),
+        relationshipname: ko.observable(""),
+        behaviourdescription: ko.observable("test"),
+        behaviourDescriptions: ko.observableArray([{id:"22",description:"222222"}]),
+        attributes: ko.observableArray([]),
+        functions: ko.observableArray([]),
+        applications: ko.observableArray([]),
+        selectedNodeName: ko.observable("None"),
+        relationships: ko.observableArray([{ id: 1, name: "Type Of" }, { id: 2, name: "Part Of" }]),
+        selectedRelationship:ko.observable()
+    };
+    
+   
+    
+    conceptSchemaActions={
+        addNewBehaviourDescription:function(){
+           
+            var behaviourDescripton=new OTS.DataModel.BehaviourDescription();
+            conceptSchema.behaviourDescriptions.push(behaviourDescripton);
+        },
+         removeBehaviourDescription:function(data,event){
+          
+           conceptSchema.behaviourDescriptions.remove(data);
+        },
+         addAttribute:function(){
+           
+            var attribute=new OTS.DataModel.Attribute();
+            conceptSchema.attributes.push(attribute);
+        },
+         removeAttribute:function(data,event){
+            conceptSchema.attributes.remove(data);
+        },
+         addFunction:function(){
+           
+            var _function=new OTS.DataModel.Function();
+            conceptSchema.functions.push(_function);
+        },
+        removeFunction:function(data,event){
+            conceptSchema.functions.remove(data);
+        },
+        
+        addApplication:function(){
+            var application=new OTS.DataModel.ConceptApplication();
+            conceptSchema.applications.push(application);
+        },
+        removeApplication:function(data,event){
+            conceptSchema.applications.remove(data);
+        },
     };
     
 };
