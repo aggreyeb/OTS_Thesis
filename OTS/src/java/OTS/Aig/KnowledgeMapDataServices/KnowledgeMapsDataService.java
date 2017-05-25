@@ -80,6 +80,34 @@ public class KnowledgeMapsDataService {
        }
     }
     
+      public TransactionResult UpdateKnoledgeMapConceptSchemas(int id,String conceptSchemas){
+        TransactionResult result= new TransactionResult();
+        try{
+          Knowledgemap km= (Knowledgemap)this.dataSource.Find(Knowledgemap.class,new Integer(id));
+          if(km!=null){
+            
+             km.setConcepts(conceptSchemas);
+             this.dataSource.Update(km);
+             result.ActionResultType=ActionResultType.ok;
+             result.Messege="Updated";
+             result.CurrentId=km.getKnowledgeMapId().toString();
+            result.CurrentId=km.getKnowledgeMapId().toString();
+            return result;
+          }
+          else{
+             result.ActionResultType=ActionResultType.fail;
+             result.Messege="Knowledge map not found";
+             return result; 
+          }
+        }
+       catch(Throwable ex){
+           result.ActionResultType=ActionResultType.exception;
+            result.Messege="Exception";
+           return result;
+       }
+       finally{
+       }
+    }
     
     
      public TransactionResult UpdateKnowledgeMap(int id,String name,String description){

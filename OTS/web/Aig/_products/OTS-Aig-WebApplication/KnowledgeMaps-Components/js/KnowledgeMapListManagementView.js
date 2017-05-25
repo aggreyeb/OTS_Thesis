@@ -56,8 +56,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.ShowKnowledgeMapEditor();
             me.HideKnowedgeMapList();
             //subcribe treeNode Selected event
-          
-           
+            me.selectedKnowledgeMap=data;
+           // var parentId=data.parentid;
+          //  var parentNode= knowledgeMapTreeView.FindNode(parentId);
+           // me.FillConceptSchema(data,parentNode);
+            $("#pan-show-conceptschema-submit").show();
+            $("#submit-spinner").hide();
            knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
            knowledgeMapTreeView.OnStateChanged(function(e){
            var currentNodeSelected=  me.knowledgeMapEditorViewModel.selectedNode;
@@ -327,7 +331,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
               for(var i=0;i<items.length;i++){
                  var item= items[i];
                  var km= new OTS.DataModel.KnowledgeMap(item.KnowledgeMapId,
-                 item.Name,item.Description)
+                 item.Name,item.Description);
+                 km.conceptSchemas=item.Concepts;
                  me.knowledgeMaplistView.knowledgeMaps.push(km); 
                }
            }  
@@ -342,7 +347,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
   
   /*****************CONCEPT SCHEMA *****************************************/
    me.conceptSchema= {
-        id:ko.observable(""),
+        id:ko.observable(new Aig.Guid().NewGuid()),
         text:ko.observable(""),
         selectedNodeName:ko.observable(""),
         parentid: ko.observable(""),
@@ -396,14 +401,29 @@ OTS.AigKnowledgeMapListManagementView=function(){
       
     
     me.SubmitKnowledgeMap=function(){
-        var knowledgeMap=ko.toJS(me.conceptSchema);
-        alert(JSON.stringify(knowledgeMap));
+        
+          $(".icon-spinner").show();
+       // me.selectedKnowledgeMap
+       
+      
+        var conceptSchemas=ko.toJS(me.conceptSchema);
+        var item ={
+            id:me.selectedKnowledgeMap.id,
+            conceptSchemas:conceptSchemas
+        };
+        
+        knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
+             $(".icon-spinner").hide();
+            //alert(JSON.stringify(msg));
+        });
+        
     };
     
     /*****************END CONCEPT SCHEMA *****************************************/
       me.FillConceptSchema = function (data,parentNode) {
-       var  currentConceptSchema = data;
-       var currentParentConcept = parentNode;
+      
+        var  currentConceptSchema = JSON.parse(data.conceptSchemas);
+        var currentParentConcept = parentNode;
         me.conceptSchema.id(data.id);
          me.conceptSchema.text(data.text);
          me.conceptSchema.selectedNodeName(data.text);

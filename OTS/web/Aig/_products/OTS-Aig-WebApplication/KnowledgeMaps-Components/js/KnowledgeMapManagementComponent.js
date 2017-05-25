@@ -166,5 +166,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        });
    };
    
+   me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
+      
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.UpdateKnoledgeMapConceptSchemas(data,function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
+   
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

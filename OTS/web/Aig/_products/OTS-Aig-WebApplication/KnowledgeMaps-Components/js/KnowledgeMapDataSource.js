@@ -6,8 +6,17 @@ OTS.AigKnowlegeMapDataSource=function(){
                     LIST:"Aig-List-Teacher-KnowledgeMaps",
                     UPDATE:"Aig-Update-KnowledgeMap",
                     DELETE:"Aig-Delete-KnowledgeMap",
+                    SUBMIT:"Aig-Update-KnoledgeMap-ConceptSchemas",
                     DUPLICATE:"duplicate"};
-        
+      
+     me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
+          var callback=callbackFunction;
+        $.post("KnowledgeMapServlet",{action:actionType.SUBMIT,ID:data.id,data:JSON.stringify(data.conceptSchemas)},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+      };
+    
      me.ListTeacherKnowledgeMaps=function(callbackFunction){
        var callback=callbackFunction;
         $.post("KnowledgeMapServlet",{action:actionType.LIST},function(msg){

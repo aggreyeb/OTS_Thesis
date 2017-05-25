@@ -146,8 +146,14 @@ public class KnowledgeMapServlet extends Servlet {
                 id =Integer.parseInt(request.getParameter("ID"));
                  result= service.DeleteKnowledgeMap(id);
                  return result;
-                      
-                  
+                case "Aig-Update-KnoledgeMap-ConceptSchemas":
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                id =Integer.parseInt(request.getParameter("ID"));
+                 String data=request.getParameter("data");
+                result= service.UpdateKnoledgeMapConceptSchemas(id,data);
+                 return result;
+                 
+               
               /******************Old Service ************************/
                case  "new":
               conceptNode= new ConceptNode(userProfile.UserId,response); // get user id from session

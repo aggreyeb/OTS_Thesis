@@ -76,6 +76,7 @@ OTS.DataModel.KnowledgeMap = function(id, text, description) {
     me.name=text;
     me.description = description;
     me.nodes = []; ////collection of ConceptNodeItem
+    me.conceptSchemas="";
 };
 
 OTS.DataModel.ConceptNodes = function() {
