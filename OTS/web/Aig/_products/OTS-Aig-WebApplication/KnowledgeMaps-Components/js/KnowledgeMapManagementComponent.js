@@ -3,7 +3,6 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var me=this;
      var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
     var id="lnk-knowledgemaps";
-  //  var contentContainerId="div-knowledgemaps-content" ;//"app-content-container";
     var tempalateId="knowledge-map-component-template";
     
      var currentApplication;
@@ -32,18 +31,13 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var knowlegemapListManagement;
     
     var componentChanged=function(e){
-      // contentContainerId=e.componentContainerId;
-       
         if(e.id===id){
           me.Initialize();
         }
-    
     };
     
     var renderLayouts=function(){
-        // $("#" + contentContainerId).empty();
-     
-     
+      
         var html=   htmlTemplateDataSource.Read();
         appendableControl.Append(html,function(e){
             element=e;
@@ -52,8 +46,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
      
        
       var knowledgeMapsHtml=  htmlTemplateKnowledgeMapsDataSource.Read();
-       appendableKnowledgeMapsControl.Append(knowledgeMapsHtml,function(e){});
-       
+      appendableKnowledgeMapsControl.Append(knowledgeMapsHtml,function(e){});
+      
      var knowlegeMapTreeDatasource=  htmlTemplateKnowledgeMapsTreeViewDataSource.Read();
      appendableKnowledgeMapsTreeViewControl.Append(knowlegeMapTreeDatasource,function(e){}) ; 
      
@@ -67,57 +61,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
        var importHtml =importKnowledgeMapDataSource.Read()
        importappendabletKnowledgeMap.Append(importHtml,function(e){});
-       
-      
-       
     };
     
-    var renderknowledgeMapsTreeLayouts=function(){
-      
-                var data = [
-                {
-             text: "Parent 1",
-             nodes: [
-               {
-                 text: "Child 1",
-                 nodes: [
-                   {
-                     text: "Grandchild 1"
-                   },
-                   {
-                     text: "Grandchild 2"
-                   }
-                 ]
-               },
-               {
-                 text: "Child 2"
-               }
-             ]
-           },
-           {
-             text: "Parent 2"
-           },
-           {
-             text: "Parent 3"
-           },
-           {
-             text: "Parent 4"
-           },
-           {
-             text: "Parent 5"
-           }
-            ];
-            
-        
-      
-      /*
-        $('#knowledgeMaps-tree').treeview({
-            data: data,         // data is not optional
-            backColor: ''
-        });
-        */
-    };
-    
+   
     me.ShowKnowledgeMapEditor=function(){
       $("#pan-knowlegeMap-treeview-editor").show();
       $("#pan-conceptSchema-editor").show();
@@ -158,7 +104,6 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             return;
       }
        renderLayouts();
-       renderknowledgeMapsTreeLayouts();
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
        
@@ -168,9 +113,17 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        knowlegemapListManagement.AddKnowledgeMapComponent(me);
        knowlegemapListManagement.Render();
        knowlegemapListManagement.HideSaveAlert();
-       var items=  dataDatabase.ReadAll();
-       knowlegemapListManagement.DataBind(items);
-       initialized=true;
+      // var items=  dataDatabase.ReadAll();
+      var datasource=new OTS.AigKnowlegeMapDataSource();
+      datasource.ListTeacherKnowledgeMaps(function(msg){
+          var result=JSON.parse(msg);
+          if(result.ActionResultType==="ok" || result.ActionResultType===0){
+               var items=JSON.parse(result.Content);
+              knowlegemapListManagement.DataBind(items);
+              initialized=true;
+          }
+      });
+       
     };
     
     me.UnInitialize=function(){
@@ -183,5 +136,34 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        currentApplication=application;
        currentApplication.RegisterComponentChanged(componentChanged);
    };
+   
+  
+   me.SaveKnowledgeMap=function(data,callbackFunction){
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.CreateNew(data,function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
+   
+   me.UpdateKnowledgeMap=function(data,callbackFunction){
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.UpdateKnowledeMap(data,function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
+   
+   me.DeleteKnowledgeMap=function(id,callbackFunction){
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.DeleteKnowledeMap(id,function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
+   
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

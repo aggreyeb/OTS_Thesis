@@ -6,6 +6,8 @@
 
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.KnowledgeMapsDataService;
+import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.ConceptSchemaDescription;
 import OTS.DataModels.MySqlDataSource;
 import OTS.DeleteConceptNodeState;
@@ -111,11 +113,46 @@ public class KnowledgeMapServlet extends Servlet {
             Message conceptSchemaResponse= new Response("","");
           ConceptNodeTransaction tx = new ConceptNodeTransaction(new MySqlDataSource());
           ConceptNode conceptNode=null;
+          String Name;
+          String Description;
+          int userId =userProfile.UserId; // get user id from session
+          KnowledgeMapsDataService service;
+          TransactionResult result;
            switch(action){
-              case  "new":
+            
+              case  "Aig-create-new":
+              Name =request.getParameter("Name");
+              Description =request.getParameter("Description");
+               service= new KnowledgeMapsDataService(new MySqlDataSource());
+               result= service.CreateNew(userId, Name, Description);
+               return result ;
+              
+              case "Aig-List-Teacher-KnowledgeMaps":
+              service= new KnowledgeMapsDataService(new MySqlDataSource());
+              result= service.ListTeacherKnowledgeMaps(userId);
+              return result ;
+             
+              case "Aig-Update-KnowledgeMap":
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                 Name =request.getParameter("Name");
+                 Description =request.getParameter("Description");
+                 int id =Integer.parseInt(request.getParameter("ID"));
+                 String knowlegeMap=request.getParameter("KnowlegeMap");
+                 result= service.UpdateKnowledgeMap(id,Name,Description);
+                 return result;
+               
+              case "Aig-Delete-KnowledgeMap":
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                id =Integer.parseInt(request.getParameter("ID"));
+                 result= service.DeleteKnowledgeMap(id);
+                 return result;
+                      
+                  
+              /******************Old Service ************************/
+               case  "new":
               conceptNode= new ConceptNode(userProfile.UserId,response); // get user id from session
-              String Name =request.getParameter("Name");
-              String Description =request.getParameter("Description");
+              Name =request.getParameter("Name");
+              Description =request.getParameter("Description");
               conceptNode.Create(tx, Name, Description);
                   break;
               case "rename":
@@ -214,7 +251,7 @@ public class KnowledgeMapServlet extends Servlet {
                   conceptNode.DeleteConceptSchema(tx, descr);
                   break;
               case "listconceptschema":
-                   int id=Integer.parseInt(request.getParameter("ID"));
+                   id=Integer.parseInt(request.getParameter("ID"));
                    String parentIdentity=request.getParameter("ParentIdentity");
                    String identity=request.getParameter("Identity");
                    conceptNode= new ConceptNode(userProfile.UserId,response); //get user from session
