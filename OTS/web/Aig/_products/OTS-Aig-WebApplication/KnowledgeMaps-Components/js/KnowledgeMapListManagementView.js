@@ -115,12 +115,36 @@ OTS.AigKnowledgeMapListManagementView=function(){
            var json=JSON.stringify(data);
            var copy=JSON.parse(json);
            copy.name +="copy";
-            me.knowledgeMaplistView.knowledgeMaps.push(copy);
+           
+              knowledgeMapComponent.SaveKnowledgeMap(copy,function(e){
+               var result=JSON.parse(e);
+               copy.id=result.CurrentId; //!IMPORTANT
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+              
+              if(me.selectedMode===modeType.New){
+                  me.knowledgeMaplistView.knowledgeMaps.push(copy);
+               }
+             
+              $("#div-knowledgeMaps-alert").removeClass("alert-info");
+              $("#div-knowledgeMaps-alert").addClass("alert-success");
+              me.knowledgeMaplistViewActions.saveAlertVisible(true);
+              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
+             }
+             else{
+              $("#div-knowledgeMaps-alert").removeClass("alert-info");
+              $("#div-knowledgeMaps-alert").addClass("alert-danger");
+              me.knowledgeMaplistViewActions.saveAlertVisible(true);
+              me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Duplicate");  
+             }
+            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
+           });
+           
         },
         onDelete:function(data,e){
             me.selectedKnowledgeMap=data;
           
             knowledgeMapComponent.DeleteKnowledgeMap(data.id,function(e){
+                var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                     me.knowledgeMaplistView.knowledgeMaps.remove(data);  
                     $("#div-knowledgeMaps-alert").removeClass("alert-info");
@@ -131,6 +155,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                     $("#div-knowledgeMaps-alert").addClass("alert-danger"); 
                 }
             });
+           me.knowledgeMaplistViewActions.resetForm();
            me.knowledgeMaplistViewActions.saveAlertVisible(true);
            me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Deleted");
            me.selectedMode=modeType.New;
@@ -166,14 +191,11 @@ OTS.AigKnowledgeMapListManagementView=function(){
               $("#div-knowledgeMaps-alert").addClass("alert-danger");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Save");  
-             }
-           
-               });
-                
-                  return ;
-               }
+                   }
+             }); 
+           }
                
-              if(me.selectedMode===modeType.Edit){
+          if(me.selectedMode===modeType.Edit){
                    var id=me.knowledgeMaplistView.id();
                    var item={};
                    item.id=id;
@@ -187,6 +209,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
+               me.knowledgeMaplistViewActions.resetForm();
               me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Saved");
              }
              else{
@@ -195,11 +218,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Save");  
              }
-           
            });
-         
          }  
-            
           me.knowledgeMaplistViewActions.resetForm();
            me.selectedMode=modeType.New;
            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);        

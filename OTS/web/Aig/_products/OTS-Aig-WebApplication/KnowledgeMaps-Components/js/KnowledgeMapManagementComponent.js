@@ -158,9 +158,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
    me.DeleteKnowledgeMap=function(id,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
+       var callback=callbackFunction;
        datasource.DeleteKnowledeMap(id,function(msg){
           if(callbackFunction instanceof Function){
-              callbackFunction(msg);
+              callback(msg);
           }
        });
    };

@@ -5,7 +5,7 @@ OTS.AigKnowlegeMapDataSource=function(){
                     NEW:"Aig-create-new",
                     LIST:"Aig-List-Teacher-KnowledgeMaps",
                     UPDATE:"Aig-Update-KnowledgeMap",
-                    DELETE:"delete",
+                    DELETE:"Aig-Delete-KnowledgeMap",
                     DUPLICATE:"duplicate"};
         
      me.ListTeacherKnowledgeMaps=function(callbackFunction){
