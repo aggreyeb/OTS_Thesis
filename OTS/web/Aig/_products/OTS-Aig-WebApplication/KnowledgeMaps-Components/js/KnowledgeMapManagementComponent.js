@@ -99,7 +99,17 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       if(initialized) {
         me.HideKnowledgeMapEditor();
         me.ShowKnowlegeMapList();
-       var items=  dataDatabase.ReadAll();
+     
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+      datasource.ListTeacherKnowledgeMaps(function(msg){
+          var result=JSON.parse(msg);
+          if(result.ActionResultType==="ok" || result.ActionResultType===0){
+               var items=JSON.parse(result.Content);
+              knowlegemapListManagement.DataBind(items);
+             
+          }
+      });
+      
        knowlegemapListManagement.DataBind(items);
             return;
       }
