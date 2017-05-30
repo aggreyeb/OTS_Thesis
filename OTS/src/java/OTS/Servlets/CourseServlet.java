@@ -6,6 +6,9 @@
 
 package OTS.Servlets;
 
+
+import OTS.Aig.KnowledgeMapDataServices.CourseDataService;
+import OTS.Aig.KnowledgeMapDataServices.CourseElement;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
 import OTS.Message;
@@ -97,9 +100,51 @@ public class CourseServlet extends Servlet {
           
             Message message= new Response("","");
           Courses courses = new Courses(new MySqlDataSource());
+          CourseDataService service;
           ConceptNode conceptNode=null;
+           String Id;
+           String Number;
+           String Name;
            switch(action){
               
+               case "Aig-ListAllCourses":
+                 service= new CourseDataService(new MySqlDataSource());
+                 return service.ListAllCourses();
+                
+               
+                 case "Aig-ListTeacherCourses":
+                  service= new CourseDataService(new MySqlDataSource());
+                    int teacherId=userProfile.UserId;
+                   return service.ListTeacherCourses(teacherId);
+                    
+                 case "Aig-CreateNewCourse":
+                    Id=request.getParameter("Id");
+                    Number=request.getParameter("Number");
+                    Name=request.getParameter("Name");
+                      CourseElement newCourse=new CourseElement();
+                      newCourse.Id=Id;
+                      newCourse.Name=Name;
+                      newCourse.Number=Number;
+                      service= new CourseDataService(new MySqlDataSource());
+                      return service.CreateNewCourse(newCourse);
+             
+                    
+                 case "Aig-UpdateCourse":
+                   Id=request.getParameter("Id");
+                    Number=request.getParameter("Number");
+                    Name=request.getParameter("Name");
+                      newCourse=new CourseElement();
+                      newCourse.Id=Id;
+                      newCourse.Name=Name;
+                      newCourse.Number=Number;
+                      service= new CourseDataService(new MySqlDataSource());
+                      return service.UpdateCourse(newCourse);
+     
+                 case "Aig-DeleteCourse":
+                     Id=request.getParameter("Id");
+                     service= new CourseDataService(new MySqlDataSource());
+                      return service.DeleteCourse(Id);
+                 
                case "Delete":
               
                 courseId= Integer.parseInt(request.getParameter("Id"));
@@ -112,7 +157,7 @@ public class CourseServlet extends Servlet {
                 courseId= Integer.parseInt(request.getParameter("Id"));
                 String courseName=request.getParameter("Name");
                 
-                CourseItem item= new CourseItem();
+                OTS.ObjectModels.CourseItem item= new OTS.ObjectModels.CourseItem();
                 item.CourseTypeId=courseId;
                 item.Number=courseNumber;
                 item.Name=courseName;

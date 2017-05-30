@@ -99,6 +99,27 @@ OTS.AigTestItemGenerationComponent=function(){
        currentApplication=application;
        currentApplication.RegisterComponentChanged(componentChanged);
    };
+   
+   me.ListAllTest=function(callbackFunction){
+      
+   };
+   
+   me.ListCourseTest=function(callbackFunction){
+      
+   };
+   
+   me.CreateNewTest=function(data,callbackFunction){
+     
+   };
+   
+   me.UpdateTest=function(data,callbackFunction){
+       
+   };
+   
+   me.DeleteTest=function(id,callbackFunction){
+      
+   };
+   
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

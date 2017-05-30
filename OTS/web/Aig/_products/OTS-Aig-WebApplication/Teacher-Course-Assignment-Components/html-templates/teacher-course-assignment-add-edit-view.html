@@ -1,0 +1,49 @@
+<div class="table-responsive" style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3><span class="label label-default"><span data-bind="text:HeaderText"></span></h3>
+        </div>
+    </div><br>
+    <div  class="row">
+        <div  class="col-xs-12">
+            <div class="input-group">
+                <label>Number</label>
+                <input readonly data-bind="value:Number" style="margin-left: 2px" class="form-control" type="text"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div  class="col-xs-12">
+            <div class="input-group">
+                <label style="padding-right: 300px">Name</label>
+                <input readonly  data-bind="value:Name" style="margin-right: 2px;width:300" class="form-control" type="text"/>
+            </div>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Associate Knowledge Maps</label><br>
+            <select class="chosen-select form-control" multiple data-bind="options: KnowledgeMaps,
+                       optionsText: 'Name',
+                       value: 'Id',
+                       selectedOptions:SelectedKnowledgeMaps">  
+            </select>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-xs-12">
+            <div style="margin-left: 2px">
+                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
+            </div>
+        </div>
+    </div><br>
+    
+     <div class="row">
+        <div class="col-xs-12">
+            <div class="alert alert-success">
+                Saved
+            </div>
+        </div>
+        
+    </div>
+</div>

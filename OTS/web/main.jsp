@@ -34,8 +34,6 @@
         <script src="scripts/bootstrap-select.js" type="text/javascript"></script>
         <script src="scripts/knockout-2.2.0.js" type="text/javascript"></script>
         <script src="scripts/jqTreeContextMenu.js" type="text/javascript"></script>
-      
-        
         <script src="scripts/inputmask.dependencyLib.jquery.js" type="text/javascript"></script>
         <script src="scripts/inputmask.js" type="text/javascript"></script>
         <script src="scripts/inputmask.extensions.js" type="text/javascript"></script>
@@ -107,6 +105,7 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/js/Serialization.js" type="text/javascript"></script>
         
         <!-- USER INTERFACE LAYOUT-->
+        <script src="Aig/Components/App-Controls/AlertBox.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-HeaderLayoutComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-Content-LayoutComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-FooterLayoutComponent.js" type="text/javascript"></script>
@@ -120,11 +119,24 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListManagementView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
         
-      
+        <!--Test-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/TestDataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/TestViewModel.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
         
-        <script src="Aig/_products/OTS-Aig-WebApplication/Course-Components/js/CourseComponent.js" type="text/javascript"></script>
-       
+        <!--Courses Component-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/js/CoursesViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/js/CoursesDataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/js/CoursesComponent.js" type="text/javascript"></script>
+        
+        <!-- Teacher Course Assignment Components-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/js/TeacherCourseAssignmentViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/js/TeacherCourseAssignmentDataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/js/TeacherCourseAssignmentComponent.js" type="text/javascript"></script>
+        
+        <!--Student Account Component-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentDataSource.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentAccountsComponent.js" type="text/javascript"></script>
           
         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
@@ -192,11 +204,16 @@
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-list.html" id="test-list-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/tests-component.html" id="tests-component-template" type="text/html"> </script>
     
-    <!--Course Management templates-->
-     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-add-edit-view.html" id="course-add-edit-template" type="text/html"> </script>
-     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-list.html" id="course-list-template" type="text/html"> </script>
-     <script src="./Aig/_products/OTS-Aig-WebApplication/Course-Components/html-templates/course-component.html" id="course-component-template" type="text/html"> </script>
+    <!--Courses Management templates-->
+     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-component.html" id="courses-component-template" type="text/html"> </script>
+     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses.html" id="courses-template" type="text/html"> </script>
+     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-add-edit-view.html" id="courses-add-edit-template" type="text/html"> </script>
     
+     <!--Teacher Course Assignment templates-->
+     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-component.html" id="teacher-course-assignment-component-template" type="text/html"> </script>
+     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignments-list.html" id="teacher-course-assignments-list-template" type="text/html"> </script>
+     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-add-edit-view.html" id="teacher-course-assignment-add-edit-template" type="text/html"> </script>
+   
     
             <script type="text/javascript">
              

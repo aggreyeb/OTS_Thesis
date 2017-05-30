@@ -18,7 +18,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
    //Initializable Components
    var knowledgemapManagementComponent= new OTS.AigKnowledgeMapManagementComponent();
    var testManagementManagementComponent=new OTS.AigTestItemGenerationComponent();
-   var courseManagementComponent=new OTS.AigCourseComponent();
+   var courseManagementComponent=new OTS.AigCoursesComponent();
+   var teacherCourseAssignment= new OTS.AigTeacherCourseAssignmentComponent();
    var studentAccountComponent= new OTS.AigStudentAccountComponent();
    var studentsTestComponent= new OTS.AigStudentTestComponent();
    
@@ -31,8 +32,8 @@ OTS.AigWebApplication=function(applicationId,applicationName){
             if(callback!==undefined && callback !==null){
                 var eventArg={
                     id:e.target.id,
-                    name:e.target.innerText.trim(),
-                    componentContainerId:e.componentContainerId
+                    name:e.target.innerText.trim()
+                   
                 }
                 callback(eventArg);
             }
@@ -67,8 +68,9 @@ OTS.AigWebApplication=function(applicationId,applicationName){
       initializableComponents.push(testManagementManagementComponent);
       initializableComponents.push(courseManagementComponent);
       initializableComponents.push(studentAccountComponent);
-       initializableComponents.push(studentsTestComponent);
-     
+      initializableComponents.push(studentsTestComponent);
+      initializableComponents.push(teacherCourseAssignment);
+  
          
       for(var i=0;i<initializableComponents.length;i++){
          var component=  initializableComponents[i];

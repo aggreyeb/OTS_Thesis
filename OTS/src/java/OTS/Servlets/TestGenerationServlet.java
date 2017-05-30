@@ -206,7 +206,30 @@ public class TestGenerationServlet extends  Servlet {
         try{
         UserProfile userProfile=this.LoadSession(request);
          switch(action){
-              case  "ListTeacherCourse":
+              /*
+                ListAllTest:"Aig-ListAllTest",
+        ListCourseTest:"Aig-ListCourseTest",
+        CreateNewTest:"Aig-CreateNewTest",
+        UpdateTest:"Aig-UpdateTest",
+        DeleteTest:"Aig-DeleteTest"
+             */
+             case "Aig-ListAllTest":
+                 break;
+             
+             case "Aig-ListCourseTest":
+                 break;
+                 
+             case "Aig-CreateNewTest":
+                 break;
+                 
+              case"Aig-UpdateTest":
+                      break;
+              case "Aig-DeleteTest":
+                  break;
+                 
+                  
+                  //old methods
+             case  "ListTeacherCourse":
                AcademicTests tests=  new AcademicTests( db);
                tests.ListTeacherCourse(userProfile.UserId, response);
                   break;
