@@ -30,7 +30,23 @@ OTS.AigCourseViewModel=function(){
     me.SelectedCourse = null;//new  OTS.AigCourseViewModel();
     
     me.Actions={
-        
+         validate:function(){
+           var  isValid =true;
+           var errorMessage=[];
+           if(me.Number()===""){
+               isValid=false;
+               errorMessage.push("Course Number required");
+           }
+           if(me.Name()===""){
+               isValid=false;
+               errorMessage.push("Course Name required");
+           }
+           
+           return {
+               isValid:isValid,
+               message:errorMessage.join(",")
+           }
+         },
          onCreateNew:function(){
              me.Id("");
              me.Name("");
@@ -69,7 +85,11 @@ OTS.AigCourseViewModel=function(){
             
         },
         onSave:function(data,e){
-            
+              var result=me.Actions.validate();
+              if(!result.isValid){
+                  alertBox.ShowErrorMessage(result.message);
+                  return;
+              }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
                  var course= new OTS.CourseItem(me.Name(),me.Number());
@@ -78,7 +98,11 @@ OTS.AigCourseViewModel=function(){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                      me.Courses.push(course); 
-                     alertBox.ShowSuccessMessage("Course Saved");
+                    me.Actions.ResetForm();
+                    me.SelectedAction=me.ActionType.NEW;
+                    me.HeaderText("Add New Course");
+                    alertBox.ShowSuccessMessage("Course Saved");
+                     
                 }
                 else{
                     alertBox.ShowErrorMessage("Course Save Failed");

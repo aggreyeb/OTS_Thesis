@@ -125,6 +125,7 @@ public class CourseServlet extends Servlet {
                       newCourse.Id=Id;
                       newCourse.Name=Name;
                       newCourse.Number=Number;
+                      newCourse.Createdby=userProfile.UserId;
                       service= new CourseDataService(new MySqlDataSource());
                       return service.CreateNewCourse(newCourse);
              
