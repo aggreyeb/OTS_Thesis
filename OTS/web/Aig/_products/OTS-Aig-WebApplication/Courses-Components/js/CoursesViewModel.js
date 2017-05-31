@@ -22,8 +22,6 @@ OTS.AigCourseViewModel=function(){
     me.Number=ko.observable("");
     me.Name=ko.observable("");
     me.Courses=ko.observableArray([]);
-   // me.KnowledgeMaps=ko.observableArray([{Id:1,Name:"Plant"},{Id:2,Name:"Data Structure"}]);
-   // me.SelectedKnowledgeMaps=ko.observableArray([]);
    
     
     me.HeaderText=ko.observable("Add New Course");
@@ -142,6 +140,7 @@ OTS.AigCourseViewModel=function(){
     };
    me.DataBind=function(items){
        if(items===undefined || items===null)return;
+        me.Courses([]);
        if(items.length){
            for(var i=0;i<items.length;i++){
                me.Courses.push(items[i]);

@@ -129,5 +129,26 @@ public class CourseDataService {
              
             }
     }
-      
+    
+    public TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+        TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="UPDATE course SET Number='%s', Name='%s' WHERE Id='%s'";
+         // String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name,courseItem.Id);
+        //  this.dataSource.ExecuteNonQuery(sql);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
+    
 }

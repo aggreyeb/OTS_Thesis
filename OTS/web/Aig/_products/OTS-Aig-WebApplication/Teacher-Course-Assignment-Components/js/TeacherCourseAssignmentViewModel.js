@@ -16,10 +16,9 @@ OTS.CourseKnowledgeMap=function(id,name,description){
 OTS.AigCourseAssignmentViewModel=function(){
     var me=this;
     var courseComponent;
+     var alertBox=new Aig.AlertBox("course-alert");
     me.ActionType={
-       NEW:"NEW" ,
-       EDIT:"EDIT",
-       DELETE:"DELETE"
+       EDIT:"EDIT"
     };
     me.SelectedAction=me.ActionType.NEW;
     me.Binded=false;
@@ -27,7 +26,7 @@ OTS.AigCourseAssignmentViewModel=function(){
     me.Id=ko.observable("");
     me.Number=ko.observable("");
     me.Name=ko.observable("");
-    me.Courses=ko.observableArray([{Id:1,Number:101, Name:"Computer Science"}]);
+    me.Courses=ko.observableArray([]);
     me.KnowledgeMaps=ko.observableArray([{Id:1,Name:"Plant"},{Id:2,Name:"Data Structure"}]);
     me.SelectedKnowledgeMaps=ko.observableArray([]);
    
@@ -36,19 +35,11 @@ OTS.AigCourseAssignmentViewModel=function(){
     me.SelectedCourse = null;
     
     me.Actions={
-        
-         onCreateNew:function(){
-             me.Id("");
-             me.Name("");
-             me.Number("");
-             me.SelectedAction=me.ActionType.NEW
-             
-         },
+       
          ResetForm:function(){
              me.Id("");
              me.Name("");
              me.Number("");
-             me.SelectedAction=me.ActionType.NEW
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
@@ -57,51 +48,29 @@ OTS.AigCourseAssignmentViewModel=function(){
             me.SelectedAction=me.ActionType.EDIT
              
         },
-        onDelete:function(data,e){
-            me.SelectedAction=me.ActionType.DELETE
-             me.Courses.remove(data);
-             me.SelectedAction=me.ActionType.NEW;
-            alert("Delete");
-           /*
-            courseComponent.DeleteCourse(id,function(e){
-                
-            });
-            */
-        },
-        onSave:function(data,e){
-            
-            switch(me.SelectedAction){
-                case me.ActionType.NEW:
-                 var course= new OTS.CourseItem(me.Name(),me.Number());
-                 me.Courses.push(course);
-                 me.SelectedAction=me.ActionType.NEW;
-                
-                 /*
-                 courseComponent.CreateNewCourse(course,function(e){
-                     
-                 });*/
-                 break;
-                
-                case me.ActionType.EDIT:
-                var course= new OTS.CourseItem(me.Name(),me.Number());
-                 
-                me.Courses.replace(me.SelectedCourse,course);
-                me.Actions.ResetForm();
-                /*
-                courseComponent.UpdateCourse(course,function(e){
-                    
-                });*/
-                     
-                
-                 break;
-                 
-                default:
-                    break;
-            }
+        onSave:function(){
+               var course= new OTS.CourseItem(me.Name(),me.Number());
+               course.Id=me.SelectedCourse.Id;
+               var selectedKnowlegeMaps=ko.toJS(me.SelectedKnowledgeMaps);
+                for(var i=0;i<selectedKnowlegeMaps.length;i++){
+                  course.CourseKnowledgeMaps.push(selectedKnowlegeMaps[i]); 
+                }  
+                courseComponent.UpdateCourseKnowledgeMaps(course,function(e){
+                    var result=JSON.parse(e);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                      me.Courses.replace(me.SelectedCourse,course);
+                     me.Actions.ResetForm();
+                     alertBox.ShowSuccessMessage("Course Knowledge Map Updated");
+                }
+                else{
+                    alertBox.ShowErrorMessage("Course Knowledge Map Updated Failed");
+                  }
+                });
         }
     };
    me.DataBind=function(items){
        if(items===undefined || items===null)return;
+        me.Courses([]);
        if(items.length){
            for(var i=0;i<items.length;i++){
                me.Courses.push(items[i]);

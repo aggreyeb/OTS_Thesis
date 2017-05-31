@@ -145,7 +145,10 @@ public class CourseServlet extends Servlet {
                      Id=request.getParameter("Id");
                      service= new CourseDataService(new MySqlDataSource());
                       return service.DeleteCourse(Id);
-                 
+               
+                      
+                      
+               //******************************Old Stuff**********************
                case "Delete":
               
                 courseId= Integer.parseInt(request.getParameter("Id"));

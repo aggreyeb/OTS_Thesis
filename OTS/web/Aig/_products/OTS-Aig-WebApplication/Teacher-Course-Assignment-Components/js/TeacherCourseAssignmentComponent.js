@@ -48,10 +48,16 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
          listappendableControl.Append(listHtml,function(e){
              
          });
-       
-      
-       ko.applyBindings(viewModel,$("#div-course-assignment-content")[0]);
-       $(".chosen-select").chosen({width: "100%"});
+        viewModel.AddCourseComponent(me);
+        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+        dataSource.ListTeacherCourses(function(msg){
+         var result=JSON.parse(msg);
+         var items=JSON.parse(result.Content)
+         viewModel.DataBind(items)
+         ko.applyBindings(viewModel,$("#div-course-assignment-content")[0]);
+          $(".chosen-select").chosen({width: "100%"});
+        });
+     
      };
     me.UnInitialize=function(){
         initialized=false;
@@ -65,17 +71,15 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
    };
    
    
-   me.CreateNewCourse=function(data,callbackFunction){
-       
+  
+   
+   me.UpdateCourseKnowledgeMaps=function(data,callbackFunction){
+       var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+      
    };
    
-   me.UpdateCourse=function(data,callbackFunction){
-       
-   };
-   
-   me.DeleteCourse=function(id,callbackFunction){
-       
-   };
+ 
    
    
 };
