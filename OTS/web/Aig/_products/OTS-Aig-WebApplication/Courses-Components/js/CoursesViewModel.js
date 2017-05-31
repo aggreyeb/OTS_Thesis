@@ -21,12 +21,12 @@ OTS.AigCourseViewModel=function(){
     me.Id=ko.observable("");
     me.Number=ko.observable("");
     me.Name=ko.observable("");
-    me.Courses=ko.observableArray([{Id:1,Number:101, Name:"Computer Science"}]);
-    me.KnowledgeMaps=ko.observableArray([{Id:1,Name:"Plant"},{Id:2,Name:"Data Structure"}]);
-    me.SelectedKnowledgeMaps=ko.observableArray([]);
+    me.Courses=ko.observableArray([]);
+   // me.KnowledgeMaps=ko.observableArray([{Id:1,Name:"Plant"},{Id:2,Name:"Data Structure"}]);
+   // me.SelectedKnowledgeMaps=ko.observableArray([]);
    
     
-    me.HeaderText=ko.observable("Add New");
+    me.HeaderText=ko.observable("Add New Course");
     me.SelectedCourse = null;//new  OTS.AigCourseViewModel();
     
     me.Actions={
@@ -48,15 +48,23 @@ OTS.AigCourseViewModel=function(){
             me.SelectedCourse=data;
             me.Name(data.Name);
             me.Number(data.Number);
+             me.HeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
              
         },
         onDelete:function(data,e){
             me.SelectedAction=me.ActionType.DELETE
-             me.Courses.remove(data);
-             me.SelectedAction=me.ActionType.NEW;
-            courseComponent.DeleteCourse(id,function(e){
-                
+            
+            courseComponent.DeleteCourse(data.Id,function(e){
+               var result=JSON.parse(e);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                     me.Courses.remove(data); 
+                     alertBox.ShowSuccessMessage("Course Deleted");
+                }
+                else{
+                    alertBox.ShowErrorMessage("Course Delete Failed");
+                  }
+                 me.SelectedAction=me.ActionType.NEW;
             });
             
         },
@@ -70,29 +78,37 @@ OTS.AigCourseViewModel=function(){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                      me.Courses.push(course); 
-                     alertBox.DisplaySuccessMessage("Course Saved");
+                     alertBox.ShowSuccessMessage("Course Saved");
                 }
                 else{
-                    alertBox.DisplayErrorMessage("Course Save Failed");
+                    alertBox.ShowErrorMessage("Course Save Failed");
                   }
                  });
-                  me.SelectedAction=me.ActionType.NEW;
+                  
                  break;
                 case me.ActionType.EDIT:
-                courseComponent.UpdateCourse(course,function(e){
+                var updateableCourse={
+                    Id:me.SelectedCourse.Id,
+                    Name:me.Name(),
+                    Number:me.Number()
+                };
+                courseComponent.UpdateCourse(updateableCourse,function(e){
                 var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                     
-                     alertBox.DisplaySuccessMessage("Course Updated");
+                     me.Courses.replace(me.SelectedCourse,updateableCourse);
+                    alertBox.ShowSuccessMessage("Course Updated");
+                    me.Actions.ResetForm();
+                    me.SelectedAction=me.ActionType.NEW;
+                    me.HeaderText("Add New Course");
                 }
                 else{
-                    alertBox.DisplayErrorMessage("Course Update Failed");
+                    alertBox.ShowErrorMessage("Course Update Failed");
                   }
-                var course= new OTS.CourseItem(me.Name(),me.Number());
-                me.Courses.replace(me.SelectedCourse,course);
-                me.Actions.ResetForm();
+               
+                   
                 });
-                
+              
                  break;
                  
                 default:

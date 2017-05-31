@@ -1,5 +1,5 @@
 var OTS=OTS||{};
-OTS.AigCourseDataSource=function(){
+OTS.AigTeacherCourseAssignmentDataSource=function(){
     var me=this;
     var actionType={
         ListAllCourses:"Aig-ListAllCourses",

@@ -29,7 +29,7 @@ public class CourseDataService {
          
          TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select * from course";
+          String sql= "Select Id,Number,Name  from course";
           List<CourseElement> courses= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, courses,CourseElement.class);
        
@@ -52,10 +52,11 @@ public class CourseDataService {
     public TransactionResult  ListTeacherCourses(int teacherId){
         TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select * from course where Createdby" + teacherId;
+          String sql= "Select Id,Number,Name from course where Createdby=" + teacherId;
           List<CourseElement> courses= new ArrayList();
+         
           this.dataSource.ExecuteCustomDataSet(sql, courses,CourseElement.class);
-       
+              
              Gson g = new Gson();
              result.Content=g.toJson(courses);
              result.ActionResultType=ActionResultType.ok;
@@ -75,9 +76,9 @@ public class CourseDataService {
     public TransactionResult CreateNewCourse(CourseElement courseItem){
           TransactionResult result= new TransactionResult();
         try{ 
-          String InsertTemplate="INSERT INTO course (Id,Number,Name) Values('%s','%s','%s')";
-          String sql= String.format(InsertTemplate, courseItem.Id,courseItem.Number,courseItem.Name);
-          this.dataSource.Execute(sql);
+          String InsertTemplate="INSERT INTO course (Id,Number,Name,Createdby,Createdon) Values('%s','%s','%s',%d,'%s')";
+          String sql= String.format(InsertTemplate, courseItem.Id,courseItem.Number,courseItem.Name,courseItem.Createdby,courseItem.Createdon);
+          this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -95,9 +96,9 @@ public class CourseDataService {
     public TransactionResult UpdateCourse(CourseElement courseItem){
         TransactionResult result= new TransactionResult();
         try{ 
-          String InsertTemplate="UPDATE course SET Number='%s', Name='%s'";
-          String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name);
-          this.dataSource.Execute(sql);
+          String InsertTemplate="UPDATE course SET Number='%s', Name='%s' WHERE Id='%s'";
+          String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name,courseItem.Id);
+          this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -114,8 +115,8 @@ public class CourseDataService {
     public TransactionResult DeleteCourse(String id){
          TransactionResult result= new TransactionResult();
         try{ 
-          String sql="DELETE FROM course where Id=" + id;
-          this.dataSource.Execute(sql);
+          String sql="DELETE FROM course WHERE Id=" + "'" + id + "'";
+          this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }

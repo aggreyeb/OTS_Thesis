@@ -85,9 +85,9 @@ OTS.AigCoursesComponent=function(){
    };
    
    me.UpdateCourse=function(data,callbackFunction){
-         var dataSource=new OTS.AigCourseDataSource();
+        var dataSource=new OTS.AigCourseDataSource();
        var callback=callbackFunction;
-       dataSource.CreateNewCourse(data,function(msg){
+       dataSource.UpdateCourse(data,function(msg){
            if(callback!==undefined && callback!==null)
                callback(msg);
        });

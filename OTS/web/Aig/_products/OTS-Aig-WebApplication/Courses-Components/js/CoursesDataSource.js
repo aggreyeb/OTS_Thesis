@@ -27,7 +27,7 @@ OTS.AigCourseDataSource=function(){
    
    me.CreateNewCourse=function(data,callbackFunction){
         var callback=callbackFunction;
-       $.post("CourseServlet",{action:actionType.CreateNewCourse,ID:data.Id,Number:data.Number, Name:data.Name},function(msg){
+       $.post("CourseServlet",{action:actionType.CreateNewCourse,Id:data.Id,Number:data.Number, Name:data.Name},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -35,7 +35,7 @@ OTS.AigCourseDataSource=function(){
    
    me.UpdateCourse=function(data,callbackFunction){
         var callback=callbackFunction;
-       $.post("CourseServlet",{action:actionType.UpdateCourse,ID:data.Id,Number:data.Number, Name:data.Name},function(msg){
+       $.post("CourseServlet",{action:actionType.UpdateCourse,Id:data.Id,Number:data.Number, Name:data.Name},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -43,7 +43,7 @@ OTS.AigCourseDataSource=function(){
    
    me.DeleteCourse=function(id,callbackFunction){
        var callback=callbackFunction;
-       $.post("CourseServlet",{action:actionType.DeleteCourse,ID:id},function(msg){
+       $.post("CourseServlet",{action:actionType.DeleteCourse,Id:id},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
