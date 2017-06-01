@@ -73,10 +73,12 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
    
   
    
-   me.UpdateCourseKnowledgeMaps=function(data,callbackFunction){
+   me.SaveCourseKnowledgeMaps=function(data,callbackFunction){
        var callback=callbackFunction;
        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
-      
+         dataSource.SaveCourseKnowledgeMaps(data,function(msg){
+            callback(msg);
+      })
    };
    
  

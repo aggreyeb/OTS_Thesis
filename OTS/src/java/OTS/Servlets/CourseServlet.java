@@ -146,8 +146,13 @@ public class CourseServlet extends Servlet {
                      service= new CourseDataService(new MySqlDataSource());
                       return service.DeleteCourse(Id);
                
-                      
-                      
+                   case "Aig-SaveCourseKnowledgeMap":
+                     
+                     String teacherCourseId=request.getParameter("CourseId");
+                     teacherId=userProfile.UserId;
+                     String knowledgeMaps=request.getParameter("KnowledgeMaps");
+                     service= new CourseDataService(new MySqlDataSource());
+                      return service.SaveCourseKnowledgeMap(teacherId, teacherCourseId, knowledgeMaps);    
                //******************************Old Stuff**********************
                case "Delete":
               

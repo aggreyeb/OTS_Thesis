@@ -90,4 +90,36 @@ public class CourseUnitTesting {
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
+    
+    
+     @Test
+    public void SaveCourseKnowledgeMap(){
+        
+        //Arrange
+        int teacherId=2;
+        String CourseId="1234";
+        String knowledgeMaps="{Testing}";
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.SaveCourseKnowledgeMap(teacherId, CourseId, knowledgeMaps);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
+    
+    
+        @Test
+    public void UpdateCourseKnowledgeMap(){
+        
+        //Arrange
+        int teacherId=2;
+        String CourseId="1234";
+        String knowledgeMaps="{Testing1}";
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.SaveCourseKnowledgeMap(teacherId, CourseId, knowledgeMaps);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
+    
+    
 }

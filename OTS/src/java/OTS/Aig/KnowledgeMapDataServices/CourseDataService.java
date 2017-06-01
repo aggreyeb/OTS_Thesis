@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -130,12 +131,23 @@ public class CourseDataService {
             }
     }
     
-    public TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+      public TransactionResult SaveCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+       
+            if(!this.HasCourse(teacherId, courseId)){
+                return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
+            }
+            return  this.UpdateCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
+    
+      }
+    
+      private TransactionResult CreateNewCourseKnowledgeMap( int teacherId,String courseId,String knowledgeMaps){
         TransactionResult result= new TransactionResult();
         try{ 
-          String InsertTemplate="UPDATE course SET Number='%s', Name='%s' WHERE Id='%s'";
-         // String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name,courseItem.Id);
-        //  this.dataSource.ExecuteNonQuery(sql);
+           UUID uuid = UUID.randomUUID();
+            String Id= uuid.toString();
+            String InsertTemplate="INSERT INTO Teacher (Id,TeacherId,CourseId,CourseKnowledgeMaps) Values('%s','%d','%s','%s')";
+          String sql= String.format(InsertTemplate,Id,teacherId,courseId,knowledgeMaps);
+           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -149,6 +161,49 @@ public class CourseDataService {
             }
     }
     
+    
+    private TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+        TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="UPDATE Teacher SET CourseKnowledgeMaps='%s' WHERE TeacherId='%s' AND CourseId='%s'";
+         String sql= String.format(InsertTemplate,knowledgeMaps,teacherId,courseId);
+          this.dataSource.ExecuteNonQuery(sql);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
+   
+    
+     private Boolean HasCourse (int teacherId,String courseId){
+        TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="SELECT Count(*) FROM Teacher Where TeacherId='%s' AND CourseId='%s'";
+          String sql= String.format(InsertTemplate,teacherId,courseId);
+          int[] returnValue= new int[1];
+          this.dataSource.ExecuteScalar(sql,returnValue);
+              if(returnValue[0] ==0){
+                   return false;
+              }
+              return true;
+           }
+           catch(Throwable ex){
+              
+               return false;
+           }
+           finally{
+             
+            }
+    }
     
     
 }

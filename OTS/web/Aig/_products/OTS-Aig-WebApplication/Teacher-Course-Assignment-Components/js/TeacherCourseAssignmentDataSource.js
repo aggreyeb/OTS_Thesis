@@ -4,7 +4,7 @@ OTS.AigTeacherCourseAssignmentDataSource=function(){
     var actionType={
         ListTeacherCourses:"Aig-ListTeacherCourses",
         UpdateCourseAssignment:"Aig-UpdateCourse",
-        UpdateCourseKnowledgeMaps:"Aig-UpdateCourseKnowledgeMaps"
+        SaveCourseKnowledgeMaps:"Aig-SaveCourseKnowledgeMap"
     };
   
    
@@ -18,11 +18,12 @@ OTS.AigTeacherCourseAssignmentDataSource=function(){
    
    
    
-   me.UpdateCourseKnowledgeMaps=function(data,callbackFunction){
+   me.SaveCourseKnowledgeMaps=function(data,callbackFunction){
         var callback=callbackFunction;
         //Set TeacherId at the server side
-        var knowledgeMaps=JSON.parse(data.KnowledgeMaps)
-       $.post("CourseServlet",{action:actionType.UpdateCourseKnowledgeMaps,CourseId:data.id, TeacherId:0, KnowledgeMaps:knowledgeMaps},function(msg){
+        //Id is used when creating new
+        var knowledgeMaps=JSON.stringify(data.CourseKnowledgeMaps)
+       $.post("CourseServlet",{action:actionType.SaveCourseKnowledgeMaps,CourseId:data.Id, KnowledgeMaps:knowledgeMaps},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
        });
