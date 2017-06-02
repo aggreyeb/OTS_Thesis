@@ -101,23 +101,59 @@ OTS.AigTestItemGenerationComponent=function(){
    };
    
    me.ListAllTest=function(callbackFunction){
-      
+     var dataSource= new  OTS.AigTestDataSource();
+     var callback=callbackFunction;
+     dataSource.ListAllTest(function(msg){
+         callback(msg)
+     });
    };
    
-   me.ListCourseTest=function(callbackFunction){
-      
+   me.ListCourseTest=function(courseid,callbackFunction){
+      var dataSource= new  OTS.AigTestDataSource();
+     var callback=callbackFunction;
+     dataSource.ListCourseTest(courseid ,function(msg){
+         callback(msg)
+     });
    };
    
    me.CreateNewTest=function(data,callbackFunction){
-     
+        var dataSource= new  OTS.AigTestDataSource();
+       var callback=callbackFunction;
+       dataSource.CreateNewTest(data ,function(msg){
+           callback(msg)
+       });
    };
    
    me.UpdateTest=function(data,callbackFunction){
-       
+        var dataSource= new  OTS.AigTestDataSource();
+       var callback=callbackFunction;
+       dataSource.UpdateTest(data ,function(msg){
+           callback(msg)
+       });
    };
    
-   me.DeleteTest=function(id,callbackFunction){
-      
+   me.DeleteTest=function(testId,callbackFunction){
+       var dataSource= new  OTS.AigTestDataSource();
+       var callback=callbackFunction;
+       dataSource.DeleteTest(testId ,function(msg){
+           callback(msg)
+       });
+   };
+   
+   me.ActivateTest=function(testId,callbackFunction){
+       var dataSource= new  OTS.AigTestDataSource();
+       var callback=callbackFunction;
+       dataSource.ActivateTest(testId ,function(msg){
+           callback(msg)
+       });
+   };
+   
+   me.DeActivateTest=function(testid,callbackFunction){
+       var dataSource= new  OTS.AigTestDataSource();
+       var callback=callbackFunction;
+       dataSource.DeActivateTest(testid ,function(msg){
+           callback(msg)
+       });
    };
    
 };

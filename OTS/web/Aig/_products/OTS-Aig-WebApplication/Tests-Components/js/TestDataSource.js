@@ -6,20 +6,21 @@ OTS.AigTestDataSource=function(){
         ListCourseTest:"Aig-ListCourseTest",
         CreateNewTest:"Aig-CreateNewTest",
         UpdateTest:"Aig-UpdateTest",
-        DeleteTest:"Aig-DeleteTest"
-        
+        DeleteTest:"Aig-DeleteTest",
+        ActivateTest:"Aig-ActivateTest",
+        DeActivateTest:"Aig-DeActivateTest"
     };
    me.ListAllTest=function(callbackFunction){
        var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.ListAllCourses},function(msg){
+       $.post("TestGenerationServlet",{action:actionType.ListAllTest},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
    };
    
-   me.ListCourseTest=function(callbackFunction){
+   me.ListCourseTest=function(courseId,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.ListTeacherCourses,ID:data.id,data:JSON.stringify(data.conceptSchemas)},function(msg){
+       $.post("TestGenerationServlet",{action:actionType.ListCourseTest,CourseId:courseId},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -27,7 +28,7 @@ OTS.AigTestDataSource=function(){
    
    me.CreateNewTest=function(data,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.CreateNewCourse,ID:data.id},function(msg){
+       $.post("TestGenerationServlet",{action:actionType.CreateNewTest,data:JSON.stringify(data)},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -35,7 +36,7 @@ OTS.AigTestDataSource=function(){
    
    me.UpdateTest=function(data,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.UpdateCourse,ID:data.id,data:""},function(msg){
+       $.post("TestGenerationServlet",{action:actionType.UpdateTest,data:JSON.stringify(data)},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -43,11 +44,28 @@ OTS.AigTestDataSource=function(){
    
    me.DeleteTest=function(id,callbackFunction){
        var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.SUBMIT,ID:data.id,data:JSON.stringify(data.conceptSchemas)},function(msg){
+       $.post("TestGenerationServlet",{action:actionType.DeleteTest,ID:id},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
    };
+   
+   me.ActivateTest=function(testId,callbackFunction){
+       var callback=callbackFunction;
+       $.post("TestGenerationServlet",{action:actionType.ActivateTest,ID:testId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   me.DeActivateTest=function(testid,callbackFunction){
+       var callback=callbackFunction;
+       $.post("TestGenerationServlet",{action:actionType.DeActivateTest,ID:testid},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
 };
 
 
