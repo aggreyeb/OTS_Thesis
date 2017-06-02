@@ -22,7 +22,8 @@ OTS.AigCourseAssignmentViewModel=function(){
     };
     me.SelectedAction=me.ActionType.NEW;
     me.Binded=false;
- 
+    me.SelectedCourseId=ko.observable("");
+    me.SelectedCourseName=ko.observable("");
     me.Id=ko.observable("");
     me.Number=ko.observable("");
     me.Name=ko.observable("");
@@ -103,8 +104,10 @@ OTS.AigCourseAssignmentViewModel=function(){
          },
          ResetForm:function(){
            
-             me.SelectedCourse("");
-             me.SelectedKnowledgeMaps([]);
+          
+             me.SelectedCourseId("");
+             me.SelectedCourseName("");
+            // me.SelectedKnowledgeMaps([]);
             $('#sel-Course option:selected').removeAttr('selected');
             $('#sel-Course').trigger('chosen:updated');
            
@@ -122,8 +125,10 @@ OTS.AigCourseAssignmentViewModel=function(){
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
-            me.Name(data.Name);
-            me.Number(data.Number);
+            //me.Name(data.Name);
+           // me.Number(data.Number);
+           me.SelectedCourseId(data.Number);
+           me.SelectedCourseName(data.Name);
             me.SelectedAction=me.ActionType.EDIT;
             me.Actions.ResetKnowledgeMapList();
            var knowledgeMapItems= ko.toJS(data.CourseKnowledgeMaps)
@@ -137,7 +142,20 @@ OTS.AigCourseAssignmentViewModel=function(){
             //  $(items[2]).prop('selected', true); 
               $('#sel-knowledgeMaps').trigger("chosen:updated"); 
         },
-        
+        onDelete:function(data,e){
+            me.SelectedCourse=data;
+            courseComponent.DeleteCourseKnowledgeMaps(data.Id,function(msg){
+                var result=JSON.parse(msg);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                        me.CourseKnowledgeMapAssociations.remove(me.SelectedCourse);
+                        me.SelectedCourse=null;
+                         alertBox.ShowSuccessMessage("Course Knowledge Map Deleted");
+                    }
+                    else{
+                         alertBox.ShowErrorMessage("Course Knowledge Map Delete Failed");  
+                    }
+            });
+        },
         onSave:function(){
              var course= ko.toJS(me.SelectedCourse); 
               course.CourseKnowledgeMaps=[];
@@ -148,20 +166,12 @@ OTS.AigCourseAssignmentViewModel=function(){
                 courseComponent.SaveCourseKnowledgeMaps(course,function(e){
                    var result=JSON.parse(e);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                   /*
-                    if(me.SelectedAction===me.ActionType.NEW){
                    
-                     me.CourseKnowledgeMapAssociations.push(course);
-                     alertBox.ShowSuccessMessage("Course Knowledge Map Saved");
-                       me.Actions.ResetForm();
-                    me.SelectedAction=me.ActionType.NEW;
-                     return;
-                   }*/
                   if(me.SelectedAction===me.ActionType.EDIT){
                     me.CourseKnowledgeMapAssociations.replace(me.SelectedCourse,course);
                     alertBox.ShowSuccessMessage("Course Knowledge Map Updated");
                     me.Actions.ResetForm();
-                    me.SelectedAction=me.ActionType.NEW;
+                
                     me.Actions.ResetKnowledgeMapList();
                      return;
                  }
@@ -169,7 +179,7 @@ OTS.AigCourseAssignmentViewModel=function(){
                   
                }//Ok
                else{
-                   alertBox.ShowSuccessMessage("Course Knowledge Map Save Failed"); 
+                   alertBox.ShowErrorMessage("Course Knowledge Map Save Failed"); 
                } 
                 
              });
@@ -191,7 +201,7 @@ OTS.AigCourseAssignmentViewModel=function(){
                me.CourseKnowledgeMapAssociations.push(items[i]);
            }
        }
-       me.SelectedAction=me.ActionType.NEW;
+       me.SelectedAction=me.ActionType.EDIT;
         
    }; 
    me.AddCourseComponent=function(component){

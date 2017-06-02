@@ -232,6 +232,30 @@ public class CourseDataService {
             return  this.UpdateCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
     
       }
+      
+      
+      //DeleteCourseKnowledgeMaps
+      
+       public TransactionResult DeleteCourseKnowledgeMaps(String id){
+        TransactionResult result= new TransactionResult();
+        try{ 
+           
+            String InsertTemplate="DELETE FROM  teacher  Where Id='%s'";
+          String sql= String.format(InsertTemplate,id);
+           this.dataSource.ExecuteNonQuery(sql);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+      
     
       private TransactionResult CreateNewCourseKnowledgeMap( int teacherId,String courseId,String knowledgeMaps){
         TransactionResult result= new TransactionResult();

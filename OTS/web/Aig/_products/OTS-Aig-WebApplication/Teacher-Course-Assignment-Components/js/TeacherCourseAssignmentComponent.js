@@ -71,14 +71,20 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
    };
    
    
-  
+   me.DeleteCourseKnowledgeMaps=function(id,callbackFunction){
+        var callback=callbackFunction;
+        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.DeleteCourseKnowledgeMaps(id,function(msg){
+            callback(msg);
+      });
+   };
    
    me.SaveCourseKnowledgeMaps=function(data,callbackFunction){
        var callback=callbackFunction;
        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
          dataSource.SaveCourseKnowledgeMaps(data,function(msg){
             callback(msg);
-      })
+      });
    };
    
   me.ListTeacherCourseKnowledgeMap=function(courseId,callbackFunction){
