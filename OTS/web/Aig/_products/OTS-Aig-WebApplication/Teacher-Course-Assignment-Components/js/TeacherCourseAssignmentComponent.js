@@ -50,7 +50,7 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
          });
         viewModel.AddCourseComponent(me);
         var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
-        dataSource.ListTeacherCourses(function(msg){
+        dataSource.ListTeacherCourseKnowedgeMapInformation(function(msg){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content)
          viewModel.DataBind(items)
@@ -81,8 +81,23 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
       })
    };
    
- 
+  me.ListTeacherCourseKnowledgeMap=function(courseId,callbackFunction){
+       var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.ListTeacherCourseKnowledgeMap(courseId,function(msg){
+            callback(msg);
+      })
+   };
    
+   me.ListTeacherCourseKnowedgeMapInformation=function(callbackFunction){
+        //Include Course and  Course Knowledge map;
+        var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.ListTeacherCourseKnowedgeMapInformation(function(msg){
+            callback(msg);
+      })
+        
+    };
    
 };
 OTS.AigTeacherCourseAssignmentComponent.prototype=  new Aig.IInitializable();

@@ -121,5 +121,31 @@ public class CourseUnitTesting {
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
     
+    @Test
+    public void RetreiveCourseCourseKnowledgeMap(){
+        
+        //Arrange
+        int teacherId=2;
+        String CourseId="3793e257-453b-40a8-94fa-272a7fc704bc";
+       
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.ListTeacherCourseKnowledgeMap(teacherId, CourseId);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
     
+    @Test
+    public void ListTeacherCourseKnowedgeMapInformation(){
+        
+        //Arrange
+        int teacherId=2;
+       
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.ListTeacherCourseKnowedgeMapInformation(teacherId);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
+     
 }

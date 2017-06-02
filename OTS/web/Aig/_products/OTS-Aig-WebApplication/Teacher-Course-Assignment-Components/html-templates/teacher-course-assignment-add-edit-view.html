@@ -5,20 +5,22 @@
         </div>
     </div><br>
     
+    <!--
     <div class="row">
         <div  class="col-xs-12">
             <div class="input-group">
                 <label style="padding-right: 300px">Select Course</label>
-                 <select id="sel-Course" data-placeholder="Select..." class="chosen-select form-control"  data-bind="options: Courses,
+                 <select id="sel-Course"  class="chosen-select form-control"  data-bind="options: Courses,
+                       optionsCaption: 'Choose...',
+                       optionsValue:'Id',
                        optionsText: 'Name',
-                       value: 'Id',
-                       optionsValue:SelectedCourse,
-                      optionsCaption: 'Choose...'">  
+                       selectedOptions:SelectedCourse,
+                       event:{change:Actions.onCourseChanged}">  
                          
                  </select>
             </div>
         </div>
-    </div><br>
+    </div><br>-->
     <div class="row">
         <div class="col-xs-12">
             <label>Associate Knowledge Maps</label><br>
@@ -32,7 +34,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="margin-left: 2px">
-                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:Actions.onSave,enable:Actions.enableSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
     </div><br>

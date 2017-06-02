@@ -26,6 +26,99 @@ public class CourseDataService {
         this.currentDate = new Date();
     }
     
+     private TeacherCourseKnowledgeMapItem FindCourseKnowlegeMap(List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps, int teacherId,String courseId){
+          TeacherCourseKnowledgeMapItem found=null;
+         if(courseKnowlwdgeMaps==null) return found;
+          
+          for(TeacherCourseKnowledgeMapItem a: courseKnowlwdgeMaps){
+              if(a.TeacherId==teacherId && a.CourseId.equals(courseId)){
+                  found=a;
+                  break;
+              }
+          }
+          
+          return found;
+     }
+   
+    
+    public TransactionResult ListTeacherCourseKnowedgeMapInformation(int teacherid){
+    
+        TransactionResult result= new TransactionResult();
+         List<CourseElement> courses= new ArrayList();
+         List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps= new ArrayList();
+        try{ 
+          String sqlCourseKnowledgeTemplate= "Select  Id,CourseId,TeacherId, CourseKnowledgeMaps  from teacher Where TeacherId=%d";
+          String sql= "Select Id,Number,Name from course where Createdby=" + teacherid;
+          
+          String sqlCourseKnowledge=String.format(sqlCourseKnowledgeTemplate, teacherid);
+          this.dataSource.ExecuteCustomDataSet(sqlCourseKnowledge, courseKnowlwdgeMaps,TeacherCourseKnowledgeMapItem.class);
+          this.dataSource.ExecuteCustomDataSet(sql, courses,CourseElement.class);
+           
+           TeacherCourseKnowledgeMapItem courseKnowledgeMap;
+          List<TeacherCourseKnowledgeMapItem> teacherscourseKnowlwdgeMaps= new ArrayList();
+           for(CourseElement a:courses){
+             TeacherCourseKnowledgeMapItem item= FindCourseKnowlegeMap(courseKnowlwdgeMaps,teacherid,a.Id);
+             if(item!=null){
+                  courseKnowledgeMap= new TeacherCourseKnowledgeMapItem();
+                  courseKnowledgeMap.Id=item.Id;
+                  courseKnowledgeMap.CourseId=a.Id;
+                  courseKnowledgeMap.Name=a.Name;
+                  courseKnowledgeMap.Number=a.Number;
+                  courseKnowledgeMap.CourseKnowledgeMaps=item.CourseKnowledgeMaps;
+                  teacherscourseKnowlwdgeMaps.add(courseKnowledgeMap);
+             }
+             else{
+                 
+                courseKnowledgeMap= new TeacherCourseKnowledgeMapItem();
+                  courseKnowledgeMap.Id="";
+                  courseKnowledgeMap.CourseId=a.Id;
+                  courseKnowledgeMap.Name=a.Name;
+                  courseKnowledgeMap.Number=a.Number;
+                  courseKnowledgeMap.CourseKnowledgeMaps="";
+                  teacherscourseKnowlwdgeMaps.add(courseKnowledgeMap);  
+                 
+             }
+           }
+          
+             Gson g = new Gson();
+             result.Content=g.toJson(teacherscourseKnowlwdgeMaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+   public TransactionResult ListTeacherCourseKnowledgeMap(int teacherid,String courseId){
+       TransactionResult result= new TransactionResult();
+        try{ 
+          String sqlTemplate= "Select  Id,CourseId,CourseKnowledgeMaps  from Teacher Where TeacherId='%s' AND CourseId='%s'";
+          String sql=String.format(sqlTemplate, teacherid,courseId);
+          List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, courseKnowlwdgeMaps,TeacherCourseKnowledgeMapItem.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(courseKnowlwdgeMaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+   }
+    
     public TransactionResult ListAllCourses(){
          
          TransactionResult result= new TransactionResult();
@@ -180,7 +273,6 @@ public class CourseDataService {
              
             }
     }
-    
     
    
     
