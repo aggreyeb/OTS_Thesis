@@ -25,6 +25,13 @@ OTS.AigTestItemGenerationComponent=function(){
         allPanels.hide();
         var panel=  control.SelectById("div-Tests-content");
         panel.show();
+         var dataSource= new  OTS.AigTestDataSource();
+         dataSource.ListTeacherCourses(function(msg){
+             var result=JSON.parse(msg);
+             var courses=JSON.parse(result.Content);
+             viewModel.DataBind(courses);
+              viewModel.PopulateTestList([]);
+         });
          if(initialized) return;
        //  $("#" + componentContainerId).empty();
        

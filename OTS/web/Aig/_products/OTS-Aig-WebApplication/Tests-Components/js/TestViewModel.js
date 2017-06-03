@@ -42,21 +42,25 @@ OTS.AigTestViewModel=function(){
     me.SelectedTest=null;
     
     me.Actions={
-         ResetForm:function(){
+        formHeading:ko.observable("Create New Test"),
+        ResetForm:function(){
             me.Id("");
             me.Name("");
-            me.TotalMark(0);    
+            me.TotalMark("");    
             me.StartDate("");
             me.StartTime("");
             me.EndTime("");
             me.IsActivated(false);
      },    
         onCreateNew:function(){
-            me.Actions.ResetForm();
+             me.Actions.ResetForm();
              me.SelectedAction=me.ActionType.NEW
          },
          onGenetateTestItems:function(data,e){
-             
+              me.SelectedTest=data;
+              $("#div-test-list-add-edit-container").hide();
+              $("#div-test-item-gen-container").show();
+              
          },
          onTeacherCourseChanged:function(data,e){
              var selectedCourse=ko.toJS(me.SelectedCourse())[0];
@@ -85,15 +89,17 @@ OTS.AigTestViewModel=function(){
             me.EndTime(data.EndTime);
             me.IsActivated(data.IsActivated);
             me.SelectedAction=me.ActionType.EDIT
+            me.Actions.formHeading("Edit Test");
         },
         onActivate:function(data,e){
             me.SelectedTest=data;
-            testComponent.ActivateTest(me.SelectedTest.TestId,function(msg){
+            testComponent.ActivateTest(me.SelectedTest.Id,function(msg){
                 var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                       var newItem= ko.toJS(me.SelectedTest);
                       newItem.Activated=1;
-                      me.Tests.raplace(me.SelectedTest,newItem);
+                      newItem.DisplayActivated="Yes";
+                      me.Tests.replace(me.SelectedTest,newItem);
                         me.SelectedTest=null;
                          alertBox.ShowSuccessMessage("Test Activated");
                     }
@@ -106,15 +112,16 @@ OTS.AigTestViewModel=function(){
         },
         onDeActivate:function(data,e){
             me.SelectedTest=data;
-            testComponent.DeActivateTest(me.SelectedTest.TestId,function(msg){
+            testComponent.DeActivateTest(me.SelectedTest.Id,function(msg){
                 var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                        var newItem= ko.toJS(me.SelectedTest);
                        newItem.Activated=0;
-                      me.Tests.raplace(me.SelectedTest,newItem);
+                        newItem.DisplayActivated="No";
+                      me.Tests.replace(me.SelectedTest,newItem);
                         me.SelectedTest=null;
                       
-                         alertBox.ShowSuccessMessage("Test Activated");
+                         alertBox.ShowSuccessMessage("Test DeActivated");
                     }
                     else{
                          alertBox.ShowErrorMessage("Test Activation Failed");  
@@ -126,7 +133,11 @@ OTS.AigTestViewModel=function(){
         onDelete:function(data,e){
             me.SelectedTest=data;
             me.SelectedAction=me.ActionType.DELETE
-            testComponent.DeleteTest(me.SelectedTest.TestId,function(msg){
+            if(me.SelectedTest.Activated===1){
+              alertBox.ShowErrorMessage("Can not delete activated test");
+              return;
+            }
+            testComponent.DeleteTest(me.SelectedTest.Id,function(msg){
                     var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         me.Tests.remove(me.SelectedTest);
@@ -144,6 +155,7 @@ OTS.AigTestViewModel=function(){
             
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
+                     var selectedCourse=ko.toJS(me.SelectedCourse())[0];
                     var testItem= new  OTS.TestItem(me.Name());
                         testItem.Id= new Aig.Guid().NewGuid();
                         testItem.TotalMark=me.TotalMark();
@@ -151,13 +163,15 @@ OTS.AigTestViewModel=function(){
                         testItem.StartTime=  me.StartTime();
                         testItem.Activated=0;
                         testItem.EndTime=me.EndTime();
-                        testItem.CourseId=me.SelectedCourse().Id;
+                        testItem.CourseId=selectedCourse.Id;
                     testComponent.CreateNewTest(testItem,function(msg){
                          var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                            testItem.DisplayActivated="No";
                             me.Tests.push(testItem);
-                       
+                            me.Actions.ResetForm();
+                            //me.SelectedCourse(null);
+                             $("#sel-teacher-Course").val("");
                          alertBox.ShowSuccessMessage("Test Created");
                     }
                     else{
@@ -169,8 +183,9 @@ OTS.AigTestViewModel=function(){
                  break;
                 
                 case me.ActionType.EDIT:
-               
+                     var selectedTest=ko.toJS(me.SelectedTest);
                      var testItem= new  OTS.TestItem(me.Name());
+                        testItem.Id=selectedTest.Id;
                         testItem.TotalMark=me.TotalMark();
                         testItem.StartDate=  me.StartDate();
                         testItem.StartTime=  me.StartTime();
@@ -182,7 +197,9 @@ OTS.AigTestViewModel=function(){
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         me.Tests.replace(me.SelectedTest,testItem);
                         me.SelectedTest=null;
+                        me.Actions.ResetForm();
                         alertBox.ShowSuccessMessage("Test Updated");
+                         $("#sel-teacher-Course").val("");
                     }
                     else{
                          alertBox.ShowErrorMessage("Test Update Failed");  

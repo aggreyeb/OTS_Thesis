@@ -209,6 +209,7 @@ public class TestGenerationServlet extends  Servlet {
           String data;
           Gson json;
           TestElement element;
+           String  ID;
         try{
         UserProfile userProfile=this.LoadSession(request);
          switch(action){
@@ -235,11 +236,22 @@ public class TestGenerationServlet extends  Servlet {
                  service= new TestDataService(new MySqlDataSource());
                   json= new Gson();
                   element= (TestElement)json.fromJson(data, TestElement.class);
-                 return  service.CreateNewTest(element);
+                 return  service.UpdateTest(element);
               case "Aig-DeleteTest":
-                  break;
-                 
-                  
+                     ID=request.getParameter("ID");
+                    service= new TestDataService(new MySqlDataSource());
+                   return  service.DeleteTest(ID);
+              
+               case "Aig-ActivateTest":
+                   ID=request.getParameter("ID");
+                    service= new TestDataService(new MySqlDataSource());
+                   return  service.ActivateTest(ID);
+                
+                  case "Aig-DeActivateTest":
+                   ID=request.getParameter("ID");
+                    service= new TestDataService(new MySqlDataSource());
+                   return  service.DeActivateTest(ID);
+                
                   //old methods
              case  "ListTeacherCourse":
                AcademicTests tests=  new AcademicTests( db);

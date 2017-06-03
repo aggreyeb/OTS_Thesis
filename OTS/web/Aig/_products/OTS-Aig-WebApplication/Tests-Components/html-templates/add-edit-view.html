@@ -1,20 +1,29 @@
 <div style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
     <div class="row">
         <div class="col-xs-12">
-            <h3><span class="label label-default">New/Edit</span></h3>
+            <h3><span data-bind="text:Actions.formHeading" class="label label-default">New/Edit</span></h3>
         </div>
     </div><br>
-    <div  class="row">
-        <div  class="col-xs-6">
+    <div class="row">
+        <div  class="col-xs-12">
             <div class="input-group">
-                <label>Name</label>
+                <label style="padding-right: 180px">Name</label>
                 <input data-bind="value:Name" style="margin-left: 2px" class="form-control" type="text"/>
             </div>
         </div>
+    </div>
+    <div  class="row">
+        
         <div  class="col-xs-6">
             <div class="input-group">
                 <label>Marks</label>
                 <input data-bind="value:TotalMark" style="margin-right: 2px" class="form-control" type="text"/>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="input-group">
+                <label>Start Date</label>
+                <input data-bind="value:StartDate"  class="form-control" type="text"/>
             </div>
         </div>
     </div>
@@ -33,27 +42,17 @@
             </div>
         </div>
     </div>
-     <div  class="row">
-        <div class="col-xs-6">
-            <div class="input-group">
-                <label>Start Date</label>
-                <input data-bind="value:StartDate"  class="form-control" type="text"/>
-            </div>
-        </div>
-        
-     </div><br>
-   
     <div class="row">
         <div class="col-xs-12">
-            <div>
+            <div style="margin-top: 5px">
                 <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
         
     </div><br>
-     <div class="row">
+    <div  class="row">
         <div class="col-xs-12">
-            <div id="alert-test-alert" style="display: none" class="alert alert-success">
+            <div  id="alert-test-alert" style="display: none" class="alert alert-success">
                 Saved
             </div>
         </div>

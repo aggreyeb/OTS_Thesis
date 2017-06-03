@@ -129,8 +129,6 @@ public class TestDataServiceTesting {
         TestDataService dataService= new TestDataService(new MySqlDataSource());
         
         //Act
-        
-      
       
         TransactionResult result=  dataService.ListAllTest();
         //Assert
@@ -138,5 +136,18 @@ public class TestDataServiceTesting {
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
     
+      @Test
+    public void DeleteTest(){
+        //Arrange
+       String testId="446627a8-57e7-472c-a09c-a11b623dbc59";
+        TestDataService dataService= new TestDataService(new MySqlDataSource());
+        
+        //Act
+        TransactionResult result=  dataService.DeleteTest(testId);
+        //Assert
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
+    
+    //446627a8-57e7-472c-a09c-a11b623dbc59
     
 }

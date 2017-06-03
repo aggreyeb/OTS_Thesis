@@ -130,7 +130,8 @@ public class TestDataService {
                TransactionResult result= new TransactionResult();
           
         try{ 
-          String deleteTemplate="DELETE  Exam WHERE TestId='%s'";
+          
+          String deleteTemplate="DELETE FROM exam WHERE Id='%s'";
           String sql= String.format(deleteTemplate,testId);
                                     
           this.dataSource.ExecuteNonQuery(sql);
