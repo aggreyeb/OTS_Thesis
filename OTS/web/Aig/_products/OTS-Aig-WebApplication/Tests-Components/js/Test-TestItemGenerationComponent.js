@@ -6,6 +6,7 @@ OTS.AigTestItemGenerationComponent=function(){
     var initialized=false;
     //var componentContainerId;
      var control= new  Aig.Controls.Control();
+     var viewModel= new OTS.AigTestViewModel();
      
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource("tests-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-add-edit-template");
@@ -84,8 +85,16 @@ OTS.AigTestItemGenerationComponent=function(){
             data: data,         // data is not optional
             backColor: ''
         });
-         
-         
+         viewModel.AddTestComponent(me);
+         var dataSource= new  OTS.AigTestDataSource();
+         dataSource.ListTeacherCourses(function(msg){
+             var result=JSON.parse(msg);
+             var courses=JSON.parse(result.Content);
+             viewModel.DataBind(courses);
+         });
+        
+         ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
+   
      };
      
      

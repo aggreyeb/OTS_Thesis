@@ -5,6 +5,8 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.TestDataService;
+import OTS.Aig.KnowledgeMapDataServices.TestElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -203,27 +205,37 @@ public class TestGenerationServlet extends  Servlet {
     protected ISerializable ExecuteCommand(String action, HttpServletRequest request) {
           Message response= new Response("","");
           DataSource db=new MySqlDataSource();
+          TestDataService  service;
+          String data;
+          Gson json;
+          TestElement element;
         try{
         UserProfile userProfile=this.LoadSession(request);
          switch(action){
-              /*
-                ListAllTest:"Aig-ListAllTest",
-        ListCourseTest:"Aig-ListCourseTest",
-        CreateNewTest:"Aig-CreateNewTest",
-        UpdateTest:"Aig-UpdateTest",
-        DeleteTest:"Aig-DeleteTest"
-             */
+           
              case "Aig-ListAllTest":
-                 break;
-             
+                  service= new TestDataService(new MySqlDataSource());
+                  return  service.ListAllTest();
+               
              case "Aig-ListCourseTest":
-                 break;
+                  String aigcourseId=request.getParameter("CourseId");
+                 service= new TestDataService(new MySqlDataSource());
+                 return  service.ListCourseTest(aigcourseId);
+              
                  
              case "Aig-CreateNewTest":
-                 break;
-                 
+                  data=request.getParameter("data");
+                 service= new TestDataService(new MySqlDataSource());
+                 json= new Gson();
+                  element= (TestElement)json.fromJson(data, TestElement.class);
+                 return  service.CreateNewTest(element);
+               
               case"Aig-UpdateTest":
-                      break;
+                    data=request.getParameter("data");
+                 service= new TestDataService(new MySqlDataSource());
+                  json= new Gson();
+                  element= (TestElement)json.fromJson(data, TestElement.class);
+                 return  service.CreateNewTest(element);
               case "Aig-DeleteTest":
                   break;
                  
@@ -288,7 +300,7 @@ public class TestGenerationServlet extends  Servlet {
                     }
                    
                         //Find Algorithm by name
-                     String data=request.getParameter("data");
+                    data=request.getParameter("data");
                     
                      TestGenerationInput input= new Gson().fromJson(data, TestGenerationInput.class);
                      ITestItemGeneration gen=   this.FindAlgorithm(request, input.UniqueId);

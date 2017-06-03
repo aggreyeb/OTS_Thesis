@@ -8,8 +8,18 @@ OTS.AigTestDataSource=function(){
         UpdateTest:"Aig-UpdateTest",
         DeleteTest:"Aig-DeleteTest",
         ActivateTest:"Aig-ActivateTest",
-        DeActivateTest:"Aig-DeActivateTest"
+        DeActivateTest:"Aig-DeActivateTest",
+        ListTeacherCourses:"Aig-ListTeacherCourses"
     };
+    
+     me.ListTeacherCourses=function(callbackFunction){
+        var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.ListTeacherCourses},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+    
    me.ListAllTest=function(callbackFunction){
        var callback=callbackFunction;
        $.post("TestGenerationServlet",{action:actionType.ListAllTest},function(msg){

@@ -8,13 +8,13 @@
         <div  class="col-xs-6">
             <div class="input-group">
                 <label>Name</label>
-                <input style="margin-left: 2px" class="form-control" type="text"/>
+                <input data-bind="value:Name" style="margin-left: 2px" class="form-control" type="text"/>
             </div>
         </div>
         <div  class="col-xs-6">
             <div class="input-group">
                 <label>Marks</label>
-                <input style="margin-right: 2px" class="form-control" type="text"/>
+                <input data-bind="value:TotalMark" style="margin-right: 2px" class="form-control" type="text"/>
             </div>
         </div>
     </div>
@@ -23,37 +23,37 @@
         <div class="col-xs-6">
             <div class="input-group">
                 <label>Start Time</label>
-                <input class="form-control" type="text"/>
+                <input data-bind="value:StartTime" class="form-control" type="text"/>
             </div>
         </div>
         <div class="col-xs-6">
             <div class="input-group">
                 <label>End Time</label>
-                <input class="form-control" type="text"/>
+                <input data-bind="value:EndTime" class="form-control" type="text"/>
             </div>
         </div>
     </div>
-    
-    <div  class="row">
+     <div  class="row">
         <div class="col-xs-6">
             <div class="input-group">
                 <label>Start Date</label>
-                <input class="form-control" type="text"/>
+                <input data-bind="value:StartDate"  class="form-control" type="text"/>
             </div>
         </div>
         
-    </div><br>
+     </div><br>
+   
     <div class="row">
         <div class="col-xs-12">
             <div>
-                <button class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
         
     </div><br>
      <div class="row">
         <div class="col-xs-12">
-            <div class="alert alert-success">
+            <div id="alert-test-alert" style="display: none" class="alert alert-success">
                 Saved
             </div>
         </div>
