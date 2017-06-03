@@ -49,7 +49,7 @@ public class TestDataService {
        public TransactionResult ListCourseTest(String courseId){
          TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplate= "SELECT  *  FROM  Exam courseId='%s'";
+          String sqlTemplate= "SELECT  *  FROM  exam Where  CourseId='%s'";
           String sql=String.format(sqlTemplate,courseId);
           List<TestElement> tests= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, tests,TestElement.class);
@@ -73,14 +73,17 @@ public class TestDataService {
            TransactionResult result= new TransactionResult();
           
         try{ 
-          String InsertTemplate="INSERT INTO Exam (Id,Name,StartDate,StartTime,EndTime,TotalMark,Activated) Values('%s','%s','%s',%d,'%s')";
-          String sql= String.format(InsertTemplate, testElement.TestId,
+          String InsertTemplate="INSERT INTO Exam (Id,Name,StartDate,StartTime,EndTime,TotalMark,Activated,CourseId) "
+                                   + "Values('%s','%s','%s','%s','%s',%d,%d,'%s')";
+          String sql= String.format(InsertTemplate, 
+                                    testElement.Id,
                                     testElement.Name,
                                     testElement.StartDate,
                                     testElement.StartTime,
                                     testElement.EndTime,
                                     testElement.TotalMark,
-                                    testElement.IsActivated);
+                                    testElement.Activated,
+                                    testElement.CourseId);
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
@@ -100,14 +103,14 @@ public class TestDataService {
              TransactionResult result= new TransactionResult();
           
         try{ 
-          String updateTemplate="UPDATE  Exam SET Id='%s',Name='%s',StartDate='%s',StartTime='%s',EndTime='%s',TotalMark='%d','%d'";
-          String sql= String.format(updateTemplate, testElement.TestId,
+          String updateTemplate="UPDATE  exam SET Name='%s',StartDate='%s',StartTime='%s',EndTime='%s',TotalMark=%d where Id='%s'";
+          String sql= String.format(updateTemplate, 
                                     testElement.Name,
                                     testElement.StartDate,
                                     testElement.StartTime,
                                     testElement.EndTime,
                                     testElement.TotalMark,
-                                    testElement.IsActivated);
+                                    testElement.Id);
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
@@ -149,7 +152,7 @@ public class TestDataService {
               TransactionResult result= new TransactionResult();
           
         try{ 
-          String updateTemplate="UPDATE  Exam SET Activated='%s' WHERE TestId='%s'";
+          String updateTemplate="UPDATE  Exam SET Activated=%d WHERE Id='%s'";
           String sql= String.format(updateTemplate,1,testId );
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
@@ -169,7 +172,7 @@ public class TestDataService {
               TransactionResult result= new TransactionResult();
           
         try{ 
-          String updateTemplate="UPDATE  Exam SET Activated='%s' WHERE TestId='%s'";
+          String updateTemplate="UPDATE  Exam SET Activated=%d WHERE Id='%s'";
           String sql= String.format(updateTemplate,0,testId );
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;

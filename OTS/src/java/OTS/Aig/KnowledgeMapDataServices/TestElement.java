@@ -12,11 +12,13 @@ import java.util.Date;
  * @author MEA
  */
 public class TestElement {
-    String TestId;
-    String Name;
-    int TotalMark;    
-    String StartDate;
-    String StartTime="";
-    String EndTime="";
-    Boolean IsActivated;
+   public String Id;
+   public String Name;
+   public  int TotalMark;    
+   public String StartDate;
+   public String StartTime="";
+   public String EndTime="";
+   public int  Activated;
+   public String CourseId;
+   public String CourseName;
 }
