@@ -53,6 +53,47 @@ OTS.AigStudentAccountComponent=function(){
        currentApplication=application;
        currentApplication.RegisterComponentChanged(componentChanged);
    };
+   
+    me.CreateNewStudent=function(callbackFunction,data){
+       var callback=callbackFunction;
+       var dataSource= new OTS.AigStudentDataSource();
+        dataSource.CreateNewStudent(data,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.UpdateStudent=function(data,callbackFunction){
+        var callback=callbackFunction;
+       var dataSource= new OTS.AigStudentDataSource();
+        dataSource.UpdateStudent(data,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.DeleteStudent=function(id,callbackFunction){
+        var callback=callbackFunction;
+      var dataSource= new OTS.AigStudentDataSource();
+        dataSource.DeleteStudent(id,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.ResetPassword=function(id,callbackFunction){
+        var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.ResetPassword(id,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.ListStudentRegisteredCourse=function(id,callbackFunction){
+       var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.ListStudentRegisteredCourse(id,function(msg){
+            callback(msg);
+        });
+   };
+   
 };
 OTS.AigStudentAccountComponent.prototype=  new Aig.IInitializable();
 OTS.AigStudentAccountComponent.prototype.constructor= OTS.AigStudentAccountComponent;

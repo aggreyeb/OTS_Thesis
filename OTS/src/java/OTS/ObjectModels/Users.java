@@ -349,10 +349,10 @@ public class Users {
        //this.dataSource.BeginTransaction();
       
         OTS.DataModels.User user= (OTS.DataModels.User)dataSource.Find(OTS.DataModels.User.class, new Integer(userAccount.Id));
-       // user.setFirstName(userAccount.FirstName);
-       // user.setFirstName(userAccount.LastName);
+        user.setFirstName(userAccount.FirstName);
+        user.setLastName(userAccount.LastName);
         
-        user.setEmail(userAccount.Email);
+        //user.setEmail(userAccount.Email);
         user.setPhone(userAccount.Phone);
         this.dataSource.Update(user);
         

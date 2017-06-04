@@ -92,4 +92,11 @@ public class Response extends Message  {
        this.identity=identity;
     }
    
+    public String Status(){
+        return this.status;
+    };
+    
+    public String CurrentId(){
+        return String.valueOf(this.id);
+    }
 }
