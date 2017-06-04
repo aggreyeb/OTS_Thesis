@@ -5,6 +5,8 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.StudentDataService;
+import OTS.Aig.KnowledgeMapDataServices.StudentElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -88,18 +90,50 @@ public class UserManagementServlet extends Servlet {
           DataSource db=new MySqlDataSource();
            OTS.ObjectModels.Users users=null;
           int userTypeId=-1;
+          StudentDataService service;
+          String data;
+           StudentElement studentitem;
+            int  id ;
         try{
        
          switch(action){
-              case  "SaveUser":
-                String data=  request.getParameter("data");
+             
+               case  "Aig-CreateNewStudent":
+                data=  request.getParameter("data");
+                studentitem=new Gson().fromJson(data, StudentElement.class);
+                service= new StudentDataService(new MySqlDataSource());
+                return service.CreateNewStudent(studentitem);
+                
+                case  "Aig-UpdateStudent":
+                 data=  request.getParameter("data");
+                studentitem=new Gson().fromJson(data, StudentElement.class);
+                service= new StudentDataService(new MySqlDataSource());
+                return service.UpdateStudent(studentitem);
+             
+                case  "Aig-ResetPassword":
+                 int  accountId   = Integer.parseInt(request.getParameter("AccountId")); 
+                service= new StudentDataService(new MySqlDataSource());
+                return service.ResetPassword(accountId);
+                
+               case  "Aig-DeleteStudent":
+               id   = Integer.parseInt(request.getParameter("ID")); 
+                service= new StudentDataService(new MySqlDataSource());
+                return service.DeleteStudent(id);
+                
+                 case  "Aig-ListAllStudents":
+                service= new StudentDataService(new MySqlDataSource());
+                return service.ListAllStudents();
+                
+             //**********Old Methods*************
+             case  "SaveUser":
+                data=  request.getParameter("data");
                 UserAccountItem item=new Gson().fromJson(data, UserAccountItem.class);
                 users= new OTS.ObjectModels.Users(response,db);
                 users.Save(item);
                  break;
                   
            case  "DeleteUser":
-                int id= Integer.parseInt(request.getParameter("Id"));
+                 id= Integer.parseInt(request.getParameter("Id"));
                 users= new OTS.ObjectModels.Users(response,db);
                 users.Delete(id);
                  break;

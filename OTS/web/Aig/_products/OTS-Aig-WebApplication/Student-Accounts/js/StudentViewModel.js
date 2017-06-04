@@ -7,18 +7,18 @@ OTS.UserType={
 };
 OTS.StudentItem=function(){
     var me=this;
-    me.Id=ko.observable(0);
-    me.FirstName=ko.observable("");
-    me.LastName=ko.observable("");
-    me.Email=ko.observable("");
-    me.Phone=ko.observable("");
-    me.UserType=ko.observable(OTS.UserType.Student);
+    me.Id=0;
+    me.FirstName="";
+    me.LastName="";
+    me.Email="";
+    me.Phone="";
+    me.UserTypeId=OTS.UserType.Student;
 };
 
 OTS.AigStudentViewModel=function(){
     var me=this;
     var studentComponent=null;
-    var alertBox=new Aig.AlertBox("alert-student-alert");
+    var alertBox=new Aig.AlertBox("alert-student-account-alert");
     me.ActionType={
        NEW:"NEW" ,
        EDIT:"EDIT",
@@ -28,14 +28,21 @@ OTS.AigStudentViewModel=function(){
     me.SelectedAction="";
     me.Binded=false;
     
+    me.Id=ko.observable(0);
+    me.FirstName=ko.observable("");
+    me.LastName=ko.observable("");
+    me.Email=ko.observable("");
+    me.Phone=ko.observable("");
+    me.UserType=ko.observable(OTS.UserType.Student);
+    
     me.Students=ko.observableArray([]);
     me.SelectedStudent={};
     
     me.Actions={
          formHeading:ko.observable("Create new Student Account"),
-         
+         emailVisible:ko.observable(true),
          ResetForm:function(){
-           me.FirstName=("");
+           me.FirstName("");
            me.LastName("");
            me.Email("");
            me.Phone("");
@@ -47,16 +54,19 @@ OTS.AigStudentViewModel=function(){
          },
        
         onEdit:function(data,e){
-           me.FirstName=(data.FirstName);
+            me.SelectedStudent=data;
+            me.FirstName(data.FirstName);
            me.LastName(data.LastName);
            me.Email(data.Email);
            me.Phone(data.Phone);
+           me.Actions.emailVisible(false);
+           me.Actions.formHeading("Edit Student Account")
            me.SelectedAction=me.ActionType.EDIT
         },
-        ResetPassword:function(data,e){
-           
-                 var Id=me.SelectedStudent.Id;
-                  studentComponent.CreateNewStudent(Id,function(msg){
+        onResetPassword:function(data,e){
+                 me.SelectedStudent=data;
+                 var accountId=me.SelectedStudent.AccountId;
+                  studentComponent.ResetPassword(accountId,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                           me.Actions.ResetForm();
@@ -70,13 +80,13 @@ OTS.AigStudentViewModel=function(){
         },
         onDelete:function(data,e){
             me.SelectedAction=me.ActionType.DELETE
-             
+                    me.SelectedStudent=data;
                    var Id=me.SelectedStudent.Id;
-                  studentComponent.CreateNewStudent(Id,function(msg){
+                  studentComponent.DeleteStudent(Id,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         studentItem.Id=result.CurrentId;
-                         me.Students.push(studentItem);
+                        
+                         me.Students.remove(me.SelectedStudent);
                           me.Actions.ResetForm();
                          alertBox.ShowSuccessMessage("Student Record deleted");
                     }
@@ -91,11 +101,12 @@ OTS.AigStudentViewModel=function(){
             
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
-                    var studentItem=OTS.StudentItem();
+                    var studentItem=new OTS.StudentItem();
                     studentItem.FirstName=me.FirstName();
                     studentItem.LastName=me.LastName();
                     studentItem.Email=me.Email();
                     studentItem.Phone=me.Phone();
+                    studentItem.UserType=OTS.UserType.Student;
                   studentComponent.CreateNewStudent(studentItem,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -113,13 +124,13 @@ OTS.AigStudentViewModel=function(){
                  break;
                 
                 case me.ActionType.EDIT:
-               var studentItem=OTS.StudentItem();
-                     studentItem.Id=me.me.SelectedStudent.Id;
+               var studentItem= new OTS.StudentItem();
+                    studentItem.Id=me.SelectedStudent.Id;
                     studentItem.FirstName=me.FirstName();
                     studentItem.LastName=me.LastName();
                     studentItem.Email=me.Email();
                     studentItem.Phone=me.Phone();
-                  studentComponent.CreateNewStudent(studentItem,function(msg){
+                  studentComponent.UpdateStudent(studentItem,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                          studentItem.Id=result.CurrentId;
@@ -141,8 +152,15 @@ OTS.AigStudentViewModel=function(){
     };
    me.DataBind=function(items){
        if(items===undefined || items===null)return;
+       me.Students([]);
        if(items.length){
            for(var i=0;i<items.length;i++){
+               if(!items[i].Phone){
+                  items[i].Phone="" ;
+               }
+               if(!items[i].Email){
+                  items[i].Email="" ;
+               }
                me.Students.push(items[i]);
            }
        }
@@ -150,9 +168,11 @@ OTS.AigStudentViewModel=function(){
         me.SelectedAction=me.ActionType.NEW;
    }; 
    
-   me.AddStudentConponet=function(component){
+   me.AddStudentConponent=function(component){
        studentComponent=component;
    };
+   
+   
 };
 
 

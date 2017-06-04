@@ -13,9 +13,18 @@ OTS.AigStudentDataSource=function(){
         
         
     };
-   me.CreateNewStudent=function(callbackFunction,data){
+    
+     me.ListAllStudents=function(callbackFunction){
        var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.CreateNewStudent,data:data},function(msg){
+       $.post("UserManagementServlet",{action:actionType.ListAllStudents},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+    
+   me.CreateNewStudent=function(data,callbackFunction){
+       var callback=callbackFunction;
+       $.post("UserManagementServlet",{action:actionType.CreateNewStudent,data:JSON.stringify(data)},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -23,7 +32,7 @@ OTS.AigStudentDataSource=function(){
    
    me.UpdateStudent=function(data,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.UpdateStudent,data:JSON.stringify(data.conceptSchemas)},function(msg){
+       $.post("UserManagementServlet",{action:actionType.UpdateStudent,data:JSON.stringify(data)},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -31,7 +40,7 @@ OTS.AigStudentDataSource=function(){
    
    me.DeleteStudent=function(Id,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.DeleteStudent,ID:Id},function(msg){
+       $.post("UserManagementServlet",{action:actionType.DeleteStudent,ID:Id},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -39,7 +48,7 @@ OTS.AigStudentDataSource=function(){
    
    me.ResetPassword=function(Id,callbackFunction){
         var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.ResetPassword,ID:Id},function(msg){
+       $.post("UserManagementServlet",{action:actionType.ResetPassword,AccountId:Id},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
@@ -47,7 +56,7 @@ OTS.AigStudentDataSource=function(){
    
    me.ListStudentRegisteredCourse=function(id,callbackFunction){
        var callback=callbackFunction;
-       $.post("TestGenerationServlet",{action:actionType.ListStudentRegisteredCourse,ID:id},function(msg){
+       $.post("UserManagementServlet",{action:actionType.ListStudentRegisteredCourse,ID:id},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });

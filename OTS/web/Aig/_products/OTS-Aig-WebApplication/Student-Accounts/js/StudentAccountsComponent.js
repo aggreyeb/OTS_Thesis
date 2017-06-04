@@ -6,6 +6,7 @@ OTS.AigStudentAccountComponent=function(){
     var initialized=false;
     //var componentContainerId;
      var control= new  Aig.Controls.Control();
+    var  viewModel= new OTS.AigStudentViewModel();
    
     var basethtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("student-account-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("student-account-add-edit-template");
@@ -24,9 +25,14 @@ OTS.AigStudentAccountComponent=function(){
         allPanels.hide();
         var panel=  control.SelectById("div-studentAccount-content");
         panel.show();
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.ListAllStudents(function(msg){
+              var result=JSON.stringify(msg);
+              var items=JSON.stringify(result.Content);
+              viewModel.DataBind(items);
+        });
          if(initialized) return;
-        // $("#" + componentContainerId).empty();
-      
+        
         var basegenHtml= basethtmlTemplateDataSource.Read();
        
         var basegenappendableControl=new Aig.Controls.AppendableControl("div-studentAccount-content");
@@ -41,7 +47,14 @@ OTS.AigStudentAccountComponent=function(){
         var listappendableControl=new Aig.Controls.AppendableControl("div-student-account-list");
          listappendableControl.Append(listHtml,function(e){});
         
-     
+         viewModel.AddStudentConponent(me);
+          var dataSource= new OTS.AigStudentDataSource();
+        dataSource.ListAllStudents(function(msg){
+              var result=JSON.parse(msg);
+              var items=JSON.parse(result.Content);
+              viewModel.DataBind(items);
+        });
+          ko.applyBindings(viewModel,$("#div-studentAccount-content")[0]);
      };
     me.UnInitialize=function(){
         initialized=false;
@@ -54,7 +67,7 @@ OTS.AigStudentAccountComponent=function(){
        currentApplication.RegisterComponentChanged(componentChanged);
    };
    
-    me.CreateNewStudent=function(callbackFunction,data){
+    me.CreateNewStudent=function(data,callbackFunction){
        var callback=callbackFunction;
        var dataSource= new OTS.AigStudentDataSource();
         dataSource.CreateNewStudent(data,function(msg){

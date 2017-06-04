@@ -1,7 +1,7 @@
 <div class="table-responsive" style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
     <div class="row">
         <div class="col-xs-12">
-            <h3><span data-bind="text:formHeading" class="label label-default">New/Edit</span></h3>
+            <h3><span data-bind="text:Actions.formHeading" class="label label-default">New/Edit</span></h3>
         </div>
     </div><br>
     <div  class="row">
@@ -27,22 +27,22 @@
             </div>
         </div>
         <div class="col-xs-6">
-            <div class="input-group">
+            <div  data-bind="visible:Actions.emailVisible" class="input-group ">
                 <label>Email</label>
-                <input class="form-control" type="text"/>
+                <input  data-bind="value:Email"class="form-control" type="text"/>
             </div>
         </div>
     </div><br>
     <div class="row">
         <div class="col-xs-12">
             <div>
-                <button data-bind="click:Actions." class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
     </div><br>
-     <div class="row">
+     <div  class="row">
         <div class="col-xs-12">
-            <div style="display: none" class="alert-student-alert">
+            <div  style="display: none" class="alert alert-success" id="alert-student-account-alert">
                 Saved
             </div>
         </div>

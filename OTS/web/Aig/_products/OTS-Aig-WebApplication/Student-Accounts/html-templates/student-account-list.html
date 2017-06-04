@@ -13,20 +13,20 @@
                      <th>First Name</th>
                      <th>Last Name</th>
                      <th>Phone Number</th>
-                     <th>Email Address</th>
+                     <th class="hide">Email Address</th>
                       <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-bind="foreach:Students">
                 <tr>
-                    <td> Eb </td>
-                    <td> Aggrey</td>    
-                     <td>Phone Number</td>
-                     <td>Email Address</td>  
-                    <td> 
-                        <a title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
-                        <a title="Delete" href="#"><i class="fa fa-remove"></i></a>
-                        <a title="Reset Password" href="#"><i class="fa fa-undo"></i></a>
+                    <td data-bind="text:FirstName"> </td>
+                    <td data-bind="text:LastName"> </td>    
+                    <td data-bind="text:Phone"></td>
+                    <td class="hide" data-bind="text:Email"></td>  
+                    <td style="width: 10%"> 
+                        <a data-bind="event:{click:$parent.Actions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
+                        <a data-bind="event:{click:$parent.Actions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                        <a data-bind="event:{click:$parent.Actions.onResetPassword}" title="Reset Password" href="#"><i class="fa fa-undo"></i></a>
                     </td>  
                 </tr>
             </tbody>
