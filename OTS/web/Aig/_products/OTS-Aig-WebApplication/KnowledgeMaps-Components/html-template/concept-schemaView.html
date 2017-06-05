@@ -147,57 +147,87 @@
                           <a data-bind="click:$root.addFunction" class="btn btn-sm btn-info" href="#">Add New</a>
                       </div>
                   </div>
-                  <div data-bind="foreach:conceptSchema.functions" style="border: 1px solid black;margin-top: 2px" id="forach-function">
-                      <div  class="row">
-                         
-                              <div class="col-xs-6">
-                                  <label >Name</label>
-                                  <input data-bind="value:name" style="width: 100%" class="form-control" type="text"/>
-                              </div>
-                             
-                              <div class="col-xs-6">
-                                  <label >Purpose</label>
-                                  <input data-bind="value:purpose" style="width: 100%"  class="form-control" type="text"/>
-                              </div>
-                      </div>
-                      
-                      <div class="row">
-                         
-                              <div class="col-xs-6">
-                                  <label >Pre Condition</label>
-                                  <input data-bind="value:preCondition" style="width: 100%" class="form-control" type="text"/>
-                              </div>
-                             
-                              <div class="col-xs-6">
-                                  <label >Post Condition</label>
-                                  <input data-bind="vale:postCondition" style="width: 100%" class="form-control" type="text"/>
-                              </div>
-                      </div><br>
-                   
-                      <div class="row">
-                          <div class="col-xs-12">
-                              <a title="Show or hide Algorithm editor" style="margin-bottom: 1px" data-toggle="collapse" href="#hide-show-algorithem"><span class="label label-default">Algorithm(+/-)</span></a>
-                          </div>
-                         
-                      </div> <br>
-                      
-                      <div class="panel-collapse collapse" id="hide-show-algorithem">
-                        <div class="row">
-                          <div class="col-xs-6">
-                              <textarea data-bind="value:algorithm.text" style="resize: horizontal;width: 500px;height: 200px"></textarea>
-                          </div>
-                        </div><br>
-                       <div class="row">
-                          <div class="col-xs-12">
-                              <label>Select Time Complexity</label>
-                              <select class="form-control">
-                                  <option value="1">O(1)</option>
-                                  <option value="1">O(nlogn)</option>
-                              </select>
-                          </div>
-                      </div>
-                      </div>
-                      <hr>
+                  <div   style="border: 1px solid #ddd;margin-top: 2px;overflow-y: scroll;height: 700px" id="forach-function">
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th></th>
+                                 
+                              </tr>
+                          </thead>
+                          <tbody  data-bind="foreach:conceptSchema.functions">
+                              <tr style=" width: 100%">
+                                  <td>
+                                      <div >
+                                          <div class="pull-right" style="margin-right:100px ">
+                                              <span  title="Delete function" class=""><a href="#"><i class="fa fa-remove fa-2x"></i></a></span> 
+                                          </div>
+                                         
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label style="padding-right: 780px">Name</label>
+                                                      <input data-bind="value:name" style="width: 780px" class="form-control" type="text"/>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div>  
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label style="padding-right: 780px">Purpose</label>
+                                                      <input data-bind="value:purpose" style="width: 780px" class="form-control" type="text"/>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div> 
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label style="padding-right: 780px">Pre Condition</label>
+                                                      <input data-bind="value:preCondition" style="width: 780px" class="form-control" type="text"/>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div> 
+                                           <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label style="padding-right: 780px">Post Condition</label>
+                                                      <input data-bind="value:postCondition" style="width: 780px" class="form-control" type="text"/>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div> 
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label>Algorithm</label><br>
+                                                      <label>Time Complexity</label>
+                                                       <select class="form-control">
+                                                            <option value="1">O(1)</option>
+                                                            <option value="2">O(nlogn)</option>
+                                                       </select>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div> 
+                                          <div class="row">
+                                              <div class="col-xs-12">
+                                                  <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
+                                                      <label style="padding-right: 780px">Source Code</label>
+                                                      <textarea data-bind="value:algorithm.text" placeholder="enter Source code here" style="resize: horizontal;width: 500px;height: 200px"></textarea>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div> 
+                                          <hr>
+                                      </div>
+                                  </td>
+                                 
+                              </tr>
+                          </tbody>
+                      </table>
                   </div>
               </div><!--body-->
             </div>
