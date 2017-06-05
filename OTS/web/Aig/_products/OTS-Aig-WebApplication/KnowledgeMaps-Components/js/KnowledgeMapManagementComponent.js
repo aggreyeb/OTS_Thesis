@@ -110,7 +110,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           }
       });
       
-       knowlegemapListManagement.DataBind(items);
+       //knowlegemapListManagement.DataBind(items);
             return;
       }
        renderLayouts();

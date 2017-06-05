@@ -19,8 +19,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
         Delete:"Delete"
     };
     me.selectedKnowledgeMap=null;
+    me.KnowledgeMapTreeStateChanged=false;
+    me.ConceptSchemaStateChanged=false;
+    me.PreviousSelectedNode={};
    
     me.selectedMode="";
+   var selectedNodeText="Selected Node:";
  /***********************KNOWLEGE MAP LIST VIEW*********************************/
     me.knowledgeMaplistView={
         knowledgeMaps:ko.observableArray([]),                    
@@ -54,11 +58,15 @@ OTS.AigKnowledgeMapListManagementView=function(){
         },
         onEdit:function(data,e){
             me.ResetConceptSchema();
+            me.conceptSchema.selectedRelationship(data.selectedRelationship);
             me.ShowKnowledgeMapEditor();
             me.HideKnowedgeMapList();
+            me.showConceptSchemaAlert(true);
+            me.showConceptSchemaHeading(false);
+          
             //subcribe treeNode Selected event
             me.selectedKnowledgeMap=data;
-           
+            //me.conceptSchema.ResetConceptSchema();
           //  me.FillConceptSchema(data);
             $("#pan-show-conceptschema-submit").show();
             $("#submit-spinner").hide();
@@ -69,12 +77,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
              switch(action){
                  case "updated":
                   
-                      dataDatabase.Save( me.selectedKnowledgeMap.id,e.data);
+                     // dataDatabase.Save( me.selectedKnowledgeMap.id,e.data);
                        break;
                  case "added":
                      
-                     var item=JSON.parse(e.data)[0];
-                     dataDatabase.Save(item.id,e.data);
+                    // var item=JSON.parse(e.data)[0];
+                   //  dataDatabase.Save(item.id,e.data);
                        break;
                    
                    default:
@@ -90,12 +98,15 @@ OTS.AigKnowledgeMapListManagementView=function(){
                     description:data.description,nodes:data.nodes};
                
                 knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[item]);
+                
                return;
           };
           var item=JSON.parse(data.conceptSchemas);
           var knowledgemap=JSON.parse(item);
           knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[knowledgemap]);
-          
+           
+           var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();
+           knowledgeMapTreeView.UnSelectNodes();
         },
         onReturnToKnowledgeMapList:function(){
             me.HideKnowledgeMapEditor();
@@ -241,41 +252,93 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
   /************************KNOWLEDGE MAP TREE VIEW ***************************/
      me.AutoUpdateTreeview=function(selectedNodeid){
+        
+         var conceptSchema=ko.toJS(me.conceptSchema);
+         var selectedRelationship=conceptSchema.selectedRelationship[0];
          var nodeItem={
              id: selectedNodeid,
-             relationshipid:me.conceptSchema.selectedRelationship.id,
-             relationshipname:me.conceptSchema.selectedRelationship.name,
-             behaviourdescription:me.conceptSchema.description,
+             relationshipid:selectedRelationship.id,
+             relationshipname:selectedRelationship.name,
+             behaviourdescription:conceptSchema.behaviourdescription,
              attributes:ko.toJS(me.conceptSchema.attributes()),
              functions:ko.toJS(me.conceptSchema.functions()),
              applications:ko.toJS(me.conceptSchema.applications()),
-             behaviourDescriptions:ko.toJS(me.conceptSchema.behaviourdescription())
+             behaviourDescriptions:ko.toJS(me.conceptSchema.behaviourDescriptions()),
+             selectedRelationship:selectedRelationship
          };
          knowledgeMapTreeView.UpdateNode(nodeItem);
      };
     
     me.knowledgeMapEditorViewModel={
           selectedNode:"",
+          nodeText:ko.observable("Test Node"),
+          relationTypes:ko.observableArray([{id:1,name:"TypeOf"},{id:1,name:"PartOf"}]),
+          selectedRelationType:ko.observable(),
           onSelectedNode:function(e){
-            
-              //root node
-              if(e.parentid===undefined ||e.parentid===null || e.parentid==="")
-                  return;
+             
+              me.conceptSchemaFormHeading(selectedNodeText + e.name);
+              
+              if(e.parentid===undefined ||e.parentid===null || e.parentid===""){
+                  //$("#cmd-submit-knowledgeMap-with-coneceptschema").click();
+                me.knowledgeMapEditorViewModel.selectedNode=null;
+                me.ResetConceptSchema();
+                me.showConceptSchemaAlert(true);
+                me.showConceptSchemaHeading(false);
+                
+              }
+              else{
+                me.PreviousSelectedNode=ko.toJS(me.knowledgeMapEditorViewModel.selectedNode);
+                me.knowledgeMapEditorViewModel.selectedNode=e;
+               /*
               if(me.knowledgeMapEditorViewModel.selectedNode!==undefined &&
                       me.knowledgeMapEditorViewModel.selectedNode!==null 
                       && me.knowledgeMapEditorViewModel.selectedNode!==""){ 
                 me.AutoUpdateTreeview(me.knowledgeMapEditorViewModel.selectedNode.id);
+                
               }
-              
-               me.knowledgeMapEditorViewModel.selectedNode=e;
-               
-              var parentNode= knowledgeMapTreeView.FindNode(e.parentid);
-              me.ResetConceptSchema();
-              me.FillConceptSchema(e,parentNode);
+               */
+            
+             if(me.ConceptSchemaStateChanged || me.KnowledgeMapTreeStateChanged){
+                 
+                 if(me.PreviousSelectedNode!==undefined &&
+                      me.PreviousSelectedNode!==null 
+                      && me.PreviousSelectedNode!==""){ 
+                     //Save the previous node before switching
+                     me.AutoUpdateTreeview(me.PreviousSelectedNode.id);
+               }
+                  var nodes= knowledgeMapTreeView.ToJson();
+                         var item ={
+                                       id:me.selectedKnowledgeMap.id,
+          
+                                       conceptSchemas:nodes
+                                  };
+                    knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
+                           
+                             me.ConceptSchemaStateChanged=false;
+                             me.KnowledgeMapTreeStateChanged=false;
+                             me.ResetConceptSchema();
+                             me.showConceptSchemaAlert(false);
+                             me.showConceptSchemaHeading(true);
+                             var parentNode= knowledgeMapTreeView.FindNode(e.parentid);
+                             me.FillConceptSchema(e,parentNode);
+                             
+                    });
+                 
+                 }
+                 else{
+                     //No Change 
+                       me.ResetConceptSchema();
+                       me.showConceptSchemaAlert(false);
+                       me.showConceptSchemaHeading(true);
+                      var parentNode= knowledgeMapTreeView.FindNode(e.parentid);
+                      me.FillConceptSchema(e,parentNode);
+                 }
+             
+            }
+             
           },
-          nodeText:ko.observable("Test Node"),
-          relationTypes:ko.observableArray([{id:1,name:"TypeOf"},{id:1,name:"PartOf"}]),
-          selectedRelationType:ko.observable(),
+         
+         
          addNode:function(){
             if(!me.knowledgeMapEditorViewModel.canAddNode()){
                 alert("It appears node name is empty or node is not selected");
@@ -283,37 +346,46 @@ OTS.AigKnowledgeMapListManagementView=function(){
             }
             
            var nodeName =  me.knowledgeMapEditorViewModel.nodeText();
-           var currentNodeSelected=me.knowledgeMapEditorViewModel.selectedNode;
+             var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+           var currentNodeSelected= selectedNodes[0]; //me.knowledgeMapEditorViewModel.selectedNode;
           // var nodeParentId = currentNodeSelected.id;
-           var conceptNode = new OTS.DataModel.ConceptNode(nodeName, nodeName);
+          var nodeId=new Aig.Guid().NewGuid();
+           var conceptNode = new OTS.DataModel.ConceptNode(nodeId, nodeName,currentNodeSelected.id);
            //set the parent of the node
            conceptNode.parentNodeId=currentNodeSelected.id;
            knowledgeMapTreeView.AddNode(currentNodeSelected, conceptNode);
+            me.KnowledgeMapTreeStateChanged=true;
+            
           },
           removeNode:function(){
            
-              if(me.knowledgeMapEditorViewModel.selectedNode===undefined || 
-                      me.knowledgeMapEditorViewModel.selectedNode===null){
+              if(!me.knowledgeMapEditorViewModel.canRemoveNode()){
                   alert("It appears no node is not selected");
                   return;
               }
-               var currentNodeSelected=me.knowledgeMapEditorViewModel.selectedNode;
-               knowledgeMapTreeView.RemoveNode(currentNodeSelected);
-                me.knowledgeMapEditorViewModel.selectedNode=null;
+              // var currentNodeSelected=me.knowledgeMapEditorViewModel.selectedNode;
+               var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+              var currentNodeSelected=selectedNodes[0];
+              knowledgeMapTreeView.RemoveNode(currentNodeSelected);
+               // me.knowledgeMapEditorViewModel.selectedNode=null;
                 knowledgeMapTreeView.Refresh();
+               me.KnowledgeMapTreeStateChanged=true;
           },
           updateNode:function(){
                alert("update node");
           },
           canAddNode:function(){
-              return  me.knowledgeMapEditorViewModel.nodeText()!=="" &&
-                       me.knowledgeMapEditorViewModel.selectedNode!==undefined &&
-                        me.knowledgeMapEditorViewModel.selectedNode!==null;
+           var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+               return selectedNodes.length>0;
+             
           },
           canUpdateNode:function(){
-               return 
-                      me.knowledgeMapEditorViewModel.selectedNode!==undefined &&
-                      me.knowledgeMapEditorViewModel.selectedNode!==null;
+              var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+               return selectedNodes.length>0;
+          },
+          canRemoveNode:function(){
+               var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();
+               return selectedNodes.length>0;
           }
       };
     me.HideSaveAlert=function(){
@@ -362,13 +434,17 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
     me.Render=function(){
        me.selectedMode=modeType.New;
+       me.ConceptSchemaStateChanged=false;
+       me.KnowledgeMapTreeStateChanged=false;
         ko.applyBindings(me,$("div-knowledgemaps-content")[0]);
     };
   
   /*****************END KNOWLEDGE MAP TREE VIEW ********************************/
   
   /*****************CONCEPT SCHEMA *****************************************/
-   me.conceptSchema= {
+  
+    me.conceptSchemaFormHeading=ko.observable(selectedNodeText + " None");
+    me.conceptSchema= {
         id:ko.observable(""),
         text:ko.observable(""),
         selectedNodeName:ko.observable(""),
@@ -399,43 +475,49 @@ OTS.AigKnowledgeMapListManagementView=function(){
         me.conceptSchema.attributes([]);
         me.conceptSchema.functions([]);
         me.conceptSchema.applications([]);
-        me.conceptSchema.selectedNodeName("");
-        
+        me.conceptSchema.selectedNodeName(""),
         me.conceptSchema.selectedRelationship(null);
      };
    
         me.addNewBehaviourDescription=function(){
-           
             var behaviourDescripton=new OTS.DataModel.BehaviourDescription();
             me.conceptSchema.behaviourDescriptions.push(behaviourDescripton);
+            me.ConceptSchemaStateChanged=true;
         };
          me.removeBehaviourDescription=function(data,event){
           
            me.conceptSchema.behaviourDescriptions.remove(data);
+            me.ConceptSchemaStateChanged=true;
         };
          me.addAttribute=function(){
            
             var attribute=new OTS.DataModel.Attribute();
            me.conceptSchema.attributes.push(attribute);
+            me.ConceptSchemaStateChanged=true;
         };
          removeAttribute=function(data,event){
             me.conceptSchema.attributes.remove(data);
+             me.ConceptSchemaStateChanged=true;
         };
          me.addFunction=function(){
            
             var _function=new OTS.DataModel.Function();
           me.conceptSchema.functions.push(_function);
+           me.ConceptSchemaStateChanged=true;
         };
         me.removeFunction=function(data,event){
             me.conceptSchema.functions.remove(data);
+             me.ConceptSchemaStateChanged=true;
         };
         
         me.addApplication=function(){
             var application=new OTS.DataModel.ConceptApplication();
             me.conceptSchema.applications.push(application);
+             me.ConceptSchemaStateChanged=true;
         };
         me.removeApplication=function(data,event){
-            me.conceptSchema.applications.remove(data);
+             me.conceptSchema.applications.remove(data);
+             me.ConceptSchemaStateChanged=true;
         };
    
       
@@ -465,19 +547,18 @@ OTS.AigKnowledgeMapListManagementView=function(){
         
         knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
              $(".icon-spinner").hide();
-            //alert(JSON.stringify(msg));
+             me.ConceptSchemaStateChanged=false;
+             me.KnowledgeMapTreeStateChanged=false;
+            alert(JSON.stringify(msg));
         });
         
     };
     
     /*****************END CONCEPT SCHEMA *****************************************/
-      me.FillConceptSchema = function (data,parentNode) {
+    me.showConceptSchemaAlert=ko.observable(true);
+    me.showConceptSchemaHeading=ko.observable(false);
+    me.FillConceptSchema = function (data,parentNode) {
       
-       
-           //me.conceptSchema.id(parentNode.id);
-          // me.conceptSchema.text(parentNode.text);
-           //me.conceptSchema.selectedNodeName(parentNode.name);
-        
        
            if(data.selectedRelationship){
                me.conceptSchema.selectedRelationship(data.selectedRelationship.id);
@@ -485,22 +566,29 @@ OTS.AigKnowledgeMapListManagementView=function(){
            }
           
            me.conceptSchema.parentid(parentNode.id||"");
-            me.conceptSchema.parentname(parentNode.text||"");
+           me.conceptSchema.parentname(parentNode.text||"");
+           me.conceptSchema.behaviourdescription(data.behaviourdescription||"");
+          
             if(data.selectedRelationship){
               me.conceptSchema.relationshipid(data.selectedRelationship.id ||""); 
               me.conceptSchema.relationshipname(data.selectedRelationship.name ||"");
             }
          
-           
-            me.conceptSchema.behaviourdescription(data.behaviourdescription||"");
-           
+            me.conceptSchema.behaviourDescriptions([]);
+            for (var p = 0; p < data.behaviourDescriptions.length; p++) {
+                if (data.behaviourDescriptions[p] !== undefined) {
+                    me.conceptSchema.behaviourDescriptions.push(data.behaviourDescriptions[p]);
+                }
+            }
+          
+            me.conceptSchema.attributes([]);
             for (var i = 0; i< data.attributes.length; i++) {
                 if (data.attributes[i] !== undefined) {
                      me.conceptSchema.attributes.push(data.attributes[i]);
                 }
                 
             }
-
+             me.conceptSchema.functions([]);
             for (var j = 0; j< data.functions.length; j++) {
                 if (data.functions[j] !== undefined) {
                      me.conceptSchema.functions.push(data.functions[j]);
@@ -508,7 +596,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                
             }
 
-      
+             me.conceptSchema.applications([]);
             for (var x = 0; x < data.applications.length; x++) {
                 if (data.applications[x] !== undefined) {
                     me.conceptSchema.applications.push(data.applications[x]);
@@ -516,11 +604,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 
             }
 
-            for (var p = 0; p < data.behaviourDescriptions.length; p++) {
-                if (data.behaviourDescriptions[p] !== undefined) {
-                    me.conceptSchema.behaviourDescriptions.push(data.behaviourDescriptions[p]);
-                }
-            }
+           
         
     };
 };

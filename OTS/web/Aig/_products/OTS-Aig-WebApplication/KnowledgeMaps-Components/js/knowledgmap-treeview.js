@@ -141,9 +141,17 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
             var node = me.FindNode(nodeItem.id);
            
             node.relationshipid = nodeItem.relationshipid;//nodeItem.selectedRelationship.id;
-            node.relationshipname = ""; 
-
+            node.relationshipname =nodeItem.relationshipname; 
+            node.selectedRelationship=nodeItem.selectedRelationship;
             node.behaviourdescription = nodeItem.behaviourdescription;
+            if (node.behaviourDescriptions !== undefined && node.behaviourDescriptions !== null ) {
+                node.behaviourDescriptions.length = 0;
+                for (var l = 0; l < nodeItem.behaviourDescriptions.length; l++) {
+                    if (nodeItem.behaviourDescriptions[l] !== undefined) {
+                        node.behaviourDescriptions.push(nodeItem.behaviourDescriptions[l]);
+                    }
+                }
+            }
            
             if (node.attributes !== undefined && node.attributes !== null ) {
                 node.attributes.length = 0;
@@ -174,14 +182,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
                 }
             }
              
-            if (node.behaviourDescriptions !== undefined && node.behaviourDescriptions !== null ) {
-                node.behaviourDescriptions.length = 0;
-                for (var l = 0; l < nodeItem.behaviourDescriptions.length; l++) {
-                    if (nodeItem.behaviourDescriptions[l] !== undefined) {
-                        node.behaviourDescriptions.push(nodeItem.behaviourDescriptions[l]);
-                    }
-                }
-            }
+           
 
             var json = serializer.ToString(nodes);
               notifyStateChange({action:changeType.UPDATED,data: json,node:nodeItem});
@@ -283,6 +284,25 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     me.UnRender = function () {
         if (element === undefined || element === null) return;
         $(element).detach();
+    };
+    
+    me.RetriveSelectedNodes=function(){
+       var selectedItems= $(element).treeview('getSelected');
+       return selectedItems;
+    };
+    
+    me.UnSelectNodes=function(){
+       var selectedItems= $(element).treeview('getSelected');
+        if(!selectedItems.length){
+           $(element).treeview('unselectNode', [selectedItems.nodeId, { silent: true } ]);
+        }
+        else{
+            for(var i=0;i<selectedItems.length;i++){
+               var item= selectedItems[i];
+                $(element).treeview('unselectNode', [item.nodeId, { silent: true } ]);
+            }
+        }
+       
     };
 
     me.Dispose = function() {

@@ -1,18 +1,17 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <div id="pan-show-conceptschema-submit" style="margin-top: 10px;margin-bottom: 2px;display: none" class="pull-right">
-                <a  data-bind="click:$root.SubmitKnowledgeMap" id="cmd-submit-knowledgeMap-with-coneceptschema" href="#" class="btn btn-lg btn-success">Submit <i id="submit-spinner" class="fa fa-spinner load-animate icon-spinner fa-2x"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div id="pan-conceptSchema-editor" >
-    <div style="margin-right: 10px" class="pull-right">
-       <!-- <a data-bind="click:knowledgeMaplistViewActions.onReturnToKnowledgeMapList" title="Return to KnowledgeMap List" href="#"><i class="fa fa-list fa-2x"></i><i class="fa fa-arrow-left fa-2x"></i></a>-->
+     <div style="margin-top: 2px" data-bind="visible:showConceptSchemaAlert" class="alert alert-info">
+        <i class="fa fa-info"></i> Concept Schema is available for on child node.Select child  node to enable the concept schemas.
     </div>
-    <h3><span class="label label-default">Concept Schema</span></h3>   
-    <div class="panel-group" id="accordion">
+    <div data-bind="visible:showConceptSchemaHeading">
+        <div id="pan-show-conceptschema-submit" style="margin-top: 10px;margin-bottom: 2px;display: none" class="pull-right">
+          <a  data-bind="click:$root.SubmitKnowledgeMap" id="cmd-submit-knowledgeMap-with-coneceptschema" href="#" class="btn btn-lg btn-success">Submit <i id="submit-spinner" class="fa fa-spinner load-animate icon-spinner fa-2x"></i></a>
+        </div>
+        <h3><span class="label label-default">Concept Schema</span></h3> 
+        <h3><span data-bind="text:conceptSchemaFormHeading" class="label label-primary"></span></h3>
+    </div>
+    
+    <div  data-bind="visible:showConceptSchemaHeading" class="panel-group" id="accordion">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
@@ -35,7 +34,7 @@
                           <div class="col-xs-6">
                               <div class="input-group">
                                   <label>Relationship with parent</label>
-                                  <select  data-bind="options:conceptSchema.relationships,optionsText: 'name',value:conceptSchema.selectedRelationship,optionsCaption: 'Choose...'" class="form-control">
+                                  <select id="sel-relation-Type"  data-bind="options:conceptSchema.relationships,optionsText: 'name',value:'id',selectedOptions:conceptSchema.selectedRelationship" class="form-control">
                                      
                                   </select>
                               </div>
@@ -51,45 +50,44 @@
                           </div>
                       </div>
                       
-                      <!--Behaviour Descriptions-->
+                      <!--Behavior  Descriptions-->
                       <div class="row">
                           <div class="col-xs-12">
                               <div class="pull-left">
                                   <h4><span class="label label-default">Behaviour Descriptions</span></h4> 
-                                  <a data-bind="click:$root.addNewBehaviourDescription" title="Add New " style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
+                                  <a data-bind="click:$root.addNewBehaviourDescription" title="Add new behaviour bescription" style="margin-bottom: 1px" class="btn btn-sm btn-info" href="#"><span class="fa fa-plus"></span>Add New</a>
                                   
                               </div>
                           </div> 
                       </div>
                       
-                      <div data-bind="foreach:conceptSchema.behaviourDescriptions"id="characteristic-forach-container" style="border: 1px solid black;margin: 1px"  class="container-fluid"> 
-                          <div class="row">
-                              <div class="col-xs-1 hide ">
-                                 <div class="input-group">
-                                      <label>Id</label> 
-                                      <input  data-bind="value:id"  class="form-control" placeholder="1" type="text"/>
-                                 </div>
-  
-                              </div> 
-                              <div style="margin-bottom:  5px" class="col-xs-10">
-                                  <div class="input-group">
-                                      <label style="padding-right: 500px">Behavior Description</label>
-                                    <!--<input style="width:" data-bind="value:description"  class="form-control" placeholder="Behaviour Description ..."/>-->  
-                                    <textarea style="resize: horizontal;width: 700px" data-bind="value:description"  class="form-control" placeholder="Behaviour Description ..."></textarea>
-                                     
-                                  </div>
-                                 
-                              </div> <br>
-                               <div class="col-xs-1">
-                                   <div>
-                                       <a  data-bind="event:{click:$root.removeBehaviourDescription}" class="pull-right" title="Delete" href="#"><i class="fa fa-remove"></i></a><br>
-                                   </div>
-                                   
-                               </div>
-                          </div>
+                      <div id="characteristic-forach-container" style="border: 1px solid black"  class=" table-responsive"> 
+                          <table  class="table table-striped table-hover">
+                              <thead>
+                             <tr>
+                                 <th>Id</th>
+                                  <th>Behaviour Description </th>
+                                   <th></th>
+                               </tr>
+                              
+                              </thead>
+                              <tbody  data-bind="foreach:conceptSchema.behaviourDescriptions">
+                                  <tr>
+                                      <td style="width:1% " data-bind="text:id"></td>
+                                      <td style="width: 98%" >
+                                          <textarea style="resize: horizontal; width: 100%" data-bind="value:description"></textarea>
+                                      </td>
+                                      <td style="width:1% ">
+                                          <a title="Delete behaviour description " data-bind="event:{click:$parent.removeBehaviourDescription}" href="#"><i class="fa fa-remove"></i></a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                         
                      
                        </div>
-                       
+                         
+                       <!--End Behaviour Discription-->
                     
                   </div>   
               </div>
