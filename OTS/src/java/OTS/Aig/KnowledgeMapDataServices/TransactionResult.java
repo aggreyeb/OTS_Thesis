@@ -18,6 +18,7 @@ public class TransactionResult implements ISerializable {
     public String Messege ;
     public String Exception;
     public String Content;
+    public String LookupTables;
 
     @Override
     public String ToJson() {

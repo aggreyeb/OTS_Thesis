@@ -64,10 +64,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.showConceptSchemaAlert(true);
             me.showConceptSchemaHeading(false);
           
-            //subcribe treeNode Selected event
+           
             me.selectedKnowledgeMap=data;
-            //me.conceptSchema.ResetConceptSchema();
-          //  me.FillConceptSchema(data);
+           
             $("#pan-show-conceptschema-submit").show();
             $("#submit-spinner").hide();
            knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
@@ -98,7 +97,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                     description:data.description,nodes:data.nodes};
                
                 knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[item]);
-                
+                knowledgeMapTreeView.UnSelectNodes();
                return;
           };
           var item=JSON.parse(data.conceptSchemas);

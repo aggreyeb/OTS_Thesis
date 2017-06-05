@@ -7,7 +7,8 @@ OTS.AigTeacherCourseAssignmentDataSource=function(){
         SaveCourseKnowledgeMaps:"Aig-SaveCourseKnowledgeMap",
         ListTeacherCourseKnowledgeMap:"Aig-ListTeacherCourseKnowledgeMap",
         ListTeacherCourseKnowedgeMapInformation:"Aig-ListTeacherCourseKnowedgeMapInformation",
-        DeleteCourseKnowledgeMaps:"Aig-DeleteCourseKnowledgeMaps"
+        DeleteCourseKnowledgeMaps:"Aig-DeleteCourseKnowledgeMaps",
+        ListTeacherKnowledgeMaps:"Aig-ListTeacherKnowledgeMaps"
     };
   
      
@@ -55,6 +56,15 @@ OTS.AigTeacherCourseAssignmentDataSource=function(){
           var callback=callbackFunction;
        
        $.post("CourseServlet",{action:actionType.DeleteCourseKnowledgeMaps,Id:id},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+   };
+   
+    me.ListTeacherKnowledgeMaps=function(callbackFunction){
+          var callback=callbackFunction;
+       
+       $.post("CourseServlet",{action:actionType.ListTeacherKnowledgeMaps},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
        });

@@ -80,8 +80,17 @@ public class CourseDataService {
              }
            }
           
+            //Retrive Teacher KnowledgeMaps
+          String sqlTemplate= "SELECT KnowledgeMapId as Id,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
+          String lookupSql=String.format(sqlTemplate, teacherid);
+          List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(lookupSql, knowlwdgeMaps,KnowledgeMapElement.class);
+       
+            
+           
              Gson g = new Gson();
              result.Content=g.toJson(teacherscourseKnowlwdgeMaps);
+             result.LookupTables=g.toJson(knowlwdgeMaps);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -94,6 +103,31 @@ public class CourseDataService {
              
             }
     }
+    
+     public TransactionResult ListTeacherKnowledgeMaps(int teacherid){
+       TransactionResult result= new TransactionResult();
+        try{ 
+          String sqlTemplate= "SELECT KnowledgeMapId as Id,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
+          String sql=String.format(sqlTemplate, teacherid);
+          List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, knowlwdgeMaps,KnowledgeMapElement.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(knowlwdgeMaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+   }
+    
     
    public TransactionResult ListTeacherCourseKnowledgeMap(int teacherid,String courseId){
        TransactionResult result= new TransactionResult();
@@ -321,5 +355,6 @@ public class CourseDataService {
             }
     }
     
+   
     
 }

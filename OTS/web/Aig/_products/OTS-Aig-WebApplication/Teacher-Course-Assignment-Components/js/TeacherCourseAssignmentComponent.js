@@ -54,6 +54,9 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content)
          viewModel.DataBind(items)
+         var teacherKnowledgeMaps=JSON.parse(result.LookupTables);
+         viewModel.PopulateKnowledgeMaps(teacherKnowledgeMaps);
+         
          ko.applyBindings(viewModel,$("#div-course-assignment-content")[0]);
           $(".chosen-select").chosen({width: "100%"});
         });
@@ -104,6 +107,15 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
       })
         
     };
+   
+     me.ListTeacherKnowledgeMaps=function(callbackFunction){
+          var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.ListTeacherKnowledgeMaps(function(msg){
+            callback(msg);
+      })
+      
+   };
    
 };
 OTS.AigTeacherCourseAssignmentComponent.prototype=  new Aig.IInitializable();

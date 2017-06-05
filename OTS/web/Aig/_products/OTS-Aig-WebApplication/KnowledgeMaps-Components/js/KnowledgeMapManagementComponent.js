@@ -110,26 +110,34 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           }
       });
       
-       //knowlegemapListManagement.DataBind(items);
+     
             return;
       }
        renderLayouts();
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
        
-   
+      knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
+      knowlegemapListManagement.AddKnowledgeMapComponent(me);
+      knowlegemapListManagement.Render();
        //Initialize the Views
-       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
-       knowlegemapListManagement.AddKnowledgeMapComponent(me);
+       /*
+      
        knowlegemapListManagement.Render();
        knowlegemapListManagement.HideSaveAlert();
-      // var items=  dataDatabase.ReadAll();
+       */
       var datasource=new OTS.AigKnowlegeMapDataSource();
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
               knowlegemapListManagement.DataBind(items);
+              
+               //Initialize the Views
+            knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
+         
+          
+            knowlegemapListManagement.HideSaveAlert();
               initialized=true;
           }
       });

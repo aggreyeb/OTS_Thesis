@@ -29,8 +29,7 @@ OTS.AigCourseAssignmentViewModel=function(){
     me.Name=ko.observable("");
     me.Courses=ko.observableArray([]);
     me.SelectedCourse=ko.observable();
-    me.KnowledgeMaps=ko.observableArray([{Id:1,Name:"Plant"},
-        {Id:2,Name:"Data Structure"}]);
+    me.KnowledgeMaps=ko.observableArray([{Id:"-1",Name:"Select..."}]);
     me.SelectedKnowledgeMaps=ko.observableArray([]);
     
     me.CourseKnowledgeMapAssociations=ko.observableArray([]);
@@ -43,6 +42,7 @@ OTS.AigCourseAssignmentViewModel=function(){
     
     me.Actions={
          enableSave:ko.observable(true),
+       
         FindCourse:function(courseId){
              var found=null;
             for(var i=0;i<me.Courses().length;i++){
@@ -64,6 +64,10 @@ OTS.AigCourseAssignmentViewModel=function(){
         },
         RetrieveCourseKnowledge:function(json){
             var items=JSON.parse(json)
+        },
+        
+        onKnowlegeMapListClicked:function(){
+            alert(me.KnowledgeMaps().length);
         },
         onCourseChanged:function(data,e){
           // $("#sel-Course").val
@@ -201,9 +205,18 @@ OTS.AigCourseAssignmentViewModel=function(){
                me.CourseKnowledgeMapAssociations.push(items[i]);
            }
        }
-       me.SelectedAction=me.ActionType.EDIT;
-        
+         me.SelectedAction=me.ActionType.EDIT;
+      
    }; 
+   
+   me.PopulateKnowledgeMaps=function(items){
+       if(items===undefined ||items===null) return;
+       me.KnowledgeMaps([]);
+       for(var i=0;i<items.length;i++){
+            me.KnowledgeMaps.push(items[i]);
+       }
+   };
+   
    me.AddCourseComponent=function(component){
        courseComponent=component;
       
