@@ -20,6 +20,7 @@ OTS.TeacherCourse=function(id,name){
 OTS.AigTestViewModel=function(){
     var me=this;
     var testComponent;
+     var knowledgeMapTreeView;
     var alertBox=new Aig.AlertBox("alert-test-alert");
     me.ActionType={
        NEW:"NEW" ,
@@ -58,8 +59,72 @@ OTS.AigTestViewModel=function(){
          },
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
-              $("#div-test-list-add-edit-container").hide();
-              $("#div-test-item-gen-container").show();
+              
+              testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
+                    var result=JSON.parse(msg);
+             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                  var knowledgeMaps=[];
+                 
+                  var items=JSON.parse(result.Content);
+                  for(var i=0;i<items.length;i++){
+                      var item={ id:data.id,name:data.name,text: data.name,
+                       description:data.description,nodes:data.nodes};
+                     knowledgeMaps.push(item);
+                  }
+                  
+                knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
+                knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);
+                knowledgeMapTreeView.UnSelectNodes();
+                 
+                  
+                    /*   
+                    var data = [
+                    {
+                 text: "Parent 1",
+                 nodes: [
+                   {
+                     text: "Child 1",
+                     nodes: [
+                       {
+                         text: "Grandchild 1"
+                       },
+                       {
+                         text: "Grandchild 2"
+                       }
+                     ]
+                   },
+                   {
+                     text: "Child 2"
+                   }
+                 ]
+               },
+               {
+                 text: "Parent 2"
+               },
+               {
+                 text: "Parent 3"
+               },
+               {
+                 text: "Parent 4"
+               },
+               {
+                 text: "Parent 5"
+               }
+             ];
+      
+        $('#test-items-generation-treeview').treeview({
+            data: data,         // data is not optional
+            backColor: ''
+        });
+          */              
+                        
+                         $("#div-test-list-add-edit-container").hide();
+                         $("#div-test-item-gen-container").show();
+                    }
+                   
+              });
+              
+             
               
          },
          onTeacherCourseChanged:function(data,e){

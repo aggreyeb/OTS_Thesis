@@ -53,45 +53,46 @@ OTS.AigTestItemGenerationComponent=function(){
          var listgenappendableControl=new Aig.Controls.AppendableControl("div-testitem-genertion");
          listgenappendableControl.Append(testgenHtml,function(e){});
          
-         
+         /*
             var data = [
-       {
-    text: "Parent 1",
-    nodes: [
-      {
-        text: "Child 1",
-        nodes: [
-          {
-            text: "Grandchild 1"
-          },
-          {
-            text: "Grandchild 2"
-          }
-        ]
-      },
-      {
-        text: "Child 2"
-      }
-    ]
-  },
-  {
-    text: "Parent 2"
-  },
-  {
-    text: "Parent 3"
-  },
-  {
-    text: "Parent 4"
-  },
-  {
-    text: "Parent 5"
-  }
-];
-      
+                    {
+                 text: "Parent 1",
+                 nodes: [
+                   {
+                     text: "Child 1",
+                     nodes: [
+                       {
+                         text: "Grandchild 1"
+                       },
+                       {
+                         text: "Grandchild 2"
+                       }
+                     ]
+                   },
+                   {
+                     text: "Child 2"
+                   }
+                 ]
+               },
+               {
+                 text: "Parent 2"
+               },
+               {
+                 text: "Parent 3"
+               },
+               {
+                 text: "Parent 4"
+               },
+               {
+                 text: "Parent 5"
+               }
+             ];
+
         $('#test-items-generation-treeview').treeview({
             data: data,         // data is not optional
             backColor: ''
         });
+        */
          viewModel.AddTestComponent(me);
          var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListTeacherCourses(function(msg){
@@ -170,6 +171,22 @@ OTS.AigTestItemGenerationComponent=function(){
        dataSource.DeActivateTest(testid ,function(msg){
            callback(msg)
        });
+   };
+   
+    me.ListTeacherCourseKnowledgeMap=function(courseId,callbackFunction){
+       var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.ListTeacherCourseKnowledgeMap(courseId,function(msg){
+            callback(msg);
+      })
+   };
+   
+    me.ListCourseTestConceptHierarchy=function(courseId,callbackFunction){
+        var callback=callbackFunction;
+       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+         dataSource.ListCourseTestConceptHierarchy(courseId,function(msg){
+            callback(msg);
+        })
    };
    
 };

@@ -76,6 +76,22 @@ OTS.AigTestDataSource=function(){
      });
    };
    
+    me.ListTeacherCourseKnowledgeMap=function(courseId,callbackFunction){
+        var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.ListTeacherCourseKnowledgeMap,CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   me.ListCourseTestConceptHierarchy=function(courseId,callbackFunction){
+        var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.ListTeacherCourseKnowledgeMap,CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   }
+   
 };
 
 
