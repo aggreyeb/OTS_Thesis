@@ -110,24 +110,23 @@
                       </div>
                   </div>
                   
-                  <div style="border: 1px solid black;margin: 1px" class="row">
-                      <div data-bind="foreach:conceptSchema.attributes" style="overflow-y: scroll;height:100px " id="forEachAttributes">
-                            <div class="col-xs-4">
-                                <label>Name</label>
-                                <input  data-bind="value:name" style="width: 260px" type="text" class="form-control"/>
-                            </div>
-                           <div class="col-xs-4">
-                                  <label>Type</label>
-                                  <input data-bind="value:type" style="width: 260px" type="text" class="form-control"/>
-                            </div>  
-                            <div class="col-xs-3">
-                               <label>Value</label>
-                               <input data-bind="value:attributeValue" style="width: 200px" type="text" class="form-control"/>
-                            </div> 
-                            <div class="col-xs-1 ">
-                                <a data-bind="event:{click:$root.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a>
-                            </div>
-                      </div>
+                  <div style="border: 1px solid #ddd;margin: 1px" class="row">
+                      <table  class="table table-hover table-striped">
+                          <tr>
+                              <th>Name</th>
+                               <th>Type</th>
+                               <th>Value</th>
+                               <th></th>
+                          </tr>
+                          <tbody data-bind="foreach:conceptSchema.attributes">
+                              <tr>
+                                  <td style="width: 65%"><input style="width: 350px" class="form-control" data-bind="value:name" type="text" /></td>
+                                  <td style="width: 15%"><input style="width: 350px" class="form-control" data-bind="value:type" type="text" /></td>
+                                  <td style="width: 10%"><input style="width: 50px" class="form-control" data-bind="value:attributeValue" type="text" /></td>
+                                  <td style="width: 5%"><a data-bind="event:{click:$parent.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a></td>
+                              </tr>
+                          </tbody>
+                      </table>
                      
                   </div> 
               </div>
