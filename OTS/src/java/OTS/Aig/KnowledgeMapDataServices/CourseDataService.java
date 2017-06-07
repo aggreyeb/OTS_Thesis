@@ -299,7 +299,8 @@ public class CourseDataService {
           List<TeacherCourseKnowledgeMapItem> courseKnowledgeMaps= new ArrayList();
          
           this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgeMaps,TeacherCourseKnowledgeMapItem.class);
-           TeacherCourseKnowledgeMapItem item=courseKnowledgeMaps.get(0);
+          if(courseKnowledgeMaps.size()>0){
+          TeacherCourseKnowledgeMapItem item=courseKnowledgeMaps.get(0);
           Gson g = new Gson();
            String json=item.CourseKnowledgeMaps;
            KnowledgeMapElement[] items=(KnowledgeMapElement[])g.fromJson(json, KnowledgeMapElement[].class);
@@ -317,7 +318,14 @@ public class CourseDataService {
              result.Content=g.toJson(knowledgeMapList);
              result.ActionResultType=ActionResultType.ok;
              return result;
-           }
+             }
+          else{
+              result.ActionResultType=ActionResultType.fail;
+              result.Message="There is no  knowledge map associated with the course."
+                      + "Please associate knowledge map(s) to the course and try again";
+             }
+              return result;
+            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
                result.Exception=ex.toString();

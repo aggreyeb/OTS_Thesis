@@ -63,8 +63,7 @@ OTS.AigTestViewModel=function(){
               testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
                     var result=JSON.parse(msg);
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                  var knowledgeMaps=[];
-                 
+                  var knowledgeMaps=[]; 
                   var items=JSON.parse(result.Content);
                   for(var i=0;i<items.length;i++){
                       var concepts=JSON.parse(items[i].Concepts);
@@ -77,57 +76,13 @@ OTS.AigTestViewModel=function(){
                 knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
                 knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);
                 knowledgeMapTreeView.UnSelectNodes();
-                 
-                  
-                    /*   
-                    var data = [
-                    {
-                 text: "Parent 1",
-                 nodes: [
-                   {
-                     text: "Child 1",
-                     nodes: [
-                       {
-                         text: "Grandchild 1"
-                       },
-                       {
-                         text: "Grandchild 2"
-                       }
-                     ]
-                   },
-                   {
-                     text: "Child 2"
-                   }
-                 ]
-               },
-               {
-                 text: "Parent 2"
-               },
-               {
-                 text: "Parent 3"
-               },
-               {
-                 text: "Parent 4"
-               },
-               {
-                 text: "Parent 5"
-               }
-             ];
-      
-        $('#test-items-generation-treeview').treeview({
-            data: data,         // data is not optional
-            backColor: ''
-        });
-          */              
-                        
-                         $("#div-test-list-add-edit-container").hide();
-                         $("#div-test-item-gen-container").show();
-                    }
-                   
+                 $("#div-test-list-add-edit-container").hide();
+                 $("#div-test-item-gen-container").show();
+                }
+                else{
+                     alertBox.ShowErrorMessage(result.Message);  
+                }   
               });
-              
-             
-              
          },
          onTeacherCourseChanged:function(data,e){
              var selectedCourse=ko.toJS(me.SelectedCourse())[0];
