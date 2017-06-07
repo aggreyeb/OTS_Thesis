@@ -12,6 +12,7 @@ OTS.AigTestItemGenerationComponent=function(){
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-add-edit-template");
     var testListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-list-template");
      var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
+     var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
      var componentChanged=function(e){
       if(e.id===id){
         // componentContainerId=e.componentContainerId
@@ -52,47 +53,12 @@ OTS.AigTestItemGenerationComponent=function(){
         var testgenHtml= testgenListhtmlTemplateDataSource.Read();
          var listgenappendableControl=new Aig.Controls.AppendableControl("div-testitem-genertion");
          listgenappendableControl.Append(testgenHtml,function(e){});
+        
+        var generatedItemsappendableControl=new Aig.Controls.AppendableControl("div-test-items-generated-view");
+        
+         var generatedItemsHtml= generatedItemshtmlTemplateDataSource.Read();
+         generatedItemsappendableControl.Append(generatedItemsHtml,function(e){});
          
-         /*
-            var data = [
-                    {
-                 text: "Parent 1",
-                 nodes: [
-                   {
-                     text: "Child 1",
-                     nodes: [
-                       {
-                         text: "Grandchild 1"
-                       },
-                       {
-                         text: "Grandchild 2"
-                       }
-                     ]
-                   },
-                   {
-                     text: "Child 2"
-                   }
-                 ]
-               },
-               {
-                 text: "Parent 2"
-               },
-               {
-                 text: "Parent 3"
-               },
-               {
-                 text: "Parent 4"
-               },
-               {
-                 text: "Parent 5"
-               }
-             ];
-
-        $('#test-items-generation-treeview').treeview({
-            data: data,         // data is not optional
-            backColor: ''
-        });
-        */
          viewModel.AddTestComponent(me);
          var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListTeacherCourses(function(msg){
@@ -121,7 +87,7 @@ OTS.AigTestItemGenerationComponent=function(){
      var dataSource= new  OTS.AigTestDataSource();
      var callback=callbackFunction;
      dataSource.ListAllTest(function(msg){
-         callback(msg)
+         callback(msg);
      });
    };
    
@@ -129,7 +95,7 @@ OTS.AigTestItemGenerationComponent=function(){
       var dataSource= new  OTS.AigTestDataSource();
      var callback=callbackFunction;
      dataSource.ListCourseTest(courseid ,function(msg){
-         callback(msg)
+         callback(msg);
      });
    };
    
@@ -137,7 +103,7 @@ OTS.AigTestItemGenerationComponent=function(){
         var dataSource= new  OTS.AigTestDataSource();
        var callback=callbackFunction;
        dataSource.CreateNewTest(data ,function(msg){
-           callback(msg)
+           callback(msg);
        });
    };
    
@@ -145,7 +111,7 @@ OTS.AigTestItemGenerationComponent=function(){
         var dataSource= new  OTS.AigTestDataSource();
        var callback=callbackFunction;
        dataSource.UpdateTest(data ,function(msg){
-           callback(msg)
+           callback(msg);
        });
    };
    
@@ -153,7 +119,7 @@ OTS.AigTestItemGenerationComponent=function(){
        var dataSource= new  OTS.AigTestDataSource();
        var callback=callbackFunction;
        dataSource.DeleteTest(testId ,function(msg){
-           callback(msg)
+           callback(msg);
        });
    };
    
@@ -161,7 +127,7 @@ OTS.AigTestItemGenerationComponent=function(){
        var dataSource= new  OTS.AigTestDataSource();
        var callback=callbackFunction;
        dataSource.ActivateTest(testId ,function(msg){
-           callback(msg)
+           callback(msg);
        });
    };
    
@@ -169,7 +135,7 @@ OTS.AigTestItemGenerationComponent=function(){
        var dataSource= new  OTS.AigTestDataSource();
        var callback=callbackFunction;
        dataSource.DeActivateTest(testid ,function(msg){
-           callback(msg)
+           callback(msg);
        });
    };
    
@@ -178,7 +144,7 @@ OTS.AigTestItemGenerationComponent=function(){
        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
          dataSource.ListTeacherCourseKnowledgeMap(courseId,function(msg){
             callback(msg);
-      })
+      });
    };
    
     me.ListCourseTestConceptHierarchy=function(courseId,callbackFunction){
@@ -186,8 +152,17 @@ OTS.AigTestItemGenerationComponent=function(){
        var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListCourseTestConceptHierarchy(courseId,function(msg){
             callback(msg);
-        })
+        });
    };
+   
+   //******************************Test Items Generation *****************
+    
+    me.GenerateTestItems=function(conceptNodeSelected,callbackFunction){
+       var callback=callbackFunction;
+       alert("Ready to generate");
+        if(callback instanceof Function)
+            callback([]);
+    };
    
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();

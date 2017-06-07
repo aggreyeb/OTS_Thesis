@@ -192,7 +192,10 @@
       <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-list.html" id="students-test-list-template" type="text/html"> </script>
      
     <!--Test/Item Generation Templates-->
-  
+    
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/genenerated-items-view.html" id="generated-items-view-template" type="text/html"> </script>
+   
+    
     <!--Knowledge Maps-->
     
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>

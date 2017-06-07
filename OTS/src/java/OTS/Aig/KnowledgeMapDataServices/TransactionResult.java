@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 public class TransactionResult implements ISerializable {
     public ActionResultType ActionResultType;
     public String CurrentId;
-    public String Messege ;
+    public String Message ;
     public String Exception;
     public String Content;
     public String LookupTables;

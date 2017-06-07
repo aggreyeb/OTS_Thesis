@@ -41,13 +41,13 @@ public class KnowledgeMapsDataService {
           km.setCreateOn(currentDate);
           this.dataSource.Save(km);
           result.ActionResultType=ActionResultType.ok;
-          result.Messege="Saved";
+          result.Message="Saved";
           result.CurrentId=km.getKnowledgeMapId().toString();
           return result;
         }
        catch(Throwable ex){
             result.ActionResultType=ActionResultType.exception;
-            result.Messege=ex.toString();
+            result.Message=ex.toString();
            return result;
        }
        finally{
@@ -61,19 +61,19 @@ public class KnowledgeMapsDataService {
           if(km!=null){
             this.dataSource.Delete(km);
             result.ActionResultType=ActionResultType.ok;
-            result.Messege="Deleted";
+            result.Message="Deleted";
             result.CurrentId=km.getKnowledgeMapId().toString();
             return result;
           }
           else{
              result.ActionResultType=ActionResultType.fail;
-             result.Messege="Knowledge map not found";
+             result.Message="Knowledge map not found";
              return result; 
           }
         }
        catch(Throwable ex){
            result.ActionResultType=ActionResultType.exception;
-            result.Messege="Exception";
+            result.Message="Exception";
            return result;
        }
        finally{
@@ -89,20 +89,20 @@ public class KnowledgeMapsDataService {
              km.setConcepts(conceptSchemas);
              this.dataSource.Update(km);
              result.ActionResultType=ActionResultType.ok;
-             result.Messege="Updated";
+             result.Message="Updated";
              result.CurrentId=km.getKnowledgeMapId().toString();
             result.CurrentId=km.getKnowledgeMapId().toString();
             return result;
           }
           else{
              result.ActionResultType=ActionResultType.fail;
-             result.Messege="Knowledge map not found";
+             result.Message="Knowledge map not found";
              return result; 
           }
         }
        catch(Throwable ex){
            result.ActionResultType=ActionResultType.exception;
-            result.Messege="Exception";
+            result.Message="Exception";
            return result;
        }
        finally{
@@ -119,20 +119,20 @@ public class KnowledgeMapsDataService {
              km.setDescription(description);
              this.dataSource.Update(km);
              result.ActionResultType=ActionResultType.ok;
-             result.Messege="Updated";
+             result.Message="Updated";
              result.CurrentId=km.getKnowledgeMapId().toString();
             result.CurrentId=km.getKnowledgeMapId().toString();
             return result;
           }
           else{
              result.ActionResultType=ActionResultType.fail;
-             result.Messege="Knowledge map not found";
+             result.Message="Knowledge map not found";
              return result; 
           }
         }
        catch(Throwable ex){
            result.ActionResultType=ActionResultType.exception;
-            result.Messege="Exception";
+            result.Message="Exception";
            return result;
        }
        finally{

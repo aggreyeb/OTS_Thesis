@@ -31,7 +31,7 @@ OTS.AigTestViewModel=function(){
     me.Binded=false;
     me.Tests=ko.observableArray([]);
     me.Id=ko.observable();
-    me.Name=ko.observable(name);
+    me.Name=ko.observable("");
     me.TotalMark=ko.observable();    
     me.StartDate=ko.observable();
     me.StartTime=ko.observable();
@@ -39,6 +39,8 @@ OTS.AigTestViewModel=function(){
     me.IsActivated=ko.observable(false);
     me.TeacherCourses=ko.observableArray([]);
     me.SelectedCourse=ko.observable(null);
+
+   
     
     me.SelectedTest=null;
     
@@ -74,6 +76,7 @@ OTS.AigTestViewModel=function(){
                   }
                   
                 knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
+                knowledgeMapTreeView.OnNodeSelected(me.ConceptNodeSelected);
                 knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);
                 knowledgeMapTreeView.UnSelectNodes();
                  $("#div-test-list-add-edit-container").hide();
@@ -271,7 +274,33 @@ OTS.AigTestViewModel=function(){
       
    };
    
-    
+  //******************************Test Item Generation **********************
+    me.SelectedNodeForItemsGeneration=null;
+    me.TestItems= ko.observableArray([]); //Test items generated array
+    me.OnStartGenerateTestsItems=function(){
+        if( me.SelectedNodeForItemsGeneration!==null){
+             testComponent.GenerateTestItems(me.SelectedNodeForItemsGeneration,function(items){
+               alert(items.length);
+               if(items!==undefined && items!==null && items.length){
+                 me.PopulateGeneratedItemList(items);
+                
+            }
+        });
+            return;
+        }
+        alert("Please selected Root Node or Child Node and try again");
+    };
+    me.ConceptNodeSelected=function(e){
+       me.SelectedNodeForItemsGeneration=e;
+     
+   };
+    me.PopulateGeneratedItemList = function(items) {
+        me.TestItems([]);
+        for (var i = 0; i < items.length; i++) {
+            items[i].Number = i + 1;
+            me.TestItems.push(items[i]);
+        }
+    };
 };
 
 
