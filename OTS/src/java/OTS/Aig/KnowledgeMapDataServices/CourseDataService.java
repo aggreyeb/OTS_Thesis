@@ -268,7 +268,7 @@ public class CourseDataService {
       }
       
       
-      //DeleteCourseKnowledgeMaps
+   
       
        public TransactionResult DeleteCourseKnowledgeMaps(String id){
         TransactionResult result= new TransactionResult();
@@ -290,6 +290,44 @@ public class CourseDataService {
             }
     }
       
+    
+  public TransactionResult  ListCourseTestConceptHierarchy(int teacherId, String courseId){
+        TransactionResult result= new TransactionResult();
+        try{ 
+          String template= "Select Id,TeacherId,CourseId,CourseKnowledgeMaps from Teacher where TeacherId=%d AND CourseId='%s'";
+          String sql=String.format(template, teacherId,courseId);
+          List<TeacherCourseKnowledgeMapItem> courseKnowledgeMaps= new ArrayList();
+         
+          this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgeMaps,TeacherCourseKnowledgeMapItem.class);
+           TeacherCourseKnowledgeMapItem item=courseKnowledgeMaps.get(0);
+          Gson g = new Gson();
+           String json=item.CourseKnowledgeMaps;
+           KnowledgeMapElement[] items=(KnowledgeMapElement[])g.fromJson(json, KnowledgeMapElement[].class);
+           List tempList= new ArrayList();
+           String temp="";
+           for(KnowledgeMapElement a:items){
+               tempList.add("'" + String.valueOf(a.Id)+ "'");
+           }
+           String str = String.join(",", tempList);
+           String sqlTemplate= "Select KnowledgeMapId as Id,Name,Description,Concepts from  knowledgemap where KnowledgeMapId in (%s)";
+           String sql2=String.format(sqlTemplate, str);
+           List<KnowledgeMapElement> knowledgeMapList= new ArrayList();
+           this.dataSource.ExecuteCustomDataSet(sql2, knowledgeMapList,KnowledgeMapElement.class);
+         
+             result.Content=g.toJson(knowledgeMapList);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
     
       private TransactionResult CreateNewCourseKnowledgeMap( int teacherId,String courseId,String knowledgeMaps){
         TransactionResult result= new TransactionResult();

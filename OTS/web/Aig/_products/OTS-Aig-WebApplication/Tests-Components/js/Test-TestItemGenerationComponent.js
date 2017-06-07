@@ -183,7 +183,7 @@ OTS.AigTestItemGenerationComponent=function(){
    
     me.ListCourseTestConceptHierarchy=function(courseId,callbackFunction){
         var callback=callbackFunction;
-       var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
+       var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListCourseTestConceptHierarchy(courseId,function(msg){
             callback(msg);
         })

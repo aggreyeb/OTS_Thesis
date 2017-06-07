@@ -67,7 +67,9 @@ OTS.AigTestViewModel=function(){
                  
                   var items=JSON.parse(result.Content);
                   for(var i=0;i<items.length;i++){
-                      var item={ id:data.id,name:data.name,text: data.name,
+                      var concepts=JSON.parse(items[i].Concepts);
+                      var data=JSON.parse(concepts);
+                          var item={ id:data.id,name:data.name,text: data.name,
                        description:data.description,nodes:data.nodes};
                      knowledgeMaps.push(item);
                   }

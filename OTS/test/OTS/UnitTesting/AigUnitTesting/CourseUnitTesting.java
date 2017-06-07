@@ -147,5 +147,16 @@ public class CourseUnitTesting {
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
-     
+   @Test  
+   public void ListCourseTestConceptHierarchy(){
+        int teacherId=2;
+        String courseId="e3fef5bd-f900-4bb2-9944-f555f564de84";
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.ListCourseTestConceptHierarchy(teacherId,courseId);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+   }
+    
+    
 }

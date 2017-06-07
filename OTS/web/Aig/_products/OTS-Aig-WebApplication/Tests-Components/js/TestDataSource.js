@@ -9,7 +9,8 @@ OTS.AigTestDataSource=function(){
         DeleteTest:"Aig-DeleteTest",
         ActivateTest:"Aig-ActivateTest",
         DeActivateTest:"Aig-DeActivateTest",
-        ListTeacherCourses:"Aig-ListTeacherCourses"
+        ListTeacherCourses:"Aig-ListTeacherCourses",
+        ListCourseTestConceptHierarchy:"Aig-ListCourseTestConceptHierarchy"
     };
     
      me.ListTeacherCourses=function(callbackFunction){
@@ -86,11 +87,11 @@ OTS.AigTestDataSource=function(){
    
    me.ListCourseTestConceptHierarchy=function(courseId,callbackFunction){
         var callback=callbackFunction;
-       $.post("CourseServlet",{action:actionType.ListTeacherCourseKnowledgeMap,CourseId:courseId},function(msg){
+       $.post("CourseServlet",{action:actionType.ListCourseTestConceptHierarchy,CourseId:courseId},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });
-   }
+   };
    
 };
 

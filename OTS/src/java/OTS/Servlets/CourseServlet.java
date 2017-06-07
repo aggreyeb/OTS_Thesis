@@ -177,7 +177,16 @@ public class CourseServlet extends Servlet {
                      service= new CourseDataService(new MySqlDataSource());
                      return service.ListTeacherKnowledgeMaps(teacherId); 
                      
-                   
+                    case "Aig-ListCourseTestConceptHierarchy":
+                      teacherId=userProfile.UserId;
+                     String testcourseId=request.getParameter("CourseId");
+                     service= new CourseDataService(new MySqlDataSource());
+                     return service.ListCourseTestConceptHierarchy(teacherId,testcourseId); 
+                     
+                     
+                     
+                     //Aig-ListCourseTestConceptHierarchy
+                     
                //******************************Old Stuff**********************
                case "Delete":
               
