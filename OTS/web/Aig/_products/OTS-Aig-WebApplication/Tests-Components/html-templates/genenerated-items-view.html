@@ -1,0 +1,43 @@
+<div style="margin-top: 2px">
+    <div  class="row">
+        <h3 style="margin-left: 15px"><span class="label label-info" > <i class="fa fa-info-circle"></i>Please select a root node or child node of knowledge map and click on generate</span><a data-bind="click:OnStartGenerateTestsItems" style="margin-right: 25px" class=" pull-right btn btn-sm btn-primary" href="#">Generate</a>
+    </div>
+    <div style="margin-right: 10px" class="alert alert-success" >
+                 Number of items generated: 0
+   </div>
+    
+    <div class="row">
+        <div style="overflow-y: scroll; height: 450px;margin-left: 15px;margin-right: 15px" class="table-responsive">
+             <table class="table table-bordered table-hover ">
+                 <tr>
+                    <th>#</th>
+                     <th>Test Item</th>
+                </tr>
+                <tbody data-bind="foreach:TestItems">
+                 <tr>
+                  <td data-bind="text:Number"></td>
+                  <td>
+                  <div class="panel panel-default">
+                   <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
+                      <div class="panel-body">
+                         <div data-bind="text:Stem,style:{'font-weight':'bold'}">Which abstract type or data structure is most appropriate to implement the system?</div><br />
+                         <div data-bind="foreach:AnswerOptions">
+                           <span data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span data-bind="text:Text"></span><br />
+                       </div>
+                     </div>
+                    <div class="panel-footer panel-default">
+                        <div class="form-group">
+                        <label>Key</label><br/> 
+                        <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
+                        <label>Is Higher Cognitive Level Test Item ?&nbsp;</label><input data-bind="checked:IsHigherCognitiveLevel" type="checkbox" />                         
+                    </div>
+                    </div>
+                     </div>
+                 </td>
+
+                </tr>
+             </tbody>
+         </table>
+        </div> <!--Table Responsive-->
+    </div>
+</div>

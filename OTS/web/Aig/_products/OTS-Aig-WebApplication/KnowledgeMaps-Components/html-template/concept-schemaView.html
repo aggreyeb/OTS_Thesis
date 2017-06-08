@@ -160,7 +160,7 @@
                                   <td>
                                       <div >
                                           <div class="pull-right" style="margin-right:100px ">
-                                              <span  title="Delete function" class=""><a href="#"><i class="fa fa-remove fa-2x"></i></a></span> 
+                                              <span  title="Delete function" class=""><a data-bind="event:{click:$parent.removeFunction}" href="#"><i class="fa fa-remove fa-2x"></i></a></span> 
                                           </div>
                                          
                                           <div class="row">
@@ -203,10 +203,13 @@
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label>Algorithm</label><br>
-                                                      <label>Time Complexity</label>
-                                                       <select class="form-control">
-                                                            <option value="1">O(1)</option>
-                                                            <option value="2">O(nlogn)</option>
+                                                      <span data-bind="text:$root.Testing"> </span>
+                                             <!--value: 'id',-->
+                                                      <label>Select Time Complexity </label><select data-bind="options:$root.TimeComplexities,
+                                                             optionsText: 'name',
+                                                             optionsValue:'id',
+                                                             selectedOptions:SelectedTimeComplixity,
+                                                             optionsCaption: 'Choose...',event:{change:$root.onTimeCOmplexityChanged}" class="form-control">
                                                        </select>
                                                   </div>
                                                   

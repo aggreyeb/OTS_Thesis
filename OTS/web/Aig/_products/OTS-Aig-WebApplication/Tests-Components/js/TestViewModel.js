@@ -279,7 +279,11 @@ OTS.AigTestViewModel=function(){
     me.TestItems= ko.observableArray([]); //Test items generated array
     me.OnStartGenerateTestsItems=function(){
         if( me.SelectedNodeForItemsGeneration!==null){
-             testComponent.GenerateTestItems(me.SelectedNodeForItemsGeneration,function(items){
+            
+            var  conceptNodes = knowledgeMapTreeView.ToList();
+            var conceptNodeSelected = knowledgeMapTreeView.NodeToList(me.SelectedNodeForItemsGeneration);
+        
+            testComponent.GenerateTestItems({conceptNodes:conceptNodes,conceptNodeSelected:conceptNodeSelected},function(items){
                alert(items.length);
                if(items!==undefined && items!==null && items.length){
                  me.PopulateGeneratedItemList(items);

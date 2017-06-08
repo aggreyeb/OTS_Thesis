@@ -47,6 +47,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
          selectedFunction = flattendTree.Shuffle(functions)[0];
         var paragraphs = "";
        // var splitedFunctions = selectedFunction.text.split("\n");
+
         var splitedFunctions = selectedFunction.algorithm.text.split("\n");
         for (var j = 0; j < splitedFunctions.length; j++) {
             if (splitedFunctions[j] === "") continue;

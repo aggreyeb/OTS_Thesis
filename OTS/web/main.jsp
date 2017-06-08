@@ -138,8 +138,29 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentViewModel.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentDataSource.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentAccountsComponent.js" type="text/javascript"></script>
-          
         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
+        
+        <!--TEST GENERATION COMPONENTS-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/TestItemGeneration.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/_TestItemGenerationComponents.js" type="text/javascript"></script>
+         <!--REMEMBER-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseCorrectComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseInCorrectComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeAComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeBComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeCComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeDComponent.js" type="text/javascript"></script>
+       
+        <!--UNDERSTANDING-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeAComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeBComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeCComponent.js" type="text/javascript"></script>
+        
+        <!--HIGHER COGNITIVE ITEMS
+        <!--APPLICATION-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Applications/ApplicationTypeAComponent.js" type="text/javascript"></script>
+        
+
         
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>

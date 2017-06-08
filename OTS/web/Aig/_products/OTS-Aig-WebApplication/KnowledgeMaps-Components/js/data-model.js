@@ -26,9 +26,13 @@ OTS.DataModel.Function = function (id, name, preCondition, postCondition,purpose
     me.purpose = purpose || "";
     me.preCondition = preCondition||"";
     me.postCondition = postCondition||"";
+    me.SelectedTimeComplixity=ko.observable();
     me.algorithm = {text:"",timeComplexity:""};
     me.psudoCode = { text: "", timeComplexity: "" };
-};
+    me.ReadOnlyTimeComplexity=ko.observable();
+    me.Testing=ko.observable();
+    
+    };
 
 OTS.DataModel.ConceptApplication = function (id, description) {
     var me = this;

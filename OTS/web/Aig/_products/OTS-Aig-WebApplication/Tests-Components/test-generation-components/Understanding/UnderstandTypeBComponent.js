@@ -1,6 +1,6 @@
 ﻿var Aig = Aig || {};
 Aig.Components = Aig.Components || {};
-Aig.Components.UnderstandTypeAComponent = function(id) {
+Aig.Components.UnderstandTypeBComponent = function(id) {
     var me = this;
     me.base = Aig.Components.TestItemGenerationComponent;
     me.base(id);
@@ -13,11 +13,11 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
     var actorTypes = new Aig.ActorTypes();
     var timeComplexities = new Aig.TimeComplexityTypes();
 
-    var selectedFunction=
+    var selectedFunction = null;
   
     me.PrepareStimulus = function(selectedNode) {
         var functionTemplate = '<p> {paragraphs} </p>';
-        var stimulusTemplate = "<p text-align:justify>A {conceptNodeName}&lt;T&gt; is a generic which can be used to store any specific data type T.It encapsulate the following attributes:{attributes} of type {types} respectively. A {actor} implemented the following {conceptNodeName} function:";
+        var stimulusTemplate = "<p text-align:justify>A {actor} implemented a {conceptNodeName} &lt;T&gt; where T can be any specific data type. The {conceptNodeName} has the following attributes: {attributes} and one of the functions implemented is shown below:";
         stimulusTemplate += '<div  style="padding-left: 350px">{algorithem}</div>';
 
         //Build attribute list
@@ -25,7 +25,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
         var attributes = selectedNode.attributes;
         for (var i = 0; i < attributes.length; i++) {
             strAttributes += attributes[i].name + ",";
-            if (i === attributes.length - 1) {
+            if (i === attributes.length) {
                 strAttributes += " and " + attributes[i].name;
             }
         }
@@ -34,7 +34,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
         var strAttributeTypes = "";
         for (var i = 0; i < attributes.length; i++) {
             strAttributeTypes += attributes[i].type + ",";
-            if (i === attributes.length - 1) {
+            if (i === attributes.length) {
                 strAttributeTypes += " and " + attributes[i].type;
             }
         }
@@ -47,7 +47,8 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
          selectedFunction = flattendTree.Shuffle(functions)[0];
         var paragraphs = "";
        // var splitedFunctions = selectedFunction.text.split("\n");
-        var splitedFunctions = selectedFunction.algorithm.text.split("\n");
+          var splitedFunctions = selectedFunction.algorithm.text.split("\n");
+
         for (var j = 0; j < splitedFunctions.length; j++) {
             if (splitedFunctions[j] === "") continue;
             paragraphs += "<p>" + splitedFunctions[j].trim() + "</p>";
@@ -58,7 +59,6 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
             actor: actor,
             conceptNodeName: selectedNode.text,
             attributes: strAttributes,
-            types: strAttributeTypes,
             algorithem: algorithem
         };
 
@@ -67,7 +67,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
     };
 
     me.PrepareStem = function(data) {
-        var stemTemplate = "Which of the following Time Complixity best describe the function?";
+        var stemTemplate = "What is likely to be the purpose of the function?";
         if (data === undefined || data === null)
             return stemTemplate;
         var html = me.RenderTemplate(stemTemplate, data);
@@ -76,20 +76,32 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
 
    
     me.PrepareAnswerOptions = function(selectedNode) {
-        var currentSelectedNode = selectedNode;
-        var timeComplexity = timeComplexities.Find(selectedFunction.timeComplexity);
-        var answerOption = new Aig.AnswerOption("", timeComplexity.name);
-        answerOption.IsKey = true;
-        answerOptions.push(answerOption);
+        var answerOptionCount = 4;
+        var functions = selectedNode.functions;
+        var afunction = flattendTree.Shuffle(functions)[0];  
+       
+            answerOptionKey = new Aig.AnswerOption("", me.Capitalize(afunction.purpose));
+            answerOptionKey.IsKey = true;
+            answerOptions.push(answerOptionKey);
+      
+        
+        var possibleDistractors = []; 
+        for (var i = 0; i < functions.length; i++) {
+            if (functions[i].name === afunction.name)
+                continue;
+            if (i === answerOptionCount) break;
+            possibleDistractors.push(functions[i]);
+        }
 
-        var distractors = timeComplexities.Exclude(selectedFunction.timeComplexity);
+        var distractors = flattendTree.Shuffle(possibleDistractors);
         for (var i = 0; i < distractors.length; i++) {
-             answerOption = new Aig.AnswerOption("", distractors[i].name);
+            
+            var answerOption = new Aig.AnswerOption("",me.Capitalize(distractors[i].purpose));
             answerOption.IsKey = false;
             answerOptions.push(answerOption);
         }
-        var shiffledAnswerOptions = flattendTree.Shuffle(answerOptions);
-        return shiffledAnswerOptions;
+
+        return answerOptions;
     };
 
   
@@ -140,5 +152,5 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
     };
 
 };
-Aig.Components.UnderstandTypeAComponent.prototype = new Aig.Components.TestItemGenerationComponent();
-Aig.Components.UnderstandTypeAComponent.prototype.constructor = Aig.Components.UnderstandTypeAComponent;
+Aig.Components.UnderstandTypeBComponent.prototype = new Aig.Components.TestItemGenerationComponent();
+Aig.Components.UnderstandTypeBComponent.prototype.constructor = Aig.Components.UnderstandTypeBComponent;

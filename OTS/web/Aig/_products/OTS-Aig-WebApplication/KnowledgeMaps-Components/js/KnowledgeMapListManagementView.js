@@ -33,7 +33,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
         description:ko.observable(""),
         conceptSchemas:""
     };
-    //knowledgeMaplistView:Actions
+    
+   
+  
     me.knowledgeMaplistViewActions={
      
         saveAlertVisible:ko.observable(false),
@@ -449,9 +451,10 @@ OTS.AigKnowledgeMapListManagementView=function(){
         functions: ko.observableArray([]),
         applications: ko.observableArray([]),
         selectedNodeName: ko.observable("None"),
-        relationships: ko.observableArray([{ id: 1, name: "Type Of" }, { id: 2, name: "Part Of" }]),
-        selectedRelationship:ko.observable()
-    };
+         relationships: ko.observableArray([{ id: 1, name: "Type Of" }, { id: 2, name: "Part Of" }]),
+         selectedRelationship:ko.observable()
+        
+        }
    
      me.ResetConceptSchema=function(){
         me.conceptSchema.id("");
@@ -472,6 +475,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
    
         me.addNewBehaviourDescription=function(){
             var behaviourDescripton=new OTS.DataModel.BehaviourDescription();
+            behaviourDescripton.id= new Aig.Guid().NewGuid();
             me.conceptSchema.behaviourDescriptions.push(behaviourDescripton);
             me.ConceptSchemaStateChanged=true;
         };
@@ -483,6 +487,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
          me.addAttribute=function(){
            
             var attribute=new OTS.DataModel.Attribute();
+            attribute.id=new Aig.Guid().NewGuid();
            me.conceptSchema.attributes.push(attribute);
             me.ConceptSchemaStateChanged=true;
         };
@@ -493,16 +498,21 @@ OTS.AigKnowledgeMapListManagementView=function(){
          me.addFunction=function(){
            
             var _function=new OTS.DataModel.Function();
+            _function.id=new Aig.Guid().NewGuid();
+           
           me.conceptSchema.functions.push(_function);
            me.ConceptSchemaStateChanged=true;
         };
         me.removeFunction=function(data,event){
+          //  alert("Remove");
+           // var x=ko.toJS(data.SelectedTimeComplixity);
             me.conceptSchema.functions.remove(data);
              me.ConceptSchemaStateChanged=true;
         };
         
         me.addApplication=function(){
             var application=new OTS.DataModel.ConceptApplication();
+            application.id=Aig.Guid().NewGuid();
             me.conceptSchema.applications.push(application);
              me.ConceptSchemaStateChanged=true;
         };
@@ -548,6 +558,23 @@ OTS.AigKnowledgeMapListManagementView=function(){
     /*****************END CONCEPT SCHEMA *****************************************/
     me.showConceptSchemaAlert=ko.observable(true);
     me.showConceptSchemaHeading=ko.observable(false);
+    me.Testing=ko.observable();
+    me.onTimeCOmplexityChanged=function(data,e){
+        var selected=$(e.target).val();
+        var selectedText=$(e.target).text();
+        data.ReadOnlyTimeComplexity=selected;
+       
+        data.algorithm.timeComplexity=selected;
+        me.Testing(selected);
+        //alert($(e.target).val());
+        alert(JSON.stringify(data));
+    };
+    me.TimeComplexities=ko.observableArray([
+                         { id: 1, name: "O(1)" },
+                         { id: 2, name: "O(n)" },
+                         { id: 3, name: "O(n^2)" },
+                         { id: 4, name: "O(logn)" }    
+                        ]);
     me.FillConceptSchema = function (data,parentNode) {
       
        

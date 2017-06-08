@@ -119,7 +119,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        
       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
       knowlegemapListManagement.AddKnowledgeMapComponent(me);
-      knowlegemapListManagement.Render();
+     // knowlegemapListManagement.Render();
        //Initialize the Views
        /*
       
@@ -133,10 +133,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                var items=JSON.parse(result.Content);
               knowlegemapListManagement.DataBind(items);
               
-               //Initialize the Views
-            knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
-         
-          
+               
+            knowlegemapListManagement.Render();
+             
             knowlegemapListManagement.HideSaveAlert();
               initialized=true;
           }

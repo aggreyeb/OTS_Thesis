@@ -5,20 +5,45 @@ OTS.AigTestItemGenerationComponent=function(){
     var currentApplication;
     var initialized=false;
     //var componentContainerId;
-     var control= new  Aig.Controls.Control();
-     var viewModel= new OTS.AigTestViewModel();
+    var control= new  Aig.Controls.Control();
+    var viewModel= new OTS.AigTestViewModel();
      
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource("tests-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-add-edit-template");
     var testListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-list-template");
-     var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
-     var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
-     var componentChanged=function(e){
+    var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
+    var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
+    
+    var testGenerationComponents = new Aig.Components.TestItemGenerationComponents();
+   
+    var componentChanged=function(e){
       if(e.id===id){
         // componentContainerId=e.componentContainerId
          me.Initialize();
        }
     };
+    
+    me.InitializeTestGenerationAlgorithms=function(){
+       
+    //remember components
+     new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
+     new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
+     new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
+     new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
+     new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
+     new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
+     
+    
+    //understand components
+    new Aig.Components.UnderstandTypeAComponent().AddTo(testGenerationComponents);
+    new Aig.Components.UnderstandTypeBComponent().AddTo(testGenerationComponents);
+    new Aig.Components.UnderstandTypeCComponent().AddTo(testGenerationComponents);
+
+    //Application compoonentes
+    new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
+   
+    };
+    
     
      me.Initialize=function(){
        
@@ -34,9 +59,7 @@ OTS.AigTestItemGenerationComponent=function(){
               viewModel.PopulateTestList([]);
          });
          if(initialized) return;
-       //  $("#" + componentContainerId).empty();
-       
-       
+      
        var appendableControl=new Aig.Controls.AppendableControl("div-Tests-content");
        
        var baseHtml= htmlTemplateDataSource.Read();
@@ -60,6 +83,9 @@ OTS.AigTestItemGenerationComponent=function(){
          generatedItemsappendableControl.Append(generatedItemsHtml,function(e){});
          
          viewModel.AddTestComponent(me);
+         //Initialize Test Generation Algorithms
+         me.InitializeTestGenerationAlgorithms();
+         
          var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListTeacherCourses(function(msg){
              var result=JSON.parse(msg);
@@ -157,11 +183,23 @@ OTS.AigTestItemGenerationComponent=function(){
    
    //******************************Test Items Generation *****************
     
-    me.GenerateTestItems=function(conceptNodeSelected,callbackFunction){
+    me.GenerateTestItems=function(e,callbackFunction){
        var callback=callbackFunction;
-       alert("Ready to generate");
+       var testItems = [];
+        
+      var  conceptNodes = e.conceptNodes;
+      var  conceptNodeSelected = e.conceptNodeSelected;
+       
+        var testGenerationItem = new Aig.Components.TestGenerationItem(conceptNodes, conceptNodeSelected);
+
+        var items = testGenerationComponents.Generate(testGenerationItem);
+        for (var i = 0; i < items.length; i++) {
+            testItems.push(items[i]);
+        }
+        viewModel.PopulateGeneratedItemList(testItems);
+     //  $("#message-box").html("<b><p>Number of items generated:" + testItems.length +"</p></b>")
         if(callback instanceof Function)
-            callback([]);
+            callback(testItems);
     };
    
 };
