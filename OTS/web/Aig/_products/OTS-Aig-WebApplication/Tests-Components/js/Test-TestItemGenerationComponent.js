@@ -204,22 +204,15 @@ OTS.AigTestItemGenerationComponent=function(){
             callback(testItems);
     };
    
-   me.SaveToTestQuestionBank=function(data,callbackFunction){
-       var callback=callbackFunction;
+  
+   
+   
+    me.SaveToTestQuestionBank=function(data,callbackFunction){
+       var callback=callbackFunction; 
        var dataSource= new  OTS.AigTestDataSource();
          dataSource.SaveToTestQuestionBank(data,function(msg){
             callback(msg);
         });
-   };
-   
-   
-    me.SaveToTestQuestionBank=function(data,callbackFunction){
-       var callback=callbackFunction;
-       
-        $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.id, TestId:data.testid, CourseId:data.courseId,TestQuestions:data.testQuestions},function(msg){
-             if(callback!==undefined && callback!==null)
-                callback(msg);
-     });
    };
    
    

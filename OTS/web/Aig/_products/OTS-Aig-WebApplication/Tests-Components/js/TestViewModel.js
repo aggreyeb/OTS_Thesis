@@ -319,20 +319,23 @@ OTS.AigTestViewModel=function(){
     me.SaveToTestQuestionBank=function(){
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
            var id=new Aig.Guid().NewGuid();
+        
            var data={
                Id:new Aig.Guid().NewGuid(), 
-               TestId:SelectedTest.TestId,
-               CourseId:SelectedTest.CourseId,
-               TestQuestions:ko.Js(me.TestItems())
+               TestId:me.SelectedTest.Id,
+               CourseId:me.SelectedTest.CourseId,
+               TestQuestions: ko.toJS(me.TestItems())
            };
-            testComponent.SaveToTestQuestionBank(data,function(e){
+            testComponent.SaveToTestQuestionBank(data,function(msg){
                     var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         var genereatedTestItems= ko.toJs(me.TestItems);
+                         var genereatedTestItems= ko.toJS(me.TestItems);
                           for(var i=0;i<genereatedTestItems.length;i++){
                                me.TestBankItems.push(genereatedTestItems[i]);
                           }
-                         alertBox.ShowSuccessMessage("Test Item Saved");
+                          //go to Question Bank
+                          $(".app-lnk-testqustion-bank").click();
+                        // alertBox.ShowSuccessMessage("Test Item Saved");
                     }
                     else{
                          alertBox.ShowErrorMessage("Failed to save test items");  

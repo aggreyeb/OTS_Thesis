@@ -101,9 +101,17 @@ public class TestQuestionBankServlet extends Servlet {
          switch(action){
              
               case "Aig-SaveToTestQuestionBank":
-                  
-                    String data=request.getParameter("data");
-                    TestQuestionBankElement element= (TestQuestionBankElement)new Gson().fromJson(data, TestQuestionBankElement.class);
+                    //TestId:data.TestId,CourseId:data.CourseId,
+                     String Id=request.getParameter("Id");
+                     testId=request.getParameter("TestId");
+                     acourseId=request.getParameter("CourseId");
+                     String data=request.getParameter("data");
+                     TestQuestionBankElement element=new TestQuestionBankElement();
+                     element.Id=Id;
+                     element.TestId=testId;
+                     element.CourseId=acourseId;
+                     element.TestQuestions=data;
+                   // TestQuestionBankElement element= (TestQuestionBankElement)new Gson().fromJson(data, TestQuestionBankElement.class);
                     service= new TestQuestionBankDataService(new MySqlDataSource());
                    return  service.SaveTestItemGenerated(element);
              

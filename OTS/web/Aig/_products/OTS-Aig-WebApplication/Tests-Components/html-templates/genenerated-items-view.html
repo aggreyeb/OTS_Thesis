@@ -3,7 +3,7 @@
         <h3 style="margin-left: 15px"><span class="label label-info" > <i class="fa fa-info-circle"></i>Please select a root node or child node of knowledge map and click on generate</span><a data-bind="click:OnStartGenerateTestsItems" style="margin-right: 25px" class=" pull-right btn btn-sm btn-primary" href="#">Generate</a>
     </div>
     <div data-bind="visible:ShowItemsGeneratedAlert" style="margin-right: 10px" class="alert alert-success" >
-        Number of items generated: <span  data-bind="text:NumberItemsGenerated" class="badge" >0</span> <span class="pull-right"><a  data-bind="click:ClearTestItemGenerated" class=" btn btn-default" href="#">Clear</a>&nbsp;<a  class="pull-right btn btn-success" href="#">Save to test question bank</a></span>
+        Number of items generated: <span  data-bind="text:NumberItemsGenerated" class="badge" >0</span> <span class="pull-right"><a  data-bind="click:ClearTestItemGenerated" class=" btn btn-default" href="#">Clear</a>&nbsp;<a  data-bind="click:SaveToTestQuestionBank" class="pull-right btn btn-success" href="#">Save to test question bank</a></span>
    </div>
     
     <div class="row">

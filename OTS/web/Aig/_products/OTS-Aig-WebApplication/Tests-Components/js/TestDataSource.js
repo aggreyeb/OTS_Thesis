@@ -100,8 +100,8 @@ OTS.AigTestDataSource=function(){
     me.SaveToTestQuestionBank=function(data,callbackFunction){
        var callback=callbackFunction;
        
-        $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.id, TestId:data.testid, CourseId:data.courseId,TestQuestions:data.testQuestions},function(msg){
-             if(callback!==undefined && callback!==null)
+        $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.Id, TestId:data.TestId,CourseId:data.CourseId, data:JSON.stringify(data)},function(msg){
+             if(callback!==undefined && callback!==null) 
                 callback(msg);
      });
    };
