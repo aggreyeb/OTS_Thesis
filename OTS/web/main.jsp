@@ -141,6 +141,7 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
         
         <!--TEST GENERATION COMPONENTS-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/DataStructures.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/TestItemGeneration.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/_TestItemGenerationComponents.js" type="text/javascript"></script>
          <!--REMEMBER-->

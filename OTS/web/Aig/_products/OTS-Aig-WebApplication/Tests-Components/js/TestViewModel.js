@@ -284,7 +284,7 @@ OTS.AigTestViewModel=function(){
             var conceptNodeSelected = knowledgeMapTreeView.NodeToList(me.SelectedNodeForItemsGeneration);
         
             testComponent.GenerateTestItems({conceptNodes:conceptNodes,conceptNodeSelected:conceptNodeSelected},function(items){
-               alert(items.length);
+            
                if(items!==undefined && items!==null && items.length){
                  me.PopulateGeneratedItemList(items);
                 

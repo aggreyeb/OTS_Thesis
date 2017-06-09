@@ -78,12 +78,13 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
    
     me.PrepareAnswerOptions = function(selectedNode) {
         var currentSelectedNode = selectedNode;
-        var timeComplexity = timeComplexities.Find(selectedFunction.timeComplexity);
+        var selectedTimeCmplexity=selectedFunction.algorithm.timeComplexity;
+        var timeComplexity = timeComplexities.Find(selectedTimeCmplexity);
         var answerOption = new Aig.AnswerOption("", timeComplexity.name);
         answerOption.IsKey = true;
         answerOptions.push(answerOption);
 
-        var distractors = timeComplexities.Exclude(selectedFunction.timeComplexity);
+        var distractors = timeComplexities.Exclude(selectedTimeCmplexity);
         for (var i = 0; i < distractors.length; i++) {
              answerOption = new Aig.AnswerOption("", distractors[i].name);
             answerOption.IsKey = false;

@@ -60,7 +60,17 @@ Aig.Components.RememberTypeDComponent = function(id) {
         //Distractors
         
         var excludedKeyList = flattendTree.ExcludeWithoutRoot(selectedNode);
-        distractors = flattendTree.SelectRandom(distractorLength, excludedKeyList);
+        var shuffleItems= flattendTree.Shuffle(excludedKeyList)
+        
+       // distractors = flattendTree.SelectRandom(distractorLength, excludedKeyList);
+        for(var d=0;d<shuffleItems.length;d++){
+            if(shuffleItems[d].parentNodeId){
+               if(d>=distractorLength)
+                break;
+                distractors.push(shuffleItems[d])
+            }
+            
+        }
         for (var i = 0; i < distractors.length; i++) {
             var answerOption = new Aig.AnswerOption("", distractors[i].text);
             answerOption.IsKey = false;

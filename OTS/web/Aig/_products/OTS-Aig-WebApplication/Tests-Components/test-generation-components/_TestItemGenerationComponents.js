@@ -251,14 +251,17 @@ Aig.Components.FlattendTree = function() {
     me.ExcludeWithoutRoot = function (item) {
        
         var list = [];
+        var duplicateList=[];
+        
         for (var i = 0; i < items.Count(); i++) {
             if (!items.ItemAt(i).parentNodeId)
                 continue; // don't add the parent
-            if (items.ItemAt(i).id === item.id)
-                continue;
-            list.push(items.ItemAt(i));
-
+            if (items.ItemAt(i).id.trim() !== item.id.trim())
+            {
+                list.push(items.ItemAt(i)); 
+            }  
         }
+       
         var json = JSON.stringify(list);
         return JSON.parse(json);
     };

@@ -26,22 +26,22 @@ OTS.AigTestItemGenerationComponent=function(){
     me.InitializeTestGenerationAlgorithms=function(){
        
     //remember components
-     new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
-     new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
-     new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
-     new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
-     new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
-     new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
+    new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
      
     
     //understand components
     new Aig.Components.UnderstandTypeAComponent().AddTo(testGenerationComponents);
     new Aig.Components.UnderstandTypeBComponent().AddTo(testGenerationComponents);
     new Aig.Components.UnderstandTypeCComponent().AddTo(testGenerationComponents);
-
+    
     //Application compoonentes
     new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
-   
+     
     };
     
     
@@ -193,6 +193,8 @@ OTS.AigTestItemGenerationComponent=function(){
         var testGenerationItem = new Aig.Components.TestGenerationItem(conceptNodes, conceptNodeSelected);
 
         var items = testGenerationComponents.Generate(testGenerationItem);
+        if(testItems.length>0)
+            testItems=[];
         for (var i = 0; i < items.length; i++) {
             testItems.push(items[i]);
         }

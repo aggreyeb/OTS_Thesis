@@ -504,15 +504,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
            me.ConceptSchemaStateChanged=true;
         };
         me.removeFunction=function(data,event){
-          //  alert("Remove");
-           // var x=ko.toJS(data.SelectedTimeComplixity);
+         
             me.conceptSchema.functions.remove(data);
              me.ConceptSchemaStateChanged=true;
         };
         
         me.addApplication=function(){
             var application=new OTS.DataModel.ConceptApplication();
-            application.id=Aig.Guid().NewGuid();
+            application.id=new Aig.Guid().NewGuid();
             me.conceptSchema.applications.push(application);
              me.ConceptSchemaStateChanged=true;
         };
