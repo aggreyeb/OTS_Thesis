@@ -204,6 +204,53 @@ OTS.AigTestItemGenerationComponent=function(){
             callback(testItems);
     };
    
+   me.SaveToTestQuestionBank=function(data,callbackFunction){
+       var callback=callbackFunction;
+       var dataSource= new  OTS.AigTestDataSource();
+         dataSource.SaveToTestQuestionBank(data,function(msg){
+            callback(msg);
+        });
+   };
+   
+   
+    me.SaveToTestQuestionBank=function(data,callbackFunction){
+       var callback=callbackFunction;
+       
+        $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.id, TestId:data.testid, CourseId:data.courseId,TestQuestions:data.testQuestions},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   
+   me.ListCourseTestQuestions=function(testId,courseId,functionCallback){
+        var callback=functionCallback;
+       
+       var dataSource= new  OTS.AigTestDataSource();
+         dataSource.ListCourseTestQuestions(testId,courseId,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.UpdateCourseTestSheet=function(testId,courseId,functionCallback){
+        var callback=functionCallback;
+       
+       var dataSource= new  OTS.AigTestDataSource();
+         dataSource.UpdateCourseTestSheet(testId,courseId,function(msg){
+            callback(msg);
+        });
+   };
+   
+     me.UpdateCourseTestAsnwerSheet=function(testId,courseId,functionCallback){
+        var callback=functionCallback;
+       
+      var dataSource= new  OTS.AigTestDataSource();
+         dataSource.UpdateCourseTestAsnwerSheet(testId,courseId,function(msg){
+            callback(msg);
+        });
+    };
+   
+   
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

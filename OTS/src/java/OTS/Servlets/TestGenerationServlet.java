@@ -251,7 +251,11 @@ public class TestGenerationServlet extends  Servlet {
                    ID=request.getParameter("ID");
                     service= new TestDataService(new MySqlDataSource());
                    return  service.DeActivateTest(ID);
+                   
+                  
                 
+                   //SaveToTestQuestionBank,Id:id, TestId:testid, CourseId:courseId
+                   
                   //old methods
              case  "ListTeacherCourse":
                AcademicTests tests=  new AcademicTests( db);

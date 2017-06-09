@@ -21,4 +21,8 @@ public class TestElement {
    public int  Activated;
    public String CourseId;
    public String CourseName;
+   public String TestQuestions;
+   public String TestSheet;
+   public String AnswerSheet;
+           
 }

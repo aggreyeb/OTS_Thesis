@@ -5,6 +5,8 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankDataService;
+import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -12,6 +14,7 @@ import OTS.ObjectModels.QuestionManagement.Questions;
 import OTS.ObjectModels.QuestionManagement.StudentTestReport;
 import OTS.ObjectModels.Response;
 import OTS.ObjectModels.UserProfile;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -89,11 +92,44 @@ public class TestQuestionBankServlet extends Servlet {
     protected ISerializable ExecuteCommand(String action, HttpServletRequest request) {
            Response response= new Response("","");
           DataSource db=new MySqlDataSource();
+          TestQuestionBankDataService service;
+            String testId;
+            String acourseId;
           UserProfile userProfile=this.LoadSession(request);
            try{
        
          switch(action){
-              case  "ListTestQuestionBank1":
+             
+              case "Aig-SaveToTestQuestionBank":
+                  
+                    String data=request.getParameter("data");
+                    TestQuestionBankElement element= (TestQuestionBankElement)new Gson().fromJson(data, TestQuestionBankElement.class);
+                    service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.SaveTestItemGenerated(element);
+             
+                  case "Aig-ListCourseTestQuestions":
+                  
+                   testId=request.getParameter("TestId");
+                   acourseId=request.getParameter("CourseId");
+                   service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.ListCourseTestQuestions(testId,acourseId);
+             
+                   case "Aig-UpdateCourseTestSheet":
+                  
+                     testId=request.getParameter("TestId");
+                     acourseId=request.getParameter("CourseId");
+                   service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.UpdateCourseTestSheet(testId,acourseId);
+             
+             
+                   case "Aig-UpdateCourseTestAswerSheet":
+                     testId=request.getParameter("TestId");
+                     acourseId=request.getParameter("CourseId");
+                   service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.UpdateCourseTestAswerSheet(testId,acourseId);
+             
+             
+             case  "ListTestQuestionBank1":
                Questions questions= new Questions(db,response);
                int id= Integer.parseInt(request.getParameter("testid"));
                questions.ListTestQuestionBank(id);

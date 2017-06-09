@@ -10,7 +10,11 @@ OTS.AigTestDataSource=function(){
         ActivateTest:"Aig-ActivateTest",
         DeActivateTest:"Aig-DeActivateTest",
         ListTeacherCourses:"Aig-ListTeacherCourses",
-        ListCourseTestConceptHierarchy:"Aig-ListCourseTestConceptHierarchy"
+        ListCourseTestConceptHierarchy:"Aig-ListCourseTestConceptHierarchy",
+        SaveToTestQuestionBank:"Aig-SaveToTestQuestionBank",
+        ListCourseTestQuestions:"Aig-ListCourseTestQuestions",
+        UpdateCourseTestAsnwerSheet:"Aig-UpdateCourseTestAsnwerSheet",
+        UpdateCourseTestSheet:"Aig-UpdateCourseTestSheet"
     };
     
      me.ListTeacherCourses=function(callbackFunction){
@@ -92,6 +96,43 @@ OTS.AigTestDataSource=function(){
                 callback(msg);
      });
    };
+   
+    me.SaveToTestQuestionBank=function(data,callbackFunction){
+       var callback=callbackFunction;
+       
+        $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.id, TestId:data.testid, CourseId:data.courseId,TestQuestions:data.testQuestions},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   
+   me.ListCourseTestQuestions=function(testId,courseId,functionCallback){
+        var callback=callbackFunction;
+       
+        $.post("TestQuestionBankServlet",{action:actionType.ListCourseTestQuestions, TestId:testId, CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+         });
+   };
+   
+   me.UpdateCourseTestSheet=function(testId,courseId,functionCallback){
+        var callback=callbackFunction;
+       
+        $.post("TestQuestionBankServlet",{action:actionType.UpdateCourseTestSheet, TestId:testId, CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+         });
+   };
+   
+     me.UpdateCourseTestAsnwerSheet=function(testId,courseId,functionCallback){
+        var callback=callbackFunction;
+       
+        $.post("TestQuestionBankServlet",{action:actionType.UpdateCourseTestAsnwerSheet, TestId:testId, CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+         });
+    };
    
 };
 

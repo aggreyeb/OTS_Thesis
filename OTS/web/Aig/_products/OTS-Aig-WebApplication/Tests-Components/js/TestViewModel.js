@@ -277,7 +277,11 @@ OTS.AigTestViewModel=function(){
   //******************************Test Item Generation **********************
     me.SelectedNodeForItemsGeneration=null;
     me.TestItems= ko.observableArray([]); //Test items generated array
+    me.NumberItemsGenerated=ko.observable(0);
+    me.ShowItemsGeneratedAlert=ko.observable(false);
+    me.TestBankItems=ko.observableArray([]);
     me.OnStartGenerateTestsItems=function(){
+         me.ShowItemsGeneratedAlert(false);
         if( me.SelectedNodeForItemsGeneration!==null){
             
             var  conceptNodes = knowledgeMapTreeView.ToList();
@@ -287,7 +291,8 @@ OTS.AigTestViewModel=function(){
             
                if(items!==undefined && items!==null && items.length){
                  me.PopulateGeneratedItemList(items);
-                
+                 me.NumberItemsGenerated(items.length);
+                 me.ShowItemsGeneratedAlert(true);
             }
         });
             return;
@@ -303,6 +308,36 @@ OTS.AigTestViewModel=function(){
         for (var i = 0; i < items.length; i++) {
             items[i].Number = i + 1;
             me.TestItems.push(items[i]);
+        }
+    };
+    me.ClearTestItemGenerated=function(){
+        if(me.TestItems().length>0){
+            me.TestItems([]);
+            me.NumberItemsGenerated(0);
+        }
+    };
+    me.SaveToTestQuestionBank=function(){
+        if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
+           var id=new Aig.Guid().NewGuid();
+           var data={
+               Id:new Aig.Guid().NewGuid(), 
+               TestId:SelectedTest.TestId,
+               CourseId:SelectedTest.CourseId,
+               TestQuestions:ko.Js(me.TestItems())
+           };
+            testComponent.SaveToTestQuestionBank(data,function(e){
+                    var result=JSON.parse(msg);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                         var genereatedTestItems= ko.toJs(me.TestItems);
+                          for(var i=0;i<genereatedTestItems.length;i++){
+                               me.TestBankItems.push(genereatedTestItems[i]);
+                          }
+                         alertBox.ShowSuccessMessage("Test Item Saved");
+                    }
+                    else{
+                         alertBox.ShowErrorMessage("Failed to save test items");  
+                    }
+            });
         }
     };
 };
