@@ -57,7 +57,8 @@ Aig.Components.RememberTypeBComponent = function(id) {
     me.PrepareStem = function(data) {
         var stemTemplate = "Which object have the above descriptions?";
         if (data === undefined || data === null)
-            return stemTemplate;
+          stem=stemTemplate
+         return stemTemplate;
         var html = me.RenderTemplate(stemTemplate, data);
         stem=html;
         return html;
