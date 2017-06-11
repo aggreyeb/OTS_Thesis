@@ -406,6 +406,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
     me.AddKnowledgeMapComponent=function(knowledgeMapManagememtComponent){
        if(knowledgeMapManagememtComponent!==undefined && knowledgeMapManagememtComponent!==null){
             knowledgeMapComponent=knowledgeMapManagememtComponent;
+             me.selectedMode=modeType.New;
+             me.ConceptSchemaStateChanged=false;
+             me.KnowledgeMapTreeStateChanged=false;
             return ;
        }
        throw new Error("knowledgeMapManagememtComponent can not be null");
@@ -429,7 +432,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
        me.selectedMode=modeType.New;
        me.ConceptSchemaStateChanged=false;
        me.KnowledgeMapTreeStateChanged=false;
-        ko.applyBindings(me,$("div-knowledgemaps-content")[0]);
+      // ko.applyBindings(me,$("div-knowledgemaps-content")[0]);
     };
   
   /*****************END KNOWLEDGE MAP TREE VIEW ********************************/

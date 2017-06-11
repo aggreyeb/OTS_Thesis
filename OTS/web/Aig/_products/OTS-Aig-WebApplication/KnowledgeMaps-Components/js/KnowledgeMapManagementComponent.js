@@ -7,9 +7,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
      var currentApplication;
     var initialized=false;
+   
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource(tempalateId);
     var appendableControl=new Aig.Controls.AppendableControl("div-knowledgemaps-content");
-    
+   
     var htmlTemplateKnowledgeMapsDataSource=new Aig.HtmlTemplateDataSource("knowledge-map-list-template");
     var appendableKnowledgeMapsControl=new Aig.Controls.AppendableControl("knowledgeMap-list-container");
     
@@ -32,18 +33,20 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     var componentChanged=function(e){
         if(e.id===id){
-          me.Initialize();
+        // var element = $('#div-knowledgemaps-content')[0]; 
+      //   ko.cleanNode(element);
+         me.Initialize();
         }
     };
     
     var renderLayouts=function(){
-      
+       
         var html=   htmlTemplateDataSource.Read();
         appendableControl.Append(html,function(e){
             element=e;
            
         });
-     
+      
        
       var knowledgeMapsHtml=  htmlTemplateKnowledgeMapsDataSource.Read();
       appendableKnowledgeMapsControl.Append(knowledgeMapsHtml,function(e){});
@@ -114,27 +117,25 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             return;
       }
        renderLayouts();
+    
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
-       
+     
+      
       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
       knowlegemapListManagement.AddKnowledgeMapComponent(me);
-     // knowlegemapListManagement.Render();
-       //Initialize the Views
-       /*
-      
-       knowlegemapListManagement.Render();
-       knowlegemapListManagement.HideSaveAlert();
-       */
+    
+     
       var datasource=new OTS.AigKnowlegeMapDataSource();
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
               knowlegemapListManagement.DataBind(items);
-              
+             ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
+     
                
-            knowlegemapListManagement.Render();
+            //knowlegemapListManagement.Render();
              
             knowlegemapListManagement.HideSaveAlert();
               initialized=true;

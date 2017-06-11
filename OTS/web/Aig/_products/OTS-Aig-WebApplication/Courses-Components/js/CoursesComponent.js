@@ -17,7 +17,12 @@ OTS.AigCoursesComponent=function(){
    
      var componentChanged=function(e){
       if(e.id===id){
-         me.Initialize();
+        
+        me.Initialize();
+       }
+       else{
+           var element = $('#div-courses-content')[0]; 
+           ko.cleanNode(element);
        }
     };
     
@@ -28,17 +33,18 @@ OTS.AigCoursesComponent=function(){
         panel.show();
          
          if(initialized)return;
-       
+       // var element = $('#div-courses-contentt')[0]; 
+        // ko.cleanNode(element);
         var element;
         var basegenHtml= basethtmlTemplateDataSource.Read();
          
         var basegenappendableControl=new Aig.Controls.AppendableControl("div-courses-content");
-         basegenappendableControl.Append(basegenHtml,function(e){
+        basegenappendableControl.Append(basegenHtml,function(e){
              element=e;
          });
        
        
-       var editappendableControl=new Aig.Controls.AppendableControl("div-course-add-edit");
+       var editappendableControl=new Aig.Controls.AppendableControl("div-course-add-edit1");
        var editHtml=edithtmlTemplateDataSource.Read();
        editappendableControl.Append(editHtml,function(e){});
        
@@ -50,11 +56,12 @@ OTS.AigCoursesComponent=function(){
        
        viewModel.AddCourseComponent(me);
         var dataSource=new OTS.AigCourseDataSource();
+       ko.applyBindings(viewModel,$("#div-courses-content")[0]);
        dataSource.ListAllCourses(function(msg){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content)
          viewModel.DataBind(items)
-         ko.applyBindings(viewModel,$("#div-courses-content")[0]);
+       //  ko.applyBindings(viewModel,$("#div-courses-content")[0]);
        });
      
        

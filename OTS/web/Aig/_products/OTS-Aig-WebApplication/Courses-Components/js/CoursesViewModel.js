@@ -24,7 +24,7 @@ OTS.AigCourseViewModel=function(){
     me.Courses=ko.observableArray([]);
    
     
-    me.HeaderText=ko.observable("Add New Course");
+    me.CourseHeaderText=ko.observable("Add New Course");
     me.SelectedCourse = null;//new  OTS.AigCourseViewModel();
     
     me.Actions={
@@ -62,7 +62,7 @@ OTS.AigCourseViewModel=function(){
             me.SelectedCourse=data;
             me.Name(data.Name);
             me.Number(data.Number);
-             me.HeaderText("Edit Course");
+             me.CourseHeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
              
         },

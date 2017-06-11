@@ -34,7 +34,7 @@ OTS.AigCourseAssignmentViewModel=function(){
     
     me.CourseKnowledgeMapAssociations=ko.observableArray([]);
     
-    me.HeaderText=ko.observable("Associate KnowledgeMap to Course");
+    me.CourseAssignmentHeaderText=ko.observable("Associate KnowledgeMap to Course");
   
   //// Select All
 //$('#my_select_box option').prop('selected', true);  

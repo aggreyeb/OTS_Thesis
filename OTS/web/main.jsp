@@ -200,6 +200,10 @@
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
      
+      <!--Knowledge Maps-->
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
+    
     
     <!--Student Accounts Templates-->
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-component.html" id="student-account-component-template" type="text/html"> </script>
@@ -221,12 +225,8 @@
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/testsheet-view.html" id="test-sheet-view-template" type="text/html"> </script>
    
     
-    <!--Knowledge Maps-->
-    
-    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
-    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
-    
-    
+  
+    <!--Test Components-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-list.html" id="test-list-template" type="text/html"> </script>
@@ -235,7 +235,7 @@
     <!--Courses Management templates-->
      <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-component.html" id="courses-component-template" type="text/html"> </script>
      <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses.html" id="courses-template" type="text/html"> </script>
-     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-add-edit-view.html" id="courses-add-edit-template" type="text/html"> </script>
+    <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-add-edit-view.html" id="courses-add-edit-template" type="text/html"> </script>
     
      <!--Teacher Course Assignment templates-->
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-component.html" id="teacher-course-assignment-component-template" type="text/html"> </script>
