@@ -472,7 +472,7 @@ Aig.Components.TestItemGenerationComponents = function () {
     var me = this;
     var items = [];
     var testItems = [];
-
+    var testItemModels=[];
     var generateSingleNodeTestItems = function (testGenerationItem) {
         var testItems = [];
         var testItemModels=[];
@@ -493,9 +493,20 @@ Aig.Components.TestItemGenerationComponents = function () {
 
     var addTestItems = function(items) {
         if (items === undefined || items === null) return;
+      
         if (items.length) {
             for (var i = 0; i < items.length; i++) {
                 testItems.push(items[i]);
+            }
+        }
+    };
+    
+     var addTestItemModels = function(items) {
+        if (items === undefined || items === null) return;
+     
+        if (items.length) {
+            for (var i = 0; i < items.length; i++) {
+                testItemModels.push(items[i]);
             }
         }
     };
@@ -519,6 +530,7 @@ Aig.Components.TestItemGenerationComponents = function () {
         if (isRoot) { //Root Node
             //used the flattend tree
             testItems = [];
+            testItemModels=[];
             for (var j = 0; j < testGenerationItem.ConceptNodes.length; j++) {
                 var conceptNodes = testGenerationItem.ConceptNodes;
                 var selectedNode = testGenerationItem.ConceptNodes[j];
@@ -526,9 +538,16 @@ Aig.Components.TestItemGenerationComponents = function () {
                     continue;
                 var item = new Aig.Components.TestGenerationItem(conceptNodes, selectedNode);
                 var testElements = generateSingleNodeTestItems(item);
-                addTestItems(testElements);
+                
+                addTestItems(testElements.testItems); //??
+                addTestItemModels(testElements.testItemModels)
             }
-            return testItems;
+             var item={
+                 testItems:testItems,
+                 testItemModels:testItemModels
+             }
+             return item;
+            //return testItems;
 
         } else { // node
             testItems = generateSingleNodeTestItems(testGenerationItem);

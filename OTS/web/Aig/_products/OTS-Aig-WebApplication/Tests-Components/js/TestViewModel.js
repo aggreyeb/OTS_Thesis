@@ -70,17 +70,32 @@ OTS.AigTestViewModel=function(){
              var item=items[i];
                item.number=i +1;
                var htmlItem= testComponent.RenderHtmlTestItem(item);
-                 //if(htmlItem!==undefined && htmlItem!==null){
-                 
-                 //}
-                //  me.TestBankItems.push(htmlItem); //Unselected Items from test bank
-                  me.TestSheetItems.push(htmlItem);
-                  me.AnswerSheetItems.push(htmlItem);
+               me.TestSheetItems.push(htmlItem);
+               me.AnswerSheetItems.push(htmlItem);
           }
+         },
+         DisplayTestInformation:function(selectedTest){
+             //me.SelectedTest
+              if(selectedTest.TestQuestions){
+           
+                var  testItems=JSON.parse(selectedTest.TestQuestions);
+                  if( testItems.length>0){
+                      for(var i=0;i<testItems.length;i++){
+                        var componentCode=  testItems[i].componentCode;
+                        var result=  testComponent.HasComponent(componentCode);
+                         if(result){
+                            //Do this iff the algorithm component is enabled
+                            me.Actions.refreshTestItemList(testItems);
+                         }
+                      }
+                  }
+              }
+              
          },
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
               var testItems;
+             /*
               if(data.TestQuestions){
            
                   testItems=JSON.parse(data.TestQuestions);
@@ -95,9 +110,8 @@ OTS.AigTestViewModel=function(){
                       }
                   }
                  
-                  
               }
-            
+              */
               testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
                     var result=JSON.parse(msg);
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -374,14 +388,15 @@ OTS.AigTestViewModel=function(){
                    //Add Selected to TestSheet
                    for(var i=0;i<itemsModels.length;i++){
                      var htmlItem= testComponent.RenderHtmlTestItem(itemsModels[i]);
-                         me.TestSheetItems.push(htmlItem);
+                       htmlItem.Number=i+1;
+                       me.TestSheetItems.push(htmlItem);
                    }
                    
                    //Prepare Answer Sheet
                    me.AnswerSheetItems([]);
                    for(var a=0;a<itemsModels.length;a++){
                         var htmlItem= testComponent.RenderHtmlTestItem(itemsModels[a]);
-                       //htmlItem.ComponentCode=item.componentCode;
+                       htmlItem.Number=a+1;
                        me.AnswerSheetItems.push(htmlItem);
                    }
                    
@@ -490,11 +505,12 @@ OTS.AigTestViewModel=function(){
                          //var genereatedTestItems=me.TestItemsModels; //ko.toJS(me.TestItems);
                           for(var i=0;i<array.length;i++){
                                
-                              var htmlItem= testComponent.RenderHtmlTestItem(array[i]);
+                            var htmlItem= testComponent.RenderHtmlTestItem(array[i]);
                             htmlItem.ComponentCode=array[i].componentCode;
                            // genereatedTestItems[i].checked=ko.observable(true)
                               htmlItem.checked=ko.observable(true);
                             //.TestBankItems.push(genereatedTestItems[i]);
+                            htmlItem.Number=i+1;
                             me.TestBankItems.push(htmlItem);
                           }
                           //go to Question Bank

@@ -12,12 +12,24 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
     var output = "";
     var generatedInputs = null;
     var distractorLength = 3;
+    
+   var componentCode= "DFCB7A70-A190-4D2C-81A9-A76EB3D8BBFE";
+    var stimulus=null;
+    var modelanswerOptions=null;
+    var stem=null;
+    var correctAnswer=null;
+    var congnitiveType=Aig.CongnitiveLevelType.Understanding;
+    
+    var stimulusTemplate = "<p text-align:justify>A {actor} implemented a generic {conceptNodeName} &lt;T&gt; where T can be any specific data type.If {dataStructureInstance} is an instance of the {conceptNodeName} and the following operations are executed";
+     stimulusTemplate += '<div  style="padding-left: 350px">{operations}</div>';
+      
+     me.HasIdentity=function(testItemComponentCode){
+        return componentCode===testItemComponentCode;
+     }; 
 
     me.PrepareStimulus = function(selectedNode) {
       
-        var stimulusTemplate = "<p text-align:justify>A {actor} implemented a generic {conceptNodeName} &lt;T&gt; where T can be any specific data type.If {dataStructureInstance} is an instance of the {conceptNodeName} and the following operations are executed";
-        stimulusTemplate += '<div  style="padding-left: 350px">{operations}</div>';
-      
+     
         var dataStructureInstance = "";
         var operations = "";
        var actorType = actorTypes.SelectRandom(1)[0];
@@ -37,7 +49,7 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
                  dataStructureInstance: dataStructureInstance,
                  operations: operations
              };
-           
+            stimulus=data;
             var html = me.RenderTemplate(stimulusTemplate, data);
              return html;
          }
@@ -47,9 +59,13 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
 
     me.PrepareStem = function(data) {
         var stemTemplate = "What is likely to be the expected output?";
-        if (data === undefined || data === null)
+        if (data === undefined || data === null){
+             stem=stemTemplate;
             return stemTemplate;
+        }
+           
         var html = me.RenderTemplate(stemTemplate, data);
+         stem=html;
         return html;
     };
 
@@ -111,9 +127,13 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
                 var option = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
                 if (answerOptions[j].IsKey) {
                     testItem.CorrectAnswer = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
+                    testItem.CorrectAnswer.IsKey=true;
+                    correctAnswer=testItem.CorrectAnswer;
                 }
                 testItem.AnswerOptions.push(option);
             }
+        testItem.ComponentCode=componentCode;
+        modelanswerOptions=testItem.AnswerOptions;
         return testItem;
     };
 
@@ -153,6 +173,43 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
              generatedInputs = null;
             flattendTree.Clear();
         };
+        
+    me.ToJson=function(){
+       var data={  
+         number:"",
+         componentCode:componentCode,
+         stimulus:stimulus,
+         answerOptions:modelanswerOptions,
+         stem:stem,
+         congnitiveType:congnitiveType,
+         correctAnswer:correctAnswer
+       };
+       return data;
+    };
+    
+    
+     me.RenderHtmlTestItem=function(data){
+        var item={  
+         number:data.number,
+         componentCode:data.componentCode,
+         stimulus:data.stimulus,
+         answerOptions:data.answerOptions,
+         stem:data.stem,
+         congnitiveType:data.congnitiveType,
+         correctAnswer:data.correctAnswer
+       };
+       
+        var testItem = new Aig.TestItem();
+        testItem.Number=item.number;
+        testItem.CongnitiveLevelType = item.congnitiveType; 
+        testItem.Stimulus = me.RenderTemplate(stimulusTemplate, item.stimulus)
+        testItem.Stem = item.stem;
+        testItem.AnswerOptions=item.answerOptions;
+        testItem.CorrectAnswer=item.correctAnswer;
+        return testItem;
+    };
+    
+        
 };
 Aig.Components.UnderstandTypeCComponent.prototype = new Aig.Components.TestItemGenerationComponent();
 Aig.Components.UnderstandTypeCComponent.prototype.constructor = Aig.Components.UnderstandTypeCComponent;

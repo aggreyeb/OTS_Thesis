@@ -11,6 +11,15 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
     var distractorLength = 3;
     var flattendTree = new Aig.Components.FlattendTree();
     var actorTypes = new Aig.ActorTypes();
+    
+    var componentCode= "87DB36A2-DD35-4374-8999-1D75EDD43FDD";
+    var stimulus=null;
+    var modelanswerOptions=null;
+    var stem=null;
+    var correctAnswer=null;
+    var congnitiveType=Aig.CongnitiveLevelType.Application;
+    
+      var stimulusTemplate = "<p text-align:justify>A {actor} want to {application}.</p>";
 
     me.SelectRandomApplicationItemStem = function () {
         var tasks = ['Which data structure is most appropriate to implement the system?',
@@ -21,9 +30,14 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
         return task;
     };
   
+    me.HasIdentity=function(testItemComponentCode){
+        return componentCode===testItemComponentCode;
+     }; 
+
+  
     me.PrepareStimulus = function(selectedNode) {
       
-        var stimulusTemplate = "<p text-align:justify>A {actor} want to {application}.</p>";
+       
         //Retreive selected Application Applications
         var applications = me.Shuffle(selectedNode.applications);
         var actor = actorTypes.SelectRandom(1)[0].name;
@@ -32,14 +46,15 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
             actor: actor,
             application: applications[0].description
         };
-   
+       stimulus=data;
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };
 
     me.PrepareStem = function(data) {
-        var stem = me.SelectRandomApplicationItemStem();
-        return stem;
+        var astem = me.SelectRandomApplicationItemStem();
+          stem=astem;
+        return astem;
     };
 
     me.PrepareAnswerOptions = function(selectedNode) {
@@ -75,9 +90,13 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
             var option = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
             if (answerOptions[j].IsKey) {
                 testItem.CorrectAnswer = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
+                 testItem.CorrectAnswer.IsKey=true;
+                 correctAnswer=testItem.CorrectAnswer;
             }
             testItem.AnswerOptions.push(option);
         }
+        testItem.ComponentCode=componentCode;
+        modelanswerOptions=testItem.AnswerOptions;
         return testItem;
     };
 
@@ -108,7 +127,41 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
         //End
 
     };
-
+     me.ToJson=function(){
+       var data={  
+         number:"",
+         componentCode:componentCode,
+         stimulus:stimulus,
+         answerOptions:modelanswerOptions,
+         stem:stem,
+         congnitiveType:congnitiveType,
+         correctAnswer:correctAnswer
+       };
+       return data;
+    };
+    
+    
+     me.RenderHtmlTestItem=function(data){
+        var item={  
+         number:data.number,
+         componentCode:data.componentCode,
+         stimulus:data.stimulus,
+         answerOptions:data.answerOptions,
+         stem:data.stem,
+         congnitiveType:data.congnitiveType,
+         correctAnswer:data.correctAnswer
+       };
+       
+        var testItem = new Aig.TestItem();
+        testItem.Number=item.number;
+        testItem.CongnitiveLevelType = item.congnitiveType; 
+        testItem.Stimulus = me.RenderTemplate(stimulusTemplate, item.stimulus)
+        testItem.Stem = item.stem;
+        testItem.AnswerOptions=item.answerOptions;
+        testItem.CorrectAnswer=item.correctAnswer;
+        return testItem;
+    };
+    
 };
 Aig.Components.ApplicationTypeAComponent.prototype = new Aig.Components.TestItemGenerationComponent();
 Aig.Components.ApplicationTypeAComponent.prototype.constructor = Aig.Components.ApplicationTypeAComponent;
