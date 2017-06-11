@@ -29,10 +29,11 @@ OTS.AigTestItemGenerationComponent=function(){
     me.InitializeTestGenerationAlgorithms=function(){
        
     //remember components
-    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
-    /*
+   // new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
+    
     new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
-    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
+   /*
+     new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
     new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
     new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
     new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
@@ -280,6 +281,10 @@ OTS.AigTestItemGenerationComponent=function(){
        var component=  testGenerationComponents.FindByComponentCode(item.componentCode);
        var htmlItem= component.RenderHtmlTestItem(item);
        return htmlItem;
+    };
+    
+    me.HasComponent=function(componentCode){
+       return  testGenerationComponents.HasComponent(componentCode);
     };
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();

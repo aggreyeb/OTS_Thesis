@@ -21,8 +21,8 @@ Aig.Components.RememberTypeAComponent = function(id) {
     
     var stimulusTemplate = "A {actor} was presented with the following charateristics and functional behaviour of an object to store items of the same data type.The object {description}. It {behaviourDescriptions}";
    
-    me.HasIdentity=function(componentCode){
-        return componentCode===componentCode;
+    me.HasIdentity=function(testItemComponentCode){
+        return componentCode===testItemComponentCode;
     };
     
     me.PrepareStimulus = function(selectedNode) {

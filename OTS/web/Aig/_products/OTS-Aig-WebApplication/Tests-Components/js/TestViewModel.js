@@ -84,7 +84,17 @@ OTS.AigTestViewModel=function(){
               if(data.TestQuestions){
            
                   testItems=JSON.parse(data.TestQuestions);
-                  me.Actions.refreshTestItemList(testItems);
+                  if( testItems.length>0){
+                      for(var i=0;i<testItems.length;i++){
+                        var componentCode=  testItems[i].componentCode;
+                        var result=  testComponent.HasComponent(componentCode);
+                         if(result){
+                            //Do this iff the algorithm component is enabled
+                            me.Actions.refreshTestItemList(testItems);
+                         }
+                      }
+                  }
+                 
                   
               }
             

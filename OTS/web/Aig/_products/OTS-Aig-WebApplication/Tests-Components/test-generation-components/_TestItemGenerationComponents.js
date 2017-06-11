@@ -577,6 +577,20 @@ Aig.Components.TestItemGenerationComponents = function () {
         }
         return found;
     };
+    
+    me.HasComponent=function(componentCode){
+        var found = null;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].HasIdentity(componentCode)) {
+                found = items[i];
+                break;
+            }
+        }
+        if(found ===null){
+            return false;
+        }
+        return true;
+    };
 
     me.HasItems = function () {
         return items.length > 0;
