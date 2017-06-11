@@ -32,11 +32,11 @@ OTS.AigTestItemGenerationComponent=function(){
    // new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
    //new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    //new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
+   // new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
    
-     new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
-   /*
     new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
-    new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
+    /*
+     new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
      
     
     //understand components
