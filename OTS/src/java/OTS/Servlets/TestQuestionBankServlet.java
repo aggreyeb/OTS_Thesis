@@ -126,8 +126,9 @@ public class TestQuestionBankServlet extends Servlet {
                   
                      testId=request.getParameter("TestId");
                      acourseId=request.getParameter("CourseId");
+                     data=request.getParameter("data");
                    service= new TestQuestionBankDataService(new MySqlDataSource());
-                   return  service.UpdateCourseTestSheet(testId,acourseId);
+                   return  service.UpdateCourseTestSheet(data,testId,acourseId);
              
              
                    case "Aig-UpdateCourseTestAswerSheet":

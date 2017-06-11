@@ -216,6 +216,9 @@
     <!--Test/Item Generation Templates-->
     
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/genenerated-items-view.html" id="generated-items-view-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/answersheet-view.html" id="answer-sheet-view-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-question-bank-view.html" id="test-questions-bank-view-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/testsheet-view.html" id="test-sheet-view-template" type="text/html"> </script>
    
     
     <!--Knowledge Maps-->

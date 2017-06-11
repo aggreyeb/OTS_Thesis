@@ -1,0 +1,41 @@
+<div style="margin-top: 2px">
+    <div id="alert-question-bank-alert" style="margin-right: 10px" class="alert alert-success" >
+       Test Items Added to Test Sheet
+   </div>
+    
+    <div class="row">
+        <div style="overflow-y: scroll; height: 450px;margin-left: 15px;margin-right: 15px" class="table-responsive">
+             <table class="table table-bordered table-hover ">
+                 <tr>
+                    <th>#</th>
+                     <th>Test Item</th>
+                     <th class="hide">Item Mark</th>
+                     
+                </tr>
+                <tbody data-bind="foreach:TestSheetItems">
+                 <tr>
+                   <td style="width:5%" data-bind="text:Number"></td>
+                   <td style="width:70%">
+                  <div class="panel panel-default">
+                   <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
+                      <div class="panel-body">
+                         <div data-bind="text:Stem,style:{'font-weight':'bold'}"></div><br />
+                         <div data-bind="foreach:AnswerOptions">
+                           <span data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span data-bind="text:Text"></span><br />
+                       </div>
+                     </div>
+                    <div class="panel-footer panel-default">
+                       
+                    </div>
+                     </div>
+                 </td>
+                 <td class="hide" style="width:10% ">
+                     <input  style="width:50px" type="text"/>
+                 </td>
+               
+                </tr>
+             </tbody>
+         </table>
+        </div> <!--Table Responsive-->
+    </div>
+</div>

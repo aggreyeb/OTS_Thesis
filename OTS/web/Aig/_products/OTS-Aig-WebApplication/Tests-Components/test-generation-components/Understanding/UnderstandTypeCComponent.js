@@ -37,7 +37,8 @@ Aig.Components.UnderstandTypeCComponent = function(id) {
                  dataStructureInstance: dataStructureInstance,
                  operations: operations
              };
-             var html = me.RenderTemplate(stimulusTemplate, data);
+           
+            var html = me.RenderTemplate(stimulusTemplate, data);
              return html;
          }
         return "";

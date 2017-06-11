@@ -55,6 +55,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
         }
 
         var algorithem = me.RenderTemplate(functionTemplate, { paragraphs: paragraphs });
+       
         var data = {
             actor: actor,
             conceptNodeName: selectedNode.text,
@@ -62,7 +63,7 @@ Aig.Components.UnderstandTypeAComponent = function(id) {
             types: strAttributeTypes,
             algorithem: algorithem
         };
-
+        stimulusTemplate=me.EscapeHtml(stimulusTemplate);
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

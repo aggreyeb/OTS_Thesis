@@ -99,7 +99,6 @@ OTS.AigTestDataSource=function(){
    
     me.SaveToTestQuestionBank=function(data,callbackFunction){
        var callback=callbackFunction;
-       
         $.post("TestQuestionBankServlet",{action:actionType.SaveToTestQuestionBank,Id:data.Id, TestId:data.TestId,CourseId:data.CourseId, data:JSON.stringify(data)},function(msg){
              if(callback!==undefined && callback!==null) 
                 callback(msg);
@@ -108,7 +107,7 @@ OTS.AigTestDataSource=function(){
    
    
    me.ListCourseTestQuestions=function(testId,courseId,functionCallback){
-        var callback=callbackFunction;
+        var callback=functionCallback;
        
         $.post("TestQuestionBankServlet",{action:actionType.ListCourseTestQuestions, TestId:testId, CourseId:courseId},function(msg){
              if(callback!==undefined && callback!==null)
@@ -116,17 +115,17 @@ OTS.AigTestDataSource=function(){
          });
    };
    
-   me.UpdateCourseTestSheet=function(testId,courseId,functionCallback){
-        var callback=callbackFunction;
+   me.UpdateCourseTestSheet=function(testId,courseId,data,functionCallback){
+        var callback=functionCallback;
        
-        $.post("TestQuestionBankServlet",{action:actionType.UpdateCourseTestSheet, TestId:testId, CourseId:courseId},function(msg){
+        $.post("TestQuestionBankServlet",{action:actionType.UpdateCourseTestSheet, TestId:testId, CourseId:courseId,data:data},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
          });
    };
    
      me.UpdateCourseTestAsnwerSheet=function(testId,courseId,functionCallback){
-        var callback=callbackFunction;
+        var callback=functionCallback;
        
         $.post("TestQuestionBankServlet",{action:actionType.UpdateCourseTestAsnwerSheet, TestId:testId, CourseId:courseId},function(msg){
              if(callback!==undefined && callback!==null)

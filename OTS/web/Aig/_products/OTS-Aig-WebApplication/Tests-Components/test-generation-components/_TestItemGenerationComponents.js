@@ -336,6 +336,17 @@ Aig.Components.TestItemGenerationComponent = function(id) {
         return properties.id === id;
     };
 
+   me.EscapeHtml =function(unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;'); // '&apos;' is not valid HTML 4
+     
+   };
+
+
     me.AddTo = function (itemGenerationComponents) {
         if (!itemGenerationComponents.Add)
             throw new Error("testItemGenerationComponent is not type of Aig.Components.TestItemGenerationComponent");
@@ -464,14 +475,20 @@ Aig.Components.TestItemGenerationComponents = function () {
 
     var generateSingleNodeTestItems = function (testGenerationItem) {
         var testItems = [];
+        var testItemModels=[];
         for (var i = 0; i < items.length; i++) {
             var component = items[i];
             if (component !== undefined && component !== null) {
                 var item = component.Generate(testGenerationItem);
+                var itemModel=component.ToJson();
+                testItemModels.push(itemModel);
                 testItems.push(item);
             }
         }
-        return testItems;
+        return {
+            testItems:testItems,
+            testItemModels:testItemModels
+        }
     };
 
     var addTestItems = function(items) {
@@ -543,6 +560,17 @@ Aig.Components.TestItemGenerationComponents = function () {
         var found = null;
         for (var i = 0; i < items.length; i++) {
             if (items[i].HasId(id)) {
+                found = items[i];
+                break;
+            }
+        }
+        return found;
+    };
+    
+     me.FindByComponentCode= function (componentCode) {
+        var found = null;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].HasIdentity(componentCode)) {
                 found = items[i];
                 break;
             }

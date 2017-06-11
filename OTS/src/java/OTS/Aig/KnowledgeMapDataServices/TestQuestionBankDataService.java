@@ -67,11 +67,11 @@ public class TestQuestionBankDataService {
        
     }
     
-    public TransactionResult UpdateCourseTestSheet(String testId,String courseId){
+    public TransactionResult UpdateCourseTestSheet(String data,String testId,String courseId){
           TransactionResult result= new TransactionResult();
         try{ 
-          String InsertTemplate="UPDATE exam SET TestSheet='%s'  WHERE TestId='%s' AND CourseId='%s'";
-          String sql= String.format(InsertTemplate,testId,courseId);
+          String InsertTemplate="UPDATE exam SET TestQuestions='%s'  WHERE Id='%s' AND CourseId='%s'";
+          String sql= String.format(InsertTemplate,data,testId,courseId);
           this.dataSource.ExecuteNonQuery(sql);
           result.ActionResultType=ActionResultType.ok;
              return result;

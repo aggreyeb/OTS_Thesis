@@ -10,7 +10,7 @@ Aig.Components.RememberTrueFalseInCorrectComponent = function (id) {
     var distractors = [];
     var flattendTree = new Aig.Components.FlattendTree();
     var distractorLength = 3;
-
+  
   
     me.PrepareStimulus = function(selectedNode) {
       
@@ -36,8 +36,8 @@ Aig.Components.RememberTrueFalseInCorrectComponent = function (id) {
             description: description,
             afunction: afunction,
             purpose: purpose
-        };;
-
+        };
+   
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

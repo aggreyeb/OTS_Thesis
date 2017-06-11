@@ -28,8 +28,8 @@ Aig.Components.RememberTrueFalseCorrectComponent = function (id) {
             description: description,
             afunction: afunction,
             purpose: purpose
-        };;
-
+        };
+       
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

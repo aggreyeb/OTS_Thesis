@@ -1,0 +1,44 @@
+<div style="margin-top: 2px">
+   <div id="alert-question-bank-alert" style="margin-right: 10px" class="alert alert-success" >
+       Test Items Added to Test Sheet
+   </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <span style="margin-right: 18px;margin-bottom: 2px" class="pull-right"><a  data-bind="click:onAddToTestSheet" class="pull-right btn btn-success" href="#">Add To Test Sheet</a></span>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div style="overflow-y: scroll; height: 450px;margin-left: 20px;margin-right: 20px" class="table-responsive">
+             <table class="table table-bordered table-hover ">
+                 <tr>
+                    <th>#</th>
+                     <th>Test Item</th>
+                     <th><span><input data-bind="checked:CheckAllItestItems,event:{change:onCheckAllItestItems}" title="Select All" type="checkbox"/></span></th>
+                </tr>
+                <tbody data-bind="foreach:TestBankItems">
+                 <tr>
+                     <td style="width:5%" data-bind="text:Number"></td>
+                     <td style="width:90%">
+                  <div class="panel panel-default">
+                   <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
+                      <div class="panel-body">
+                         <div data-bind="text:Stem,style:{'font-weight':'bold'}"></div><br />
+                         <div data-bind="foreach:AnswerOptions">
+                           <span data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span data-bind="text:Text"></span><br />
+                       </div>
+                     </div>
+                    <div class="panel-footer panel-default">
+                       
+                    </div>
+                     </div>
+                 </td>
+                 <td style="width: 5%">
+                     <input data-bind="checked:checked" type="checkbox"/>
+                 </td>
+                </tr>
+             </tbody>
+         </table>
+        </div> <!--Table Responsive-->
+    </div>
+</div>

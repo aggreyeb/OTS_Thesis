@@ -38,7 +38,7 @@ Aig.Components.RememberTypeCComponent = function(id) {
             softwareType: softwareType,
             behaviourDescriptions: str
         };
-
+      
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };
@@ -62,7 +62,7 @@ Aig.Components.RememberTypeCComponent = function(id) {
         //Distractors
         
         var excludedKeyList = flattendTree.ExcludeWithoutRoot(selectedNode);
-        distractors = flattendTree.SelectRandom(distractorLength, excludedKeyList);
+        distractors =  me.SelectRandom(distractorLength, excludedKeyList);
         for (var i = 0; i < distractors.length; i++) {
             var answerOption = new Aig.AnswerOption("", distractors[i].text);
             answerOption.IsKey = false;

@@ -32,7 +32,7 @@ Aig.Components.ApplicationTypeAComponent = function (id) {
             actor: actor,
             application: applications[0].description
         };
-
+   
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

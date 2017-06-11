@@ -55,13 +55,14 @@ Aig.Components.UnderstandTypeBComponent = function(id) {
         }
 
         var algorithem = me.RenderTemplate(functionTemplate, { paragraphs: paragraphs });
+       
         var data = {
             actor: actor,
             conceptNodeName: selectedNode.text,
             attributes: strAttributes,
             algorithem: algorithem
         };
-
+        stimulusTemplate=me.EscapeHtml(stimulusTemplate);
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

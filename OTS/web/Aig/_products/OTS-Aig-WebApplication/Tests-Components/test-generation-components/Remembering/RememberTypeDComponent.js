@@ -34,9 +34,9 @@ Aig.Components.RememberTypeDComponent = function(id) {
         var data = {
             actor: actor,
             softwareType: softwareType,
-            descriptionAndFunctions: desc
+            descriptionAndFunctions: me.EscapeHtml(desc)
         };
-
+      
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };

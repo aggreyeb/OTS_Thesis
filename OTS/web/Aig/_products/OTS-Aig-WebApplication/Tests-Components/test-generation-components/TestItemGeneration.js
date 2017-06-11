@@ -21,6 +21,7 @@ Aig.TestItem = function() {
     me.CongnitiveLevelType = {};
     me.HasError = false;
     me.ErrorMessage = "";
+    me.ComponentCode="";
 };
 
 Aig.AnswerOption = function(label,text) {

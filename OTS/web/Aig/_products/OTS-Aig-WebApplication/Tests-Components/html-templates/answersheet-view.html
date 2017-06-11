@@ -1,0 +1,35 @@
+<div style="margin-top: 2px">
+   
+    <div class="row">
+        <div style="overflow-y: scroll; height: 450px;margin-left: 15px;margin-right: 15px" class="table-responsive">
+             <table class="table table-bordered table-hover ">
+                 <tr>
+                    <th>#</th>
+                     <th>Answer Options</th>
+                </tr>
+                <tbody data-bind="foreach:AnswerSheetItems">
+                 <tr>
+                     <td style="width: 5%" data-bind="text:Number"></td>
+                     <td style="width: 95%">
+                  <div class="panel panel-default">
+                  
+                      <div class="panel-body">
+                         <div data-bind="foreach:AnswerOptions">
+                             <span class="badge" data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span class="label label-default" data-bind="text:Text"></span><br>
+                             
+                       </div>
+                       <label>Key</label><br/> 
+                       <span  class="label label-success" data-bind="text:CorrectAnswer.Label"></span>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
+                     </div>
+                    <div class="panel-footer panel-default">
+                       
+                    </div>
+                     </div>
+                 </td>
+                
+                </tr>
+             </tbody>
+         </table>
+        </div> <!--Table Responsive-->
+    </div>
+</div>

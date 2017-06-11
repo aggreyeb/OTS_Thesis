@@ -13,6 +13,9 @@ OTS.AigTestItemGenerationComponent=function(){
     var testListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-list-template");
     var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
     var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
+   
+   
+    //div-test-question-bank-view
     
     var testGenerationComponents = new Aig.Components.TestItemGenerationComponents();
    
@@ -27,6 +30,7 @@ OTS.AigTestItemGenerationComponent=function(){
        
     //remember components
     new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
+    /*
     new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
     new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
     new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
@@ -41,7 +45,7 @@ OTS.AigTestItemGenerationComponent=function(){
     
     //Application compoonentes
     new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
-     
+     */
     };
     
     
@@ -81,6 +85,26 @@ OTS.AigTestItemGenerationComponent=function(){
         
          var generatedItemsHtml= generatedItemshtmlTemplateDataSource.Read();
          generatedItemsappendableControl.Append(generatedItemsHtml,function(e){});
+         
+         
+   
+   
+         //Test Bank
+           var html;
+           var testQuestionBankTemplateDataSource=new Aig.HtmlTemplateDataSource("test-questions-bank-view-template");
+           html=testQuestionBankTemplateDataSource.Read();
+           var testQuestionBankappendableControl=new Aig.Controls.AppendableControl("div-test-question-bank-view");
+           testQuestionBankappendableControl.Append(html,function(e){});
+         //Test 
+          var testSheetTemplateDataSource=new Aig.HtmlTemplateDataSource("test-sheet-view-template");
+          html=testSheetTemplateDataSource.Read();
+          var testSheetappendableControl=new Aig.Controls.AppendableControl("div-test-sheet-view");
+          testSheetappendableControl.Append(html,function(e){});
+         //Answer Sheet
+          var answerSheetTemplateDataSource=new Aig.HtmlTemplateDataSource("answer-sheet-view-template");
+          html=answerSheetTemplateDataSource.Read();
+          var answerSheetappendableControl=new Aig.Controls.AppendableControl("div-answer-sheet-view");
+          answerSheetappendableControl.Append(html,function(e){});
          
          viewModel.AddTestComponent(me);
          //Initialize Test Generation Algorithms
@@ -186,19 +210,28 @@ OTS.AigTestItemGenerationComponent=function(){
     me.GenerateTestItems=function(e,callbackFunction){
        var callback=callbackFunction;
        var testItems = [];
-        
+       var itemsItemModels=[]; 
       var  conceptNodes = e.conceptNodes;
       var  conceptNodeSelected = e.conceptNodeSelected;
        
         var testGenerationItem = new Aig.Components.TestGenerationItem(conceptNodes, conceptNodeSelected);
 
-        var items = testGenerationComponents.Generate(testGenerationItem);
+        var item = testGenerationComponents.Generate(testGenerationItem);
         if(testItems.length>0)
             testItems=[];
+        var items=item.testItems;
+        var testItemModels=item.testItemModels;
         for (var i = 0; i < items.length; i++) {
+            
             testItems.push(items[i]);
         }
-        viewModel.PopulateGeneratedItemList(testItems);
+        
+        for(var m=0;m<testItemModels.length;m++){
+             itemsItemModels.push(testItemModels[m]);
+        }
+        // itemsItemModels.push(items[i])
+        
+        viewModel.PopulateGeneratedItemList(testItems,itemsItemModels);
      //  $("#message-box").html("<b><p>Number of items generated:" + testItems.length +"</p></b>")
         if(callback instanceof Function)
             callback(testItems);
@@ -225,11 +258,11 @@ OTS.AigTestItemGenerationComponent=function(){
         });
    };
    
-   me.UpdateCourseTestSheet=function(testId,courseId,functionCallback){
+   me.UpdateCourseTestSheet=function(testId,courseId,data,functionCallback){
         var callback=functionCallback;
        
        var dataSource= new  OTS.AigTestDataSource();
-         dataSource.UpdateCourseTestSheet(testId,courseId,function(msg){
+         dataSource.UpdateCourseTestSheet(testId,courseId,data,function(msg){
             callback(msg);
         });
    };
@@ -243,7 +276,11 @@ OTS.AigTestItemGenerationComponent=function(){
         });
     };
    
-   
+    me.RenderHtmlTestItem=function(item){
+       var component=  testGenerationComponents.FindByComponentCode(item.componentCode);
+       var htmlItem= component.RenderHtmlTestItem(item);
+       return htmlItem;
+    };
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

@@ -40,7 +40,10 @@ OTS.AigTestViewModel=function(){
     me.TeacherCourses=ko.observableArray([]);
     me.SelectedCourse=ko.observable(null);
 
-   
+   me.StripHTML=function(text) {
+     return text.replace(/<.*?>/gm, '');
+   }
+
     
     me.SelectedTest=null;
     
@@ -54,14 +57,37 @@ OTS.AigTestViewModel=function(){
             me.StartTime("");
             me.EndTime("");
             me.IsActivated(false);
-     },    
+       },    
         onCreateNew:function(){
              me.Actions.ResetForm();
              me.SelectedAction=me.ActionType.NEW
          },
+         refreshTestItemList:function(items){
+             if(items===undefined || items===null) return;
+             if(!items.length) return;
+           for(var i=0;i<items.length;i++)  {
+         
+             var item=items[i];
+               item.number=i +1;
+               var htmlItem= testComponent.RenderHtmlTestItem(item);
+                 //if(htmlItem!==undefined && htmlItem!==null){
+                 
+                 //}
+                //  me.TestBankItems.push(htmlItem); //Unselected Items from test bank
+                  me.TestSheetItems.push(htmlItem);
+                  me.AnswerSheetItems.push(htmlItem);
+          }
+         },
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
-              
+              var testItems;
+              if(data.TestQuestions){
+           
+                  testItems=JSON.parse(data.TestQuestions);
+                  me.Actions.refreshTestItemList(testItems);
+                  
+              }
+            
               testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
                     var result=JSON.parse(msg);
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -275,11 +301,112 @@ OTS.AigTestViewModel=function(){
    };
    
   //******************************Test Item Generation **********************
+   
     me.SelectedNodeForItemsGeneration=null;
     me.TestItems= ko.observableArray([]); //Test items generated array
+    me.TestItemsModels=[];//Test Items without html tags/ Seperation of data and style
     me.NumberItemsGenerated=ko.observable(0);
     me.ShowItemsGeneratedAlert=ko.observable(false);
     me.TestBankItems=ko.observableArray([]);
+    me.TestSheetItems=ko.observableArray([]);
+    me.AnswerSheetItems=ko.observableArray([]);
+    me.CheckAllItestItems=ko.observable(true);
+    
+   me.FindTestItemModel=function(componentCode) {
+        var found=null;
+       for(var i=0;i<me.TestItemsModels.length;i++){
+           if(me.TestItemsModels[i].componentCode===componentCode){
+               found=me.TestItemsModels[i];
+                break;
+           }
+       }
+       return found;
+   } ;
+    
+    me.PopulateTestSheet=function(items){
+        for(var i=0;i<items.length;i++){
+            me.AnswerSheetItems.push(items[i]);
+        }
+    };
+   
+    me.onAddToTestSheet=function(){
+      
+        if(me.TestBankItems().length==0){ 
+            alert("There is no test item to add to test sheet");
+            return;
+        }
+        
+       var selecteditems=[]; //Selected items from test question bank
+       var unselectedItems=[];
+        for(var i=0;i<me.TestBankItems().length;i++){
+             if(me.TestBankItems()[i].checked()){
+                 selecteditems.push(me.TestBankItems()[i]);
+             }
+             else{
+              unselectedItems.push(me.TestBankItems()[i]);
+             }
+       }
+      
+        var testId=me.SelectedTest.Id;
+        var courseId=me.SelectedTest.CourseId;
+        var itemsModels=[];
+        for(var i=0;i<selecteditems.length;i++){
+            var item= me.FindTestItemModel(selecteditems[i].ComponentCode);
+            if(item!==null)
+                itemsModels.push(item);
+        }
+        var data= JSON.stringify(itemsModels);
+      
+       testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                   me.TestSheetItems([]) ;
+                   //Add Selected to TestSheet
+                   for(var i=0;i<itemsModels.length;i++){
+                     var htmlItem= testComponent.RenderHtmlTestItem(itemsModels[i]);
+                         me.TestSheetItems.push(htmlItem);
+                   }
+                   
+                   //Prepare Answer Sheet
+                   me.AnswerSheetItems([]);
+                   for(var a=0;a<itemsModels.length;a++){
+                        var htmlItem= testComponent.RenderHtmlTestItem(itemsModels[a]);
+                       //htmlItem.ComponentCode=item.componentCode;
+                       me.AnswerSheetItems.push(htmlItem);
+                   }
+                   
+                   //Bind the unselected items
+                   me.TestBankItems([]);
+                  
+                   for(var j=0;j<unselectedItems.length;j++){
+                       unselectedItems[j].checked=ko.observable(unselectedItems[j].checked);
+                       me.TestBankItems.push(unselectedItems[j]);
+                   }
+                   $(".app-lnk-test-sheet").click();
+            }
+            else{
+                       
+           }
+       });
+    };
+    
+    me.ToggleCheckAllTestItems=function(state){
+       for(var i=0;i<me.TestBankItems().length;i++){
+             me.TestBankItems()[i].checked(state);  
+       }
+    };
+    me.onCheckAllItestItems=function(data,e){
+      // var checked=  $(e.target).val();
+     //  alert(JSON.stringify( ko.toJS( me.CheckAllItestItems())));
+       if(me.CheckAllItestItems()){
+         me.ToggleCheckAllTestItems(false);
+           return;
+       }
+       if(!me.CheckAllItestItems()){
+            me.ToggleCheckAllTestItems(true);
+           return ;
+       }
+    };
     me.OnStartGenerateTestsItems=function(){
          me.ShowItemsGeneratedAlert(false);
         if( me.SelectedNodeForItemsGeneration!==null){
@@ -290,7 +417,7 @@ OTS.AigTestViewModel=function(){
             testComponent.GenerateTestItems({conceptNodes:conceptNodes,conceptNodeSelected:conceptNodeSelected},function(items){
             
                if(items!==undefined && items!==null && items.length){
-                 me.PopulateGeneratedItemList(items);
+              
                  me.NumberItemsGenerated(items.length);
                  me.ShowItemsGeneratedAlert(true);
             }
@@ -303,39 +430,66 @@ OTS.AigTestViewModel=function(){
        me.SelectedNodeForItemsGeneration=e;
      
    };
-    me.PopulateGeneratedItemList = function(items) {
+    me.PopulateGeneratedItemList = function(items,testItemsModels) {
         me.TestItems([]);
+        me.TestItemsModels=testItemsModels;
         for (var i = 0; i < items.length; i++) {
-            items[i].Number = i + 1;
-            me.TestItems.push(items[i]);
+          items[i].Number = i + 1;
+         
+           var item=   me.FindTestItemModel(items[i].ComponentCode);
+           if(item!==null){
+             item.number=i +1;
+                var htmlItem= testComponent.RenderHtmlTestItem(item);
+                htmlItem.ComponentCode=item.componentCode;
+                me.TestItems.push(htmlItem);
+           }
+          // me.TestItems.push(items[i])
+            
         }
+       
     };
     me.ClearTestItemGenerated=function(){
         if(me.TestItems().length>0){
             me.TestItems([]);
             me.NumberItemsGenerated(0);
+            me.ShowItemsGeneratedAlert(false);
+            knowledgeMapTreeView.UnSelectNodes();
         }
     };
     me.SaveToTestQuestionBank=function(){
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
-           var id=new Aig.Guid().NewGuid();
-        
+            var array=[];
+            var id=new Aig.Guid().NewGuid();
+             for(var i=0;i<me.TestItems().length;i++){
+               var item =  me.FindTestItemModel(me.TestItems()[i].ComponentCode);
+                if(item!=null){
+                    //item.ComponentCode=me.TestItems()[i].ComponentCode;
+                    array.push(item);
+                }
+             }
            var data={
                Id:new Aig.Guid().NewGuid(), 
                TestId:me.SelectedTest.Id,
                CourseId:me.SelectedTest.CourseId,
-               TestQuestions: ko.toJS(me.TestItems())
+               //TestQuestions: JSON.stringify(me.TestItems())
+                TestQuestions: JSON.stringify(array)
            };
             testComponent.SaveToTestQuestionBank(data,function(msg){
                     var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         var genereatedTestItems= ko.toJS(me.TestItems);
-                          for(var i=0;i<genereatedTestItems.length;i++){
-                               me.TestBankItems.push(genereatedTestItems[i]);
+                         //var genereatedTestItems=me.TestItemsModels; //ko.toJS(me.TestItems);
+                          for(var i=0;i<array.length;i++){
+                               
+                              var htmlItem= testComponent.RenderHtmlTestItem(array[i]);
+                            htmlItem.ComponentCode=array[i].componentCode;
+                           // genereatedTestItems[i].checked=ko.observable(true)
+                              htmlItem.checked=ko.observable(true);
+                            //.TestBankItems.push(genereatedTestItems[i]);
+                            me.TestBankItems.push(htmlItem);
                           }
                           //go to Question Bank
                           $(".app-lnk-testqustion-bank").click();
-                        // alertBox.ShowSuccessMessage("Test Item Saved");
+                          me.ClearTestItemGenerated();
                     }
                     else{
                          alertBox.ShowErrorMessage("Failed to save test items");  
