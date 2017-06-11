@@ -13,10 +13,21 @@ Aig.Components.RememberTypeDComponent = function(id) {
     var actorTypes = new Aig.ActorTypes();
     var softwareTypes = new Aig.SoftwareTypes();
 
+    var componentCode= "2D14FE1B-3A79-48F0-9464-21253513597F";
+    var stimulus=null;
+    var modelanswerOptions=null;
+    var stem=null;
+    var correctAnswer=null;
+    var congnitiveType=Aig.CongnitiveLevelType.Remembering;
+   
+    var stimulusTemplate = "<p text-align:justify>A {actor} received a data sheet detailing the specification of a data structure as shown below:{descriptionAndFunctions} to implement {softwareType}.</p>";
+  
+    me.HasIdentity=function(testItemComponentCode){
+        return componentCode===testItemComponentCode;
+    };
   
     me.PrepareStimulus = function(selectedNode) {
       
-        var stimulusTemplate = "<p text-align:justify>A {actor} received a data sheet detailing the specification of a data structure as shown below:{descriptionAndFunctions} to implement {softwareType}.</p>";
         var list = selectedNode.functions;
 
         if (list === undefined || list === null)
@@ -34,18 +45,21 @@ Aig.Components.RememberTypeDComponent = function(id) {
         var data = {
             actor: actor,
             softwareType: softwareType,
-            descriptionAndFunctions: me.EscapeHtml(desc)
+            descriptionAndFunctions: desc
         };
-      
+        stimulus=data;
         var html = me.RenderTemplate(stimulusTemplate, data);
         return html;
     };
 
     me.PrepareStem = function(data) {
         var stemTemplate = "Which data structure best exibit the above specification?";
-        if (data === undefined || data === null)
-            return stemTemplate;
+        if (data === undefined || data === null){
+             stem=stemTemplate;
+              return stemTemplate;
+        }
         var html = me.RenderTemplate(stemTemplate, data);
+        stem=html;
         return html;
     };
 
@@ -92,9 +106,13 @@ Aig.Components.RememberTypeDComponent = function(id) {
             var option = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
             if (answerOptions[j].IsKey) {
                 testItem.CorrectAnswer = new Aig.AnswerOption(Aig.AnswerLabels[j], answerOptions[j].Text);
+                 testItem.CorrectAnswer.IsKey=true;
+                 correctAnswer=testItem.CorrectAnswer;
             }
             testItem.AnswerOptions.push(option);
         }
+        testItem.ComponentCode=componentCode;
+        modelanswerOptions=testItem.AnswerOptions;
         return testItem;
     };
 
@@ -124,6 +142,41 @@ Aig.Components.RememberTypeDComponent = function(id) {
         return testItem;
         //End
 
+    };
+
+    me.ToJson=function(){
+       var data={  
+         number:"",
+         componentCode:componentCode,
+         stimulus:stimulus,
+         answerOptions:modelanswerOptions,
+         stem:stem,
+         congnitiveType:congnitiveType,
+         correctAnswer:correctAnswer
+       };
+       return data;
+    };
+    
+    
+     me.RenderHtmlTestItem=function(data){
+        var item={  
+         number:data.number,
+         componentCode:data.componentCode,
+         stimulus:data.stimulus,
+         answerOptions:data.answerOptions,
+         stem:data.stem,
+         congnitiveType:data.congnitiveType,
+         correctAnswer:data.correctAnswer
+       };
+       
+        var testItem = new Aig.TestItem();
+        testItem.Number=item.number;
+        testItem.CongnitiveLevelType = item.congnitiveType; 
+        testItem.Stimulus = me.RenderTemplate(stimulusTemplate, item.stimulus)
+        testItem.Stem = item.stem;
+        testItem.AnswerOptions=item.answerOptions;
+        testItem.CorrectAnswer=item.correctAnswer;
+        return testItem;
     };
 
 };

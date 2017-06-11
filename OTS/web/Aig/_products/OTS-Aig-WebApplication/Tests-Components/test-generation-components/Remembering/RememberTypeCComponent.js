@@ -27,7 +27,7 @@ Aig.Components.RememberTypeCComponent = function(id) {
     };
     me.PrepareStimulus = function(selectedNode) {
       
-        var stimulusTemplate = "<p text-align:justify>A {actor} was given a data structure which can used to store any specific type of data to build a {softwareType}. Upon unit testing the {actor} observed the following:It {behaviourDescriptions} </p>";
+      
         var list = selectedNode.behaviourDescriptions;
 
         if (list === undefined || list === null)
