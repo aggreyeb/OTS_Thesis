@@ -458,14 +458,16 @@ OTS.AigTestViewModel=function(){
     me.PopulateGeneratedItemList = function(items,testItemsModels) {
         me.TestItems([]);
         me.TestItemsModels=testItemsModels;
-        for (var i = 0; i < items.length; i++) {
-          items[i].Number = i + 1;
-         
-           var item=   me.FindTestItemModel(items[i].ComponentCode);
+        for (var i = 0; i < testItemsModels.length; i++) {
+         // items[i].Number = i + 1;
+         testItemsModels[i].Number=i+1;
+          // var item=   me.FindTestItemModel(items[i].ComponentCode);
+          var item=testItemsModels[i];
            if(item!==null){
              item.number=i +1;
                 var htmlItem= testComponent.RenderHtmlTestItem(item);
                 htmlItem.ComponentCode=item.componentCode;
+                htmlItem.Number=i+1;
                 me.TestItems.push(htmlItem);
            }
           // me.TestItems.push(items[i])
