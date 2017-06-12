@@ -1,5 +1,54 @@
 ﻿var Aig = Aig || {};
 Aig.Components = Aig.Components || {};
+
+Aig.Components.QuadraticDataItem=function(){
+    var me=this;
+     me.dataSize =10,
+     me.numberOfOperations=500; 
+     me.timeComplexity= function(){
+               return  me.dataSize * me.dataSize
+       },
+    me.calculateTimeFor=1000;
+};
+
+Aig.Components.QuadraticTimeComplixity=function(){
+    
+    var me=this;
+    var randomDataSize;  //range 10-100
+    var randomNumberOfOperations; // range 100-1000
+    var  randomCalculateOperationsFor; //range 1000- 100,000
+    
+    me.RandomInt= function(min, max) {
+       return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    
+    /*
+     var quadraticParameters= {
+             dataSize :10,
+             numberOfOperations:500, 
+             timeComplexity: function(){
+               return  quadraticParameters.dataSize * quadraticParameters.dataSize
+             },
+             calculateTimeFor:1000
+       };*/
+    
+    me.GenerateRandomDataSet=function(){
+        randomDataSize= me.RandomInt(10,100);
+        randomNumberOfOperations=me.RandomInt(100,1000);
+        randomCalculateOperationsFor=me.RandomInt(1000,100000);
+        
+        var data= new  Aig.Components.QuadraticDataItem();
+        data.dataSize=randomDataSize;
+        data.numberOfOperations=randomNumberOfOperations;
+        data.calculateTimeFor=randomCalculateOperationsFor;
+        return data;
+    };
+    
+    me.ReturnDefault=function(){
+        return new   Aig.Components.QuadraticDataItem();
+    };
+};
+
 Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
     var me = this;
     me.base = Aig.Components.TestItemGenerationComponent;
@@ -28,7 +77,7 @@ Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
      
       
     
-      
+      /*
        var quadraticParameters= {
              dataSize :10,
              numberOfOperations:500, 
@@ -37,8 +86,9 @@ Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
              },
              calculateTimeFor:1000
        };
-       
-       
+       */
+     var  quadratic= new Aig.Components.QuadraticTimeComplixity();
+     var   quadraticParameters=quadratic.GenerateRandomDataSet();
      me.HasIdentity=function(testItemComponentCode){
         return componentCode===testItemComponentCode;
      }; 
@@ -60,7 +110,7 @@ Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
     };
 
     me.PrepareStem = function(data) {
-        var stemTemplate = "How many will it use for processing {dataSize} data items??";
+        var stemTemplate = "How many will it use for processing {dataSize} data items?";
         if (data === undefined || data === null){
              stem=stemTemplate;
             return stemTemplate;
@@ -76,9 +126,13 @@ Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
     me.PrepareAnswerOptions = function(selectedNode) {
        var constant;
        var multipliers= [10,100,1000,10000];
+       var quadratic=new Aig.Components.QuadraticTimeComplixity();
+       //var quadraticParameters=quadratic.ReturnDefault();
+        var quadraticParameters=quadratic.GenerateRandomDataSet();
+        
        
          constant = quadraticParameters.numberOfOperations/quadraticParameters.timeComplexity();
-         var  thecorrectAnswer=constant * quadraticParameters.calculateTimeFor;
+         var  thecorrectAnswer=constant * quadraticParameters.calculateTimeFor * quadraticParameters.calculateTimeFor;
        
           var answerOptionKey = new Aig.AnswerOption("", thecorrectAnswer);
           answerOptionKey.IsKey = true;
@@ -130,8 +184,14 @@ Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent = function(id) {
             var selectedNode = flattendTree.RetriveSelectedNode();
             if (!selectedNode.parentNodeId) return null;
 
-           
-                var stimulus = me.PrepareStimulus(testGenerationItem.SelectedNode.name);
+                var selectedNodeName="";
+                if(testGenerationItem.SelectedNode.length){
+                    selectedNodeName=testGenerationItem.SelectedNode[0].name;
+                }
+                else{
+                    selectedNodeName=testGenerationItem.SelectedNode.name;
+                }
+                var stimulus = me.PrepareStimulus(selectedNodeName);
                 var data={dataSize:quadraticParameters.calculateTimeFor};
                 var stem = me.PrepareStem(data);
 

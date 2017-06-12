@@ -29,6 +29,7 @@ OTS.AigTestItemGenerationComponent=function(){
     me.InitializeTestGenerationAlgorithms=function(){
       
     //remember components
+    /*
    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
@@ -44,7 +45,7 @@ OTS.AigTestItemGenerationComponent=function(){
     
     //Application compoonentes
     new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
-    
+    */
     //Analysis
     new Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
     
