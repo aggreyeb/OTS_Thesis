@@ -12,7 +12,9 @@ OTS.HeaderLayoutComponent=function(){
     me.Render=function(){
         layoutControl.RegisterComponentChanged(componentChanged);
         layoutControl.Render(appendableControl,readable);
+        //{closeOnClickOutside: false}
         $('.toggle-menu').jPushMenu();
+       // $("#main-menu").addClass("cbp-spmenu-open");
     };
     
     me.AddApplication=function(application){

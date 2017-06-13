@@ -163,7 +163,7 @@
         
         <!--Analysis-->
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisQuadraticTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisLinearTimeComplexityTypeAComponent.js" type="text/javascript"></script>
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
