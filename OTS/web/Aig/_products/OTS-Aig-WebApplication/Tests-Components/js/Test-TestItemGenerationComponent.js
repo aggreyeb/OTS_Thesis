@@ -48,7 +48,10 @@ OTS.AigTestItemGenerationComponent=function(){
     */
     //Analysis
    // new Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
-    new Aig.Components.AnlysisLinearTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
+    // new Aig.Components.AnlysisLinearTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
+    //Evaluate
+    
+      new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
     };
     
     
