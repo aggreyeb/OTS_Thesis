@@ -528,10 +528,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     me.SubmitKnowledgeMap=function(){
         
           $(".icon-spinner").show();
-       // me.selectedKnowledgeMap
-         //Update the concept Schema for the selected Node
-         
-       
+      
           if(me.knowledgeMapEditorViewModel.selectedNode!==undefined &&
                       me.knowledgeMapEditorViewModel.selectedNode!==null 
                       && me.knowledgeMapEditorViewModel.selectedNode!==""){ 
@@ -541,10 +538,6 @@ OTS.AigKnowledgeMapListManagementView=function(){
         var nodes= knowledgeMapTreeView.ToJson();
         var item ={
             id:me.selectedKnowledgeMap.id,
-           // name:me.selectedKnowledgeMap.name,
-           // description:me.selectedKnowledgeMap.description,
-          //  selectedRelationship:me.conceptSchema.selectedRelationship(),
-           // conceptSchemas:conceptSchemas,
             conceptSchemas:nodes
         };
         
@@ -552,7 +545,6 @@ OTS.AigKnowledgeMapListManagementView=function(){
              $(".icon-spinner").hide();
              me.ConceptSchemaStateChanged=false;
              me.KnowledgeMapTreeStateChanged=false;
-            alert(JSON.stringify(msg));
         });
         
     };
@@ -568,8 +560,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
        
         data.algorithm.timeComplexity=selected;
         me.Testing(selected);
-        //alert($(e.target).val());
-        alert(JSON.stringify(data));
+      
     };
     me.TimeComplexities=ko.observableArray([
                          { id: 1, name: "O(1)" },
