@@ -19,6 +19,24 @@ import org.junit.Test;
  * @author MEA
  */
 public class TestQuestionBankUnitTesting {
+  
+    //LoadCourseTestItemsFromQuestionBank
+     @Test
+    public void LoadCourseTestItemsFromQuestionBank(){
+        //Arrange
+          TestQuestionBankDataService dataService= new TestQuestionBankDataService(new MySqlDataSource());
+          TestQuestionBankElement element= new TestQuestionBankElement();
+         
+         String testId="0ab436b1-2015-41b6-a6a5-d41c170d8160";
+         String courseId="3599642c-1ad0-4925-8340-dbbd6cd87c07";
+       
+          //Act
+        TransactionResult result =  dataService.LoadCourseTestItemsFromQuestionBank(testId,courseId);
+       //Assert
+       
+        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
+    }
+    
     @Test
     public void SaveToQuestionBank(){
         //Arrange

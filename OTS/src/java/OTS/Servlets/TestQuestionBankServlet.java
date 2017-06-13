@@ -99,6 +99,16 @@ public class TestQuestionBankServlet extends Servlet {
            try{
        
          switch(action){
+             //Aig-LoadCourseTestItemsFromQuestionBank
+             case "Aig-LoadCourseTestItemsFromQuestionBank":
+                    //TestId:data.TestId,CourseId:data.CourseId,
+                  
+                     testId=request.getParameter("TestId");
+                     acourseId=request.getParameter("CourseId");
+                    
+                    service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.LoadCourseTestItemsFromQuestionBank(testId,acourseId);
+             
              
               case "Aig-SaveToTestQuestionBank":
                     //TestId:data.TestId,CourseId:data.CourseId,

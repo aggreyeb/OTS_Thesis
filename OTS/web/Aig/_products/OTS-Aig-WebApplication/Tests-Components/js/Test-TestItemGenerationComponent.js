@@ -291,6 +291,16 @@ OTS.AigTestItemGenerationComponent=function(){
     me.HasComponent=function(componentCode){
        return  testGenerationComponents.HasComponent(componentCode);
     };
+    
+    me.LoadCourseTestItemsFromQuestionBank=function(testId,courseId,callbackFunction){
+          var callback=callbackFunction;
+       
+      var dataSource= new  OTS.AigTestDataSource();
+         dataSource.LoadCourseTestItemsFromQuestionBank(testId,courseId,function(msg){
+            callback(msg);
+        });
+    };
+    
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

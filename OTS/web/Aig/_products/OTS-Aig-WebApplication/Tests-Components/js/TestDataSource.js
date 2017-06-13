@@ -14,7 +14,16 @@ OTS.AigTestDataSource=function(){
         SaveToTestQuestionBank:"Aig-SaveToTestQuestionBank",
         ListCourseTestQuestions:"Aig-ListCourseTestQuestions",
         UpdateCourseTestAsnwerSheet:"Aig-UpdateCourseTestAsnwerSheet",
-        UpdateCourseTestSheet:"Aig-UpdateCourseTestSheet"
+        UpdateCourseTestSheet:"Aig-UpdateCourseTestSheet",
+        LoadCourseTestItemsFromQuestionBank:"Aig-LoadCourseTestItemsFromQuestionBank"
+    };
+    
+    me.LoadCourseTestItemsFromQuestionBank=function(testId,courseId, callbackFunction){
+        var callback=callbackFunction;
+        $.post("TestQuestionBankServlet",{action:actionType.LoadCourseTestItemsFromQuestionBank,TestId:testId,CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
     };
     
      me.ListTeacherCourses=function(callbackFunction){

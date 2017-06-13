@@ -336,6 +336,51 @@ OTS.AigTestViewModel=function(){
     me.AnswerSheetItems=ko.observableArray([]);
     me.CheckAllItestItems=ko.observable(true);
     
+    me.IsQuestionBankItemSelected=function(testQuestionBankItem,testItems){
+       var found =false;
+        for(var i=0;i< testItems.length;i++){
+            if(testItems[i].number==testQuestionBankItem.number){
+                  found=true;
+            }
+        }
+        return found;
+    };
+    
+    me.OnLoadCourseTestItemsFromQuestionBank=function(){
+      var selectedTest=ko.toJS(me.SelectedTest);
+      var testId=selectedTest.Id;
+      var courseId=selectedTest.CourseId;
+      testComponent.LoadCourseTestItemsFromQuestionBank(testId,courseId,function(msg){
+          //populate course test bank
+           var result=JSON.parse(msg);
+           if(result.Content!==""){ 
+           
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var filterList=[];
+              //var dataSet=JSON.parse(result.Content);
+                 me.TestBankItems([]);
+                 var testQuestionBankItems=JSON.parse(result.Content) ;
+                 var testItems=JSON.parse(result.LookupTables) ;
+                 /*
+                 var currentQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
+                 var currenttestSheetItems=JSON.parse(testItems[0].TestQuestions);
+                  for(var i=0;i<currentQuestionBankItems.length;i++){
+                        if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i]),currenttestSheetItems){
+                            filterList.push(testQuestionBankItems[i])
+                        }
+                  }
+               
+                  //push the filter items to 
+                  for(var t=0;t<filterList.length;t++){
+                       me.TestBankItems.push(filterList[t]);
+                  }
+                 */ 
+            }
+          }
+      });
+     
+    };
+    
    me.FindTestItemModel=function(componentCode) {
         var found=null;
        for(var i=0;i<me.TestItemsModels.length;i++){
@@ -465,6 +510,7 @@ OTS.AigTestViewModel=function(){
           var item=testItemsModels[i];
            if(item!==null){
              item.number=i +1;
+             item.serialNumber=new Aig.Guid().NewGuid();
                 var htmlItem= testComponent.RenderHtmlTestItem(item);
                 htmlItem.ComponentCode=item.componentCode;
                 htmlItem.Number=i+1;

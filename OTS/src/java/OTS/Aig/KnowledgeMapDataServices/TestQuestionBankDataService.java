@@ -9,6 +9,7 @@ import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +24,43 @@ public class TestQuestionBankDataService {
         this.dataSource = dataSource;
     }
       
+    //LoadCourseTestItemsFromQuestionBank
+    
+    public TransactionResult LoadCourseTestItemsFromQuestionBank(String testId,String courseId){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="Select Id,TestId,CourseId,TestQuestions FROM testquestionbank Where TestId='%s' AND CourseId='%s'";
+          String sql= String.format(InsertTemplate, testId,courseId);
+          List<TestQuestionBankElement> items= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql,items,TestQuestionBankElement.class);
+          
+          //List the Test Items Associated with Course Test
+          List<TestElement> courseTestItems=new ArrayList();
+          String courseTestSqlTemplate="Select Id,CourseId,TestQuestions FROM exam WHERE Id='%s' AND CourseId='%s'";
+          sql= String.format(courseTestSqlTemplate, testId,courseId);
+          this.dataSource.ExecuteCustomDataSet(sql,courseTestItems,TestElement.class);
+          
+         Gson g= new  Gson();
+         // HashMap<String, String> hmap = new HashMap<String, String>();
+          // hmap.put("testQuestionBankItems", g.toJson(items));
+          // hmap.put("testItems",g.toJson(courseTestItems));
+           result.Content=g.toJson(items);
+           result.LookupTables=g.toJson(courseTestItems);
+           result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
+    
+    
     
     public TransactionResult SaveTestItemGenerated(TestQuestionBankElement element){
           TransactionResult result= new TransactionResult();
