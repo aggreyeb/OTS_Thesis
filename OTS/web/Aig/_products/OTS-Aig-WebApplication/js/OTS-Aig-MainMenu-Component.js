@@ -27,6 +27,13 @@ OTS.MenuComponent=function(){
           menuItems.click(function(e){
               notifyMenuItemClicked(e);
           })
+          
+          setTimeout(function(){ 
+              //alert("Hello");
+               //3000
+             $("#cmd-toggle-main-menu").click();
+           }, 0);
+          
        });
     };
     

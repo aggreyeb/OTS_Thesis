@@ -15,6 +15,7 @@ OTS.HeaderLayoutComponent=function(){
         //{closeOnClickOutside: false}
         $('.toggle-menu').jPushMenu();
        // $("#main-menu").addClass("cbp-spmenu-open");
+     
     };
     
     me.AddApplication=function(application){
