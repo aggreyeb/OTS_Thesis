@@ -618,5 +618,33 @@ OTS.AigKnowledgeMapListManagementView=function(){
            
         
     };
+    
+    //*************************Import kowledge Map *****************
+    me.ImportViewModel={
+        
+        KnowledgeMapName:ko.observable(),
+        KnowledgeMapDescription:ko.observable(),
+        Selected:ko.observable(false),
+        IconClass:ko.observable(""),
+        IsImported:ko.observable(false)
+    };
+    me.ImportList=ko.observableArray([]);
+    me.SelectedImportItems=[];
+    
+    me.onImportSelectAll=function(e){
+        
+    };
+    
+    me.onImportKnoledgeMapsClicked=function(){
+        
+    };
+    
+    me.SubmitSelectedForImport=function(){
+        
+    };
+    
+    me.PopulateKnowledgeMapImportList=function(items){
+        //Set the icon css here
+    }
 };
 
