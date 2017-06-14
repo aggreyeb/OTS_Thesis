@@ -16,5 +16,7 @@ Aig.AlertBox=function(containerId){
         $(id).show();
         $(id).delay(3200).fadeOut(300);
     };
+    
+    
 };
 

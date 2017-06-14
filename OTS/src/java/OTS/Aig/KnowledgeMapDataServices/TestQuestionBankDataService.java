@@ -7,6 +7,7 @@ package OTS.Aig.KnowledgeMapDataServices;
 
 import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,8 +40,8 @@ public class TestQuestionBankDataService {
           String courseTestSqlTemplate="Select Id,CourseId,TestQuestions FROM exam WHERE Id='%s' AND CourseId='%s'";
           sql= String.format(courseTestSqlTemplate, testId,courseId);
           this.dataSource.ExecuteCustomDataSet(sql,courseTestItems,TestElement.class);
-          
-         Gson g= new  Gson();
+          Gson g = new GsonBuilder().disableHtmlEscaping().create();
+         //Gson g= new  Gson();
          // HashMap<String, String> hmap = new HashMap<String, String>();
           // hmap.put("testQuestionBankItems", g.toJson(items));
           // hmap.put("testItems",g.toJson(courseTestItems));

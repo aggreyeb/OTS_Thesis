@@ -21,6 +21,7 @@ public final class Credential {
     public Credential(String userName,String password){
         this.UserName=userName;
         this.Password=password;
+        userProfile= new UserProfile();
     }
     
     public void OnAthenticated(UserProfile userProfile,String status){

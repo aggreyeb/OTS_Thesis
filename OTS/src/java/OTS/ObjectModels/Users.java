@@ -283,12 +283,15 @@ public class Users {
       
                     tx.commit();
                    response.UpdateID(user.getUserId());
+                   userAccount.Id=user.getUserId();
+                   userAccount.Status="ok";
                    response.ChangeContent(new Gson().toJson(userAccount));
                    response.ChangeStatus("ok");
               }
               else{
                 response.ChangeContent("");
                 response.ChangeStatus("fail");
+                 userAccount.Status="fail";
                 response.UpdateError("Email already exist");
               }    
         }

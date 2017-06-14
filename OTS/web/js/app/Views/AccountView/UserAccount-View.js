@@ -34,8 +34,8 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
                var message =JSON.parse(msg);
                if(message.response.status==="ok"){
                  viewModel.AccountFormVisible(false);
-               // window.location.href="./main.jsp";
-                 msgBox.DisplaySuccess("<p>Your Account has been created. <a href='index.jsp'>Login<a/> </p>" ); 
+                 window.location.href="./main.jsp";
+                // msgBox.DisplaySuccess("<p>Your Account has been created. <a href='index.jsp'>Login<a/> </p>" ); 
                }
                else{
                     $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");

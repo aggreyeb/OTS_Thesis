@@ -29,9 +29,10 @@ OTS.AigTestItemGenerationComponent=function(){
     me.InitializeTestGenerationAlgorithms=function(){
       
     //remember components
-    /*
+    
    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
-   new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
+  
+    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
@@ -45,10 +46,10 @@ OTS.AigTestItemGenerationComponent=function(){
     
     //Application compoonentes
     new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
-    */
+    
     //Analysis
-   // new Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
-    // new Aig.Components.AnlysisLinearTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
+    new Aig.Components.AnlysisQuadraticTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
+     new Aig.Components.AnlysisLinearTimeComplexityTypeAComponent().AddTo(testGenerationComponents);
     //Evaluate
     
       new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
@@ -121,10 +122,19 @@ OTS.AigTestItemGenerationComponent=function(){
              var result=JSON.parse(msg);
              var courses=JSON.parse(result.Content);
              viewModel.DataBind(courses);
+             
+         $('#txtStartDate').datepicker({
+            autoclose: true,
+            todayBtn: "linked",format: 'mm/dd/yyyy'
          });
-        
+    
+         $("#txt-startTime").timepicker('showWidget');;
+         $("#txt-endTime").timepicker('showWidget');
+            
+         });
+         
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
-   
+         
      };
      
      

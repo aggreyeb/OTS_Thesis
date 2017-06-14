@@ -8,6 +8,7 @@ package OTS.Servlets;
 import OTS.Aig.KnowledgeMapDataServices.StudentDataService;
 import OTS.Aig.KnowledgeMapDataServices.StudentElement;
 import OTS.AuthenticationResponse;
+import OTS.Credential;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -164,10 +165,11 @@ public class UserManagementServlet extends Servlet {
                 UserAccountItem TeacherRegistrationItem=(UserAccountItem)(new Gson().fromJson(TeacherRegistration , UserAccountItem.class));
                 users= new OTS.ObjectModels.Users(response,db);
                 users.RegisterNewTeacher(TeacherRegistrationItem, new OTS.ObjectModels.Courses(db),response);
-                 
-                //this.CreateSession(request, credential.userProfile);
-                // AuthenticationResponse ar=new AuthenticationResponse(credential);
-                // message.ChangeContent(ar.ToJsonResponse());
+                 if(TeacherRegistrationItem.Status.equals("ok")){
+                   Credential credential= new Credential(TeacherRegistrationItem.Email,TeacherRegistrationItem.Password);
+                   credential.userProfile.UserId=TeacherRegistrationItem.Id;
+                   this.CreateSession(request, credential.userProfile);
+                 }
                 
                     break;
                

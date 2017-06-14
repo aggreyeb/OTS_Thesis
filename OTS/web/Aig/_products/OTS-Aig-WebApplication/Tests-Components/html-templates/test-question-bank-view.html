@@ -16,7 +16,7 @@
                      <th>Test Item</th>
                      <th><span><input data-bind="checked:CheckAllItestItems,event:{change:onCheckAllItestItems}" title="Select All" type="checkbox"/></span></th>
                 </tr>
-                <tbody data-bind="foreach:TestBankItems">
+                <tbody data-bind="foreach:$root.TestBankItems">
                  <tr>
                      <td style="width:5%" data-bind="text:Number"></td>
                      <td style="width:90%">

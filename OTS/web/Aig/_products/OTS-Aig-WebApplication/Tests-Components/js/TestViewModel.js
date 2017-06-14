@@ -11,6 +11,94 @@ OTS.TestItem=function(name){
     me.CourseId="";
 };
 
+
+OTS.TestValidtion=function(){
+    var me=this;
+   me.isDate = function(date) {
+    return ((new Date(date)).toString() !== "Invalid Date") ? true : false;         
+  };
+  
+  me.isNumeric=function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  };
+  
+   me.validate=function(item){
+      var hasError= false;
+      var error="<ul>";
+      var errors=[];
+      
+     
+      if(item.selectedCourse===undefined || item.selectedCourse==null ||
+              item.selectedCourse[0] ===undefined ||
+              item.selectedCourse[0] ===null){
+            hasError=true;
+          error+="<li>Select Course</li>";
+          errors.push("Select Course");
+      }
+      //
+      if(item.Name=== undefined || item.Name===null || item.Name===""){
+          hasError=true;
+          error+="<li>Test Name is required</li>";
+          errors.push("Test Name is required");
+      }
+      if(item.StartDate=== undefined || item.StartDate ===null || item.StartDate===""){
+           hasError=true;
+           error+="<li>Start Date is required:Format is MM/dd/YYYY</li>";
+           errors.push("Start Date is required:Format is MM/dd/YYYY");
+      }
+      
+      if(!me.isDate(item.StartDate)){
+          hasError=true;
+           error+="<li>Invalid Start Date: :Format is MM/dd/YYYY</li>" ;
+           errors.push("Invalid Start Date: :Format is MM/dd/YYYY")
+      }
+      
+      if(item.StartTime===undefined || item.StartTime===null || item.StartTime===""){
+           hasError=true;
+            error+="<li>Start Time is required: format nn:mm</li>";
+            errors.push("Start Time is required: format nn:mm");
+      }
+      
+        if(item.EndTime===undefined || item.EndTime===null || item.EndTime===""){
+           hasError=true;
+            error+="<li>End Time is required: format nn:mm</li>";
+            errors.push("End Time is required: format nn:mm");
+      }
+    
+      if(!me.isNumeric(item.TotalMark)){
+            hasError=true;
+            error+="<li>Invalid marks</li>";
+            errors.push("Invalid marks");
+       };
+    
+      if(item.StartTime!==undefined && item.StartTime!==null && endTime!==undefined && endTime!==null){
+      var startTime=item.StartTime.trim().toLowerCase();
+      var endTime=item.EndTime.trim().toLowerCase();
+      
+      var beginTime= moment(startTime, 'h:mma');
+      var endedTime= moment(endTime, 'h:mma');
+      var before= beginTime.isBefore(endedTime);
+       if(!before){
+           //start time is greater than end time.
+            hasError=true;
+            error+="<li>Start time can not be greater than end time</li>";
+            errors.push("Start time can not be greater than end time");
+       }
+      }
+      else{
+        error+="<li>Invalid Start and End Time</li>";
+        errors.push("Invalid Start and End Time");  
+      }
+     
+       return {
+           hasError:hasError,
+           error :error +"</ul>" ,
+           textError:errors.join(",")
+       };
+   };
+    
+};
+
 OTS.TeacherCourse=function(id,name){
     var me=this;
     me.Id=ko.observable(id);
@@ -40,14 +128,12 @@ OTS.AigTestViewModel=function(){
     me.TeacherCourses=ko.observableArray([]);
     me.SelectedCourse=ko.observable(null);
 
-   me.StripHTML=function(text) {
-     return text.replace(/<.*?>/gm, '');
-   }
-
+   
     
     me.SelectedTest=null;
     
     me.Actions={
+       
         formHeading:ko.observable("Create New Test"),
         ResetForm:function(){
             me.Id("");
@@ -227,7 +313,22 @@ OTS.AigTestViewModel=function(){
             });
         },
         onSave:function(){
-            
+           var testValidation=new OTS.TestValidtion();
+            var item={
+                Name:me.Name(),
+                TotalMark: me.TotalMark(),
+                StartDate:me.StartDate(),
+                StartTime:me.StartTime(),
+                EndTime:me.EndTime(),
+                selectedCourse:me.SelectedCourse()
+            };
+          var result=  testValidation.validate(item);
+            if(result.hasError){
+                //diaplay error
+              alertBox.ShowErrorMessage(result.textError);  
+             
+                return;
+            }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
                      var selectedCourse=ko.toJS(me.SelectedCourse())[0];
@@ -346,39 +447,46 @@ OTS.AigTestViewModel=function(){
         return found;
     };
     
+  
+    
     me.OnLoadCourseTestItemsFromQuestionBank=function(){
       var selectedTest=ko.toJS(me.SelectedTest);
       var testId=selectedTest.Id;
       var courseId=selectedTest.CourseId;
       testComponent.LoadCourseTestItemsFromQuestionBank(testId,courseId,function(msg){
           //populate course test bank
+          
            var result=JSON.parse(msg);
            if(result.Content!==""){ 
            
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                var filterList=[];
-              //var dataSet=JSON.parse(result.Content);
-                 me.TestBankItems([]);
+              var dataSet=JSON.parse(result.Content);
+                // me.TestBankItems([]);
                  var testQuestionBankItems=JSON.parse(result.Content) ;
-                 var testItems=JSON.parse(result.LookupTables) ;
+                // var testItems=JSON.parse(result.LookupTables) ;
+                 // var testSheetItems=JSON.parse(testItems.testQuestions);
                  /*
-                 var currentQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
+                 var currentQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions.replace(/\\/g, ''));
                  var currenttestSheetItems=JSON.parse(testItems[0].TestQuestions);
+                 
                   for(var i=0;i<currentQuestionBankItems.length;i++){
                         if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i]),currenttestSheetItems){
                             filterList.push(testQuestionBankItems[i])
                         }
                   }
-               
+                  
                   //push the filter items to 
                   for(var t=0;t<filterList.length;t++){
                        me.TestBankItems.push(filterList[t]);
                   }
-                 */ 
+                 */
             }
+            
+            //
           }
       });
-     
+       
     };
     
    me.FindTestItemModel=function(componentCode) {
@@ -488,10 +596,11 @@ OTS.AigTestViewModel=function(){
             
                if(items!==undefined && items!==null && items.length){
               
-                 me.NumberItemsGenerated(items.length);
-                 me.ShowItemsGeneratedAlert(true);
+               
             }
         });
+              me.NumberItemsGenerated(items.length);
+              me.ShowItemsGeneratedAlert(true);
             return;
         }
         alert("Please selected Root Node or Child Node and try again");
@@ -515,19 +624,15 @@ OTS.AigTestViewModel=function(){
                 htmlItem.ComponentCode=item.componentCode;
                 htmlItem.Number=i+1;
                 me.TestItems.push(htmlItem);
+              
            }
-          // me.TestItems.push(items[i])
-            
+        
         }
        
     };
-    me.ClearTestItemGenerated=function(){
-        if(me.TestItems().length>0){
-            me.TestItems([]);
-            me.NumberItemsGenerated(0);
-            me.ShowItemsGeneratedAlert(false);
-            knowledgeMapTreeView.UnSelectNodes();
-        }
+     me.ClearTestItemGenerated=function(){
+         me.TestItems([]);
+         me.NumberItemsGenerated(0);
     };
     me.SaveToTestQuestionBank=function(){
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
@@ -538,6 +643,7 @@ OTS.AigTestViewModel=function(){
                 if(item!=null){
                     //item.ComponentCode=me.TestItems()[i].ComponentCode;
                     array.push(item);
+                  
                 }
              }
            var data={
@@ -551,7 +657,8 @@ OTS.AigTestViewModel=function(){
                     var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                          //var genereatedTestItems=me.TestItemsModels; //ko.toJS(me.TestItems);
-                          for(var i=0;i<array.length;i++){
+                           me.TestBankItems([]);
+                           for(var i=0;i<array.length;i++){
                                
                             var htmlItem= testComponent.RenderHtmlTestItem(array[i]);
                             htmlItem.ComponentCode=array[i].componentCode;
@@ -559,11 +666,13 @@ OTS.AigTestViewModel=function(){
                               htmlItem.checked=ko.observable(true);
                             //.TestBankItems.push(genereatedTestItems[i]);
                             htmlItem.Number=i+1;
-                            me.TestBankItems.push(htmlItem);
+                             me.TestBankItems.push(htmlItem);
+                             me.ClearTestItemGenerated();
+                             $(".app-lnk-testqustion-bank").click();
                           }
                           //go to Question Bank
-                          $(".app-lnk-testqustion-bank").click();
-                          me.ClearTestItemGenerated();
+                       
+                          
                     }
                     else{
                          alertBox.ShowErrorMessage("Failed to save test items");  
@@ -571,6 +680,10 @@ OTS.AigTestViewModel=function(){
             });
         }
     };
+    
+    
+     
+    
 };
 
 
