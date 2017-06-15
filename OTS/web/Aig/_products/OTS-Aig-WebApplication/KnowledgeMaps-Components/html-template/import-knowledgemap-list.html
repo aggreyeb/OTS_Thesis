@@ -1,7 +1,7 @@
 <div id="pan-knowledgeMap-list" class="table-responsive" style="border: 1px solid #ddd;margin-right:10px;margin-top: 10px ;padding-left:10px" >
     <div class="row">
         <div class="col-xs-12">
-            <h3><span class="label label-default">Available Knowledge Map List</span></h3><span style="margin-right: 20px;margin-bottom: 2px" class="pull-right"><a class="btn btn-primary" href="#">Submit Selected Knowledge Map(s)</a></span>
+            <h3><span class="label label-default">Available Knowledge Map List</span></h3><span style="margin-right: 20px;margin-bottom: 2px" class="pull-right"><a data-bind="click:SubmitSelectedForImport" class="btn btn-primary" href="#">Submit Selected Knowledge Map(s)</a></span>
         </div>
     </div>
     <!--data-bind="event:{click:onImportSelectAll}"-->
@@ -11,7 +11,7 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="hide">Icon</th>
+                    <th class="hide"></th>
                      <th>Name</th>
                      <th>Description</th>
                      <th><input title="Select All"   id="chk-select-all" type="checkbox"/></th>

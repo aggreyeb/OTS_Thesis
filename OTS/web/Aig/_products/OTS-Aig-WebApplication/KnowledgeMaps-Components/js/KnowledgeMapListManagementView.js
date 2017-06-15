@@ -38,6 +38,15 @@ OTS.AigKnowledgeMapListManagementView=function(){
    
     me.selectedMode="";
    var selectedNodeText="Selected Node:";
+   me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
  /***********************KNOWLEGE MAP LIST VIEW*********************************/
     me.knowledgeMaplistView={
         knowledgeMaps:ko.observableArray([]),                    
@@ -118,7 +127,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                return;
           };
           var item=JSON.parse(data.conceptSchemas);
-          var knowledgemap=JSON.parse(item);
+          var knowledgemap= item;//JSON.parse(item);
           knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[knowledgemap]);
            
            var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();
@@ -200,6 +209,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                item.name=me.knowledgeMaplistView.name();
                item.description=me.knowledgeMaplistView.description();
                item.isImported=false;
+               item.iconClass="fa fa-asterisk"
                item.nodes=[];
                 knowledgeMapComponent.SaveKnowledgeMap(item,function(e){
                var result=JSON.parse(e);
@@ -554,11 +564,13 @@ OTS.AigKnowledgeMapListManagementView=function(){
                       && me.knowledgeMapEditorViewModel.selectedNode!==""){ 
                 me.AutoUpdateTreeview(me.knowledgeMapEditorViewModel.selectedNode.id);
         }
-        //var conceptSchemas=ko.toJS(me.conceptSchema);
+        
         var nodes= knowledgeMapTreeView.ToJson();
+        var base64String= me.EncodeString(nodes)
+        
         var item ={
             id:me.selectedKnowledgeMap.id,
-            conceptSchemas:nodes
+            conceptSchemas:base64String
         };
         
         knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
@@ -694,7 +706,13 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     me.SubmitSelectedForImport=function(){
-        
+       alert("Under Construction. SQL Scripts will be provideed to clean old knowledge maps");
+        /*
+        var html= "<div>Hello world</div>";
+         var selected=  me.ImportList()[0].Concepts;
+          alert(selected);
+         var enc = window.btoa(html);
+         alert(enc)*/
     };
     
     me.PopulateKnowledgeMapImportList=function(items){

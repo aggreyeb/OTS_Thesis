@@ -108,6 +108,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
+              var encoded=items[0].Concepts.replace(/\"/g, "");
+              var decoded=   window.atob(encoded);
+              items[0].Concepts=decoded;
+               
               knowlegemapListManagement.DataBind(items);
              
           }
@@ -131,6 +135,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
+               
+              var encoded=items[0].Concepts.replace(/\"/g, "");
+              var decoded=   window.atob(encoded);
+              items[0].Concepts=decoded;
               knowlegemapListManagement.DataBind(items);
              ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
      

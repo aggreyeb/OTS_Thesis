@@ -203,9 +203,11 @@ OTS.AigTestViewModel=function(){
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                   var knowledgeMaps=[]; 
                   var items=JSON.parse(result.Content);
+                  //Decode base64String
+                  items[0].Concepts= window.atob(items[0].Concepts.replace(/\"/g, "")); 
                   for(var i=0;i<items.length;i++){
                       var concepts=JSON.parse(items[i].Concepts);
-                      var data=JSON.parse(concepts);
+                      var data=concepts; //JSON.parse(concepts);
                           var item={ id:data.id,name:data.name,text: data.name,
                        description:data.description,nodes:data.nodes};
                      knowledgeMaps.push(item);
