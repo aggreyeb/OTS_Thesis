@@ -13,9 +13,9 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div style="margin-bottom: 2px" class="pull-left">
+            <div style="margin-bottom: 2px" class="pull-right">
               <!--  <a  title="Add New KnowledgeMap" data-bind="click:knowledgeMaplistViewActions.onAddNew" data-toggle="collapse" href="#cmd-add-edit-knowledgemap" id="cmd-add-edit-knowledgemap" class="btn btn-sm btn-info"><i class="fa fa-plus"></i>Add New Knowledge Map</a>-->
-                <a  title="Import KnowledgeMaps" data-bind="click:knowledgeMaplistViewActions.onshowImportView" data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-info"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
+                <a   title="Import KnowledgeMaps" data-bind="click:onImportKnoledgeMapsClicked" data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-info "><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th class="hide">Id</th>
+                            <th>icon</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Actions</th>
@@ -33,9 +33,10 @@
                     </thead>
                     <tbody data-bind="foreach:knowledgeMaplistView.knowledgeMaps">
                         <tr>
-                            <td style="width:10%" class="hide" data-bind="text:id"></td>
-                            <td style="width:25%" data-bind="text:name"></td>
-                            <td style="width:64%" data-bind="text:description"></td>
+                            
+                            <td style="width:3%" ><i data-bind="css:iconClass"></i></td>
+                            <td style="width:30%" data-bind="text:name"></td>
+                            <td style="width:53%" data-bind="text:description"></td>
                             <td>
                                 <div class="btn-group">
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onRename}" href="#" title="Rename" ><i class="fa fa-pencil-square"></i></a>

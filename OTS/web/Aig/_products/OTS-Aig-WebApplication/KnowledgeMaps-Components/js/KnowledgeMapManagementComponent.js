@@ -193,6 +193,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           }
        });
    };
-   
+   //***********************Knowledge Map Imports********************
+   me.ListAvailableImportsKnowledgeMap=function(callbackFunction){
+       var callback=callbackFunction;
+         var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.ListAvailableImportsKnowledgeMap(function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

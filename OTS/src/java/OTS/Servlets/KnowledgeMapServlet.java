@@ -153,7 +153,12 @@ public class KnowledgeMapServlet extends Servlet {
                 result= service.UpdateKnoledgeMapConceptSchemas(id,data);
                  return result;
                  
-               
+               //Aig-ListAvailableImportsKnowledgeMap
+                case "Aig-ListAvailableImportsKnowledgeMap":
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ListAvailableImportsKnowledgeMap(userProfile.UserId);
+                return result;
+                 
               /******************Old Service ************************/
                case  "new":
               conceptNode= new ConceptNode(userProfile.UserId,response); // get user id from session

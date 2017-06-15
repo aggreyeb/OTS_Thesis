@@ -4,23 +4,25 @@
             <h3><span class="label label-default">Available Knowledge Map List</span></h3><span style="margin-right: 20px;margin-bottom: 2px" class="pull-right"><a class="btn btn-primary" href="#">Submit Selected Knowledge Map(s)</a></span>
         </div>
     </div>
+    <!--data-bind="event:{click:onImportSelectAll}"-->
     <div class="row">
       <div class="col-xs-12">
        <div  style="overflow-y: scroll;height: 200px;margin-right: 5px" class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <th class="hide">Icon</th>
                      <th>Name</th>
                      <th>Description</th>
-                    
-                     <th><input data-bind="event:{change:onImportSelectAll}" id="chk-select-all" type="checkbox"/></th>
+                     <th><input title="Select All"   id="chk-select-all" type="checkbox"/></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach:ImportList">
                 <tr>
-                    <td data-bind="text:ImportViewModel.KnowledgeMapName"><span>???</span> Data Structures </td>
-                    <td data-bind="text:ImportViewModel.KnowledgeMapDescription"> Data structures concepts </td> 
-                    <td> <input data-bind="checked:ImportViewModel.Selected" type="checkbox"/></td>
+                    <td class="hide" style="width:5%"><span data-bind="css:IconClass" ></span></td>
+                    <td style="width:40%" data-bind="text:Name"></td>
+                    <td style="width:55" data-bind="text:Description"></td> 
+                    <td style="width:5%"> <input  data-bind="checked:IsSelected" type="checkbox"/></td>
                 </tr>
             </tbody>
         </table>

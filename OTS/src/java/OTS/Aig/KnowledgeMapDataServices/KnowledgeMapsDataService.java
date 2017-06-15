@@ -179,5 +179,31 @@ public class KnowledgeMapsDataService {
            }
            
      }
-  
+     
+    
+    //Aig-ListAvailableImportsKnowledgeMap
+    
+    public TransactionResult ListAvailableImportsKnowledgeMap(int userId){
+          TransactionResult result= new TransactionResult();
+        try{ 
+         // String sql= "Select * from knowledgemap where Createdby <>" + userId;
+        String sql= "Select * from knowledgemap where Createdby =" + userId;
+   
+          List<KnowledgeMapDescription> knowledgemaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapDescription.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(knowledgemaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+              // this.dataSource.Close();
+            }
+       }
 }

@@ -7,6 +7,19 @@ OTS.AigKnowledeMapDataModel=function(name){
     me.conceptSchemas=""
 };
 
+OTS.AigKnowledgeImportItem=function(){
+      var me=this;
+        me.KnowledgeMapId=ko.observable();
+        me.Name=ko.observable();
+        me.Description=ko.observable(),
+        me.IsSelected=ko.observable(false),
+        me.IconClass= ko.observable('fa fa-circle-thin'),
+        me.IsPublic=ko.observable(false),
+        me.IsImported=ko.observable(true)
+        me.Concepts="";
+  };
+
+
 OTS.AigKnowledgeMapListManagementView=function(){
     var me=this;
     var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
@@ -31,7 +44,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
         id:ko.observable(""),
         name:ko.observable(""),
         description:ko.observable(""),
-        conceptSchemas:""
+        iconClass:ko.observable("fa fa-asterisk"),
+        conceptSchemas:"",
+        isImported:false
     };
     
    
@@ -113,7 +128,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.HideKnowledgeMapEditor();
             me.ShowKnowedgeMapList();
             me.knowledgeMaplistViewActions.saveAlertVisible(false);
-            var items= dataDatabase.ReadAll();
+           // var items= dataDatabase.ReadAll();
             me.DataBind(items);
         },
         resetForm:function(){
@@ -184,6 +199,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                item.text=me.knowledgeMaplistView.name();
                item.name=me.knowledgeMaplistView.name();
                item.description=me.knowledgeMaplistView.description();
+               item.isImported=false;
                item.nodes=[];
                 knowledgeMapComponent.SaveKnowledgeMap(item,function(e){
                var result=JSON.parse(e);
@@ -409,6 +425,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
              me.selectedMode=modeType.New;
              me.ConceptSchemaStateChanged=false;
              me.KnowledgeMapTreeStateChanged=false;
+             $("#chk-select-all").click(me.onImportSelectAll);
+             
             return ;
        }
        throw new Error("knowledgeMapManagememtComponent can not be null");
@@ -423,6 +441,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
                  var km= new OTS.DataModel.KnowledgeMap(item.KnowledgeMapId,
                  item.Name,item.Description);
                  km.conceptSchemas=item.Concepts;
+                 km.IsImported=ko.observable(false);
+                 km.iconClass= ko.observable("fa fa-asterisk");
                  me.knowledgeMaplistView.knowledgeMaps.push(km); 
                }
            }  
@@ -620,23 +640,57 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     //*************************Import kowledge Map *****************
+    
     me.ImportViewModel={
-        
-        KnowledgeMapName:ko.observable(),
-        KnowledgeMapDescription:ko.observable(),
-        Selected:ko.observable(false),
-        IconClass:ko.observable(""),
-        IsImported:ko.observable(false)
+        KnowledgeMapId:ko.observable(),
+        Name:ko.observable(),
+        Description:ko.observable(),
+        IsSelected:ko.observable(false),
+        IconClass:ko.observable("fa fa-circle-thin"),
+        IsPublic:ko.observable(false),
+        IsImported:ko.observable(false),
+        Concepts:""
     };
+    
     me.ImportList=ko.observableArray([]);
+    me.IsImportViewOpened=false;
     me.SelectedImportItems=[];
     
     me.onImportSelectAll=function(e){
+         var checked=$(e.target).is(':checked');
         
+        if(checked){
+          for(var i=0;i<me.ImportList().length;i++){
+            me.ImportList()[i].IsSelected(true);
+          }
+        }
+        else{
+          for(var i=0;i<me.ImportList().length;i++){
+            me.ImportList()[i].IsSelected(false);
+          }
+        }
+       
     };
     
     me.onImportKnoledgeMapsClicked=function(){
-        
+         if(!me.IsImportViewOpened){
+              knowledgeMapComponent.ListAvailableImportsKnowledgeMap(function(msg){
+             var result=JSON.parse(msg);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                   var items=JSON.parse(result.Content);
+                   me.PopulateKnowledgeMapImportList(items);
+                }
+                else{
+                  //Do something here!
+                }
+              me.IsImportViewOpened=true;
+        });
+             
+         }
+         else{
+              me.IsImportViewOpened=false;
+         }
+       
     };
     
     me.SubmitSelectedForImport=function(){
@@ -644,7 +698,23 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     me.PopulateKnowledgeMapImportList=function(items){
-        //Set the icon css here
-    }
+        me.ImportList([]);
+        for(var i=0;i<items.length;i++){
+             var item=items[i];
+            item.IsImported=true;
+            var km= new  OTS.AigKnowledgeImportItem();
+            km.KnowledgeMapId(item.KnowledgeMapId);
+            km.Name(item.Name);
+            km.Description(item.Description);
+            km.IsSelected(item.IsSelected);
+           // km.IsImported(item.IsImported);
+            km.IconClass("fa fa-circle-thin");
+            km.IsPublic(item.IsPublic);
+            me.Concepts=item.Concepts;
+            me.ImportList.push(km);
+        }
+    };
+    
+  
 };
 

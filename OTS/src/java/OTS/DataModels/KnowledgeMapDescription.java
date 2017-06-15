@@ -21,6 +21,7 @@ public class KnowledgeMapDescription {
      public String Concepts;
      public Date LastUpdated;
      public Boolean IsPublic;
+     public Boolean IsImported;
      public Boolean IsSelected;
      
 }

@@ -7,7 +7,8 @@ OTS.AigKnowlegeMapDataSource=function(){
                     UPDATE:"Aig-Update-KnowledgeMap",
                     DELETE:"Aig-Delete-KnowledgeMap",
                     SUBMIT:"Aig-Update-KnoledgeMap-ConceptSchemas",
-                    DUPLICATE:"duplicate"};
+                    DUPLICATE:"duplicate",
+                    ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap"};
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
           var callback=callbackFunction;
@@ -65,6 +66,14 @@ OTS.AigKnowlegeMapDataSource=function(){
         //List items avaliable for import
     };
     
-   
+   //******************** Import Knowledge Map********************
+   me.ListAvailableImportsKnowledgeMap=function(callbackFunction){
+       var callback=callbackFunction;
+       var data={action:actionType.ListAvailableImportsKnowledgeMap};
+        $.post("KnowledgeMapServlet",data,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   };
 };
 
