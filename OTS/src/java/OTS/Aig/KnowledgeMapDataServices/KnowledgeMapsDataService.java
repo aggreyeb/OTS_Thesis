@@ -186,8 +186,8 @@ public class KnowledgeMapsDataService {
     public TransactionResult ListAvailableImportsKnowledgeMap(int userId){
           TransactionResult result= new TransactionResult();
         try{ 
-         // String sql= "Select * from knowledgemap where Createdby <>" + userId;
-        String sql= "Select * from knowledgemap where Createdby =" + userId;
+          String sql= "Select * from knowledgemap where Createdby <>" + userId;
+        //String sql= "Select * from knowledgemap where Createdby =" + userId;
    
           List<KnowledgeMapDescription> knowledgemaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapDescription.class);

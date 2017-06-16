@@ -32,7 +32,7 @@ OTS.AigTestItemGenerationComponent=function(){
     
    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
   
-    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
+   new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
@@ -42,7 +42,8 @@ OTS.AigTestItemGenerationComponent=function(){
     //understand components
     new Aig.Components.UnderstandTypeAComponent().AddTo(testGenerationComponents);
     new Aig.Components.UnderstandTypeBComponent().AddTo(testGenerationComponents);
-    new Aig.Components.UnderstandTypeCComponent().AddTo(testGenerationComponents);
+   
+   new Aig.Components.UnderstandTypeCComponent().AddTo(testGenerationComponents);
     
     //Application compoonentes
     new Aig.Components.ApplicationTypeAComponent().AddTo(testGenerationComponents);
@@ -53,6 +54,7 @@ OTS.AigTestItemGenerationComponent=function(){
     //Evaluate
     
       new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
+      
     };
     
     
@@ -247,10 +249,10 @@ OTS.AigTestItemGenerationComponent=function(){
         }
         // itemsItemModels.push(items[i])
         
-        viewModel.PopulateGeneratedItemList(testItems,itemsItemModels);
+       // viewModel.PopulateGeneratedItemList(testItems,itemsItemModels);
      //  $("#message-box").html("<b><p>Number of items generated:" + testItems.length +"</p></b>")
         if(callback instanceof Function)
-            callback(testItems);
+            callback(testItems,itemsItemModels);
     };
    
   

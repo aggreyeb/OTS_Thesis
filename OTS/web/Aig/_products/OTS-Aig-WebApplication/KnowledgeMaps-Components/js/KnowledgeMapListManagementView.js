@@ -524,8 +524,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
            me.conceptSchema.attributes.push(attribute);
             me.ConceptSchemaStateChanged=true;
         };
-         removeAttribute=function(data,event){
-            me.conceptSchema.attributes.remove(data);
+         me.removeAttribute=function(data,event){
+            
+             me.conceptSchema.attributes.remove(data);
              me.ConceptSchemaStateChanged=true;
         };
          me.addFunction=function(){

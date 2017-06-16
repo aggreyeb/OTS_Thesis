@@ -480,9 +480,12 @@ Aig.Components.TestItemGenerationComponents = function () {
             var component = items[i];
             if (component !== undefined && component !== null) {
                 var item = component.Generate(testGenerationItem);
+                if(!item.HasError){
                 var itemModel=component.ToJson();
                 testItemModels.push(itemModel);
                 testItems.push(item);
+                }
+               
             }
         }
         return {

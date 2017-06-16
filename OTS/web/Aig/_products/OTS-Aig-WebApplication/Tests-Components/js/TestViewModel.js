@@ -132,6 +132,16 @@ OTS.AigTestViewModel=function(){
     
     me.SelectedTest=null;
     
+    me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
+    
     me.Actions={
        
         formHeading:ko.observable("Create New Test"),
@@ -534,7 +544,7 @@ OTS.AigTestViewModel=function(){
             if(item!==null)
                 itemsModels.push(item);
         }
-        var data= JSON.stringify(itemsModels);
+        var data= me.EncodeString(JSON.stringify(itemsModels));
       
        testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
             var result=JSON.parse(msg);
@@ -576,8 +586,7 @@ OTS.AigTestViewModel=function(){
        }
     };
     me.onCheckAllItestItems=function(data,e){
-      // var checked=  $(e.target).val();
-     //  alert(JSON.stringify( ko.toJS( me.CheckAllItestItems())));
+     
        if(me.CheckAllItestItems()){
          me.ToggleCheckAllTestItems(false);
            return;
@@ -594,18 +603,17 @@ OTS.AigTestViewModel=function(){
             var  conceptNodes = knowledgeMapTreeView.ToList();
             var conceptNodeSelected = knowledgeMapTreeView.NodeToList(me.SelectedNodeForItemsGeneration);
         
-            testComponent.GenerateTestItems({conceptNodes:conceptNodes,conceptNodeSelected:conceptNodeSelected},function(items){
+            testComponent.GenerateTestItems({conceptNodes:conceptNodes,conceptNodeSelected:conceptNodeSelected},function(items,testItemsModels){
             
-               if(items!==undefined && items!==null && items.length){
-              
-               
-            }
-        });
-              me.NumberItemsGenerated(items.length);
-              me.ShowItemsGeneratedAlert(true);
-            return;
+               me.PopulateGeneratedItemList(items,testItemsModels)
+               me.NumberItemsGenerated(testItemsModels.length);
+               me.ShowItemsGeneratedAlert(true);
+            });
         }
-        alert("Please selected Root Node or Child Node and try again");
+        else{
+            alert("Please selected Root Node or Child Node and try again"); 
+        }
+       
     };
     me.ConceptNodeSelected=function(e){
        me.SelectedNodeForItemsGeneration=e;
@@ -615,9 +623,9 @@ OTS.AigTestViewModel=function(){
         me.TestItems([]);
         me.TestItemsModels=testItemsModels;
         for (var i = 0; i < testItemsModels.length; i++) {
-         // items[i].Number = i + 1;
+        
          testItemsModels[i].Number=i+1;
-          // var item=   me.FindTestItemModel(items[i].ComponentCode);
+         
           var item=testItemsModels[i];
            if(item!==null){
              item.number=i +1;
@@ -625,8 +633,7 @@ OTS.AigTestViewModel=function(){
                 var htmlItem= testComponent.RenderHtmlTestItem(item);
                 htmlItem.ComponentCode=item.componentCode;
                 htmlItem.Number=i+1;
-                me.TestItems.push(htmlItem);
-              
+                me.TestItems.push(htmlItem); 
            }
         
         }
@@ -637,44 +644,42 @@ OTS.AigTestViewModel=function(){
          me.NumberItemsGenerated(0);
     };
     me.SaveToTestQuestionBank=function(){
+       var qustionBankbase64TestQuestions;
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
             var array=[];
             var id=new Aig.Guid().NewGuid();
              for(var i=0;i<me.TestItems().length;i++){
                var item =  me.FindTestItemModel(me.TestItems()[i].ComponentCode);
-                if(item!=null){
-                    //item.ComponentCode=me.TestItems()[i].ComponentCode;
+                if(item!==null){
                     array.push(item);
                   
                 }
              }
+              qustionBankbase64TestQuestions=me.EncodeString(JSON.stringify(array));  
+            
            var data={
                Id:new Aig.Guid().NewGuid(), 
                TestId:me.SelectedTest.Id,
                CourseId:me.SelectedTest.CourseId,
-               //TestQuestions: JSON.stringify(me.TestItems())
-                TestQuestions: JSON.stringify(array)
+               TestQuestions: qustionBankbase64TestQuestions
            };
             testComponent.SaveToTestQuestionBank(data,function(msg){
                     var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         //var genereatedTestItems=me.TestItemsModels; //ko.toJS(me.TestItems);
+                        
                            me.TestBankItems([]);
                            for(var i=0;i<array.length;i++){
                                
                             var htmlItem= testComponent.RenderHtmlTestItem(array[i]);
                             htmlItem.ComponentCode=array[i].componentCode;
-                           // genereatedTestItems[i].checked=ko.observable(true)
+                
                               htmlItem.checked=ko.observable(true);
-                            //.TestBankItems.push(genereatedTestItems[i]);
+                            
                             htmlItem.Number=i+1;
                              me.TestBankItems.push(htmlItem);
                              me.ClearTestItemGenerated();
                              $(".app-lnk-testqustion-bank").click();
                           }
-                          //go to Question Bank
-                       
-                          
                     }
                     else{
                          alertBox.ShowErrorMessage("Failed to save test items");  
@@ -682,10 +687,7 @@ OTS.AigTestViewModel=function(){
             });
         }
     };
-    
-    
-     
-    
+ 
 };
 
 
