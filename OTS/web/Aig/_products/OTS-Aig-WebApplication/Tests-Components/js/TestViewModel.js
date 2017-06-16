@@ -229,6 +229,10 @@ OTS.AigTestViewModel=function(){
                 knowledgeMapTreeView.UnSelectNodes();
                  $("#div-test-list-add-edit-container").hide();
                  $("#div-test-item-gen-container").show();
+                 
+                 //********Now populate the test items and test sheet*******
+                  me.DataBindTestItemGenerationEditor();
+                 
                 }
                 else{
                      alertBox.ShowErrorMessage(result.Message);  
@@ -470,7 +474,7 @@ OTS.AigTestViewModel=function(){
           //populate course test bank
           
            var result=JSON.parse(msg);
-           if(result.Content!==""){ 
+           if(result.Content!=="" && result.Content!=="[]"){ 
            
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                var filterList=[];
@@ -480,16 +484,16 @@ OTS.AigTestViewModel=function(){
                  var testItems=JSON.parse(result.LookupTables) ;
                  // var testSheetItems=JSON.parse(testItems.testQuestions);
                  var encodededtestQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
-                 var encodedtestQuestionBankItems=JSON.parse( testQuestionBankItems[0].TestQuestions);
+                 var encodedtestItems=JSON.parse(testItems[0].TestQuestions);
                  
                  var decodebase64testQuestionBankItems=me.DecodeString(encodededtestQuestionBankItems.TestQuestions.replace(/\\/g, ''));
-                 var decodebase64testItems=me.DecodeString(encodedtestQuestionBankItems.TestQuestions.replace(/\\/g, ''));
+                 var decodebase64testItems=me.DecodeString(encodedtestItems.TestQuestions.replace(/\\/g, ''));
                  var currentQuestionBankItems=JSON.parse(decodebase64testQuestionBankItems);
                  var currenttestSheetItems=JSON.parse(decodebase64testItems);
                  
                   for(var i=0;i<currentQuestionBankItems.length;i++){
                         if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i],currenttestSheetItems)){
-                            filterList.push(testQuestionBankItems[i])
+                            filterList.push(currentQuestionBankItems[i])
                         }
                   }
                   
@@ -513,6 +517,71 @@ OTS.AigTestViewModel=function(){
       });
        
     };
+    
+    //DataBindTestItemGenerationEditor
+     me.DataBindTestItemGenerationEditor=function(){
+      var selectedTest=ko.toJS(me.SelectedTest);
+      var testId=selectedTest.Id;
+      var courseId=selectedTest.CourseId;
+      testComponent.LoadCourseTestItemsFromQuestionBank(testId,courseId,function(msg){
+          //populate course test bank
+          
+           var result=JSON.parse(msg);
+           if(result.Content!=="" && result.Content!=="[]"){ 
+           
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                 me.TestBankItems([])
+                 me.TestSheetItems([]);
+                 me.AnswerSheetItems([]);
+                 me.TestItemsModels=[];
+             var filterList=[];
+              var dataSet=JSON.parse(result.Content);
+                // me.TestBankItems([]);
+                 var testQuestionBankItems=JSON.parse(result.Content) ;
+                 var testItems=JSON.parse(result.LookupTables) ;
+                 // var testSheetItems=JSON.parse(testItems.testQuestions);
+                 var encodededtestQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
+                // var encodedtestItems=JSON.parse(testItems[0].TestQuestions);
+                 
+                 var decodebase64testQuestionBankItems=me.DecodeString(encodededtestQuestionBankItems.TestQuestions.replace(/\\/g, ''));
+                 var decodebase64testItems=me.DecodeString(testItems[0].TestQuestions.replace(/\\/g, ''));
+                 var currentQuestionBankItems=JSON.parse(decodebase64testQuestionBankItems);
+                 var currenttestSheetItems=JSON.parse(decodebase64testItems);
+                 
+                  for(var i=0;i<currentQuestionBankItems.length;i++){
+                        if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i],currenttestSheetItems)){
+                            filterList.push(currentQuestionBankItems[i])
+                        }
+                  }
+                  
+                  //push the filter items to 
+                  for(var t=0;t<filterList.length;t++){
+                      var currentItem=filterList[t];
+                      me.TestItemsModels.push(currentItem);
+                      var htmlItem= testComponent.RenderHtmlTestItem(currentItem);
+                       htmlItem.Number=t+1;
+                       htmlItem.ComponentCode=currentItem.componentCode;
+                       htmlItem.checked=ko.observable(false)
+                       me.TestBankItems.push(htmlItem);
+                  }
+                 
+                 //push Items to the test sheet
+                  for(var a=0;a<currenttestSheetItems.length;a++){
+                    var item=currenttestSheetItems[a];
+                      var htmlItem= testComponent.RenderHtmlTestItem(item);
+                       htmlItem.Number=a+1;
+                       htmlItem.ComponentCode=currentItem.componentCode;
+                       me.TestSheetItems.push(htmlItem);
+                       me.AnswerSheetItems.push(htmlItem);
+                  }
+            }
+            
+            //
+          }
+      });
+       
+    };
+    
     
    me.FindTestItemModel=function(componentCode) {
         var found=null;
@@ -548,12 +617,18 @@ OTS.AigTestViewModel=function(){
               unselectedItems.push(me.TestBankItems()[i]);
              }
        }
+        alert(me.TestSheetItems().length); 
+        //Append Current Selected to the existing selected
+         for(var  j=0;j<selecteditems.length;j++){
+             me.TestSheetItems.push(selecteditems[j]);
+         }
+      
       
         var testId=me.SelectedTest.Id;
         var courseId=me.SelectedTest.CourseId;
         var itemsModels=[];
-        for(var i=0;i<selecteditems.length;i++){
-            var item= me.FindTestItemModel(selecteditems[i].ComponentCode);
+        for(var i=0;i<me.TestSheetItems().length;i++){
+            var item= me.FindTestItemModel(me.TestSheetItems()[i].ComponentCode);
             if(item!==null)
                 itemsModels.push(item);
         }
@@ -562,6 +637,7 @@ OTS.AigTestViewModel=function(){
        testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                  /*
                    me.TestSheetItems([]) ;
                    //Add Selected to TestSheet
                    for(var i=0;i<itemsModels.length;i++){
@@ -585,6 +661,10 @@ OTS.AigTestViewModel=function(){
                        unselectedItems[j].checked=ko.observable(unselectedItems[j].checked);
                        me.TestBankItems.push(unselectedItems[j]);
                    }
+                  
+                  */
+               
+                 me.DataBindTestItemGenerationEditor();
                    $(".app-lnk-test-sheet").click();
             }
             else{
@@ -662,7 +742,8 @@ OTS.AigTestViewModel=function(){
             var array=[];
             var id=new Aig.Guid().NewGuid();
              for(var i=0;i<me.TestItems().length;i++){
-               var item =  me.FindTestItemModel(me.TestItems()[i].ComponentCode);
+                me.TestItemsModels.push(me.TestItems()[i]);
+                var item =  me.FindTestItemModel(me.TestItems()[i].ComponentCode);
                 if(item!==null){
                     array.push(item);
                   
