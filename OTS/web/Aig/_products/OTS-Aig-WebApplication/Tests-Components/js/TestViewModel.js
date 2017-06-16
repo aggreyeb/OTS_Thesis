@@ -452,8 +452,9 @@ OTS.AigTestViewModel=function(){
     me.IsQuestionBankItemSelected=function(testQuestionBankItem,testItems){
        var found =false;
         for(var i=0;i< testItems.length;i++){
-            if(testItems[i].number==testQuestionBankItem.number){
+            if(testItems[i].serialNumber===testQuestionBankItem.serialNumber){
                   found=true;
+                  break;
             }
         }
         return found;
@@ -476,14 +477,18 @@ OTS.AigTestViewModel=function(){
               var dataSet=JSON.parse(result.Content);
                 // me.TestBankItems([]);
                  var testQuestionBankItems=JSON.parse(result.Content) ;
-                // var testItems=JSON.parse(result.LookupTables) ;
+                 var testItems=JSON.parse(result.LookupTables) ;
                  // var testSheetItems=JSON.parse(testItems.testQuestions);
-                 /*
-                 var currentQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions.replace(/\\/g, ''));
-                 var currenttestSheetItems=JSON.parse(testItems[0].TestQuestions);
+                 var encodededtestQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
+                 var encodedtestQuestionBankItems=JSON.parse( testQuestionBankItems[0].TestQuestions);
+                 
+                 var decodebase64testQuestionBankItems=me.DecodeString(encodededtestQuestionBankItems.TestQuestions.replace(/\\/g, ''));
+                 var decodebase64testItems=me.DecodeString(encodedtestQuestionBankItems.TestQuestions.replace(/\\/g, ''));
+                 var currentQuestionBankItems=JSON.parse(decodebase64testQuestionBankItems);
+                 var currenttestSheetItems=JSON.parse(decodebase64testItems);
                  
                   for(var i=0;i<currentQuestionBankItems.length;i++){
-                        if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i]),currenttestSheetItems){
+                        if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i],currenttestSheetItems)){
                             filterList.push(testQuestionBankItems[i])
                         }
                   }
@@ -492,7 +497,15 @@ OTS.AigTestViewModel=function(){
                   for(var t=0;t<filterList.length;t++){
                        me.TestBankItems.push(filterList[t]);
                   }
-                 */
+                 
+                 //push Items to the test sheet
+                  for(var a=0;a<currenttestSheetItems.length;a++){
+                    var item=currenttestSheetItems[a];
+                      var htmlItem= testComponent.RenderHtmlTestItem(item);
+                       htmlItem.Number=a+1;
+                       me.TestSheetItems.push(htmlItem);
+                       me.AnswerSheetItems.push(htmlItem);
+                  }
             }
             
             //
