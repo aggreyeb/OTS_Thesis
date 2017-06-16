@@ -535,11 +535,12 @@ OTS.AigTestViewModel=function(){
                  me.AnswerSheetItems([]);
                  me.TestItemsModels=[];
              var filterList=[];
-              var dataSet=JSON.parse(result.Content);
+             // var dataSet=JSON.parse(result.Content);
                 // me.TestBankItems([]);
                  var testQuestionBankItems=JSON.parse(result.Content) ;
                  var testItems=JSON.parse(result.LookupTables) ;
                  // var testSheetItems=JSON.parse(testItems.testQuestions);
+                  if(testQuestionBankItems[0].TestQuestions==="") return;
                  var encodededtestQuestionBankItems=JSON.parse(testQuestionBankItems[0].TestQuestions);
                 // var encodedtestItems=JSON.parse(testItems[0].TestQuestions);
                  
@@ -548,19 +549,51 @@ OTS.AigTestViewModel=function(){
                  var currentQuestionBankItems=JSON.parse(decodebase64testQuestionBankItems);
                  var currenttestSheetItems=JSON.parse(decodebase64testItems);
                  
+                 if(currentQuestionBankItems.length===currenttestSheetItems.length){
+                    
+                     for(var t=0;t<currentQuestionBankItems.length;t++){
+                      var currentItem=currentQuestionBankItems[t];
+                      //Populate the TestItems Models
+                      me.TestItemsModels.push(currentItem);
+                     
+                      var htmlItem= testComponent.RenderHtmlTestItem(currentItem);
+                       htmlItem.Number=t+1;
+                       htmlItem.ComponentCode=currentItem.componentCode;
+                       htmlItem.serialNumber=currentItem.serialNumber;
+                       htmlItem.checked=ko.observable(false)
+                      // me.TestBankItems.push(htmlItem);
+                  }
+                 
+                      
+                      
+                      for(var a=0;a<currenttestSheetItems.length;a++){
+                      var item=currenttestSheetItems[a];
+                      
+                      var htmlItem= testComponent.RenderHtmlTestItem(item);
+                       htmlItem.Number=a+1;
+                       htmlItem.ComponentCode=item.componentCode;
+                       htmlItem.serialNumber=currentItem.serialNumber;
+                       me.TestSheetItems.push(htmlItem);
+                       me.AnswerSheetItems.push(htmlItem);
+                    }
+                 }
+                 else{
                   for(var i=0;i<currentQuestionBankItems.length;i++){
-                        if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i],currenttestSheetItems)){
-                            filterList.push(currentQuestionBankItems[i])
+                         //populate the test item model
+                        me.TestItemsModels.push(currentQuestionBankItems[i]);
+                      if(!me.IsQuestionBankItemSelected(currentQuestionBankItems[i],currenttestSheetItems)){
+                            filterList.push(currentQuestionBankItems[i]);
                         }
                   }
                   
                   //push the filter items to 
                   for(var t=0;t<filterList.length;t++){
                       var currentItem=filterList[t];
-                      me.TestItemsModels.push(currentItem);
+                     
                       var htmlItem= testComponent.RenderHtmlTestItem(currentItem);
                        htmlItem.Number=t+1;
                        htmlItem.ComponentCode=currentItem.componentCode;
+                       htmlItem.serialNumber=currentItem.serialNumber;
                        htmlItem.checked=ko.observable(false)
                        me.TestBankItems.push(htmlItem);
                   }
@@ -570,10 +603,12 @@ OTS.AigTestViewModel=function(){
                     var item=currenttestSheetItems[a];
                       var htmlItem= testComponent.RenderHtmlTestItem(item);
                        htmlItem.Number=a+1;
-                       htmlItem.ComponentCode=currentItem.componentCode;
+                       htmlItem.ComponentCode=item.componentCode;
+                       htmlItem.serialNumber=currentItem.serialNumber;
                        me.TestSheetItems.push(htmlItem);
                        me.AnswerSheetItems.push(htmlItem);
                   }
+               }
             }
             
             //
@@ -622,7 +657,7 @@ OTS.AigTestViewModel=function(){
          for(var  j=0;j<selecteditems.length;j++){
              me.TestSheetItems.push(selecteditems[j]);
          }
-      
+        alert(me.TestSheetItems().length); 
       
         var testId=me.SelectedTest.Id;
         var courseId=me.SelectedTest.CourseId;
