@@ -502,13 +502,78 @@ OTS.AigTestViewModel=function(){
         }
     };
    
+   me.UpdateTestSheetItems=function(existingTestSheetItems){
+       
+       var selecteditems=[]; //Selected items from test question bank
+       var unselectedItems=[];
+        for(var i=0;i<me.TestBankItems().length;i++){
+             if(me.TestBankItems()[i].checked()){
+                 selecteditems.push(me.TestBankItems()[i]);
+             }
+             else{
+              unselectedItems.push(me.TestBankItems()[i]);
+             }
+         }
+        
+       
+        var testId=me.SelectedTest.Id;
+        var courseId=me.SelectedTest.CourseId;
+        var itemsModels=[];
+        for(var i=0;i<selecteditems.length;i++){
+            var item= me.FindTestItemModel(selecteditems[i].ComponentCode);
+            if(item!==null)
+            {
+                 item.componentCode=selecteditems[i].ComponentCode;
+                 itemsModels.push(item);
+            }
+               
+        }
+        
+        if(existingTestSheetItems!==undefined && existingTestSheetItems.length){
+            for(var i=0;i<existingTestSheetItems.length;i++){
+                itemsModels.push(existingTestSheetItems[i])
+            }
+        }
+        
+        var data= me.EncodeString(JSON.stringify(itemsModels));
+       testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){ 
+               //DataBind the form again: Get update from server
+               me.DataBindTestItemGenerationEditor();
+                   $(".app-lnk-test-sheet").click();
+            }
+            else{}
+       });
+       
+       
+   };
+   
     me.onAddToTestSheet=function(){
       
         if(me.TestBankItems().length===0){ 
             alert("There is no test item to add to test sheet");
             return;
         }
+          if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
         
+            testComponent.LoadCourseTestItemsFromQuestionBank(me.SelectedTest.Id,me.SelectedTest.CourseId,function(msg){
+                 var result=JSON.parse(msg);
+                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                       var decodedTestItems=   me.DecodeTestQuestionBankItems(result);
+                       if(decodedTestItems.currenttestSheetItems!==undefined){
+                           me.UpdateTestSheetItems(decodedTestItems.currenttestSheetItems);
+                       }
+                       else{
+                          me.UpdateTestSheetItems([]);
+                       }
+                 }
+                
+            });
+             
+        }
+        
+       /* 
        var selecteditems=[]; //Selected items from test question bank
        var unselectedItems=[];
         for(var i=0;i<me.TestBankItems().length;i++){
@@ -539,22 +604,19 @@ OTS.AigTestViewModel=function(){
                
         }
         var data= me.EncodeString(JSON.stringify(itemsModels));
-      
        testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
             var result=JSON.parse(msg);
-            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                 
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){ 
                //DataBind the form again: Get update from server
                me.DataBindTestItemGenerationEditor();
                    $(".app-lnk-test-sheet").click();
             }
-            else{
-                       
-           }
+            else{}
        });
-    };
+       */
+    }; //end of function
     
-         me.DataBindTestItemGenerationEditor=function(){
+   me.DataBindTestItemGenerationEditor=function(){
       	 var selectedTest=ko.toJS(me.SelectedTest);
          var testId=selectedTest.Id;
          var courseId=selectedTest.CourseId;
@@ -799,6 +861,8 @@ OTS.AigTestViewModel=function(){
             
     };
    
+   /*Pull existing Course Test Items from Test Question Bank and append
+      current generated items*/
     me.SaveToTestQuestionBank=function(){
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
         
