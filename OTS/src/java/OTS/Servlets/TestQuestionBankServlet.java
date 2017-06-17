@@ -96,6 +96,7 @@ public class TestQuestionBankServlet extends Servlet {
             String testId;
             String acourseId;
           UserProfile userProfile=this.LoadSession(request);
+          TestQuestionBankElement element;
            try{
        
          switch(action){
@@ -116,14 +117,32 @@ public class TestQuestionBankServlet extends Servlet {
                      testId=request.getParameter("TestId");
                      acourseId=request.getParameter("CourseId");
                      String data=request.getParameter("data");
-                     TestQuestionBankElement element=new TestQuestionBankElement();
+                     element=new TestQuestionBankElement();
                      element.Id=Id;
                      element.TestId=testId;
                      element.CourseId=acourseId;
                      element.TestQuestions=data;
                    // TestQuestionBankElement element= (TestQuestionBankElement)new Gson().fromJson(data, TestQuestionBankElement.class);
                     service= new TestQuestionBankDataService(new MySqlDataSource());
-                   return  service.SaveTestItemGenerated(element);
+                   return  service.SaveOrUpdateTestItems(element);
+                   
+                   
+                   
+              case "Aig-SaveOrUpdateTestQuestionBank":
+                    //TestId:data.TestId,CourseId:data.CourseId,
+                     Id=request.getParameter("Id");
+                     testId=request.getParameter("TestId");
+                     acourseId=request.getParameter("CourseId");
+                     data=request.getParameter("data");
+                      element=new TestQuestionBankElement();
+                     element.Id=Id;
+                     element.TestId=testId;
+                     element.CourseId=acourseId;
+                     element.TestQuestions=data;
+                   // TestQuestionBankElement element= (TestQuestionBankElement)new Gson().fromJson(data, TestQuestionBankElement.class);
+                    service= new TestQuestionBankDataService(new MySqlDataSource());
+                   return  service.SaveOrUpdateTestItems(element);
+                   
              
                   case "Aig-ListCourseTestQuestions":
                   

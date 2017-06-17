@@ -52,4 +52,18 @@ public class TestQuestionBankUnitTesting {
        
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
+    
+    @Test
+    public void IsCourseTestExist(){
+        //Arrange
+          TestQuestionBankDataService dataService= new TestQuestionBankDataService(new MySqlDataSource());
+          String testId="2e26543b-f0ca-4324-9f69-26cda0587fb9";
+          String courseId="3599642c-1ad0-4925-8340-dbbd6cd87c07";
+         
+          //Act
+         Boolean result =  dataService.IsCourseTestExist(testId, courseId);
+       //Assert
+       
+       // Assert.isTrue(result.);
+    }
 }

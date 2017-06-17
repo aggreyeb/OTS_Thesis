@@ -8,6 +8,7 @@ package OTS.Aig.KnowledgeMapDataServices;
 import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,6 +62,53 @@ public class TestQuestionBankDataService {
        
     }
     
+    
+      public Boolean IsCourseTestExist(String TestId,String CourseId){
+       
+          String countTemplate="Select Count(*) FROM testquestionbank  WHERE TestId='%s' AND CourseId='%s'";
+          String sql= String.format(countTemplate,TestId, CourseId);
+           List<BigInteger> items=new ArrayList();
+          this.dataSource.ExecuteDataSet(sql, items);
+          
+            BigInteger count= BigInteger.valueOf(items.get(0).intValue());
+            if(count.intValue()>0){
+                return true;
+            }
+            return false;
+       }
+    
+      
+      public TransactionResult SaveOrUpdateTestItems(TestQuestionBankElement element){
+            if(IsCourseTestExist(element.TestId,element.CourseId)){
+                  return UpdateTestItemGenerated(element);
+            }
+            else{
+                return SaveTestItemGenerated(element);
+            }
+      }
+      
+      
+      
+      public TransactionResult UpdateTestItemGenerated(TestQuestionBankElement element){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String upateTemplate="UPDATE testquestionbank SET TestQuestions ='%s' WHERE TestId='%s' AND CourseId='%s'";
+          String sql= String.format(upateTemplate, element.TestQuestions,element.TestId,element.CourseId);
+          this.dataSource.ExecuteNonQuery(sql);
+          result.CurrentId=element.Id;
+          result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
     
     
     public TransactionResult SaveTestItemGenerated(TestQuestionBankElement element){
