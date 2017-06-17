@@ -5,7 +5,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var id="lnk-knowledgemaps";
     var tempalateId="knowledge-map-component-template";
     
-     var currentApplication;
+    var currentApplication;
     var initialized=false;
    
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource(tempalateId);
@@ -30,6 +30,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var element;
     var control= new  Aig.Controls.Control();
     var knowlegemapListManagement;
+    var dataDataStructureKnowledgeMap; //Contains the validators
+    
     
     var componentChanged=function(e){
         if(e.id===id){
@@ -66,6 +68,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        importappendabletKnowledgeMap.Append(importHtml,function(e){});
     };
     
+    var initializeDataStructureKnowledgeMap=function(){
+      var  characteristicValidation= new OTS.CharacteristicValidation();
+      var  behaviourDescription = new OTS.BehaviourDescription();
+        
+         dataDataStructureKnowledgeMap  = new OTS.AigDataStructureKnowlegeMap();
+        
+        dataDataStructureKnowledgeMap.Add(characteristicValidation);
+        dataDataStructureKnowledgeMap.Add(behaviourDescription);
+    };
    
     me.ShowKnowledgeMapEditor=function(){
       $("#pan-knowlegeMap-treeview-editor").show();
@@ -121,14 +132,14 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             return;
       }
        renderLayouts();
-    
+       initializeDataStructureKnowledgeMap();
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
      
       
       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
       knowlegemapListManagement.AddKnowledgeMapComponent(me);
-    
+      knowlegemapListManagement.AddDataStructureKnowledegeMap(dataDataStructureKnowledgeMap)
      
       var datasource=new OTS.AigKnowlegeMapDataSource();
       datasource.ListTeacherKnowledgeMaps(function(msg){

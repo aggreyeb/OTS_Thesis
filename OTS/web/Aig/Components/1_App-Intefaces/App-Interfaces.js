@@ -46,3 +46,16 @@ Aig.Startable=function(){
     var me=this;
     me.Start=function(){};
 };
+
+Aig.ValidationResult=function(){
+    var me=this;
+    me.Message="";
+    me.HasError=false;
+};
+
+Aig.IValidateable=function(){
+    var me=this;
+    me.Validate=function(knowledgeMapItem){
+       //return validation results
+    };
+};

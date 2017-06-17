@@ -25,7 +25,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
     var knowledgeMapComponent;
     var knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("kn-tree",new OTS.Serialization());
-   
+    var dataStructureKnowledgeMap;
     var modeType={
         New:"New",
         Edit:"Edit",
@@ -428,6 +428,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
         knowledgeMapComponent.HideKnowlegeMapList();
     };
     
+    me.AddDataStructureKnowledegeMap=function(aDataStructureKnowledgeMap){
+        dataStructureKnowledgeMap=aDataStructureKnowledgeMap;
+    };
     
     me.AddKnowledgeMapComponent=function(knowledgeMapManagememtComponent){
        if(knowledgeMapManagememtComponent!==undefined && knowledgeMapManagememtComponent!==null){
@@ -468,7 +471,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
   /*****************END KNOWLEDGE MAP TREE VIEW ********************************/
   
   /*****************CONCEPT SCHEMA *****************************************/
-  
+    
     me.conceptSchemaFormHeading=ko.observable(selectedNodeText + " None");
     me.conceptSchema= {
         id:ko.observable(""),
@@ -557,8 +560,13 @@ OTS.AigKnowledgeMapListManagementView=function(){
       
     
     me.SubmitKnowledgeMap=function(){
-        
-          $(".icon-spinner").show();
+    $("#alert-validation-alert").html("<p></p>")
+    $("#alert-validation-alert").hide();
+     var selectedItemJson=JSON.stringify(me.knowledgeMapEditorViewModel.selectedNode);
+   
+       
+         
+        $(".icon-spinner").show();
       
           if(me.knowledgeMapEditorViewModel.selectedNode!==undefined &&
                       me.knowledgeMapEditorViewModel.selectedNode!==null 
@@ -573,15 +581,33 @@ OTS.AigKnowledgeMapListManagementView=function(){
             id:me.selectedKnowledgeMap.id,
             conceptSchemas:base64String
         };
-        
+     
+       var validationResult=dataStructureKnowledgeMap.Validate(me.knowledgeMapEditorViewModel.selectedNode) ; 
+       if(!validationResult.HasErrors){  
+      
         knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
              $(".icon-spinner").hide();
              me.ConceptSchemaStateChanged=false;
              me.KnowledgeMapTreeStateChanged=false;
         });
-        
+       }
+       else{
+           //alert Errors to be fixed
+           var layout=me.BuildValidationErrorsLayout(validationResult.Errors);
+           $("#alert-validation-alert").html("<b><p>Please enter all the required fields below and try again</p>" + layout);
+           $("#alert-validation-alert").show();
+             $(".icon-spinner").hide();
+       }
     };
     
+    me.BuildValidationErrorsLayout=function(errors){
+        var html="<ul>";
+        for(var i=0;i<errors.length;i++){
+            html+="<li>" + errors[i] + "</li>"
+        }
+        html+="</ul>";
+        return html;
+    };
     /*****************END CONCEPT SCHEMA *****************************************/
     me.showConceptSchemaAlert=ko.observable(true);
     me.showConceptSchemaHeading=ko.observable(false);
