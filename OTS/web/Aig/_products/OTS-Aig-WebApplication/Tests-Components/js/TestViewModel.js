@@ -745,15 +745,11 @@ OTS.AigTestViewModel=function(){
          me.NumberItemsGenerated(0);
     };
     
-   
-    me.SaveToTestQuestionBank=function(){
-       var qustionBankbase64TestQuestions;
-        if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
-            var array=[];
-           
-           //LoadCourseTestItemsFromQuestionBank
-           
-           
+    /*Pull existing Course Test Items from Test Question Bank and append
+      current generated items*/
+    me.UpdateCourseTestQuestionBankItems=function(existingItems){
+         var qustionBankbase64TestQuestions;
+          var array=[];
              for(var i=0;i<me.TestItems().length;i++){
                 me.TestItemsModels.push(me.TestItems()[i]);
                 var item =  me.FindTestItemModel(me.TestItems()[i].ComponentCode);
@@ -762,6 +758,12 @@ OTS.AigTestViewModel=function(){
                     array.push(item);
                 }
              }
+            
+            if(existingItems!==undefined && existingItems.length){
+                for(var i=0;i<existingItems.length;i++){
+                    array.push(existingItems[i]);
+                }
+            }
             
             qustionBankbase64TestQuestions=me.EncodeString(JSON.stringify(array));  
             
@@ -794,13 +796,28 @@ OTS.AigTestViewModel=function(){
                          alertBox.ShowErrorMessage("Failed to save test items");  
                     }
             });
+            
+    };
+   
+    me.SaveToTestQuestionBank=function(){
+        if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
+        
+            testComponent.LoadCourseTestItemsFromQuestionBank(me.SelectedTest.Id,me.SelectedTest.CourseId,function(msg){
+                 var result=JSON.parse(msg);
+                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                       var decodedTestBankItems=   me.DecodeTestQuestionBankItems(result);
+                       if(decodedTestBankItems.currentQuestionBankItems!==undefined){
+                           me.UpdateCourseTestQuestionBankItems(decodedTestBankItems.currentQuestionBankItems);
+                       }
+                       else{
+                            me.UpdateCourseTestQuestionBankItems([]);
+                       }
+                 }
+                
+            });
+             
         }
     };
-    
-  
- 
- 
-   
 }; //end class function
 
 
