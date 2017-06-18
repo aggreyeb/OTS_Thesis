@@ -191,7 +191,11 @@ OTS.AigTestViewModel=function(){
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
               var testItems;
-             
+               me.TestBankItems([])
+	       me.TestSheetItems([]);
+	       me.AnswerSheetItems([]);
+               me.TestItems([]);
+	       me.TestItemsModels=[];
               testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
                     var result=JSON.parse(msg);
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
