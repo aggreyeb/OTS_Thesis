@@ -160,16 +160,16 @@
                           <tbody  data-bind="foreach:conceptSchema.functions">
                               <tr style=" width: 100%">
                                   <td>
-                                      <div >
+                                      <div style="margin-left: 80px" >
                                           <div class="pull-right" style="margin-right:100px ">
                                               <span  title="Delete function" class=""><a data-bind="event:{click:$parent.removeFunction}" href="#"><i class="fa fa-remove fa-2x"></i></a></span> 
                                           </div>
-                                         
+                                          <div></div>
                                           <div class="row">
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label style="padding-right: 780px">Name</label>
-                                                      <input data-bind="value:name" style="width: 780px" class="form-control" type="text"/>
+                                                      <input title="Function name: No spaces.e.g. CreateKnowledgeMap" data-bind="value:name" style="width: 780px" class="form-control" type="text"/>
                                                   </div>
                                                   
                                               </div>
@@ -205,9 +205,9 @@
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label>Algorithm</label><br>
-                                                      <span data-bind="text:$root.Testing"> </span>
-                                             <!--value: 'id',-->
-                                                      <label>Select Time Complexity </label><select data-bind="options:$root.TimeComplexities,
+                                                      
+                                      
+                                                      <label>Select Time Complexity </label>&nbsp;&nbsp;:<span data-bind="text:$root.Testing"> </span><select data-bind="options:$root.TimeComplexities,
                                                              optionsText: 'name',
                                                              optionsValue:'id',
                                                              selectedOptions:$root.SelectedTimeComplixity,
@@ -221,7 +221,10 @@
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label style="padding-right: 780px">Source Code</label>
-                                                      <textarea data-bind="value:algorithm.text" placeholder="enter Source code here" style="resize: horizontal;width: 500px;height: 200px"></textarea>
+                                                      <textarea  title="Enter or copy and paste source code here  : see format in the place holder"  data-bind="value:algorithm.text" placeholder="Enter or copy and paste source code here  : example below
+                                                             public Add (int a,int b){
+                                                              return a + b;
+                                                             }" style="resize: horizontal;width: 500px;height: 200px"></textarea>
                                                   </div>
                                                   
                                               </div>

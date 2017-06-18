@@ -618,7 +618,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
         data.ReadOnlyTimeComplexity=selected;
        
         data.algorithm.timeComplexity=selected;
-        me.Testing(selected);
+        var t =me.FindTimeComplexityById(data.ReadOnlyTimeComplexity);
+        me.Testing(t.name);
       
     };
     me.TimeComplexities=ko.observableArray([
@@ -627,6 +628,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
                          { id: 3, name: "O(n^2)" },
                          { id: 4, name: "O(logn)" }    
                         ]);
+    me.FindTimeComplexityById=function(id){
+        var found=null;
+        for(var i=0;i<me.TimeComplexities().length;i++){
+            if(me.TimeComplexities()[i].id.toString()===id.toString()){
+                found=me.TimeComplexities()[i];
+                break;
+            }
+        }
+        return found;
+    };
     me.FillConceptSchema = function (data,parentNode) {
       
        
