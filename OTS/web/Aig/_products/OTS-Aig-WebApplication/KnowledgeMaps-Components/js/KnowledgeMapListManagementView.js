@@ -132,6 +132,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            
            var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();
            knowledgeMapTreeView.UnSelectNodes();
+           
         },
         onReturnToKnowledgeMapList:function(){
             me.HideKnowledgeMapEditor();
@@ -198,7 +199,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
         },
          onSave:function(){
-         me.knowledgeMaplistViewActions.saveAlertVisible(false);
+           if(me.knowledgeMaplistView.name()===""){
+              $("#div-knowledgeMaps-alert").removeClass("alert-info");
+              $("#div-knowledgeMaps-alert").addClass("alert-danger");
+              me.knowledgeMaplistViewActions.saveAlertVisible(true);
+              $("#div-knowledgeMaps-alert").show();
+              me.knowledgeMaplistViewActions.saveAlertMesssge("Knowledge map Name can not be empty");  
+              $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300); 
+               return ;
+           };
+            me.knowledgeMaplistViewActions.saveAlertVisible(false);
                var item;
              if(me.selectedMode===modeType.New){
                
@@ -220,7 +230,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                   me.knowledgeMaplistView.knowledgeMaps.push(item);
                }
                
-               
+              $("#div-knowledgeMaps-alert").removeClass("alert-danger"); 
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);

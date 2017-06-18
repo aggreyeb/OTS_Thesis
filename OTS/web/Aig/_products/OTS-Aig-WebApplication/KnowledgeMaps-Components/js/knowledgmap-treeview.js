@@ -125,6 +125,10 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         printItems.length = 0;
         return JSON.parse(copiedjson);
     };
+    
+    me.NodeCount=function(){
+        return nodes.length;
+    };
 
     me.NodeToList = function(node) {
         var list = printRecursive(node);
