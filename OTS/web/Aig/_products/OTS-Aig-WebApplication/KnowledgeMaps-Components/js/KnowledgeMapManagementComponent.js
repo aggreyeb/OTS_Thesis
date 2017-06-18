@@ -70,12 +70,16 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     var initializeDataStructureKnowledgeMap=function(){
       var  characteristicValidation= new OTS.CharacteristicValidation();
-      var  behaviourDescription = new OTS.BehaviourDescription();
-        
-         dataDataStructureKnowledgeMap  = new OTS.AigDataStructureKnowlegeMap();
+      var  behaviourDescription = new OTS.BehaviourDescriptionValidation();
+      var attributeValidation = new  OTS.AttributeValidation(); 
+      var  functionValidation = new  OTS.FunctionValidation();
+       
+        dataDataStructureKnowledgeMap  = new OTS.AigDataStructureKnowlegeMap();
         
         dataDataStructureKnowledgeMap.Add(characteristicValidation);
         dataDataStructureKnowledgeMap.Add(behaviourDescription);
+        dataDataStructureKnowledgeMap.Add(attributeValidation);
+        dataDataStructureKnowledgeMap.Add(functionValidation);
     };
    
     me.ShowKnowledgeMapEditor=function(){

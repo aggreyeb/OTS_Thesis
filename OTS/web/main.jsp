@@ -209,11 +209,13 @@
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
          <!--Knowledge Maps Validations -->
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validadations/characteristics-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validadations/behaviour-description-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validadations/DataStructureKnowlegeMap.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/characteristics-validation.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/behaviour-description-validation.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/attributes-validation.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/function-validation.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/DataStructureKnowlegeMap.js" type="text/javascript"></script>
          
-    <!--Student Accounts Templates-->
+         <!--Student Accounts Templates-->
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-component.html" id="student-account-component-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-add-edit-view.html" id="student-account-add-edit-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-list.html" id="student-account-list-template" type="text/html"> </script>

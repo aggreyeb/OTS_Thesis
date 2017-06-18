@@ -106,7 +106,7 @@
                   <div class="row">
                       <div class="col-xs-12">
                           <div>
-                              <a data-bind="click:$root.addAttribute" class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i>Add New</a>
+                              <a data-bind="click:$root.addAttribute" class="btn btn-sm btn-primary" href="#"><i class="fa fa-plus"></i>Add New Attribute</a> <span class="label label-info"><i class="fa fa-info-circle"></i> Enter more than three attributes</span>
                           </div>
                       </div>
                   </div>
@@ -121,9 +121,9 @@
                           </tr>
                           <tbody data-bind="foreach:conceptSchema.attributes">
                               <tr>
-                                  <td style="width: 65%"><input style="width: 350px" class="form-control" data-bind="value:name" type="text" /></td>
-                                  <td style="width: 15%"><input style="width: 350px" class="form-control" data-bind="value:type" type="text" /></td>
-                                  <td style="width: 10%"><input style="width: 50px" class="form-control" data-bind="value:attributeValue" type="text" /></td>
+                                  <td style="width: 65%"><input style="width: 350px" title="Name of the attribute" placeholder="e.g. buffer" class="form-control" data-bind="value:name" type="text" /></td>
+                                  <td style="width: 15%"><input style="width: 350px" title="type:int,String,Array,List,Object" placeholder="e.g. Array" class="form-control" data-bind="value:type" type="text" /></td>
+                                  <td style="width: 10%"><input style="width: 50px"   class="form-control" data-bind="value:attributeValue" type="text" title="Initial value of the attribute" /></td>
                                   <td style="width: 5%"><a data-bind="event:{click:$parent.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a></td>
                               </tr>
                           </tbody>
@@ -145,7 +145,8 @@
                 
                   <div class="row">
                       <div class="col-xs-12">
-                          <a data-bind="click:$root.addFunction" class="btn btn-sm btn-info" href="#">Add New</a>
+                          <a data-bind="click:$root.addFunction" class="btn btn-sm btn-primary" href="#">Add New Function</a>&nbsp;<span class="label label-info"><i class="fa fa-info-circle"></i> Add more than three functions</span>
+                          </div>
                       </div>
                   </div>
                   <div   style="border: 1px solid #ddd;margin-top: 2px;overflow-y: scroll;height: 700px" id="forach-function">
