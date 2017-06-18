@@ -132,98 +132,48 @@
     </head>
     <body style="padding-top: 65px;">
         <header id="header">  </header>
-        <div id="mainContainer"  style=" margin: 10px" >
+        <div id="mainContainer" class="container">
+           
             <div class="row">
-                <div class=" col-xs-4">
-                   <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
-                    <h3>Course/Test Information</h3>
-                  </div>
-                   <div>
-                        <h3><span class="label label-default" >Register Courses</span></h3>  
-                        <select class="form-control">
-                            <option value="1">Software Engineering</option>
-                            <option value="2">Mechanical Engineering</option>
-                        </select>
-                    </div><br>
-                         <h3><span class="label label-default" >Registered Courses Test</span></h3>  
-                         <div style=" overflow-y: auto;height: 300px" class="table-responsive">
-                             <table class="table table-bordered table-hover">
-                                 <tr>
-                                      <th>Actions</th>
-                                     <th>Test Name</th>
-                                      <th>Start Date</th>
-                                      <th>Taken</th>
-                                      <th>Marked</th>
-                                     
-                                 </tr>
-                                 <tbody>
-                                     <tr>
-                                         <td><a title="Take Test" href="#">Take Test</a></td>
-                                         <td>Software Engineering</td>
-                                         <td>Start Date</td>
-                                          <td>No</td>
-                                          <td>No</td>
-                                     </tr>
-                                 </tbody>
-                             </table>
-                         </div>
-                    
-                  </div>
-                <div class=" col-xs-8">
-                   <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
-                    <h3>Test Sheet</h3>
-                  </div>
-                    <div style=" margin-bottom: 2px" class="row">
-                        <div class=" col-xs-6">Name:<span>Software Engineering</span></div>
-                        <div class=" col-xs-6">Start Date:<span>2017/09/10</span></div>
-                    </div>
-                    <div style=" margin-bottom: 2px" class="row">
-                        <div class=" col-xs-6">Start Time<span>10:30AM</span></div>
-                        <div class=" col-xs-6">End Time:<span>11:45AM</span></div>
-                    </div>
-                    <hr>
-                    <!-- ********** Test Sheet Starts **************-->
-              <div id="test-sheet-row">
-             <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
-                 <div class="alert alert-info">
-                     Please complete the test and submit the test.Once submitted you can can not change your answers <a  class="btn btn-sm btn-primary" href="#">Start Test</a> <span  class=" pull-right"><a class="btn btn-sm btn-success" href="#">Submit</a></span>
-                 </div>
-                 <table class="table table-bordered table-hover ">
-                 <tr>
-                    <th>#</th>
-                     <th>Test Item</th>
-                </tr>
-                <tbody data-bind="foreach:TestItems">
-                 <tr>
-                     <td style=" width: 5%" data-bind="text:Number"></td>
-                     <td style=" width: 95%">
-                  <div class="panel panel-default">
-                   <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
-                      <div class="panel-body">
-                         <div data-bind="text:Stem,style:{'font-weight':'bold'}"></div><br />
-                         <div data-bind="foreach:AnswerOptions">
-                           <span data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span data-bind="text:Text"></span><br />
+               
+                <div class="col-lg-3"> <!-- Left Menu -->
+                       <div id="leftmenu">
+                           <!-- Left Menu -->
+                           <div id="div-teacher-menu" class="table-responsive">
+                                <div class="list-group ">
+                                    <a id="lnk-home" href="#" class="list-group-item active ">
+                                         <span class="glyphicon glyphicon-home"></span> Home 
+                                     </a>
+                                    <a id="lnk-courses" href="#" class="list-group-item ">
+                                         <span class="glyphicon glyphicon-book"></span> Courses 
+                                     </a>
+                                     <a id="lnk-RegisteredCourses" href="#" class="list-group-item">
+                                        <span class="glyphicon glyphicon-file"></span> Registered Courses
+                                     </a> 
+                                      <a id="lnk-Student-MyTest" href="#" class="list-group-item">
+                                        <span class="glyphicon  glyphicon-bookmark"></span> My Tests
+                                     </a> 
+                                 </div>
+    
+                        </div>
                        </div>
-                     </div>
-                    <div class="panel-footer panel-default">
-                        <div class="form-group">
-                        <label>Key</label><br/> 
-                        <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
-                            
+                 </div>
+              
+          <div class="container">
+                <div class="col-lg-9">
+                    
+                        <div class="row">
+                      <div id="view-container" class=" panel panel-primary">
+                          <div class=" panel-heading"><span id="lbl-selected-menuitem">Welcome</span></div>
+                        <div id="view-content" class=" panel-body">
+                           General Information here
+                        </div>
+                     </div>     
                     </div>
                     </div>
-                     </div>
-                 </td>
-
-                </tr>
-             </tbody>
-         </table>
-        </div> <!--Table Responsive-->
-      </div><!--Test Sheet Ends-->        
-      </div>
-            </div>
+                </div>
         </div>
-        
+      
         <footer id="footer">
             <div class="container">
                  
