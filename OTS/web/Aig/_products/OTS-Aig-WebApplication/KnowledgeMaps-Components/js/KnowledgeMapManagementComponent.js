@@ -152,15 +152,21 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
-               var items=JSON.parse(result.Content);
-               
+             var items=JSON.parse(result.Content);
+               try{
               var encoded=items[0].Concepts.replace(/\"/g, "");
               var decoded=   window.atob(encoded);
-              items[0].Concepts=decoded;
-              
-              knowlegemapListManagement.DataBind(items);
-             ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
+               items[0].Concepts=decoded;
+               knowlegemapListManagement.DataBind(items);
+               ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
      
+              }
+              catch(error){
+                 knowlegemapListManagement.DataBind([]);
+                 ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
+     
+              }
+            
                
             //knowlegemapListManagement.Render();
              

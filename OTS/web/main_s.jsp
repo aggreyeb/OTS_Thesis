@@ -51,6 +51,12 @@
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
          <script src="scripts/moment.js" type="text/javascript"></script>
+         
+         <!--Student Portal -->
+         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-ViewModel.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-DataSource.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-Component.js" type="text/javascript"></script>
+         
         <script>
           <% 
        

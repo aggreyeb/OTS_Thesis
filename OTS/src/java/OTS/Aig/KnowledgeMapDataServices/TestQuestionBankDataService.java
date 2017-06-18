@@ -193,5 +193,39 @@ public class TestQuestionBankDataService {
             }
        
     }
+     
+     
+      public TransactionResult LoadStudentPortalViewInformation(int studentId){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String sql="Select * from Course";
+          List<CourseElement> allCourse= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql,allCourse,CourseElement.class);
+          
+          //Student RegisteredCourse
+          String registedCoursesSqlTemplate="Select * from Student Where StudentId=%s";
+          String registedCoursesSql=String.format(registedCoursesSqlTemplate, studentId);
+          List<StudentRegisteredCourseElement> studentRegistedCourses= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(registedCoursesSql,studentRegistedCourses,StudentRegisteredCourseElement.class);
+         
+          Gson g=new Gson();
+           StudentPortalViewElement studentPortalView= new StudentPortalViewElement();
+           studentPortalView.StudentCourses=g.toJson(allCourse);
+           studentPortalView.StudentRegisteredCourses=g.toJson(studentRegistedCourses);
+          
+           result.ActionResultType=ActionResultType.ok;
+           result.Content=g.toJson(studentPortalView);
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    } 
 
 }

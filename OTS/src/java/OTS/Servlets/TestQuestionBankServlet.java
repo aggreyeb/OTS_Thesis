@@ -166,7 +166,17 @@ public class TestQuestionBankServlet extends Servlet {
                    service= new TestQuestionBankDataService(new MySqlDataSource());
                    return  service.UpdateCourseTestAswerSheet(testId,acourseId);
              
-             
+                 //This section if for student portal:
+                 // Course Registration,Course Test List, Test Submission
+                   
+                    case "Aig-LoadPortalViewInformation":
+                    int userId=   userProfile.UserId;
+                   
+                   service= new TestQuestionBankDataService(new MySqlDataSource());
+                   
+                   
+                   
+               //Old Method Calls      
              case  "ListTestQuestionBank1":
                Questions questions= new Questions(db,response);
                int id= Integer.parseInt(request.getParameter("testid"));
