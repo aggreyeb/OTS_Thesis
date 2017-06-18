@@ -73,13 +73,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       var  behaviourDescription = new OTS.BehaviourDescriptionValidation();
       var attributeValidation = new  OTS.AttributeValidation(); 
       var  functionValidation = new  OTS.FunctionValidation();
-       
+      var applicationValidation = new   OTS.ApplicationValidation ();
+      
         dataDataStructureKnowledgeMap  = new OTS.AigDataStructureKnowlegeMap();
         
         dataDataStructureKnowledgeMap.Add(characteristicValidation);
         dataDataStructureKnowledgeMap.Add(behaviourDescription);
         dataDataStructureKnowledgeMap.Add(attributeValidation);
         dataDataStructureKnowledgeMap.Add(functionValidation);
+        dataDataStructureKnowledgeMap.Add(applicationValidation);
     };
    
     me.ShowKnowledgeMapEditor=function(){
@@ -123,10 +125,11 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
+              
               var encoded=items[0].Concepts.replace(/\"/g, "");
               var decoded=   window.atob(encoded);
               items[0].Concepts=decoded;
-               
+              
               knowlegemapListManagement.DataBind(items);
              
           }
@@ -154,6 +157,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
               var encoded=items[0].Concepts.replace(/\"/g, "");
               var decoded=   window.atob(encoded);
               items[0].Concepts=decoded;
+              
               knowlegemapListManagement.DataBind(items);
              ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
      

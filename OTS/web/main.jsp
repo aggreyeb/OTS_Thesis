@@ -213,6 +213,7 @@
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/behaviour-description-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/attributes-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/function-validation.js" type="text/javascript"></script>
+         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/application-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/DataStructureKnowlegeMap.js" type="text/javascript"></script>
          
          <!--Student Accounts Templates-->

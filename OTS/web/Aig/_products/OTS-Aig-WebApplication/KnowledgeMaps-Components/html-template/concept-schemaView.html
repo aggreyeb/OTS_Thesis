@@ -106,7 +106,7 @@
                   <div class="row">
                       <div class="col-xs-12">
                           <div>
-                              <a data-bind="click:$root.addAttribute" class="btn btn-sm btn-primary" href="#"><i class="fa fa-plus"></i>Add New Attribute</a> <span class="label label-info"><i class="fa fa-info-circle"></i> Enter more than three attributes</span>
+                              <a data-bind="click:$root.addAttribute" class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i>Add New</a>
                           </div>
                       </div>
                   </div>
@@ -121,9 +121,9 @@
                           </tr>
                           <tbody data-bind="foreach:conceptSchema.attributes">
                               <tr>
-                                  <td style="width: 65%"><input style="width: 350px" title="Name of the attribute" placeholder="e.g. buffer" class="form-control" data-bind="value:name" type="text" /></td>
-                                  <td style="width: 15%"><input style="width: 350px" title="type:int,String,Array,List,Object" placeholder="e.g. Array" class="form-control" data-bind="value:type" type="text" /></td>
-                                  <td style="width: 10%"><input style="width: 50px"   class="form-control" data-bind="value:attributeValue" type="text" title="Initial value of the attribute" /></td>
+                                  <td style="width: 65%"><input style="width: 350px" class="form-control" data-bind="value:name" type="text" /></td>
+                                  <td style="width: 15%"><input style="width: 350px" class="form-control" data-bind="value:type" type="text" /></td>
+                                  <td style="width: 10%"><input style="width: 50px" class="form-control" data-bind="value:attributeValue" type="text" /></td>
                                   <td style="width: 5%"><a data-bind="event:{click:$parent.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a></td>
                               </tr>
                           </tbody>
@@ -145,8 +145,7 @@
                 
                   <div class="row">
                       <div class="col-xs-12">
-                          <a data-bind="click:$root.addFunction" class="btn btn-sm btn-primary" href="#">Add New Function</a>&nbsp;<span class="label label-info"><i class="fa fa-info-circle"></i> Add more than three functions</span>
-                          </div>
+                          <a data-bind="click:$root.addFunction" class="btn btn-sm btn-info" href="#">Add New</a>
                       </div>
                   </div>
                   <div   style="border: 1px solid #ddd;margin-top: 2px;overflow-y: scroll;height: 700px" id="forach-function">
@@ -160,16 +159,16 @@
                           <tbody  data-bind="foreach:conceptSchema.functions">
                               <tr style=" width: 100%">
                                   <td>
-                                      <div style="margin-left: 80px" >
+                                      <div >
                                           <div class="pull-right" style="margin-right:100px ">
                                               <span  title="Delete function" class=""><a data-bind="event:{click:$parent.removeFunction}" href="#"><i class="fa fa-remove fa-2x"></i></a></span> 
                                           </div>
-                                          <div></div>
+                                         
                                           <div class="row">
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label style="padding-right: 780px">Name</label>
-                                                      <input title="Function name: No spaces.e.g. CreateKnowledgeMap" data-bind="value:name" style="width: 780px" class="form-control" type="text"/>
+                                                      <input data-bind="value:name" style="width: 780px" class="form-control" type="text"/>
                                                   </div>
                                                   
                                               </div>
@@ -205,9 +204,9 @@
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label>Algorithm</label><br>
-                                                      
-                                      
-                                                      <label>Select Time Complexity </label>&nbsp;&nbsp;:<span data-bind="text:$root.Testing"> </span><select data-bind="options:$root.TimeComplexities,
+                                                      <span data-bind="text:$root.Testing"> </span>
+                                             <!--value: 'id',-->
+                                                      <label>Select Time Complexity </label><select data-bind="options:$root.TimeComplexities,
                                                              optionsText: 'name',
                                                              optionsValue:'id',
                                                              selectedOptions:$root.SelectedTimeComplixity,
@@ -221,10 +220,7 @@
                                               <div class="col-xs-12">
                                                   <div style="margin-left: 2px;margin-bottom: 2px" class="input-group">
                                                       <label style="padding-right: 780px">Source Code</label>
-                                                      <textarea  title="Enter or copy and paste source code here  : see format in the place holder"  data-bind="value:algorithm.text" placeholder="Enter or copy and paste source code here  : example below
-                                                             public Add (int a,int b){
-                                                              return a + b;
-                                                             }" style="resize: horizontal;width: 500px;height: 200px"></textarea>
+                                                      <textarea data-bind="value:algorithm.text" placeholder="enter Source code here" style="resize: horizontal;width: 500px;height: 200px"></textarea>
                                                   </div>
                                                   
                                               </div>

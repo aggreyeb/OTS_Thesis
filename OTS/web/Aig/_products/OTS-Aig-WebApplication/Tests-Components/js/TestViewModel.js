@@ -697,7 +697,7 @@ OTS.AigTestViewModel=function(){
                       var htmlItem= testComponent.RenderHtmlTestItem(item);
                        htmlItem.Number=a+1;
                        htmlItem.ComponentCode=item.componentCode;
-                       htmlItem.serialNumber=currentItem.serialNumber;
+                       htmlItem.serialNumber=item.serialNumber;
                        me.TestSheetItems.push(htmlItem);
                        me.AnswerSheetItems.push(htmlItem);
                        
@@ -732,7 +732,7 @@ OTS.AigTestViewModel=function(){
                       var htmlItem= testComponent.RenderHtmlTestItem(item);
                        htmlItem.Number=a+1;
                        htmlItem.ComponentCode=item.componentCode;
-                       htmlItem.serialNumber=currentItem.serialNumber;
+                       htmlItem.serialNumber=item.serialNumber;
                        me.TestSheetItems.push(htmlItem);
                        me.AnswerSheetItems.push(htmlItem);
 			       }	
