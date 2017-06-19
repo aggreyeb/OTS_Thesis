@@ -120,8 +120,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
           //if(data.nodes.length==0){
            if(data.conceptSchemas===undefined || data.conceptSchemas===null || data.conceptSchemas==""){
                 var item={ id:data.id,name:data.name,text: data.name,
-                    description:data.description,nodes:data.nodes};
-               
+                    description:data.description,nodes:[]};
+               //data.nodes
                 knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[item]);
                 knowledgeMapTreeView.UnSelectNodes();
                return;
@@ -252,6 +252,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                    item.text=me.knowledgeMaplistView.name();
                    item.name= me.knowledgeMaplistView.name();
                    item.description= me.knowledgeMaplistView.description();
+                   item.iconClass="fa fa-asterisk"
                    item.nodes=[];
                   knowledgeMapComponent.UpdateKnowledgeMap(item,function(e){
                  var result=JSON.parse(e);
