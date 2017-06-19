@@ -121,6 +121,18 @@ OTS.AigKnowledgeMapListManagementView=function(){
            if(data.conceptSchemas===undefined || data.conceptSchemas===null || data.conceptSchemas==""){
                 var item={ id:data.id,name:data.name,text: data.name,
                     description:data.description,nodes:[]};
+                item.icon= "";
+                item.selectedIcon= "";
+                item.backColor= "";
+                item.href= "";
+                item.selectable= true;
+                item.state= {
+                  checked: true,
+                  disabled: false,
+                  expanded: true,
+                  selected: true
+                };
+                item.tags= ['available'];
                //data.nodes
                 knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[item]);
                 knowledgeMapTreeView.UnSelectNodes();
@@ -309,7 +321,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
     me.knowledgeMapEditorViewModel={
           selectedNode:"",
-          nodeText:ko.observable("Test Node"),
+          nodeText:ko.observable(),
           relationTypes:ko.observableArray([{id:1,name:"TypeOf"},{id:1,name:"PartOf"}]),
           selectedRelationType:ko.observable(),
           onSelectedNode:function(e){
@@ -337,11 +349,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
                      //Save the previous node before switching
                      me.AutoUpdateTreeview(me.PreviousSelectedNode.id);
                }
+               
                   var nodes= knowledgeMapTreeView.ToJson();
                          var item ={
                                        id:me.selectedKnowledgeMap.id,
           
-                                       conceptSchemas:nodes
+                                       conceptSchemas: me.EncodeString(nodes)
                                   };
                     knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
                            
@@ -375,6 +388,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 alert("It appears node name is empty or node is not selected");
                 return;
             }
+            if(me.knowledgeMapEditorViewModel.nodeText()===undefined ||
+                    me.knowledgeMapEditorViewModel.nodeText()===null || 
+                    me.knowledgeMapEditorViewModel.nodeText()===""){
+                 alert("It appears node name is empty or node is not selected");
+                return;
+            }
             
            var nodeName =  me.knowledgeMapEditorViewModel.nodeText();
              var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
@@ -387,6 +406,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            knowledgeMapTreeView.AddNode(currentNodeSelected, conceptNode);
             me.KnowledgeMapTreeStateChanged=true;
             knowledgeMapTreeView.UnSelectNodes();
+            me.knowledgeMapEditorViewModel.nodeText("");
           },
           removeNode:function(){
            
@@ -406,12 +426,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
           },
           canAddNode:function(){
            var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
-               return selectedNodes.length>0;
+               return selectedNodes.length>0 &&  me.knowledgeMapEditorViewModel.nodeText()!=="" ;
              
           },
           canUpdateNode:function(){
               var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
-               return selectedNodes.length>0;
+               return selectedNodes.length>0 &&  me.knowledgeMapEditorViewModel.nodeText()!=="";
           },
           canRemoveNode:function(){
                var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();

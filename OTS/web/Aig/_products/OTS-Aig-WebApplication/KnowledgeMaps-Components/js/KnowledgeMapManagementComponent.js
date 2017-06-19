@@ -84,6 +84,16 @@ OTS.AigKnowledgeMapManagementComponent=function(){
         dataDataStructureKnowledgeMap.Add(applicationValidation);
     };
    
+    me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
+   
     me.ShowKnowledgeMapEditor=function(){
       $("#pan-knowlegeMap-treeview-editor").show();
       $("#pan-conceptSchema-editor").show();
@@ -126,6 +136,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
                var items=JSON.parse(result.Content);
               
+           
+             
               var encoded=items[0].Concepts.replace(/\"/g, "");
               var decoded=   window.atob(encoded);
               items[0].Concepts=decoded;
@@ -155,9 +167,11 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
              var items=JSON.parse(result.Content);
                try{
+               
               var encoded=items[0].Concepts.replace(/\"/g, "");
               var decoded=   window.atob(encoded);
                items[0].Concepts=decoded;
+              
                knowlegemapListManagement.DataBind(items);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
      
