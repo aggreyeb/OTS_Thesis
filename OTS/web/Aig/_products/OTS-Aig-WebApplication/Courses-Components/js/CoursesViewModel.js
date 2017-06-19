@@ -2,7 +2,7 @@ var OTS=OTS||{};
 OTS.CourseItem=function(name,number){
     var me=this;
     me.Id="";
-    me.Name=name;
+    me.CourseName=name;
     me.Number=number;
 };
 
@@ -80,6 +80,7 @@ OTS.AigCourseViewModel=function(){
                     alertBox.ShowErrorMessage("Course Delete Failed");
                   }
                  me.SelectedAction=me.ActionType.NEW;
+                me.CourseActions.ResetForm();
             });
             
         },
@@ -93,6 +94,7 @@ OTS.AigCourseViewModel=function(){
                 case me.ActionType.NEW:
                  var course= new OTS.CourseItem(me.CourseName(),me.Number());
                  course.Id= new Aig.Guid().NewGuid();
+                 course.CourseName=me.CourseName();
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
