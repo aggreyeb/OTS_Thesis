@@ -20,24 +20,25 @@ OTS.AigCourseViewModel=function(){
  
     me.Id=ko.observable("");
     me.Number=ko.observable("");
-    me.Name=ko.observable("");
+    me.CourseName=ko.observable("");
     me.Courses=ko.observableArray([]);
    
     
-    me.CourseHeaderText=ko.observable("Add New Course");
+   
     me.SelectedCourse = null;//new  OTS.AigCourseViewModel();
     
-    me.Actions={
-         validate:function(){
+    me.CourseActions={
+        CourseHeaderText:ko.observable("Add New Course"),
+        validate:function(){
            var  isValid =true;
            var errorMessage=[];
            if(me.Number()===""){
                isValid=false;
                errorMessage.push("Course Number required");
            }
-           if(me.Name()===""){
+           if(me.CourseName()===""){
                isValid=false;
-               errorMessage.push("Course Name required");
+               errorMessage.push("Course CourseName required");
            }
            
            return {
@@ -47,22 +48,22 @@ OTS.AigCourseViewModel=function(){
          },
          onCreateNew:function(){
              me.Id("");
-             me.Name("");
+             me.CourseName("");
              me.Number("");
              me.SelectedAction=me.ActionType.NEW
              
          },
          ResetForm:function(){
              me.Id("");
-             me.Name("");
+             me.CourseName("");
              me.Number("");
              me.SelectedAction=me.ActionType.NEW
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
-            me.Name(data.Name);
+            me.CourseName(data.CourseName);
             me.Number(data.Number);
-             me.CourseHeaderText("Edit Course");
+            me.CourseActions.CourseHeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
              
         },
@@ -83,22 +84,22 @@ OTS.AigCourseViewModel=function(){
             
         },
         onSave:function(data,e){
-              var result=me.Actions.validate();
+              var result=me.CourseActions.validate();
               if(!result.isValid){
                   alertBox.ShowErrorMessage(result.message);
                   return;
               }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
-                 var course= new OTS.CourseItem(me.Name(),me.Number());
+                 var course= new OTS.CourseItem(me.CourseName(),me.Number());
                  course.Id= new Aig.Guid().NewGuid();
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                      me.Courses.push(course); 
-                    me.Actions.ResetForm();
+                    me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
-                    me.HeaderText("Add New Course");
+                   
                     alertBox.ShowSuccessMessage("Course Saved");
                      
                 }
@@ -111,7 +112,7 @@ OTS.AigCourseViewModel=function(){
                 case me.ActionType.EDIT:
                 var updateableCourse={
                     Id:me.SelectedCourse.Id,
-                    Name:me.Name(),
+                    CourseName:me.CourseName(),
                     Number:me.Number()
                 };
                 courseComponent.UpdateCourse(updateableCourse,function(e){
@@ -120,9 +121,9 @@ OTS.AigCourseViewModel=function(){
                     
                      me.Courses.replace(me.SelectedCourse,updateableCourse);
                     alertBox.ShowSuccessMessage("Course Updated");
-                    me.Actions.ResetForm();
+                    me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
-                    me.HeaderText("Add New Course");
+                  
                 }
                 else{
                     alertBox.ShowErrorMessage("Course Update Failed");
@@ -142,13 +143,16 @@ OTS.AigCourseViewModel=function(){
        if(items===undefined || items===null)return;
         me.Courses([]);
        if(items.length){
+          
            for(var i=0;i<items.length;i++){
+              items[i].CourseName=items[i].Name;
                me.Courses.push(items[i]);
            }
        }
    }; 
    me.AddCourseComponent=function(component){
        courseComponent=component;
+      me.CourseActions.CourseHeaderText("Add New Course");
    };
 };
 

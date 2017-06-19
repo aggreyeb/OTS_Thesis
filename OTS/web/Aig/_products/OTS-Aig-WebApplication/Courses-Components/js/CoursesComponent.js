@@ -20,10 +20,7 @@ OTS.AigCoursesComponent=function(){
         
         me.Initialize();
        }
-       else{
-           var element = $('#div-courses-content')[0]; 
-           ko.cleanNode(element);
-       }
+      
     };
     
      me.Initialize=function(){
@@ -33,8 +30,7 @@ OTS.AigCoursesComponent=function(){
         panel.show();
          
          if(initialized)return;
-       // var element = $('#div-courses-contentt')[0]; 
-        // ko.cleanNode(element);
+       
         var element;
         var basegenHtml= basethtmlTemplateDataSource.Read();
          
@@ -56,12 +52,12 @@ OTS.AigCoursesComponent=function(){
        
        viewModel.AddCourseComponent(me);
         var dataSource=new OTS.AigCourseDataSource();
-       ko.applyBindings(viewModel,$("#div-courses-content")[0]);
+      // ko.applyBindings(viewModel,$("#div-courses-content")[0]);
        dataSource.ListAllCourses(function(msg){
          var result=JSON.parse(msg);
-         var items=JSON.parse(result.Content)
+         var items=JSON.parse(result.Content);
          viewModel.DataBind(items)
-       //  ko.applyBindings(viewModel,$("#div-courses-content")[0]);
+        ko.applyBindings(viewModel,$("#div-courses-content")[0]);
        });
      
        

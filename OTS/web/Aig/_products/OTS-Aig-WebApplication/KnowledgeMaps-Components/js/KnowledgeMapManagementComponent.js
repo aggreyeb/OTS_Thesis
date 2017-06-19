@@ -138,6 +138,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
      
             return;
       }
+       
        renderLayouts();
        initializeDataStructureKnowledgeMap();
        me.HideKnowledgeMapEditor();
@@ -158,18 +159,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
               var decoded=   window.atob(encoded);
                items[0].Concepts=decoded;
                knowlegemapListManagement.DataBind(items);
-               ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
+               ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
      
               }
               catch(error){
                  knowlegemapListManagement.DataBind([]);
-                 ko.applyBindings(knowlegemapListManagement,$("div-knowledgemaps-content")[0]);
-     
+                 ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
             
-               
-            //knowlegemapListManagement.Render();
-             
+          
             knowlegemapListManagement.HideSaveAlert();
               initialized=true;
           }

@@ -21,10 +21,10 @@
             <tbody data-bind="foreach:Courses">
                 <tr>
                     <td  style="width: 10%" data-bind="text:Number" > 101 </td>
-                    <td style="width:80%" data-bind="text:Name"> Software Engineering </td>    
+                    <td style="width:80%" data-bind="text:CourseName"> Software Engineering </td>    
                     <td style="width: 10%"> 
-                        <a data-bind="event:{click:$parent.Actions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
-                        <a data-bind="event:{click:$parent.Actions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>
+                        <a data-bind="event:{click:$parent.CourseActions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
+                        <a data-bind="event:{click:$parent.CourseActions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>
                     </td>  
                 </tr>
             </tbody>

@@ -2,7 +2,7 @@
 <div class="table-responsive" style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
     <div class="row">
         <div class="col-xs-12">
-            <h3><span class="label label-default"><span id="sp-course-header" data-bind="text:CourseHeaderText"></span></h3>
+           <h3><span class="label label-default"><span id="sp-course-header" data-bind="text:CourseActions.CourseHeaderText"></span></h3>
         </div>
     </div><br>
     <div  class="row">
@@ -17,7 +17,7 @@
         <div  class="col-xs-12">
             <div class="input-group">
                 <label style="padding-right: 300px">Name</label>
-                <input  data-bind="value:Name" style="margin-right: 2px;width:300" class="form-control" type="text"/>
+                <input  data-bind="value:$root.CourseName" style="margin-right: 2px;width:300" class="form-control" type="text"/>
             </div>
         </div>
     </div><br>
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="margin-left: 2px">
-                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:CourseActions.onSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
     </div><br>

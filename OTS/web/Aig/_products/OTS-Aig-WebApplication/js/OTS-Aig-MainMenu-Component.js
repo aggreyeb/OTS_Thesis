@@ -10,7 +10,7 @@ OTS.MenuComponent=function(){
    var callbacks=[];
     
     var componentChanged=function(e){
-       console.log(e.name);
+      // console.log(e.name);
     };
   
     var notifyMenuItemClicked=function(e){
