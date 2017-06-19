@@ -92,9 +92,14 @@ OTS.AigCourseViewModel=function(){
               }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
-                 var course= new OTS.CourseItem(me.CourseName(),me.Number());
-                 course.Id= new Aig.Guid().NewGuid();
-                 course.CourseName=me.CourseName();
+                // var course= new OTS.CourseItem(me.CourseName(),me.Number());
+                // course.Id=new Aig.Guid().NewGuid();
+                 var course={
+                     Id:new Aig.Guid().NewGuid(),
+                     Number:me.Number(),
+                     Name:me.CourseName(),
+                     CourseName:me.CourseName()
+                 };
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -115,6 +120,7 @@ OTS.AigCourseViewModel=function(){
                 var updateableCourse={
                     Id:me.SelectedCourse.Id,
                     CourseName:me.CourseName(),
+                    Name:me.CourseName(),
                     Number:me.Number()
                 };
                 courseComponent.UpdateCourse(updateableCourse,function(e){
