@@ -139,6 +139,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
                return;
           };
           var item=JSON.parse(data.conceptSchemas);
+           //do this in case the knowledge map has been renamed
+           item.name=data.name;
+           item.text=data.text;
           var knowledgemap= item;//JSON.parse(item);
           knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[knowledgemap]);
            
