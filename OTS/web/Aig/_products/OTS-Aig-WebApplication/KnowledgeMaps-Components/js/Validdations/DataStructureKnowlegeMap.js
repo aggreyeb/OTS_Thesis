@@ -5,6 +5,108 @@ OTS.AigDataStructureKnowlegeMap=function(){
     var items=[];
     var validationResults=[];
    
+     
+    var printRecursive = function(node) {
+        if(node===undefined || node===null)
+            return [];
+        var printItems = [];
+        if(node.nodes){
+            var treeNodes = node.nodes; 
+        }
+        else{
+            treeNodes=[];
+        }
+       
+        //console.log(node.text + '\r');
+        printItems.push(node);
+        for (var i = 0; i < treeNodes.length; i++) {
+            printRecursive(treeNodes[i]);
+        }
+        return printItems;
+    };
+   
+      var findNode = function (nodes, id) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].id === id) {
+                return nodes[i];
+            }
+            if (nodes[i].nodes.length > 0) {
+                var node = findNode(nodes[i].nodes, id);
+                if (node)
+                    return node;
+            }
+        }
+        return null;
+    };
+   
+    var conceptNodes=[];
+    var addNodes=function(nodes){
+        
+        if(nodes===undefined || nodes===null) return;
+        for(var i=0;i<nodes.length;i++){
+            conceptNodes.push(nodes[i]);
+        }
+    };
+   
+   me.ReAssignConceptSchemasId=function(node){
+      if(node===undefined || node===null) return false;
+       if(node.behaviourDescriptions!==undefined && node.behaviourDescriptions!==null){
+       for(var j=0;j<node.behaviourDescriptions.length;j++){
+           node.behaviourDescriptions[j].id=new Aig.Guid().NewGuid();
+       }
+      }
+      
+      //Attributes
+      if(node.attributes!==undefined && node.attributes!==null){
+       for(var i=0;i<node.attributes.length;i++){
+           node.attributes[i].id= new Aig.Guid().NewGuid();
+       }
+      }
+       //Functions
+       if(node.functions!==undefined && node.functions!==null){
+       for(var f=0;f<node.functions.length;f++){
+           node.functions[f].id=new Aig.Guid().NewGuid();
+       }
+      }
+       //Applications
+       if(node.applications!==undefined && node.applications!==null){
+       for(var a=0;a<node.applications.length;a++){
+           node.applications[a].id=new Aig.Guid().NewGuid();
+         }
+      }
+       return true;
+   };
+    
+    me.Import=function(knowledgeMapItem){
+        if(knowledgeMapItem===undefined || knowledgeMapItem===null)
+            throw  new Error("knowledgeMapitem can not be null");
+        
+        try{
+        if(knowledgeMapItem.conceptSchemas===undefined || knowledgeMapItem.conceptSchemas===null ||knowledgeMapItem.conceptSchemas==="")
+            return knowledgeMapItem;
+        
+        var knowledgeMap=JSON.parse(me.DecodeString(knowledgeMapItem.conceptSchemas));
+        
+        for(var i=0;i<knowledgeMap.nodes.length;i++){
+            var items=printRecursive(knowledgeMap.nodes[i]);
+            addNodes(items)
+        }
+      
+        for(var i=0;i<conceptNodes.length;i++){
+          // var item=  findNode(knowledgeMap.nodes,items[i].id);
+          //change newid to id;
+          conceptNodes[i].newId= new Aig.Guid().NewGuid();
+           me.ReAssignConceptSchemasId(conceptNodes[i]);
+        }
+        var editedKnowledgeMap=knowledgeMapItem;
+        return editedKnowledgeMap;
+        }
+        catch(error){
+            return knowledgeMapItem;
+        }
+    
+    };
+   
     me.Add=function(ivalidateable){
         if(ivalidateable!==undefined &&
                 ivalidateable!==null &&
@@ -26,6 +128,16 @@ OTS.AigDataStructureKnowlegeMap=function(){
         throw new Error("ivalidateable not type of Aig.IValidateable");
     };
     
+    me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
+    
     me.Duplicate=function(knowledgeMapItem){
         if(knowledgeMapItem===undefined || knowledgeMapItem===null)
             throw  new Error("knowledgeMapitem can not be null");
@@ -33,11 +145,7 @@ OTS.AigDataStructureKnowlegeMap=function(){
         throw new Error("NotImplemented Exception");
     };
     
-    me.Import=function(knowledgeMapItem){
-        if(knowledgeMapItem===undefined || knowledgeMapItem===null)
-            throw  new Error("knowledgeMapitem can not be null");
-         throw new Error("NotImplemented Exception");
-    };
+    
     
     me.Validate=function(knowledgeMapItem){
         var hasErrors=false;

@@ -34,8 +34,8 @@ OTS.AigTestItemGenerationComponent=function(){
    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeDComponent().AddTo(testGenerationComponents);
-  /*
-  new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
+  
+   new Aig.Components.RememberTrueFalseCorrectComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTrueFalseInCorrectComponent().AddTo(testGenerationComponents);
      
     
@@ -54,7 +54,7 @@ OTS.AigTestItemGenerationComponent=function(){
     //Evaluate
     
       new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
-      */
+      
     };
     
     

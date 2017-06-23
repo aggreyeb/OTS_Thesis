@@ -120,6 +120,16 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     //End toggle view
     
     
+   me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
+    
     me.Initialize=function(){
     
        $(".component-content").hide();
@@ -134,23 +144,25 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
-               var items=JSON.parse(result.Content);
-              
-           
-             
-              var encoded=items[0].Concepts.replace(/\"/g, "");
-              var decoded=   window.atob(encoded);
-              items[0].Concepts=decoded;
-              
-              knowlegemapListManagement.DataBind(items);
-             
+             var items=JSON.parse(result.Content);
+            
+             for(var i=0;i<items.length;i++){
+                 if(items[i].Concepts &&
+                         items[i].Concepts!==undefined 
+                         && items[i].Concepts!==null 
+                         && items[i].Concepts!=="" ){
+                     var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
+                      items[i].Concepts= me.DecodeString(replecedBackSlashes);
+                 }
+                 else{
+                    items[i].Concepts=""; 
+                 }
+             }
+             knowlegemapListManagement.DataBind(items);
           }
-      });
-      
-     
+         });
             return;
       }
-       
        renderLayouts();
        initializeDataStructureKnowledgeMap();
        me.HideKnowledgeMapEditor();
@@ -167,21 +179,25 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
              var items=JSON.parse(result.Content);
                try{
-               
-              var encoded=items[0].Concepts.replace(/\"/g, "");
-              var decoded=   window.atob(encoded);
-               items[0].Concepts=decoded;
-              
+              for(var i=0;i<items.length;i++){
+                 if(items[i].Concepts &&
+                         items[i].Concepts!==undefined 
+                         && items[i].Concepts!==null 
+                         && items[i].Concepts!=="" ){
+                     var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
+                      items[i].Concepts= me.DecodeString(replecedBackSlashes);
+                 }
+                 else{
+                    items[i].Concepts=""; 
+                 }
+             }
                knowlegemapListManagement.DataBind(items);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
-     
               }
               catch(error){
                  knowlegemapListManagement.DataBind([]);
                  ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
-            
-          
             knowlegemapListManagement.HideSaveAlert();
               initialized=true;
           }
@@ -202,6 +218,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
   
    me.SaveKnowledgeMap=function(data,callbackFunction){
+       var datasource=new OTS.AigKnowlegeMapDataSource();
+       datasource.CreateNew(data,function(msg){
+          if(callbackFunction instanceof Function){
+              callbackFunction(msg);
+          }
+       });
+   };
+   
+    me.SaveKnowledgeMap=function(data,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
        datasource.CreateNew(data,function(msg){
           if(callbackFunction instanceof Function){

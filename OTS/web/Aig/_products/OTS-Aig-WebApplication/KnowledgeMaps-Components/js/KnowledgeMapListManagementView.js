@@ -48,6 +48,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
      return str;
    };
  /***********************KNOWLEGE MAP LIST VIEW*********************************/
+  me.IsBase64=function(str) {
+    try {
+        return btoa(atob(str)) == str;
+    } catch (err) {
+        return false;
+    }
+  };
+    
     me.knowledgeMaplistView={
         knowledgeMaps:ko.observableArray([]),                    
         id:ko.observable(""),
@@ -98,21 +106,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
            knowledgeMapTreeView.OnStateChanged(function(e){
            var currentNodeSelected=  me.knowledgeMapEditorViewModel.selectedNode;
-             var action=  e.action;
-             switch(action){
-                 case "updated":
-                  
-                     // dataDatabase.Save( me.selectedKnowledgeMap.id,e.data);
-                       break;
-                 case "added":
-                     
-                    // var item=JSON.parse(e.data)[0];
-                   //  dataDatabase.Save(item.id,e.data);
-                       break;
-                   
-                   default:
-                     break;
-             }
+           
              
             
            });
@@ -138,11 +132,25 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 knowledgeMapTreeView.UnSelectNodes();
                return;
           };
-          var item=JSON.parse(data.conceptSchemas);
+          var item;
+          var knowledgemap;
+          if(me.IsBase64(data.conceptSchemas)){
+            var decoded=me.DecodeString(data.conceptSchemas) ;
+             item=JSON.parse(decoded);
+             item.name=data.name;
+             item.text=data.text;
+             item.description=data.description;
+              knowledgemap= item;
+          }
+          else{
+            item=JSON.parse(data.conceptSchemas);
            //do this in case the knowledge map has been renamed
            item.name=data.name;
            item.text=data.text;
-          var knowledgemap= item;//JSON.parse(item);
+           item.description=data.description;
+           knowledgemap= item;//JSON.parse(item);
+          }
+         
           knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[knowledgemap]);
            
            var selectedNodes= knowledgeMapTreeView.RetriveSelectedNodes();
@@ -167,20 +175,41 @@ OTS.AigKnowledgeMapListManagementView=function(){
            var json=JSON.stringify(data);
            var copy=JSON.parse(json);
            copy.name +="copy";
-           
-              knowledgeMapComponent.SaveKnowledgeMap(copy,function(e){
+           var editedCopy=  dataStructureKnowledgeMap.Import(copy);
+            if(editedCopy.conceptSchemas!== undefined && editedCopy.conceptSchemas!==""){
+             editedCopy.conceptSchemas=me.EncodeString(editedCopy.conceptSchemas);
+            }
+         
+            knowledgeMapComponent.SaveKnowledgeMap(editedCopy,function(e){
                var result=JSON.parse(e);
-               copy.id=result.CurrentId; //!IMPORTANT
+               editedCopy.id=result.CurrentId; //!IMPORTANT
+               editedCopy.iconClass=ko.observable("fa fa-asterisk")
+               
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
               
-              if(me.selectedMode===modeType.New){
-                  me.knowledgeMaplistView.knowledgeMaps.push(copy);
-               }
-             
+             if(editedCopy.conceptSchemas===undefined || editedCopy.conceptSchemas===null){
+                  me.knowledgeMaplistView.knowledgeMaps.push(editedCopy);
+               
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
+                 return;
+             } 
+               var item ={
+                  id: editedCopy.id,
+                  conceptSchemas:me.EncodeString(editedCopy.conceptSchemas)
+                };
+            knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
+            editedCopy.conceptSchemas=me.DecodeString(editedCopy.conceptSchemas);
+             me.knowledgeMaplistView.knowledgeMaps.push(editedCopy);
+               
+              $("#div-knowledgeMaps-alert").removeClass("alert-info");
+              $("#div-knowledgeMaps-alert").addClass("alert-success");
+              me.knowledgeMaplistViewActions.saveAlertVisible(true);
+              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
+            });
+
              }
              else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
@@ -244,12 +273,13 @@ OTS.AigKnowledgeMapListManagementView=function(){
               if(me.selectedMode===modeType.New){
                   me.knowledgeMaplistView.knowledgeMaps.push(item);
                }
-               
+             
               $("#div-knowledgeMaps-alert").removeClass("alert-danger"); 
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Saved");
+             
              }
              else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
@@ -262,22 +292,46 @@ OTS.AigKnowledgeMapListManagementView=function(){
                
           if(me.selectedMode===modeType.Edit){
                    var id=me.knowledgeMaplistView.id();
-                   var item={};
+                  var item={};
                    item.id=id;
                    item.text=me.knowledgeMaplistView.name();
                    item.name= me.knowledgeMaplistView.name();
                    item.description= me.knowledgeMaplistView.description();
                    item.iconClass="fa fa-asterisk"
                    item.nodes=[];
+                   //update name and description
+                   
+                  var  newItem ={
+                   id: me.selectedKnowledgeMap.id,
+                   name:item.name,
+                   text:item.text,
+                   description:item.description,
+                   iconClass:"fa fa-asterisk",
+                   conceptSchemas:me.selectedKnowledgeMap.conceptSchemas
+                   };
                   knowledgeMapComponent.UpdateKnowledgeMap(item,function(e){
                  var result=JSON.parse(e);
                  if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                me.knowledgeMaplistView.knowledgeMaps.replace(me.selectedKnowledgeMap,item);
+                  //update concept schema
+             
+                  knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(newItem,function(msg){
+                 // me.selectedKnowledgeMap.conceptSchemas=me.DecodeString(me.selectedKnowledgeMap.conceptSchemas);
+                 me.knowledgeMaplistView.knowledgeMaps.replace(me.selectedKnowledgeMap,newItem);
+               
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
-               me.knowledgeMaplistViewActions.resetForm();
-              me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Saved");
+              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
+               });
+                   
+                    /*
+                    me.knowledgeMaplistView.knowledgeMaps.replace(me.selectedKnowledgeMap,item);
+                    $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                    $("#div-knowledgeMaps-alert").addClass("alert-success");
+                    me.knowledgeMaplistViewActions.saveAlertVisible(true);
+                    me.knowledgeMaplistViewActions.resetForm();
+                    me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Saved");
+                          */
              }
              else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");

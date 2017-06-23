@@ -8,6 +8,7 @@ OTS.AigKnowlegeMapDataSource=function(){
                     DELETE:"Aig-Delete-KnowledgeMap",
                     SUBMIT:"Aig-Update-KnoledgeMap-ConceptSchemas",
                     DUPLICATE:"duplicate",
+                    COPY:"Aig-Copy-KnoledgeMap",
                     ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap"};
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
@@ -36,7 +37,15 @@ OTS.AigKnowlegeMapDataSource=function(){
         });
     };
     
-   
+   me.CopyKnowledgeMap=function(data,callbackFunction){
+        var callback= callbackFunction;
+       var data={action:actionType.COPY,ID:data.id, Name:data.name, Description:data.description};
+         
+        $.post("KnowledgeMapServlet",data,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   };
     
     me.UpdateKnowledeMap=function(data,callbackFunction){
        var callback= callbackFunction;
