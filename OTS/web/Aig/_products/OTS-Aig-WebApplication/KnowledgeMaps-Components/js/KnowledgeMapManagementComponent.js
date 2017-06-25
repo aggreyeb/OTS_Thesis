@@ -156,7 +156,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
                           
                      var conceptNodes= JSON.parse(items[i].Concepts)              
-                     var  knowledgeMap=conceptNodes[0];  
+                    // var  knowledgeMap=conceptNodes[0];  
+                    var  knowledgeMap=null;
+                      if(conceptNodes.length){
+                         knowledgeMap=conceptNodes[0];  
+                      }
+                      else{
+                          knowledgeMap=conceptNodes
+                      }
+                    
                       knowledgeMap.id=items[i].KnowledgeMapId;
                       knowledgeMap.IsPublic=items[i].IsPublic;
                       knowledgeMap.text=  items[i].Name;
@@ -204,8 +212,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                       var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
                     
-                     var conceptNodes= JSON.parse(items[i].Concepts)            
-                     var  knowledgeMap=conceptNodes[0];  
+                     var conceptNodes= JSON.parse(items[i].Concepts) 
+                      var  knowledgeMap=null;
+                      if(conceptNodes.length){
+                         knowledgeMap=conceptNodes[0];  
+                      }
+                      else{
+                          knowledgeMap=conceptNodes
+                      }
+                       
                       knowledgeMap.id=items[i].KnowledgeMapId;
                       knowledgeMap.IsPublic=items[i].IsPublic;
                       knowledgeMap.text=  items[i].Name;

@@ -245,20 +245,24 @@ OTS.AigKnowledgeMapListManagementView=function(){
              
                  var id=me.knowledgeMaplistView.id();
                   var item=new OTS.DataModel.KnowledgeMap();
-                   item.id=id;
+                   item.id=me.selectedKnowledgeMap.id;
                    item.text=me.knowledgeMaplistView.name();
                    item.name= me.knowledgeMaplistView.name();
                    item.description= me.knowledgeMaplistView.description();
                  
-                    var selectedknowledgeMap=   me.selectedKnowledgeMap;
-                    selectedknowledgeMap.id=item.id;
+                    var selectedknowledgeMap=  me.selectedKnowledgeMap;
+                    selectedknowledgeMap.id=me.selectedKnowledgeMap.id;
+                    selectedknowledgeMap.KnowledgeMapId=me.selectedKnowledgeMap.id;
                     selectedknowledgeMap.text=item.text;
                     selectedknowledgeMap.name=item.name;
                     selectedknowledgeMap.description=item.description;
-                 
-                   var data=JSON.stringify(selectedknowledgeMap);
+                   
+                    var updatedKnowledgeMap=selectedknowledgeMap;
+                    updatedKnowledgeMap.Concepts=me.EncodeString(JSON.stringify(selectedknowledgeMap));
+                   var data=JSON.stringify(updatedKnowledgeMap);
+                   var verifyKnowledgeMap=JSON.parse(data);
                   var knowledgeMap=me.EncodeString(data);
-                 
+                
                   knowledgeMapComponent.UpdateKnowledgeMap(item,knowledgeMap,function(e){
                 
                    var result=JSON.parse(e);
