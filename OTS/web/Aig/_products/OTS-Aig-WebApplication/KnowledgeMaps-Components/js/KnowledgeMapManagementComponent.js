@@ -154,23 +154,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                          && items[i].Concepts!=="" ){
                      var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
-                    /*
-                      var knowledgeMap= JSON.parse(items[i].Concepts);
-                      knowledgeMap.id=items[i].KnowledgeMapId;
-                      knowledgeMap.IsPublic=items[i].IsPublic;
-                      knowledgeMap.text=  items[i].Name;
-                      knowledgeMap.name=items[i].Name;
-                      knowledgeMap.description=items[i].Description;
-                      knowledgeMap.isImported=items[i].isImported;
-                      knowledgeMap.iconClass=items[i].iconClass
-                     
-                     var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
-                                  items[i].Name,
-                                  items[i].Description);
-                      */            
-                                  
-                     var conceptNodes= JSON.parse(items[i].Concepts)            
-                            
+                          
+                     var conceptNodes= JSON.parse(items[i].Concepts)              
                      var  knowledgeMap=conceptNodes[0];  
                       knowledgeMap.id=items[i].KnowledgeMapId;
                       knowledgeMap.IsPublic=items[i].IsPublic;
@@ -215,22 +200,6 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                          && items[i].Concepts!=="" ){
                       var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
-                      /*
-                      var knowledgeMap= JSON.parse(items[i].Concepts);
-                      knowledgeMap.id=items[i].KnowledgeMapId;
-                      knowledgeMap.IsPublic=items[i].IsPublic;
-                      knowledgeMap.text=  items[i].Name;
-                      knowledgeMap.name=items[i].Name;
-                      knowledgeMap.description=items[i].Description;
-                      knowledgeMap.isImported=items[i].isImported;
-                      knowledgeMap.iconClass=items[i].iconClass 
-                      knowledgeMap.nodes=
-                      knowledgeMaps.push(knowledgeMap);
-                     
-                   var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
-                                  items[i].Name,
-                                  items[i].Description);
-                     */
                     
                      var conceptNodes= JSON.parse(items[i].Concepts)            
                      var  knowledgeMap=conceptNodes[0];  

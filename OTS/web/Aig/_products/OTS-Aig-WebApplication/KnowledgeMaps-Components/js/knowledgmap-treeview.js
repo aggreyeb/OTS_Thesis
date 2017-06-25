@@ -203,6 +203,10 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         }
     };
 
+    me.RetriveRootNode=function(){
+        var rootNode=nodes[0];
+        return rootNode;
+    };
     me.FindNode = function(nodeId) {
         return findNode(nodes,nodeId);
     };
@@ -310,7 +314,8 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     };
     
     me.UnSelectNodes=function(){
-       var selectedItems= $(element).treeview('getSelected');
+       try{
+         var selectedItems= $(element).treeview('getSelected');
         if(!selectedItems.length){
            $(element).treeview('unselectNode', [selectedItems.nodeId, { silent: true } ]);
         }
@@ -320,6 +325,11 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
                 $(element).treeview('unselectNode', [item.nodeId, { silent: true } ]);
             }
         }
+       }
+       catch(error){
+           console.info(error);
+       };
+       
        
     };
 

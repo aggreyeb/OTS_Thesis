@@ -105,7 +105,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
            knowledgeMapTreeView.OnStateChanged(function(e){});
            knowledgeMapTreeView.Render($('#knowledgeMaps-tree'),[data]);
-        
+           knowledgeMapTreeView.UnSelectNodes();
         },
         onReturnToKnowledgeMapList:function(){
             me.HideKnowledgeMapEditor();
@@ -412,7 +412,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
             knowledgeMapComponent.UpdateKnowledgeMap(item,knowledgeMap, function(e){
                 var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                    knowledgeMapTreeView.UnSelectNodes();
                     console.log("node added");
+                    
                 }
             });
           },
@@ -422,12 +424,34 @@ OTS.AigKnowledgeMapListManagementView=function(){
                   alert("It appears no node is not selected");
                   return;
               }
-              // var currentNodeSelected=me.knowledgeMapEditorViewModel.selectedNode;
+           
                var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
               var currentNodeSelected=selectedNodes[0];
-              knowledgeMapTreeView.RemoveNode(currentNodeSelected);
-               me.KnowledgeMapTreeStateChanged=true;
-              knowledgeMapTreeView.UnSelectNodes();
+              //Save in to the database
+              var rootNode=knowledgeMapTreeView.RetriveRootNode();
+               var item={
+                id:rootNode.id,
+                name:rootNode.name,
+                description:rootNode.description
+            };
+            knowledgeMapTreeView.RemoveNode(currentNodeSelected);
+            var verifyKnowledgeMap=JSON.parse(knowledgeMapTreeView.ToJson());
+            var knowledgeMap= me.EncodeString(knowledgeMapTreeView.ToJson());
+        
+            knowledgeMapComponent.UpdateKnowledgeMap(item,knowledgeMap, function(e){
+                var result=JSON.parse(e);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                    knowledgeMapTreeView.UnSelectNodes();
+                    me.KnowledgeMapTreeStateChanged=true;
+                    me.showConceptSchemaAlert(true);
+                    me.showConceptSchemaHeading(false);
+                      console.log("node Removed");
+                }
+            });
+              
+              
+            
+             // knowledgeMapTreeView.UnSelectNodes();
           },
           updateNode:function(){
                alert("update node");
