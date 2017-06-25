@@ -29,12 +29,13 @@ public class KnowledgeMapsDataService {
         this.currentDate=new Date();
     }
     
-    public TransactionResult CreateNew(int userId,String name,String description){
+    public TransactionResult CreateNew(int userId,String name,String description,String knowledgeMap){
         TransactionResult result= new TransactionResult();
         try{
           Knowledgemap km= new Knowledgemap();
           km.setName(name);
           km.setDescription(description);
+          km.setConcepts(knowledgeMap);
           User u= (User)this.dataSource.Find(User.class,new Integer(userId));
           km.setUser(u);
           km.setIsPublic(Boolean.TRUE);
@@ -110,13 +111,14 @@ public class KnowledgeMapsDataService {
     }
     
     
-     public TransactionResult UpdateKnowledgeMap(int id,String name,String description){
+     public TransactionResult UpdateKnowledgeMap(int id,String name,String description,String knowledgeMap){
         TransactionResult result= new TransactionResult();
         try{
           Knowledgemap km= (Knowledgemap)this.dataSource.Find(Knowledgemap.class,new Integer(id));
           if(km!=null){
              km.setName(name);
              km.setDescription(description);
+             km.setConcepts(knowledgeMap);
              this.dataSource.Update(km);
              result.ActionResultType=ActionResultType.ok;
              result.Message="Updated";

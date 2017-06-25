@@ -110,7 +110,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
 
    me.ToJson=function(){
        
-       return JSON.stringify(nodes[0]);
+       return JSON.stringify(nodes);
    };
 
     me.ToList = function() {
@@ -209,17 +209,31 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
 
     me.AddNode = function(selectedNode, node) {
         if (node instanceof OTS.DataModel.ConceptNode) {
-            var item = me.FindNode(selectedNode.id);
-            node.parentid=selectedNode.id;
-            if (item != null) {
-                item.nodes.push(node);
+            var item = null;
+            if(selectedNode.parentId===undefined || selectedNode.parentId===null){
+               item  = me.FindNode(selectedNode.id);
+                node.parentid=selectedNode.id;
+                 item.nodes.push(node)
+                 me.Refresh();
+               var selector=$(innerTree).selector;
+               $(selector).treeview('expandAll', { silent: true });
+                // var json = serializer.ToString(nodes[0].nodes);
+                return;
             }
-            me.Refresh();
-            var selector=$(innerTree).selector;
-            $(selector).treeview('expandAll', { silent: true });
-            var json = serializer.ToString(nodes);
-             notifyStateChange({action:changeType.ADDED,data: json,node:node});
-            return;
+          
+             item  = me.FindNode(selectedNode.id);
+             node.parentid=selectedNode.id;
+             if (item !== null) {
+                item.nodes.push(node);
+                 me.Refresh();
+               var selector=$(innerTree).selector;
+               $(selector).treeview('expandAll', { silent: true });
+              // var json = serializer.ToString(nodes[0].nodes);
+              // notifyStateChange({action:changeType.ADDED,data: json,node:node});
+              return;
+                
+            }
+           
         }
         throw new Error("node is not type of node");
     };

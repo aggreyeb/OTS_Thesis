@@ -27,9 +27,9 @@ OTS.AigKnowlegeMapDataSource=function(){
        });
     };
     
-    me.CreateNew=function(data,callbackFunction){
+    me.CreateNew=function(data,knowledgeMap,callbackFunction){
        var callback= callbackFunction;
-       var data={action:actionType.NEW,ID:data.id, Name:data.name, Description:data.description};
+       var data={action:actionType.NEW,ID:data.id, Name:data.name, Description:data.description,KnowledgeMap:knowledgeMap};
          
         $.post("KnowledgeMapServlet",data,function(msg){
            if(callback!==undefined && callback!==null )
@@ -47,9 +47,9 @@ OTS.AigKnowlegeMapDataSource=function(){
         });
    };
     
-    me.UpdateKnowledeMap=function(data,callbackFunction){
+    me.UpdateKnowledeMap=function(data,knowledgeMap,callbackFunction){
        var callback= callbackFunction;
-       var data={action:actionType.UPDATE,ID:data.id, Name:data.name, Description:data.description};
+       var data={action:actionType.UPDATE,ID:data.id, Name:data.name, Description:data.description,KnowledgeMap:knowledgeMap};
          
         $.post("KnowledgeMapServlet",data,function(msg){
            if(callback!==undefined && callback!==null )

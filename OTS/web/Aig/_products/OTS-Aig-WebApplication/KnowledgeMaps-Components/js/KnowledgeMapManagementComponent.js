@@ -144,7 +144,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
-             var items=JSON.parse(result.Content);
+              var knowledgeMaps=[];
+              var items=JSON.parse(result.Content);
             
              for(var i=0;i<items.length;i++){
                  if(items[i].Concepts &&
@@ -153,12 +154,39 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                          && items[i].Concepts!=="" ){
                      var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
+                    /*
+                      var knowledgeMap= JSON.parse(items[i].Concepts);
+                      knowledgeMap.id=items[i].KnowledgeMapId;
+                      knowledgeMap.IsPublic=items[i].IsPublic;
+                      knowledgeMap.text=  items[i].Name;
+                      knowledgeMap.name=items[i].Name;
+                      knowledgeMap.description=items[i].Description;
+                      knowledgeMap.isImported=items[i].isImported;
+                      knowledgeMap.iconClass=items[i].iconClass
+                     
+                     var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
+                                  items[i].Name,
+                                  items[i].Description);
+                      */            
+                                  
+                     var conceptNodes= JSON.parse(items[i].Concepts)            
+                            
+                     var  knowledgeMap=conceptNodes[0];  
+                      knowledgeMap.id=items[i].KnowledgeMapId;
+                      knowledgeMap.IsPublic=items[i].IsPublic;
+                      knowledgeMap.text=  items[i].Name;
+                      knowledgeMap.name=items[i].Name;
+                      knowledgeMap.description=items[i].Description;
+                      knowledgeMaps.push(knowledgeMap);
                  }
                  else{
-                    items[i].Concepts=""; 
+                   knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
+                                  items[i].Name,
+                                  items[i].Description);
+                                  knowledgeMap.nodes=[]; 
                  }
              }
-             knowlegemapListManagement.DataBind(items);
+             knowlegemapListManagement.DataBind(knowledgeMaps);
           }
          });
             return;
@@ -177,21 +205,51 @@ OTS.AigKnowledgeMapManagementComponent=function(){
       datasource.ListTeacherKnowledgeMaps(function(msg){
           var result=JSON.parse(msg);
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
-             var items=JSON.parse(result.Content);
+              var knowledgeMaps=[];
+              var items=JSON.parse(result.Content);
                try{
               for(var i=0;i<items.length;i++){
                  if(items[i].Concepts &&
                          items[i].Concepts!==undefined 
                          && items[i].Concepts!==null 
                          && items[i].Concepts!=="" ){
-                     var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
+                      var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
                       items[i].Concepts= me.DecodeString(replecedBackSlashes);
+                      /*
+                      var knowledgeMap= JSON.parse(items[i].Concepts);
+                      knowledgeMap.id=items[i].KnowledgeMapId;
+                      knowledgeMap.IsPublic=items[i].IsPublic;
+                      knowledgeMap.text=  items[i].Name;
+                      knowledgeMap.name=items[i].Name;
+                      knowledgeMap.description=items[i].Description;
+                      knowledgeMap.isImported=items[i].isImported;
+                      knowledgeMap.iconClass=items[i].iconClass 
+                      knowledgeMap.nodes=
+                      knowledgeMaps.push(knowledgeMap);
+                     
+                   var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
+                                  items[i].Name,
+                                  items[i].Description);
+                     */
+                    
+                     var conceptNodes= JSON.parse(items[i].Concepts)            
+                     var  knowledgeMap=conceptNodes[0];  
+                      knowledgeMap.id=items[i].KnowledgeMapId;
+                      knowledgeMap.IsPublic=items[i].IsPublic;
+                      knowledgeMap.text=  items[i].Name;
+                      knowledgeMap.name=items[i].Name;
+                      knowledgeMap.description=items[i].Description;
+                      knowledgeMaps.push(knowledgeMap);
                  }
                  else{
-                    items[i].Concepts=""; 
+                    knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
+                                  items[i].Name,
+                                  items[i].Description);
+                                  knowledgeMap.nodes=[];
+                 
                  }
              }
-               knowlegemapListManagement.DataBind(items);
+               knowlegemapListManagement.DataBind(knowledgeMaps);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
               catch(error){
@@ -226,18 +284,18 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        });
    };
    
-    me.SaveKnowledgeMap=function(data,callbackFunction){
+    me.SaveKnowledgeMap=function(data,knowledgeMap,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
-       datasource.CreateNew(data,function(msg){
+       datasource.CreateNew(data,knowledgeMap,function(msg){
           if(callbackFunction instanceof Function){
               callbackFunction(msg);
           }
        });
    };
    
-   me.UpdateKnowledgeMap=function(data,callbackFunction){
+   me.UpdateKnowledgeMap=function(data,knowledgeMap,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
-       datasource.UpdateKnowledeMap(data,function(msg){
+       datasource.UpdateKnowledeMap(data,knowledgeMap,function(msg){
           if(callbackFunction instanceof Function){
               callbackFunction(msg);
           }

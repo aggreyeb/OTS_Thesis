@@ -57,7 +57,7 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     me.state = {
         checked: false,
         disabled: false,
-        expanded: false,
+        expanded: true,
         selected: false
     };
     //end Style
@@ -80,9 +80,22 @@ OTS.DataModel.KnowledgeMap = function(id, text, description) {
     me.name=text;
     me.description = description;
     me.nodes = []; ////collection of ConceptNodeItem
-    me.conceptSchemas="";
+    me.Concepts="";
     me.isImported=false;
-    me.iconClass=""
+    me.iconClass="fa fa-asterisk";
+     //style
+    me.icon = ""; //glyphicon glyphicon-stop
+    me.selectedIcon = "-";//glyphicon glyphicon-stop
+    me.color = "#000000";//
+    me.backColor = "#FFFFFF";//#FFFFFF
+    me.href = "";//#node-1
+    me.selectable = true;
+    me.state = {
+        checked: false,
+        disabled: false,
+        expanded: true,
+        selected: false
+    };
 };
 
 OTS.DataModel.ConceptNodes = function() {

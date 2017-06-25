@@ -123,8 +123,9 @@ public class KnowledgeMapServlet extends Servlet {
               case  "Aig-create-new":
               Name =request.getParameter("Name");
               Description =request.getParameter("Description");
+               String knowledgeMap=request.getParameter("KnowledgeMap");
                service= new KnowledgeMapsDataService(new MySqlDataSource());
-               result= service.CreateNew(userId, Name, Description);
+               result= service.CreateNew(userId, Name, Description,knowledgeMap);
                return result ;
               
               case "Aig-List-Teacher-KnowledgeMaps":
@@ -136,9 +137,10 @@ public class KnowledgeMapServlet extends Servlet {
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
                  Name =request.getParameter("Name");
                  Description =request.getParameter("Description");
+                String KnowledgeMap=request.getParameter("KnowledgeMap");
                  int id =Integer.parseInt(request.getParameter("ID"));
                  String knowlegeMap=request.getParameter("KnowlegeMap");
-                 result= service.UpdateKnowledgeMap(id,Name,Description);
+                 result= service.UpdateKnowledgeMap(id,Name,Description,KnowledgeMap);
                  return result;
                
               case "Aig-Delete-KnowledgeMap":
