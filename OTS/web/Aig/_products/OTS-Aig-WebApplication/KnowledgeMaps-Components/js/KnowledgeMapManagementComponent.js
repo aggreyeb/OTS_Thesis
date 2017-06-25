@@ -173,6 +173,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
              }
              knowlegemapListManagement.DataBind(knowledgeMaps);
           }
+          else{
+              
+          }
          });
             return;
       }
@@ -222,7 +225,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
               catch(error){
-                 knowlegemapListManagement.DataBind([]);
+                  console.log(error);
+                  knowlegemapListManagement.DataBind([]);
                  ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
             knowlegemapListManagement.HideSaveAlert();

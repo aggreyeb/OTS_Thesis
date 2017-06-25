@@ -242,38 +242,37 @@ OTS.AigKnowledgeMapListManagementView=function(){
            }
                
           if(me.selectedMode===modeType.Edit){
-                   var id=me.knowledgeMaplistView.id();
+             
+                 var id=me.knowledgeMaplistView.id();
                   var item=new OTS.DataModel.KnowledgeMap();
                    item.id=id;
                    item.text=me.knowledgeMaplistView.name();
                    item.name= me.knowledgeMaplistView.name();
                    item.description= me.knowledgeMaplistView.description();
                  
-                   
-                   var data=JSON.parse(item.Concepts);
-                   data.text=item.text;
-                   data.name=item.text;
-                   data.description=item.description;
-                  
-                   var data=JSON.stringify(item);
+                    var selectedknowledgeMap=   me.selectedKnowledgeMap;
+                    selectedknowledgeMap.id=item.id;
+                    selectedknowledgeMap.text=item.text;
+                    selectedknowledgeMap.name=item.name;
+                    selectedknowledgeMap.description=item.description;
+                 
+                   var data=JSON.stringify(selectedknowledgeMap);
                   var knowledgeMap=me.EncodeString(data);
+                 
                   knowledgeMapComponent.UpdateKnowledgeMap(item,knowledgeMap,function(e){
-                 var result=JSON.parse(e);
+                
+                   var result=JSON.parse(e);
                  if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                   //update concept schema
-             
-                  knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(newItem,function(msg){
-                 me.knowledgeMaplistView.knowledgeMaps.replace(me.selectedKnowledgeMap,newItem);
-               
-              $("#div-knowledgeMaps-alert").removeClass("alert-info");
-              $("#div-knowledgeMaps-alert").addClass("alert-success");
-              me.knowledgeMaplistViewActions.saveAlertVisible(true);
-              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
-               });
-                   
-                 
-             }
-             else{
+                     var  decoded=me.DecodeString(knowledgeMap);
+                     var jsonKnowledgeMap=JSON.parse(decoded);
+                    me.knowledgeMaplistView.knowledgeMaps.replace(me.selectedKnowledgeMap,jsonKnowledgeMap);
+                     $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                     $("#div-knowledgeMaps-alert").addClass("alert-success");
+                     me.knowledgeMaplistViewActions.saveAlertVisible(true);
+                     me.knowledgeMaplistViewActions.saveAlertMesssge("Save Done");  
+                  }
+                 else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-danger");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
