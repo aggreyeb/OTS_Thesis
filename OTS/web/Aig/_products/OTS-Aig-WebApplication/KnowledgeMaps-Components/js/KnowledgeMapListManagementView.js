@@ -454,7 +454,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
             
           },
           updateNode:function(){
-             //Rename
+            //******************* //Rename******************
               if(me.conceptSchemaFormHeading()===undefined ||
                       me.conceptSchemaFormHeading()===null ||
                       me.conceptSchemaFormHeading()===""){
@@ -465,6 +465,31 @@ OTS.AigKnowledgeMapListManagementView=function(){
               var currentNodeSelected=selectedNodes[0];
               var newName=me.conceptSchemaFormHeading();
               knowledgeMapTreeView.RenameNode(currentNodeSelected,newName);
+              
+              //Save to the database
+             
+              var rootNode=knowledgeMapTreeView.RetriveRootNode();
+               var item={
+                id:rootNode.id,
+                name:rootNode.name,
+                description:rootNode.description
+            };
+          
+            var verifyKnowledgeMap=JSON.parse(knowledgeMapTreeView.ToJson());
+            var knowledgeMap= me.EncodeString(knowledgeMapTreeView.ToJson());
+           knowledgeMapComponent.UpdateKnowledgeMap(item,knowledgeMap, function(e){
+                var result=JSON.parse(e);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                    knowledgeMapTreeView.UnSelectNodes();
+                    me.KnowledgeMapTreeStateChanged=true;
+                   // me.showConceptSchemaAlert(true);
+                   // me.showConceptSchemaHeading(false);
+                      console.log("node Renamed");
+                }
+            });
+            
+              
+              
           },
           canAddNode:function(){
            var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
