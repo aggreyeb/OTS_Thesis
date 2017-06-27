@@ -162,7 +162,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                          knowledgeMap=conceptNodes[0];  
                       }
                       else{
-                          knowledgeMap=conceptNodes
+                          knowledgeMap=conceptNodes;
                       }
                     
                       knowledgeMap.id=items[i].KnowledgeMapId;

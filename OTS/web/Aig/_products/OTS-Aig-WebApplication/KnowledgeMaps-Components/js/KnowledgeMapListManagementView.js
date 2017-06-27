@@ -326,7 +326,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
           selectedRelationType:ko.observable(),
           onSelectedNode:function(e){
              
-              me.conceptSchemaFormHeading(selectedNodeText + e.name);
+              me.conceptSchemaFormHeading( e.name);
               
               if(e.parentid===undefined ||e.parentid===null || e.parentid===""){
                   //$("#cmd-submit-knowledgeMap-with-coneceptschema").click();
@@ -422,7 +422,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
             });
           },
           removeNode:function(){
-           
+         
               if(!me.knowledgeMapEditorViewModel.canRemoveNode()){
                   alert("It appears no node is not selected");
                   return;
@@ -451,13 +451,20 @@ OTS.AigKnowledgeMapListManagementView=function(){
                       console.log("node Removed");
                 }
             });
-              
-              
             
-             // knowledgeMapTreeView.UnSelectNodes();
           },
           updateNode:function(){
-               alert("update node");
+             //Rename
+              if(me.conceptSchemaFormHeading()===undefined ||
+                      me.conceptSchemaFormHeading()===null ||
+                      me.conceptSchemaFormHeading()===""){
+                   alert("Node Name can't be empty. Please enter a new name and try again");
+                  return;
+                }
+              var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+              var currentNodeSelected=selectedNodes[0];
+              var newName=me.conceptSchemaFormHeading();
+              knowledgeMapTreeView.RenameNode(currentNodeSelected,newName);
           },
           canAddNode:function(){
            var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();

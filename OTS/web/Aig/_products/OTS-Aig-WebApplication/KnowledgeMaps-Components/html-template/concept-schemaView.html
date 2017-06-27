@@ -8,8 +8,19 @@
           <a  data-bind="click:$root.SubmitKnowledgeMap" id="cmd-submit-knowledgeMap-with-coneceptschema" href="#" class="btn btn-lg btn-success">Submit <i id="submit-spinner" class="fa fa-spinner load-animate icon-spinner fa-2x"></i></a>
         </div>
         <h3><span class="label label-default">Concept Schema</span></h3> 
-        <h3><span data-bind="text:conceptSchemaFormHeading" class="label label-primary"></span></h3>
-        <div style="display: none" id="alert-validation-alert" class="alert alert-danger">Validation Alert</div>
+       <!-- <h3><span data-bind="text:conceptSchemaFormHeading" class="label label-primary"></span></h3>-->
+       <div style="margin-bottom: 10px" class="row">
+           <div class="col-xs-12">
+               <div style="width:400px" class="input-group">
+                <input  data-bind="value:conceptSchemaFormHeading" type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
+               <!-- <span class="input-group-addon" id="basic-addon2"><a class="btn btn-sm btn-primary" href="#">Rename selected Node</a></span>-->
+               <a  data-bind="click:knowledgeMapEditorViewModel.updateNode"class="btn btn-sm btn-primary input-group-addon" href="#">Rename selected Node</a>           
+               </div> 
+            
+           </div>
+       </div>
+      
+       <div style="display: none" id="alert-validation-alert" class="alert alert-danger">Validation Alert</div>
     </div>
     
     <div  data-bind="visible:showConceptSchemaHeading" class="panel-group" id="accordion">

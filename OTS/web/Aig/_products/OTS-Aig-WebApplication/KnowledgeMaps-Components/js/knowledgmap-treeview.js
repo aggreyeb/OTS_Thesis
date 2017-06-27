@@ -221,7 +221,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
                  me.Refresh();
                var selector=$(innerTree).selector;
                $(selector).treeview('expandAll', { silent: true });
-                // var json = serializer.ToString(nodes[0].nodes);
+             
                 return;
             }
           
@@ -241,6 +241,37 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         }
         throw new Error("node is not type of node");
     };
+
+
+   //Rename node
+     me.RenameNode = function(selectedNode,name) {
+           var item = me.FindNode(selectedNode.id);
+           
+            if (item.parentNodeId && item.parentNodeId!==undefined
+                    && item.parentNodeId!== null && item.parentNodeId!=="" ) {
+                var parentNode = me.FindNode(item.parentNodeId);
+                if (parentNode !== null) {
+                    var index = parentNode.nodes.indexOf(item);
+                    if (index >= 0) {
+                     parentNode.nodes[index].name=name;
+                     parentNode.nodes[index].text=name;
+                      me.Refresh();
+                      var selector=$(innerTree).selector;
+                      $(selector).treeview('expandAll', { silent: true });
+                    }
+                }
+           
+            return;
+        }
+        else{
+            //don't do anything!. Its the the root
+        }
+    
+    
+    };
+
+
+
 
     me.RemoveNode = function(selectedNode) {
        // if (selectedNode instanceof OTS.DataModel.ConceptNode) {
