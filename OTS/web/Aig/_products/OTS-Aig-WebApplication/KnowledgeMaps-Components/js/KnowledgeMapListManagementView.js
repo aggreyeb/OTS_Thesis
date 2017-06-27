@@ -798,7 +798,10 @@ OTS.AigKnowledgeMapListManagementView=function(){
     me.ImportList=ko.observableArray([]);
     me.IsImportViewOpened=false;
     me.SelectedImportItems=[];
-    
+    me.OnCloseKnowledgeMapForImport=function(){
+        $("#cmd-import-knowledgemaps").hide();
+        $("#lnk-import-list").show();
+    };
     me.onImportSelectAll=function(e){
          var checked=$(e.target).is(':checked');
         
@@ -816,7 +819,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     me.onImportKnoledgeMapsClicked=function(){
-         if(!me.IsImportViewOpened){
+          alert("Testing");
+        //if(!me.IsImportViewOpened){
               knowledgeMapComponent.ListAvailableImportsKnowledgeMap(function(msg){
              var result=JSON.parse(msg);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -827,12 +831,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
                   //Do something here!
                 }
               me.IsImportViewOpened=true;
-        });
+              $("#lnk-import-list").hide();
+              $("#cmd-import-knowledgemaps").click();
+              $("#cmd-import-knowledgemaps").slideDown();
              
-         }
-         else{
-              me.IsImportViewOpened=false;
-         }
+           });
+             
+         //}
+        // else{
+             // me.IsImportViewOpened=false;
+        // }
        
     };
     

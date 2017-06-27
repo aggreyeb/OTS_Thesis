@@ -91,10 +91,10 @@
         <script src="Aig/scripts/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="Aig/scripts/leaflet/esri-leaflet.js" type="text/javascript"></script>
         <script src="Aig/scripts/bootstrap-treeview/src/js/bootstrap-treeview.js" type="text/javascript"></script>
-        
-        <link href="scripts/chosen_v1.7.0/chosen.css" rel="stylesheet" type="text/css"/>
-        <script src="scripts/chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
-        
+      
+        <link href="scripts/Choosen1.7/chosen_v1.7.0/chosen.css" rel="stylesheet" type="text/css"/>
+        <script src="scripts/Choosen1.7/chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
+       
         <!--APPLICATION FRAMEWORK-->
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/LocalStorage.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/data-model.js" type="text/javascript"></script>

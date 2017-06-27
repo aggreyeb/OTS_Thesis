@@ -57,10 +57,10 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
          var teacherKnowledgeMaps=JSON.parse(result.LookupTables);
          viewModel.PopulateKnowledgeMaps(teacherKnowledgeMaps);
          
-         ko.applyBindings(viewModel,$("#div-course-assignment-content")[0]);
-          $(".chosen-select").chosen({width: "100%"});
+          ko.applyBindings(viewModel,$("#div-course-assignment-content")[0]);
+           $(".chosen-select").chosen({width: "100%"});
         });
-     
+      
      };
     me.UnInitialize=function(){
         initialized=false;

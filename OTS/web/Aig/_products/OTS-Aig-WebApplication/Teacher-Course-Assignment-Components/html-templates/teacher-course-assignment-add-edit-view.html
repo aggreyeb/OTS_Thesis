@@ -1,3 +1,4 @@
+
 <div class="table-responsive" style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
     <div class="row">
         <div class="col-xs-12">
@@ -20,22 +21,7 @@
             </div>
         </div>
     </div><br>
-    <!--
-    <div class="row">
-        <div  class="col-xs-12">
-            <div class="input-group">
-                <label style="padding-right: 300px">Select Course</label>
-                 <select id="sel-Course"  class="chosen-select form-control"  data-bind="options: Courses,
-                       optionsCaption: 'Choose...',
-                       optionsValue:'Id',
-                       optionsText: 'Name',
-                       selectedOptions:SelectedCourse,
-                       event:{change:Actions.onCourseChanged}">  
-                         
-                 </select>
-            </div>
-        </div>
-    </div><br>-->
+  
     <div class="row">
         <div class="col-xs-12">
             <label>Associate Knowledge Maps</label><br>
@@ -48,7 +34,7 @@
     </div><br>
     <div class="row">
         <div class="col-xs-12">
-            <div style="margin-left: 2px">
+            <div style="margin-left: 2px; margin-bottom:2px ">
                 <button data-bind="click:Actions.onSave,enable:Actions.enableSave" class="btn btn-sm btn-primary">Save</button>
             </div>
         </div>
@@ -56,7 +42,7 @@
     
      <div class="row">
         <div class="col-xs-12">
-            <div style="display: none" id="alert-course-knowledgemaps" class="alert alert-success">
+            <div  style="display: none" id="alert-course-knowledgemaps" class="alert alert-success">
                 Saved
             </div>
         </div>
