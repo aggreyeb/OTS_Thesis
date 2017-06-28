@@ -125,49 +125,47 @@ OTS.AigKnowledgeMapListManagementView=function(){
            var json=JSON.stringify(data);
            var copy=JSON.parse(json);
            copy.name +="copy";
+           copy.description+="copy";
            var editedCopy=  dataStructureKnowledgeMap.Import(copy);
-            if(editedCopy.conceptSchemas!== undefined && editedCopy.conceptSchemas!==""){
-             editedCopy.conceptSchemas=me.EncodeString(editedCopy.conceptSchemas);
-            }
-         
-            knowledgeMapComponent.SaveKnowledgeMap(editedCopy,function(e){
-               var result=JSON.parse(e);
-               editedCopy.id=result.CurrentId; //!IMPORTANT
-               editedCopy.iconClass=ko.observable("fa fa-asterisk")
-               
-            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+           
+                  var item=JSON.parse(JSON.stringify(editedCopy));
+                   item.id=editedCopy.id;
+                   item.text=editedCopy.name;
+                   item.name= editedCopy.name;
+                   item.description= editedCopy.description;
+                    
+                    
+                  editedCopy.Concepts=me.EncodeString(JSON.stringify(editedCopy));
+                  var knowledgeMap=me.EncodeString(JSON.stringify(editedCopy));
+                
+           
+            knowledgeMapComponent.SaveKnowledgeMap(item,knowledgeMap, function(e){
               
-             if(editedCopy.conceptSchemas===undefined || editedCopy.conceptSchemas===null){
-                  me.knowledgeMaplistView.knowledgeMaps.push(editedCopy);
-               
-              $("#div-knowledgeMaps-alert").removeClass("alert-info");
-              $("#div-knowledgeMaps-alert").addClass("alert-success");
-              me.knowledgeMaplistViewActions.saveAlertVisible(true);
-              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
-                 return;
-             } 
-               var item ={
-                  id: editedCopy.id,
-                  conceptSchemas:me.EncodeString(editedCopy.conceptSchemas)
-                };
-            knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
-            editedCopy.conceptSchemas=me.DecodeString(editedCopy.conceptSchemas);
-             me.knowledgeMaplistView.knowledgeMaps.push(editedCopy);
-               
-              $("#div-knowledgeMaps-alert").removeClass("alert-info");
-              $("#div-knowledgeMaps-alert").addClass("alert-success");
-              me.knowledgeMaplistViewActions.saveAlertVisible(true);
-              me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done");
-            });
-
-             }
-             else{
-              $("#div-knowledgeMaps-alert").removeClass("alert-info");
-              $("#div-knowledgeMaps-alert").addClass("alert-danger");
-              me.knowledgeMaplistViewActions.saveAlertVisible(true);
-              me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Duplicate");  
-             }
-            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
+              var result=JSON.parse(e);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+             
+              
+               //editedCopy.id=result.CurrentId; //!IMPORTANT
+               editedCopy.KnowledgeMapId=result.CurrentId; //!IMPORTANT
+               editedCopy.iconClass=ko.observable("fa fa-asterisk");
+              
+                me.knowledgeMaplistView.knowledgeMaps.push(editedCopy);
+                $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                $("#div-knowledgeMaps-alert").addClass("alert-success");
+                me.knowledgeMaplistViewActions.saveAlertVisible(true);
+                me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Done"); 
+                 $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
+                
+               }
+               else{
+                $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                $("#div-knowledgeMaps-alert").addClass("alert-danger");
+                me.knowledgeMaplistViewActions.saveAlertVisible(true);
+                me.knowledgeMaplistViewActions.saveAlertMesssge("Duplicate Failed"); 
+                $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
+              
+                }
+             
            });
            
         },
@@ -738,11 +736,11 @@ OTS.AigKnowledgeMapListManagementView=function(){
                me.conceptSchema.selectedRelationship(data.selectedRelationship.id);
             
            }
-          
+          if(parentNode!==undefined && parentNode!==null){
            me.conceptSchema.parentid(parentNode.id);
            me.conceptSchema.parentname(parentNode.text);
            me.conceptSchema.behaviourdescription(data.behaviourdescription);
-          
+           }
             if(data.selectedRelationship){
               me.conceptSchema.relationshipid(data.selectedRelationship.id ||""); 
               me.conceptSchema.relationshipname(data.selectedRelationship.name ||"");

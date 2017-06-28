@@ -50,6 +50,8 @@ OTS.AigDataStructureKnowlegeMap=function(){
    
    me.ReAssignConceptSchemasId=function(node){
       if(node===undefined || node===null) return false;
+       // node.id=new Aig.Guid().NewGuid();
+       
        if(node.behaviourDescriptions!==undefined && node.behaviourDescriptions!==null){
        for(var j=0;j<node.behaviourDescriptions.length;j++){
            node.behaviourDescriptions[j].id=new Aig.Guid().NewGuid();
@@ -82,20 +84,20 @@ OTS.AigDataStructureKnowlegeMap=function(){
             throw  new Error("knowledgeMapitem can not be null");
         
         try{
-        if(knowledgeMapItem.conceptSchemas===undefined || knowledgeMapItem.conceptSchemas===null ||knowledgeMapItem.conceptSchemas==="")
-            return knowledgeMapItem;
-        
-        var knowledgeMap=JSON.parse(me.DecodeString(knowledgeMapItem.conceptSchemas));
-        
+       knowledgeMapItem.copied=true;
+       knowledgeMapItem.iconClass="fa fa-asterisk";
+        var jsonknowledgeMap=JSON.stringify(knowledgeMapItem);
+      var  knowledgeMap=JSON.parse(jsonknowledgeMap)
         for(var i=0;i<knowledgeMap.nodes.length;i++){
             var items=printRecursive(knowledgeMap.nodes[i]);
             addNodes(items)
         }
-      
+         
         for(var i=0;i<conceptNodes.length;i++){
           // var item=  findNode(knowledgeMap.nodes,items[i].id);
           //change newid to id;
-          conceptNodes[i].newId= new Aig.Guid().NewGuid();
+          conceptNodes[i].id= new Aig.Guid().NewGuid();
+        
            me.ReAssignConceptSchemasId(conceptNodes[i]);
         }
         var editedKnowledgeMap=knowledgeMapItem;

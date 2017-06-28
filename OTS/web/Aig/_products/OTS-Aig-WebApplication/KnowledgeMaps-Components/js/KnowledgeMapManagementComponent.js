@@ -170,6 +170,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                       knowledgeMap.text=  items[i].Name;
                       knowledgeMap.name=items[i].Name;
                       knowledgeMap.description=items[i].Description;
+                      if(! knowledgeMap.iconClass){
+                           knowledgeMap.iconClass="fa fa-asterisk";
+                      }
+                     
                       knowledgeMaps.push(knowledgeMap);
                  }
                  else{
@@ -226,6 +230,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                       knowledgeMap.text=  items[i].Name;
                       knowledgeMap.name=items[i].Name;
                       knowledgeMap.description=items[i].Description;
+                      if(! knowledgeMap.iconClass){
+                           knowledgeMap.iconClass="fa fa-asterisk";
+                      }
                       knowledgeMaps.push(knowledgeMap);
                  }
                  else{
@@ -274,10 +281,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    
     me.SaveKnowledgeMap=function(data,knowledgeMap,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
-       datasource.CreateNew(data,knowledgeMap,function(msg){
-          if(callbackFunction instanceof Function){
-              callbackFunction(msg);
-          }
+       var callback=callbackFunction;
+        datasource.CreateNew(data,knowledgeMap,function(msg){
+          callback(msg);
        });
    };
    
