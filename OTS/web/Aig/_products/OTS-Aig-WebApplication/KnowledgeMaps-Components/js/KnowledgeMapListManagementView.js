@@ -733,15 +733,15 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     me.FillConceptSchema = function (data,parentNode) {
       
-       
+         
            if(data.selectedRelationship){
                me.conceptSchema.selectedRelationship(data.selectedRelationship.id);
             
            }
           
-           me.conceptSchema.parentid(parentNode.id||"");
-           me.conceptSchema.parentname(parentNode.text||"");
-           me.conceptSchema.behaviourdescription(data.behaviourdescription||"");
+           me.conceptSchema.parentid(parentNode.id);
+           me.conceptSchema.parentname(parentNode.text);
+           me.conceptSchema.behaviourdescription(data.behaviourdescription);
           
             if(data.selectedRelationship){
               me.conceptSchema.relationshipid(data.selectedRelationship.id ||""); 
@@ -819,8 +819,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     me.onImportKnoledgeMapsClicked=function(){
-          alert("Testing");
-        //if(!me.IsImportViewOpened){
+     
               knowledgeMapComponent.ListAvailableImportsKnowledgeMap(function(msg){
              var result=JSON.parse(msg);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -836,12 +835,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
               $("#cmd-import-knowledgemaps").slideDown();
              
            });
-             
-         //}
-        // else{
-             // me.IsImportViewOpened=false;
-        // }
-       
+        
     };
     
     me.SubmitSelectedForImport=function(){

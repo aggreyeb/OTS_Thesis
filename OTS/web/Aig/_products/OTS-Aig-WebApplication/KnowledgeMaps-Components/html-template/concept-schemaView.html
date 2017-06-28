@@ -132,10 +132,10 @@
                           </tr>
                           <tbody data-bind="foreach:conceptSchema.attributes">
                               <tr>
-                                  <td style="width: 65%"><input title="Name of the attribute. e.g. size" style="width: 350px" class="form-control" data-bind="value:name" type="text" /></td>
-                                  <td style="width: 15%"><input title="Data Type of the attribute. e.g. integer,String,Array,Array,Generic<T>" style="width: 350px" class="form-control" data-bind="value:type" type="text" /></td>
-                                  <td style="width: 10%"><input title="Inititial value of the attribute" style="width: 50px" class="form-control" data-bind="value:attributeValue" type="text" /></td>
-                                  <td style="width: 5%"><a data-bind="event:{click:$parent.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a></td>
+                                  <td ><input title="Name of the attribute. e.g. size" style="width: 340px" class="form-control" data-bind="value:name" type="text" /></td>
+                                  <td ><input title="Data Type of the attribute. e.g. integer,String,Array,Array,Generic<T>"  class="form-control" data-bind="value:type" type="text" /></td>
+                                  <td ><input title="Inititial value of the attribute" style="width: 50px" class="form-control" data-bind="value:attributeValue" type="text" /></td>
+                                  <td ><a data-bind="event:{click:$parent.removeAttribute}" title="Delete" href="#" ><i class="fa fa-remove"></i></a></td>
                               </tr>
                           </tbody>
                       </table>

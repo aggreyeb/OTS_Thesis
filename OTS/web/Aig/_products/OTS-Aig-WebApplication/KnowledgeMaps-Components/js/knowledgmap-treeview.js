@@ -42,7 +42,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
    
     var findNode = function (nodes, id) {
         for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].id === id) {
+            if (nodes[i].id.toString() === id.toString()) {
                 return nodes[i];
             }
             if (nodes[i].nodes.length > 0) {
