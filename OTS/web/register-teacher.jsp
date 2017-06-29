@@ -70,38 +70,39 @@
              <h3> <span class="label label-default">Request Account</span></h3>
               <form class="form-horizontal" role="form">
                  <div class="form-group">
-                 <label class="control-label col-sm-2" for="txtFirstName">Firstname:</label>
+                 <label class="control-label col-sm-2" for="txtFirstName">First Name:</label>
                  <div class="col-sm-10">
-                     <input data-bind="value:FirstName" type="text" class="form-control" id="txtFirstName" placeholder="Enter firstname">
+                     <input id="txt-firstName" data-bind="value:FirstName,event:{blur:OnFirstNameLostFocus}" type="text" class="form-control" id="txtFirstName" placeholder="Enter your  first name">
                  </div>
                </div>
                  <div class="form-group">
-                 <label class="control-label col-sm-2" for="txtLastName">Lastname:</label>
+                 <label class="control-label col-sm-2" for="txtLastName">Last Name:</label>
                  <div class="col-sm-10">
-                     <input data-bind="value:LastName" type="text" class="form-control" id="txtLastName" placeholder="Enter Lastname">
+                     <input id="txtlastName" data-bind="value:LastName,event:{blur:OnLastNameLostFocus}" type="text" class="form-control" id="txtLastName" placeholder="Enter your last name">
                  </div>
                </div>
                <div class="form-group">
                  <label class="control-label col-sm-2" for="email">Login Email:</label>
                  <div class="col-sm-10">
-                     <input data-bind="value:LoginEmail" type="email" class="form-control" id="email" placeholder="Enter email: This will be your login email">
+                     <input id="txtloginEmal" data-bind="value:LoginEmail,event:{blur:OnEmailLostFocus}" type="email" class="form-control" id="email" placeholder="Enter your email: this will be your login email">
                  </div>
                </div>
                <div class="form-group">
                  <label class="control-label col-sm-2" for="pwd">Password:</label>
                  <div class="col-sm-10"> 
-                     <input data-bind="value:Password" type="password" class="form-control" id="pwd" placeholder="Enter password">
+                     <input id="txtpassword" data-bind="value:Password,event:{blur:OnPasswordLostFocus}" type="password" class="form-control" id="pwd" placeholder="Enter your password">
                  </div>
                </div>
                <div class="form-group">
-                 <label class="control-label col-sm-2" for="txtRepeatPassword">Repeat Password:</label>
+                 <label class="control-label col-sm-2" for="txtRepeatPassword">Retype password:</label>
                  <div class="col-sm-10"> 
-                     <input data-bind="value:RepeatPassword" type="password" class="form-control" id="txtRepeatPassword" placeholder="Repeat password">
+                     <input id="txtRepeatPassword" data-bind="value:RepeatPassword,event:{blur:OnRepeatPasswordLostFocus}" type="password" class="form-control" id="txtRepeatPassword" placeholder="Retype password">
                  </div>
                </div>
                <div class="form-group"> 
                  <div class="col-sm-offset-2 col-sm-10">
-                     <button  data-bind="enable:CanSubmit, click:CreateAccount" type="submit" class="btn btn-primary pull-right">Submit <i id="create-account-spinner" class="" style="font-size:24px"></i></button>
+                     <!--enable:CanSubmit,-->
+                     <button  data-bind=" click:CreateAccount" type="submit" class="btn btn-primary pull-right">Submit <i id="create-account-spinner" class="" style="font-size:24px"></i></button>
                  </div>
                </div>
                 </form>

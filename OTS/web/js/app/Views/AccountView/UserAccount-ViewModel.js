@@ -20,6 +20,75 @@ OTS.ViewModels.UserAccountViewModel=function(){
    me.AccountFormVisible=ko.observable(true);
    me.FormHeading=ko.observable("");
    
+   var validationErrorColor="yellow";
+   me.OnFirstNameLostFocus=function(data,e){
+       if(me.FirstName()===""){
+           //Hightlight and set focus on the textbox
+           $("#txt-firstName").css({"background-color": validationErrorColor});
+           $("#txt-firstName").focus();
+       }
+       else{
+          $("#txt-firstName").css({"background-color": ""});
+       }
+   };
+   
+   me.OnLastNameLostFocus=function(data,e){
+     
+       if(me.LastName()===""){
+           //Hightlight and set focus on the textbox
+           $("#txtlastName").css({"background-color": validationErrorColor});
+           $("#txtlastName").focus();
+       }
+       else{
+          $("#txtlastName").css({"background-color": ""});
+       }
+   };
+   
+    me.OnEmailLostFocus=function(data,e){
+       if(me.LoginEmail()===""){
+          
+           $("#txtloginEmal").css({"background-color": validationErrorColor});
+           $("#txtloginEmal").focus();
+       }
+       else{
+          if(!me.IsValidEmail(me.LoginEmail())){
+              $("#txtloginEmal").css({"background-color": validationErrorColor});
+              $("#account-message-box").addClass("alert alert-danger");
+              $("#account-message-box").html('<p>Email you entered is not valid</p>');
+              $("#account-message-box").show();
+              $("#txtloginEmal").focus();  
+            
+           }
+           else{
+               $("#txtloginEmal").css({"background-color": ""}); 
+           } 
+           
+       }
+   };
+   
+   
+   me.OnPasswordLostFocus=function(data,e){
+       if(me.Password()===""){
+          
+           $("#txtpassword").css({"background-color": validationErrorColor});
+           $("#txtpassword").focus();
+       }
+       else{
+          $("#txtpassword").css({"background-color": ""});
+       }
+   };
+   
+   me.OnRepeatPasswordLostFocus=function(data,e){
+       if(me.RepeatPassword()===""){
+          
+           $("#txtRepeatPassword").css({"background-color": validationErrorColor});
+           $("#txtRepeatPassword").focus();
+       }
+       else{
+          $("#txtRepeatPassword").css({"background-color": ""});
+       }
+   };
+   
    me.onPasswordReset=function($passwordResetCallback){
         if($passwordResetCallback===undefined ||$passwordResetCallback===null ){
             throw new Error("$passwordResetCallback is not a function");
@@ -67,8 +136,15 @@ OTS.ViewModels.UserAccountViewModel=function(){
    };
    
    me.CreateAccount=function(){
-      
-     
+         $("#account-message-box").hide();
+         $("#account-message-box").removeClass("alert alert-danger");
+       if(me.Password() !==me.RepeatPassword()){
+          
+           $("#account-message-box").addClass("alert alert-danger");
+           $("#account-message-box").html('<p>Password and  Retyped password are not the same</p>');
+           $("#account-message-box").show();
+           return;
+       }
        if(createAccountCallback!==null){
           
           var accountItem={
@@ -197,12 +273,13 @@ OTS.ViewModels.UserAccountViewModel=function(){
    
    
      me.CanSubmit=ko.computed(function(){
-       
+       /*
        var result= me.Validate();
        if(validationCallback!==null){
            validationCallback({IsValid:result.IsValid,Errors:result.Errors})
        }
        return result.IsValid;
+       */
    });
  
  

@@ -229,7 +229,6 @@ public class Users {
     
     
       public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
-        String[] AutoCourses=new String[]{"Introduction to Biology","Intermediate Biology","Advance Biology"};
          
           Transaction  tx=null;
           SessionFactory sessionFactory =NewHibernateUtil.getSessionFactory();
@@ -258,28 +257,7 @@ public class Users {
                    // this.dataSource.Save(user);
                     session.save(user);
                  
-                    int val=  (int) (Math.random() * 3);
-                     
-                    String selectedCourse=AutoCourses[val];
-                    
-                    String number= Integer.toString(new Random().nextInt(700));
-                    OTS.DataModels.Academiccourse academicCourse= new OTS.DataModels.Academiccourse();
-               
-                     academicCourse.setNumber(number);
-                     academicCourse.setName(selectedCourse);
-                     academicCourse.setDescription(selectedCourse);
-                     session.save(academicCourse);
-                    //Course Save
-                    academicCourse.setName(selectedCourse + " Level " + " "+ academicCourse.getCourseTypeId());
-                    //Update the Course Name
-                   
-                    session.update(academicCourse);
-        
-                   //Assign the course to teacher
-                 //  courses.AssignTeacherCourse(item.CourseTypeId, user.getUserId(), response);
-                    String sql = "insert into courseassignment(TeacherId,CourseId,AssignOn,IsCompleted) Values(" + user.getUserId() + "," + academicCourse.getCourseTypeId() + "," + "Now()," + 0 + ")"; 
-                    Query query=session.createSQLQuery(sql);
-                    query.executeUpdate(); 
+                  
       
                     tx.commit();
                    response.UpdateID(user.getUserId());
