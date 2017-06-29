@@ -131,7 +131,7 @@ OTS.AigCourseViewModel=function(){
                     alertBox.ShowSuccessMessage("Course Updated");
                     me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
-                  
+                    me.CourseActions.CourseHeaderText("Add New Course");
                 }
                 else{
                     alertBox.ShowErrorMessage("Course Update Failed");

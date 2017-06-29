@@ -272,7 +272,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
                      $("#div-knowledgeMaps-alert").removeClass("alert-info");
                      $("#div-knowledgeMaps-alert").addClass("alert-success");
                      me.knowledgeMaplistViewActions.saveAlertVisible(true);
-                     me.knowledgeMaplistViewActions.saveAlertMesssge("Save Done");  
+                     me.knowledgeMaplistViewActions.saveAlertMesssge("Save Done"); 
+                     me.knowledgeMaplistViewActions.knowledgeMapFormTitle("Add New KnowledgeMap");
                   }
                  else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
