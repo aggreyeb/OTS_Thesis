@@ -9,6 +9,7 @@ OTS.AigKnowlegeMapDataSource=function(){
                     SUBMIT:"Aig-Update-KnoledgeMap-ConceptSchemas",
                     DUPLICATE:"duplicate",
                     COPY:"Aig-Copy-KnoledgeMap",
+                    IMPORTKnowledgeMaps:"Aig-IMPORTKnowledgeMaps",
                     ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap"};
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
@@ -79,6 +80,15 @@ OTS.AigKnowlegeMapDataSource=function(){
    me.ListAvailableImportsKnowledgeMap=function(callbackFunction){
        var callback=callbackFunction;
        var data={action:actionType.ListAvailableImportsKnowledgeMap};
+        $.post("KnowledgeMapServlet",data,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   };
+   
+   me.ImportsKnowledgeMap=function(data,callbackFunction){
+       var callback=callbackFunction;
+       var data={action:actionType.IMPORTKnowledgeMaps,data:data};
         $.post("KnowledgeMapServlet",data,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);

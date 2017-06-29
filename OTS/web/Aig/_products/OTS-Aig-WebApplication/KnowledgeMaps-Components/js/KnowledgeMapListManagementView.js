@@ -112,7 +112,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.ShowKnowedgeMapList();
             me.knowledgeMaplistViewActions.saveAlertVisible(false);
            // var items= dataDatabase.ReadAll();
-            me.DataBind(items);
+           // me.DataBind(items);
         },
         resetForm:function(){
              me.knowledgeMaplistView.id("");
@@ -837,13 +837,50 @@ OTS.AigKnowledgeMapListManagementView=function(){
     };
     
     me.SubmitSelectedForImport=function(){
-       alert("Under Construction. SQL Scripts will be provideed to clean old knowledge maps");
-        /*
-        var html= "<div>Hello world</div>";
-         var selected=  me.ImportList()[0].Concepts;
-          alert(selected);
-         var enc = window.btoa(html);
-         alert(enc)*/
+        if(me.ImportList().length===0){
+            alert("Please Select KnowledgeMap(S) and try again");
+            return;
+        }
+        var selectedItems=[];
+         var items=  ko.toJS(me.ImportList());
+         for(var i=0;i<items.length;i++){
+             if(items[i].IsSelected){
+                 selectedItems[i].push(items[i]);
+             }
+         }
+         
+         var imports=[];
+         for(var j=0;j<selectedItems.length;j++){
+             
+            var editedCopy=  dataStructureKnowledgeMap.Import(selectedItems[i]);
+            if(editedCopy!==null){
+                
+                 var item=JSON.parse(JSON.stringify(editedCopy));
+                   item.id=editedCopy.id;
+                   item.text=editedCopy.name;
+                   item.name= editedCopy.name;
+                   item.description= editedCopy.description;
+                  editedCopy.Concepts=me.EncodeString(JSON.stringify(editedCopy));
+                  var knowledgeMap=me.EncodeString(JSON.stringify(editedCopy));
+                  item.knowlegeMap=knowledgeMap;
+                  imports.push(item);
+            }
+         }
+         var jsonData=JSON.stringify(imports);
+         knowledgeMapComponent.ImportKnowlegeMaps(jsonData,function(msg){
+              var result=JSON.parse(msg);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                   var items=JSON.parse(result.Content);
+                   //Clear knowledge map list
+                   //Repopulate the knowledge map list
+                   //Close the import list
+                }
+                else{
+                  //Do something here!
+                  //Display Unable to import items.
+                }
+         });
+        
     };
     
     me.PopulateKnowledgeMapImportList=function(items){

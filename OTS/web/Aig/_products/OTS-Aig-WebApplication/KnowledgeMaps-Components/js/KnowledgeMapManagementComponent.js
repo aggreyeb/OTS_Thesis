@@ -325,5 +325,13 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           }
        });
    };
+   
+   me.ImportKnowlegeMaps=function(data,callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigKnowlegeMapDataSource();
+        datasource.ImportsKnowledgeMap(data,function(msg){
+            callback(msg);
+        });
+   };
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

@@ -160,6 +160,14 @@ public class KnowledgeMapServlet extends Servlet {
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
                 result= service.ListAvailableImportsKnowledgeMap(userProfile.UserId);
                 return result;
+                
+                 case "Aig-IMPORTKnowledgeMaps":
+                 String  jsondata=request.getParameter("data");
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ImportsKnowledgeMaps(userProfile.UserId, jsondata);
+                return result;
+                
+                //Aig-IMPORTKnowledgeMaps
                  
               /******************Old Service ************************/
                case  "new":

@@ -208,4 +208,37 @@ public class KnowledgeMapsDataService {
               // this.dataSource.Close();
             }
        }
+    
+     public TransactionResult ImportsKnowledgeMaps(int userId,String data){
+        
+         Gson g = new Gson(); 
+        ImportElement[] items=  (ImportElement[])g.fromJson(data,ImportElement[].class);
+        try{ 
+         
+            for(ImportElement a:items){
+                 Knowledgemap km= new Knowledgemap();
+                km.setName(a.name);
+                km.setDescription(a.description);
+                km.setConcepts(a.knowledgeMap);
+                User u= (User)this.dataSource.Find(User.class,new Integer(userId));
+                km.setUser(u);
+                km.setIsPublic(Boolean.TRUE);
+                km.setCreateOn(currentDate);
+                this.dataSource.Save(km);
+            }
+            
+            //Let all the user knowledge maps
+             return this.ListTeacherKnowledgeMaps(userId);
+            
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+              // this.dataSource.Close();
+            }
+       }
 }
