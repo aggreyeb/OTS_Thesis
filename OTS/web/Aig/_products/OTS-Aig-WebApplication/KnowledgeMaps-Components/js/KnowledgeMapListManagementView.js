@@ -422,8 +422,13 @@ OTS.AigKnowledgeMapListManagementView=function(){
                    alert("Node Name can't be empty. Please enter a new name and try again");
                   return;
                 }
-              var jsonKnowledgeMap=ko.toJS(me.CurrentKnowledgeMapTree);
-             var jsonNode =JSON.parse(knowledgeMapTreeView.ToJson());
+              var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+              var currentNodeSelected=selectedNodes[0];
+              var newName=me.conceptSchemaFormHeading();
+              knowledgeMapTreeView.RenameNode(currentNodeSelected,newName);  
+                 
+            var jsonKnowledgeMap=ko.toJS(me.CurrentKnowledgeMapTree);
+            var jsonNode =JSON.parse(knowledgeMapTreeView.ToJson());
              var conceptNodes=jsonNode[0].nodes;
             var nodes= me.EncodeString(JSON.stringify(conceptNodes));
           
