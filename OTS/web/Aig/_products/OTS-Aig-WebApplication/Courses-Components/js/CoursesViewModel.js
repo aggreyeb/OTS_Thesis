@@ -30,13 +30,13 @@ OTS.AigCourseViewModel=function(){
     me.CourseActions={
         CourseHeaderText:ko.observable("Add New Course"),
         enableActions:ko.observable(false),
-        onCancel:function(){
+        enableCancel:ko.observable(false),
+        onCancelCourseEditing:function(){
             me.CourseActions.CourseHeaderText("Add New Course");
             me.SelectedCourse=null;
-            me.CourseActions.enableActions(false);
             me.Number("");
             me.CourseName("");
-            
+            me.CourseActions.enableCancel(false);
         },
         validate:function(){
            var  isValid =true;
@@ -48,7 +48,7 @@ OTS.AigCourseViewModel=function(){
            }*/
            if(me.CourseName()===""){
                isValid=false;
-               errorMessage.push("Course CourseName required");
+               errorMessage.push("Course name required");
            }
            
            return {
@@ -67,13 +67,14 @@ OTS.AigCourseViewModel=function(){
              me.Id("");
              me.CourseName("");
              me.Number("");
+             me.CourseActions.enableCancel(false),
              me.SelectedAction=me.ActionType.NEW
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
             me.CourseName(data.CourseName);
             me.Number(data.Number);
-            
+            me.CourseActions.enableCancel(true),
             me.CourseActions.CourseHeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
             me.CourseActions.enableActions(true);
