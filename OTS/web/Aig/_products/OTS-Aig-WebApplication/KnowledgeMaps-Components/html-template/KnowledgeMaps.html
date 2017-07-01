@@ -8,14 +8,18 @@
 <div id="div-avilable-knowledge-mapList"  class="table-responsive" style="margin: 2px;border: 1px solid #ddd;margin: 1px"> 
 <div  class="row">
     <div  style="margin-left: 15px;" class="pull-left ">
-            <h3 class="label-default"><span class="label label-default">Knowledge Map List</span></h3>
-        </div>
+        <h3 style="margin-left: 5px" class="label-default"><span class="label label-default">Knowledge Map List</span></h3>
+            <div style="margin-left: 3px">
+                <span style="margin-left: 5px"><strong>Imported:</strong></span> <span class="fa fa-arrow-circle-o-down"></span>
+            </div>
+          
+    </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div  style="margin-bottom: 2px" class="pull-right ">
                 <span style="margin-right: 20px">
-                      <a id="lnk-import-list"   title="Import KnowledgeMaps" data-bind="click:onImportKnoledgeMapsClicked" data-toggle="collapse" href="#zzcmd-import-knowledgemaps" class="btn btn-sm btn-info"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
+                      <a id="lnk-import-list"   title="Import KnowledgeMaps" data-bind="click:onImportKnoledgeMapsClicked" data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-info"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
                 </span>
               
             </div>
@@ -30,21 +34,21 @@
                             <th></th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Open to Public</th>
-                            <th>Imported</th>
-                            <th>Sharing</th>
+                            <th>Open to teachers</th>
+                            <th style="display: none">Imported</th>
+                            <th style="display: none">Sharing</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach:KnowledgeMaps">
                         <tr>
                             
-                            <td><i data-bind="css:ImportedIcon"></i></td>
-                            <td  data-bind="text:Name"></td>
-                            <td  data-bind="text:Description"></td>
-                            <td><input type="checkbox" data-bind="checked:IsPublic" /></td>
-                            <td ><input type="checkbox" data-bind="checked:IsImported" /></td>
-                            <td ><input type="checkbox" data-bind="checked:IsSharing"/></td>
+                            <td ><i data-bind="css:ImportedIcon"></i></td>
+                            <td style="width: 30%" data-bind="text:Name"></td>
+                            <td style="width: 40%" data-bind="text:Description"></td>
+                            <td><input    style="width: 10%;margin-left: 50px" type="checkbox" data-bind="checked:IsPublic,disable :true" /></td>
+                            <td  style="display: none"><input type="checkbox" data-bind="checked:IsImported" /></td>
+                            <td style="display: none" ><input type="checkbox" data-bind="checked:IsSharing"/></td>
                             <td>
                                 <div class="btn-group">
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onRename}" href="#" title="Rename" ><i class="fa fa-pencil-square"></i></a>

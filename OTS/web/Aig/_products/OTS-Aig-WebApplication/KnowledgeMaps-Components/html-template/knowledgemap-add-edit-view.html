@@ -1,14 +1,14 @@
 <div id="pan-knowledgeMapListAddEdit" class="table-responsive" style="border: 1px solid #ddd;">
      <div class="row">
         <div class="col-xs-12">
-            <div id="div-knowledgeMaps-alert" data-bind="visible:knowledgeMaplistViewActions.saveAlertVisible,text:knowledgeMaplistViewActions.saveAlertMesssge" class="alert alert-info">
+            <div style="margin: 5px" id="div-knowledgeMaps-alert" data-bind="visible:knowledgeMaplistViewActions.saveAlertVisible,text:knowledgeMaplistViewActions.saveAlertMesssge" class="alert alert-info">
                 Saved  
             </div>
         </div>
         
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div style="margin-left: 2px" class="col-xs-12">
             <h3><span class="label label-default"><span data-bind="text:knowledgeMaplistViewActions.knowledgeMapFormTitle"></span></span></h3>
         </div>
     </div>
@@ -29,9 +29,17 @@
         </div>
     </div><br>
     <div class="row">
+        <div class="col-xs-12">
+           
+            <span style="margin-left: 3px">
+                <label style="margin-left: 10px">Open to teachers?</label>  <input  data-bind="checked:SelectedKnowledgeMap.IsPublic" style="margin-left: 8px" type="checkbox" /> 
+            </span>
+        </div>
+    </div><br>
+    <div class="row">
         <div  class="col-xs-12">
             <div style="margin-bottom: 2px">
-                <button data-bind="click:knowledgeMaplistViewActions.onSave,enable:knowledgeMaplistViewActions.enableActions" style=" margin-left: 15px" class="btn btn-sm btn-primary">Save</button> <button data-bind="click:knowledgeMaplistViewActions.onSave,enable:knowledgeMaplistViewActions.enableActions" style=" margin-left: 15px" class="btn btn-sm btn-default">Cancel</button>
+                <button data-bind="click:knowledgeMaplistViewActions.onSave,enable:knowledgeMaplistViewActions.enableSave" style=" margin-left: 15px" class="btn btn-sm btn-primary">Save</button> <button data-bind="click:knowledgeMaplistViewActions.onSave,enable:knowledgeMaplistViewActions.enableCancel,click:knowledgeMaplistViewActions.onCancelEditing" style=" margin-left: 15px" class="btn btn-sm btn-default">Cancel</button>
             </div>
         </div>
     </div>

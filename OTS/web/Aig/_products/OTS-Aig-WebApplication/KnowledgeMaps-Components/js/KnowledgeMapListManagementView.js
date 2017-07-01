@@ -32,7 +32,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
         Delete:"Delete"
     };
     
-    var importedKnowldegeMapIcon="fa fa-circle-thin";
+    var importedKnowldegeMapIcon="fa fa-arrow-circle-o-down";
     var nonImportedKnowldegeMapIcon="fa fa-asterisk";
     me.selectedKnowledgeMap=null;
     me.KnowledgeMapTreeStateChanged=false;
@@ -67,7 +67,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            KnowledgeMapId:ko.observable(),
            Name:ko.observable(),
            Description:ko.observable(),
-           IsPublic:ko.observable(true),
+           IsPublic:ko.observable(false),
            IsImported:ko.observable(false),
            IsSharing:ko.observable(false),
            CreatedBy:ko.observable(),
@@ -78,10 +78,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
       };
      
     me.knowledgeMaplistViewActions={
-        enableActions:ko.observable(true),
+        //enableActions:ko.observable(false),
+        enableSave:ko.observable(true),
+        enableCancel:ko.observable(false),
         saveAlertVisible:ko.observable(false),
         saveAlertMesssge:ko.observable(""),
         knowledgeMapFormTitle:ko.observable("Add New KnowledgeMap"),
+        onCancelEditing:function(){
+          
+            me.knowledgeMaplistViewActions.resetForm();
+        },
         onAddNew:function(){
              me.knowledgeMaplistViewActions.knowledgeMapFormTitle("Add New KnowledgeMap");
              me.SelectedKnowledgeMap.Name("");
@@ -96,10 +102,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
            me.SelectedKnowledgeMap.Name(data.Name);
            me.SelectedKnowledgeMap.Description(data.Description);
            me.SelectedKnowledgeMap.IsImported(data.IsImported);
-           me.SelectedKnowledgeMap.IsPublic(data.IsImported);
-           me.SelectedKnowledgeMap.IsPublic(data.IsSharing);
+           me.SelectedKnowledgeMap.IsPublic(data.IsPublic);
+           me.SelectedKnowledgeMap.IsSharing(data.IsSharing);
            me.SelectedKnowledgeMap.CreatedBy(data.CreatedBy);
            me.SelectedKnowledgeMap.Concepts=data.Concepts;
+         //  me.knowledgeMaplistViewActions.enableActions(true);
+           me.knowledgeMaplistViewActions.enableCancel(true);
            me.selectedMode=modeType.Edit;
         },
         onEdit:function(data,e){
@@ -130,6 +138,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.SelectedKnowledgeMap.KnowledgeMapId("");
             me.SelectedKnowledgeMap.Name("");
             me.SelectedKnowledgeMap.Description("");
+            me.SelectedKnowledgeMap.IsPublic(false);
+            me.SelectedKnowledgeMap.IsImported(false);
+            me.SelectedKnowledgeMap.IsPublic(false);
+            me.SelectedKnowledgeMap.IsSharing(false);
+            me.SelectedKnowledgeMap.CreatedBy("");
+            me.SelectedKnowledgeMap.Concepts="";
+            me.selectedMode=modeType.New;
+            me.knowledgeMaplistViewActions.enableCancel(false);
         },
         onDuplicate:function(data,e){
            var jsDuplicate=ko.toJS(data);
@@ -189,7 +205,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
         },
          onSave:function(){
             
-             if(me.SelectedKnowledgeMap.Name()===""){
+             if(me.SelectedKnowledgeMap.Name()===undefined || me.SelectedKnowledgeMap.Name()===null || me.SelectedKnowledgeMap.Name()===""){
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-danger");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
@@ -219,14 +235,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
               $("#div-knowledgeMaps-alert").addClass("alert-success");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("KnowledgeMap Saved");
-             
+              me.knowledgeMaplistViewActions.resetForm(); 
              }
              else{
               $("#div-knowledgeMaps-alert").removeClass("alert-info");
               $("#div-knowledgeMaps-alert").addClass("alert-danger");
               me.knowledgeMaplistViewActions.saveAlertVisible(true);
               me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Save");  
-                   }
+              }
              }); 
            }
                
@@ -240,21 +256,24 @@ OTS.AigKnowledgeMapListManagementView=function(){
                      var items=JSON.parse(result.Content);
                      me.DataBind(items);
                      $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                     $("#div-knowledgeMaps-alert").removeClass("alert-danger");
                      $("#div-knowledgeMaps-alert").addClass("alert-success");
                      me.knowledgeMaplistViewActions.saveAlertVisible(true);
                      me.knowledgeMaplistViewActions.saveAlertMesssge("Save Done"); 
                      me.knowledgeMaplistViewActions.knowledgeMapFormTitle("Add New KnowledgeMap");
+                     me.knowledgeMaplistViewActions.resetForm();
                   }
                  else{
-              $("#div-knowledgeMaps-alert").removeClass("alert-info");
-              $("#div-knowledgeMaps-alert").addClass("alert-danger");
-              me.knowledgeMaplistViewActions.saveAlertVisible(true);
-              me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Save");  
-             }
+                    $("#div-knowledgeMaps-alert").removeClass("alert-info");
+                    $("#div-knowledgeMaps-alert").removeClass("alert-success");
+                    $("#div-knowledgeMaps-alert").addClass("alert-danger");
+                    me.knowledgeMaplistViewActions.saveAlertVisible(true);
+                    me.knowledgeMaplistViewActions.saveAlertMesssge("Failed to Save");  
+                }
            });
          }  
           me.knowledgeMaplistViewActions.resetForm();
-           me.selectedMode=modeType.New;
+        
            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);        
         },
         onSelecteAllForImport:function(){
