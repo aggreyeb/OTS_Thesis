@@ -73,16 +73,11 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
    
 };
 
-OTS.DataModel.KnowledgeMap = function(id, text, description) {
+OTS.DataModel.KnowledgeMap = function(id, text) {
     var me = this;
     me.id = id;
     me.text = text;
-    me.name=text;
-    me.description = description;
     me.nodes = []; ////collection of ConceptNodeItem
-    me.Concepts="";
-    me.isImported=false;
-    me.iconClass="fa fa-asterisk";
      //style
     me.icon = ""; //glyphicon glyphicon-stop
     me.selectedIcon = "-";//glyphicon glyphicon-stop
@@ -97,6 +92,21 @@ OTS.DataModel.KnowledgeMap = function(id, text, description) {
         selected: false
     };
 };
+
+OTS.DataModel.KnowledgeMapItem=function(){
+    var me=this;
+           me.KnowledgeMapId="",
+           me.Name="";
+           me.Description="";
+           me.IsPublic=true;
+           me.IsImported=true;
+           me.IsSharing=true;
+           me.CreatedBy=true;
+           me.ImportedIcon=""; 
+           me.SharingIcon="";
+           me.Concepts="";//Pass only the nodes here:base64 Encoded
+         
+  };
 
 OTS.DataModel.ConceptNodes = function() {
     var me = this;

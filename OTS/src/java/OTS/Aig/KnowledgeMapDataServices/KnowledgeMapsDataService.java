@@ -12,6 +12,7 @@ import OTS.DataModels.Node;
 import OTS.DataModels.User;
 import OTS.Identity;
 import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,31 +24,32 @@ import java.util.List;
 public class KnowledgeMapsDataService {
    
     private  DataSource dataSource;
-    Date currentDate;
+      
+       String currentTime="";
+    //Date currentDate;
     public KnowledgeMapsDataService(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.currentDate=new Date();
+      SimpleDateFormat   sdf= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");;
+         Date   dt =new Date();
+        currentTime = sdf.format(dt);
     }
     
-    public TransactionResult CreateNew(int userId,String name,String description,String knowledgeMap){
-        TransactionResult result= new TransactionResult();
+    public TransactionResult CreateNew(int userId,String data){
+         Gson g=new Gson();
+         String InsertTemplate=
+           
+              "INSERT INTO knowledgemap (KnowledgeMapId,Name,Description,Concepts,CreatedBy,CreateOn,IsPublic,IsImported,IsSharing)"+
+            "Values ('%s','%s','%s','%s',%d,%s,%b,%b,%b)";     
         try{
-          Knowledgemap km= new Knowledgemap();
-          km.setName(name);
-          km.setDescription(description);
-          km.setConcepts(knowledgeMap);
-          User u= (User)this.dataSource.Find(User.class,new Integer(userId));
-          km.setUser(u);
-          km.setIsPublic(Boolean.TRUE);
-          km.setCreateOn(currentDate);
-          this.dataSource.Save(km);
-          result.ActionResultType=ActionResultType.ok;
-          result.Message="Saved";
-          result.CurrentId=km.getKnowledgeMapId().toString();
-          return result;
+         KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+         String todaysDate="'" + currentTime + "'";
+         String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
+         this.dataSource.ExecuteNonQuery(sql);
+         return this.ListTeacherKnowledgeMaps(userId);
         }
        catch(Throwable ex){
-            result.ActionResultType=ActionResultType.exception;
+           TransactionResult result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
             result.Message=ex.toString();
            return result;
        }
@@ -55,53 +57,41 @@ public class KnowledgeMapsDataService {
        }
     }
     
-    public TransactionResult DeleteKnowledgeMap(int id){
-        TransactionResult result= new TransactionResult();
-        try{
-          Knowledgemap km= (Knowledgemap)this.dataSource.Find(Knowledgemap.class,new Integer(id));
-          if(km!=null){
-            this.dataSource.Delete(km);
-            result.ActionResultType=ActionResultType.ok;
-            result.Message="Deleted";
-            result.CurrentId=km.getKnowledgeMapId().toString();
-            return result;
-          }
-          else{
-             result.ActionResultType=ActionResultType.fail;
-             result.Message="Knowledge map not found";
-             return result; 
-          }
-        }
-       catch(Throwable ex){
-           result.ActionResultType=ActionResultType.exception;
-            result.Message="Exception";
-           return result;
-       }
-       finally{
-       }
+    
+    public Boolean CanDeleteKnowledgeMap(String kowledgeMapId){
+         // Check if it is not associated with any Course
+        return true;
     }
     
-      public TransactionResult UpdateKnoledgeMapConceptSchemas(int id,String conceptSchemas){
-        TransactionResult result= new TransactionResult();
+    public Boolean IsTeacherAllowedToDeleteKnowledgeMap(int teacherId){
+         // Check if it is not associated with any knowlegemap
+        return true;
+    }
+    
+    public TransactionResult DeleteKnowledgeMap(int userId,String data){
+           Gson g=new Gson();
         try{
-          Knowledgemap km= (Knowledgemap)this.dataSource.Find(Knowledgemap.class,new Integer(id));
-          if(km!=null){
+                KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+            String deleteTemplate= "Delete from knowledgemap where KnowledgeMapId='%s'";
+             String sql=String.format(deleteTemplate, item.KnowledgeMapId);
+             //Before Delete check to see if the knowledge map is not
+             // associated with any course
+             if(this.CanDeleteKnowledgeMap(item.KnowledgeMapId)){
+                  this.dataSource.ExecuteNonQuery(sql);
+                  return  this.ListTeacherKnowledgeMaps(userId);
+             }
+             else{
+                TransactionResult result= new TransactionResult();
+                result.ActionResultType=ActionResultType.exception;
+                result.Message="Deleting KnowledgeMap Associated with "
+                        + "Course is not allowed";
+                return result; 
+             }
             
-             km.setConcepts(conceptSchemas);
-             this.dataSource.Update(km);
-             result.ActionResultType=ActionResultType.ok;
-             result.Message="Updated";
-             result.CurrentId=km.getKnowledgeMapId().toString();
-            result.CurrentId=km.getKnowledgeMapId().toString();
-            return result;
-          }
-          else{
-             result.ActionResultType=ActionResultType.fail;
-             result.Message="Knowledge map not found";
-             return result; 
-          }
+         
         }
        catch(Throwable ex){
+           TransactionResult result= new TransactionResult();
            result.ActionResultType=ActionResultType.exception;
             result.Message="Exception";
            return result;
@@ -110,31 +100,63 @@ public class KnowledgeMapsDataService {
        }
     }
     
-    
-     public TransactionResult UpdateKnowledgeMap(int id,String name,String description,String knowledgeMap){
+      public TransactionResult UpdateKnoledgeMapConceptSchemas(int userId,String data){
         TransactionResult result= new TransactionResult();
+         Gson g=new Gson();
         try{
-          Knowledgemap km= (Knowledgemap)this.dataSource.Find(Knowledgemap.class,new Integer(id));
-          if(km!=null){
-             km.setName(name);
-             km.setDescription(description);
-             km.setConcepts(knowledgeMap);
-             this.dataSource.Update(km);
-             result.ActionResultType=ActionResultType.ok;
-             result.Message="Updated";
-             result.CurrentId=km.getKnowledgeMapId().toString();
-            result.CurrentId=km.getKnowledgeMapId().toString();
-            return result;
-          }
-          else{
-             result.ActionResultType=ActionResultType.fail;
-             result.Message="Knowledge map not found";
-             return result; 
-          }
+             String updateTemplate="Update knowledgemap Set Concepts='%s'  Where KnowledgeMapId='%s'";
+              KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+              String sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.KnowledgeMapId);
+              this.dataSource.ExecuteNonQuery(sql);
+             
+             return this.ListTeacherKnowledgeMaps(userId);
         }
        catch(Throwable ex){
            result.ActionResultType=ActionResultType.exception;
-            result.Message="Exception";
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+    
+    
+     public TransactionResult UpdateKnowledgeMap(int userId,String data){
+         Gson g=new Gson();
+        try{
+              String updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b Where KnowledgeMapId='%s'";
+              KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+              String sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.KnowledgeMapId);
+              this.dataSource.ExecuteNonQuery(sql);
+              return  this.ListTeacherKnowledgeMaps(userId);
+          }
+        
+       catch(Throwable ex){
+            TransactionResult result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+    
+     
+     
+       
+     public TransactionResult UpdateKnowledgeMapNodes(int userId,String knowledgeMapId, String data){
+         Gson g=new Gson();
+        try{
+              String updateTemplate="Update knowledgemap Set Concepts='%s'  Where KnowledgeMapId='%s'";
+              String sql=String.format(updateTemplate, data,knowledgeMapId);
+              this.dataSource.ExecuteNonQuery(sql);
+              return  this.ListTeacherKnowledgeMaps(userId);
+          }
+        
+       catch(Throwable ex){
+            TransactionResult result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
            return result;
        }
        finally{
@@ -148,8 +170,8 @@ public class KnowledgeMapsDataService {
         try{ 
           String sql= "Select * from knowledgemap where Createdby =" + userId;
    
-          List<KnowledgeMapDescription> knowledgemaps= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapDescription.class);
+          List<KnowledgeMapElement> knowledgemaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapElement.class);
        
              Gson g = new Gson();
              result.Content=g.toJson(knowledgemaps);
@@ -188,11 +210,11 @@ public class KnowledgeMapsDataService {
     public TransactionResult ListAvailableImportsKnowledgeMap(int userId){
           TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select * from knowledgemap where Createdby <>" + userId;
+          String sql= "Select * from knowledgemap where IsPublic=true and  Createdby <>" + userId;
         //String sql= "Select * from knowledgemap where Createdby =" + userId;
    
-          List<KnowledgeMapDescription> knowledgemaps= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapDescription.class);
+          List<KnowledgeMapElement> knowledgemaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapElement.class);
        
              Gson g = new Gson();
              result.Content=g.toJson(knowledgemaps);
@@ -212,24 +234,19 @@ public class KnowledgeMapsDataService {
      public TransactionResult ImportsKnowledgeMaps(int userId,String data){
         
          Gson g = new Gson(); 
-        ImportElement[] items=  (ImportElement[])g.fromJson(data,ImportElement[].class);
+        KnowledgeMapElement[] items=  (KnowledgeMapElement[])g.fromJson(data,KnowledgeMapElement[].class);
         try{ 
+       
+         String InsertTemplate=
+              "INSERT INTO knowledgemap (KnowledgeMapId,Name,Description,Concepts,CreatedBy,CreateOn,IsPublic,IsImported,IsSharing)"+
+            "Values ('%s','%s','%s','%s',%d,%s,%b,%b,%b)";     
          
-            for(ImportElement a:items){
-                 Knowledgemap km= new Knowledgemap();
-                km.setName(a.name);
-                km.setDescription(a.description);
-                km.setConcepts(a.knowledgeMap);
-                User u= (User)this.dataSource.Find(User.class,new Integer(userId));
-                km.setUser(u);
-                km.setIsPublic(Boolean.TRUE);
-                km.setCreateOn(currentDate);
-                this.dataSource.Save(km);
-            }
-            
-            //Let all the user knowledge maps
+         for(KnowledgeMapElement item:items){
+            String todaysDate="'" + currentTime + "'";
+             String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
+            this.dataSource.ExecuteNonQuery(sql);  
+         }
              return this.ListTeacherKnowledgeMaps(userId);
-            
            }
            catch(Throwable ex){
              TransactionResult result= new TransactionResult(); 
@@ -238,7 +255,7 @@ public class KnowledgeMapsDataService {
                return result;
            }
            finally{
-              // this.dataSource.Close();
+            
             }
        }
 }

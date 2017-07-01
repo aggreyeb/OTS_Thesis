@@ -30,15 +30,21 @@
                             <th></th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Open to Public</th>
+                            <th>Imported</th>
+                            <th>Sharing</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody data-bind="foreach:knowledgeMaplistView.knowledgeMaps">
+                    <tbody data-bind="foreach:KnowledgeMaps">
                         <tr>
                             
-                            <td style="width:3%" ><i data-bind="css:iconClass"></i></td>
-                            <td style="width:30%" data-bind="text:name"></td>
-                            <td style="width:53%" data-bind="text:description"></td>
+                            <td><i data-bind="css:ImportedIcon"></i></td>
+                            <td  data-bind="text:Name"></td>
+                            <td  data-bind="text:Description"></td>
+                            <td><input type="checkbox" data-bind="checked:IsPublic" /></td>
+                            <td ><input type="checkbox" data-bind="checked:IsImported" /></td>
+                            <td ><input type="checkbox" data-bind="checked:IsSharing"/></td>
                             <td>
                                 <div class="btn-group">
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onRename}" href="#" title="Rename" ><i class="fa fa-pencil-square"></i></a>

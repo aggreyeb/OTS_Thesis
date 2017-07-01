@@ -130,7 +130,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
      return str;
    };
     
-    me.Initialize=function(){
+     me.Initialize=function(){
     
        $(".component-content").hide();
        var panel=  control.SelectById("div-knowledgemaps-content");
@@ -146,57 +146,17 @@ OTS.AigKnowledgeMapManagementComponent=function(){
           if(result.ActionResultType==="ok" || result.ActionResultType===0){
               var knowledgeMaps=[];
               var items=JSON.parse(result.Content);
-            
-             for(var i=0;i<items.length;i++){
-                 if(items[i].Concepts &&
-                         items[i].Concepts!==undefined 
-                         && items[i].Concepts!==null 
-                         && items[i].Concepts!=="" ){
-                     var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
-                      items[i].Concepts= me.DecodeString(replecedBackSlashes);
-                          
-                     var conceptNodes= JSON.parse(items[i].Concepts)              
-                    // var  knowledgeMap=conceptNodes[0];  
-                    var  knowledgeMap=null;
-                      if(conceptNodes.length){
-                         knowledgeMap=conceptNodes[0];  
-                      }
-                      else{
-                          knowledgeMap=conceptNodes;
-                      }
-                    
-                      knowledgeMap.id=items[i].KnowledgeMapId;
-                      knowledgeMap.IsPublic=items[i].IsPublic;
-                      knowledgeMap.text=  items[i].Name;
-                      knowledgeMap.name=items[i].Name;
-                      knowledgeMap.description=items[i].Description;
-                      if(! knowledgeMap.iconClass){
-                           knowledgeMap.iconClass="fa fa-asterisk";
-                      }
-                     
-                      knowledgeMaps.push(knowledgeMap);
-                 }
-                 else{
-                   knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
-                                  items[i].Name,
-                                  items[i].Description);
-                                  knowledgeMap.nodes=[]; 
-                 }
-             }
-             knowlegemapListManagement.DataBind(knowledgeMaps);
+              knowlegemapListManagement.DataBind(items);
           }
-          else{
-              
+          else{ 
           }
          });
             return;
-      }
+      }//Already Initialized
        renderLayouts();
        initializeDataStructureKnowledgeMap();
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
-     
-      
       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();
       knowlegemapListManagement.AddKnowledgeMapComponent(me);
       knowlegemapListManagement.AddDataStructureKnowledegeMap(dataDataStructureKnowledgeMap)
@@ -208,42 +168,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
               var knowledgeMaps=[];
               var items=JSON.parse(result.Content);
                try{
-              for(var i=0;i<items.length;i++){
-                 if(items[i].Concepts &&
-                         items[i].Concepts!==undefined 
-                         && items[i].Concepts!==null 
-                         && items[i].Concepts!=="" ){
-                      var replecedBackSlashes=items[i].Concepts.replace(/\"/g, "");
-                      items[i].Concepts= me.DecodeString(replecedBackSlashes);
-                    
-                     var conceptNodes= JSON.parse(items[i].Concepts) 
-                      var  knowledgeMap=null;
-                      if(conceptNodes.length){
-                         knowledgeMap=conceptNodes[0];  
-                      }
-                      else{
-                          knowledgeMap=conceptNodes
-                      }
-                       
-                      knowledgeMap.id=items[i].KnowledgeMapId;
-                      knowledgeMap.IsPublic=items[i].IsPublic;
-                      knowledgeMap.text=  items[i].Name;
-                      knowledgeMap.name=items[i].Name;
-                      knowledgeMap.description=items[i].Description;
-                      if(! knowledgeMap.iconClass){
-                           knowledgeMap.iconClass="fa fa-asterisk";
-                      }
-                      knowledgeMaps.push(knowledgeMap);
-                 }
-                 else{
-                    knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,
-                                  items[i].Name,
-                                  items[i].Description);
-                                  knowledgeMap.nodes=[];
-                 
-                 }
-             }
-               knowlegemapListManagement.DataBind(knowledgeMaps);
+               knowlegemapListManagement.DataBind(items);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
               }
               catch(error){
@@ -255,9 +180,8 @@ OTS.AigKnowledgeMapManagementComponent=function(){
               initialized=true;
           }
       });
-       
     };
-    
+   
     me.UnInitialize=function(){
         initialized=false;
     };
@@ -279,27 +203,27 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        });
    };
    
-    me.SaveKnowledgeMap=function(data,knowledgeMap,callbackFunction){
+    me.SaveKnowledgeMap=function(data,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
        var callback=callbackFunction;
-        datasource.CreateNew(data,knowledgeMap,function(msg){
+        datasource.CreateNew(data,function(msg){
           callback(msg);
        });
    };
    
-   me.UpdateKnowledgeMap=function(data,knowledgeMap,callbackFunction){
+   me.UpdateKnowledgeMap=function(data,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
-       datasource.UpdateKnowledeMap(data,knowledgeMap,function(msg){
+       datasource.UpdateKnowledeMap(data,function(msg){
           if(callbackFunction instanceof Function){
               callbackFunction(msg);
           }
        });
    };
    
-   me.DeleteKnowledgeMap=function(id,callbackFunction){
+   me.DeleteKnowledgeMap=function(data,callbackFunction){
        var datasource=new OTS.AigKnowlegeMapDataSource();
        var callback=callbackFunction;
-       datasource.DeleteKnowledeMap(id,function(msg){
+       datasource.DeleteKnowledeMap(data,function(msg){
           if(callbackFunction instanceof Function){
               callback(msg);
           }
@@ -333,5 +257,15 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             callback(msg);
         });
    };
+   
+   me.UpdateKnowledgeMapNodes=function(knowledgeMapId,nodes,callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigKnowlegeMapDataSource();
+        datasource.UpdateKnowledgeMapNodes(knowledgeMapId,nodes,function(msg){
+            callback(msg);
+        });
+   };
+   
+   
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

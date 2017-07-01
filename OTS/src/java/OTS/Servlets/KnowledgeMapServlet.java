@@ -118,14 +118,13 @@ public class KnowledgeMapServlet extends Servlet {
           int userId =userProfile.UserId; // get user id from session
           KnowledgeMapsDataService service;
           TransactionResult result;
+          String data;
            switch(action){
             
               case  "Aig-create-new":
-              Name =request.getParameter("Name");
-              Description =request.getParameter("Description");
-               String knowledgeMap=request.getParameter("KnowledgeMap");
-               service= new KnowledgeMapsDataService(new MySqlDataSource());
-               result= service.CreateNew(userId, Name, Description,knowledgeMap);
+              data =request.getParameter("data");
+              service= new KnowledgeMapsDataService(new MySqlDataSource());
+              result= service.CreateNew(userId, data);
                return result ;
               
               case "Aig-List-Teacher-KnowledgeMaps":
@@ -135,23 +134,19 @@ public class KnowledgeMapServlet extends Servlet {
              
               case "Aig-Update-KnowledgeMap":
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
-                 Name =request.getParameter("Name");
-                 Description =request.getParameter("Description");
-                String KnowledgeMap=request.getParameter("KnowledgeMap");
-                 int id =Integer.parseInt(request.getParameter("ID"));
-                 String knowlegeMap=request.getParameter("KnowlegeMap");
-                 result= service.UpdateKnowledgeMap(id,Name,Description,KnowledgeMap);
+                 data =request.getParameter("data");
+                 result= service.UpdateKnowledgeMap(userId,data);
                  return result;
                
               case "Aig-Delete-KnowledgeMap":
-                service= new KnowledgeMapsDataService(new MySqlDataSource());
-                id =Integer.parseInt(request.getParameter("ID"));
-                 result= service.DeleteKnowledgeMap(id);
+                 service= new KnowledgeMapsDataService(new MySqlDataSource());
+                 data =request.getParameter("data");
+                 result= service.DeleteKnowledgeMap(userId, data);
                  return result;
                 case "Aig-Update-KnoledgeMap-ConceptSchemas":
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
-                id =Integer.parseInt(request.getParameter("ID"));
-                 String data=request.getParameter("data");
+               int id =Integer.parseInt(request.getParameter("ID"));
+                data=request.getParameter("data");
                 result= service.UpdateKnoledgeMapConceptSchemas(id,data);
                  return result;
                  
@@ -167,7 +162,16 @@ public class KnowledgeMapServlet extends Servlet {
                 result= service.ImportsKnowledgeMaps(userProfile.UserId, jsondata);
                 return result;
                 
-                //Aig-IMPORTKnowledgeMaps
+                 case "Aig-UpdateKnowledgeMapNodes":
+              //  knowledgeMapId:knowledgeMapId, data:nodes
+                String knowledgeMapId=request.getParameter("knowledgeMapId");
+                data=request.getParameter("data");
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.UpdateKnowledgeMapNodes(userProfile.UserId,knowledgeMapId, data);
+                return result;
+                
+                
+                //Aig-UpdateKnowledgeMapNodes
                  
               /******************Old Service ************************/
                case  "new":
@@ -272,11 +276,11 @@ public class KnowledgeMapServlet extends Servlet {
                   conceptNode.DeleteConceptSchema(tx, descr);
                   break;
               case "listconceptschema":
-                   id=Integer.parseInt(request.getParameter("ID"));
+                  int  theid=Integer.parseInt(request.getParameter("ID"));
                    String parentIdentity=request.getParameter("ParentIdentity");
                    String identity=request.getParameter("Identity");
                    conceptNode= new ConceptNode(userProfile.UserId,response); //get user from session
-                   conceptNode.ListConceptSchema(tx, id, parentIdentity, identity);
+                   conceptNode.ListConceptSchema(tx, theid, parentIdentity, identity);
                   break;
                   
                case "import":

@@ -5,15 +5,27 @@
  */
 package OTS.Aig.KnowledgeMapDataServices;
 
+import java.util.Date;
+
 /**
  *
  * @author MEA
  */
 public class KnowledgeMapElement {
-    //KnowledgeMapId as Id,Name,Description ,IsPublic,Concepts
-    public int Id;
+ 
+    public String KnowledgeMapId;
     public String Name;
     public String Description;
-    public Boolean  IsPublic;
-    public String Concepts;
+    public String Concepts;//Pass only the nodes here
+    public Boolean IsPublic;
+    public Boolean IsImported;
+    public Boolean IsSharing;
+    public Boolean IsSelected;
+    public int CreatedBy;
+    public Date CreateOn;
+    public Date LastUpdated ;
+    public String ImportedIcon="fa fa-";
+    public String SharingIcon ;
+    
+    
 }

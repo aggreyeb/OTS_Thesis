@@ -307,10 +307,10 @@ public class CourseDataService {
            List tempList= new ArrayList();
            String temp="";
            for(KnowledgeMapElement a:items){
-               tempList.add("'" + String.valueOf(a.Id)+ "'");
+               tempList.add("'" + a.KnowledgeMapId + "'");
            }
            String str = String.join(",", tempList);
-           String sqlTemplate= "Select KnowledgeMapId as Id,Name,Description,Concepts from  knowledgemap where KnowledgeMapId in (%s)";
+           String sqlTemplate= "Select KnowledgeMapId ,Name,Description,Concepts from  knowledgemap where KnowledgeMapId in (%s)";
            String sql2=String.format(sqlTemplate, str);
            List<KnowledgeMapElement> knowledgeMapList= new ArrayList();
            this.dataSource.ExecuteCustomDataSet(sql2, knowledgeMapList,KnowledgeMapElement.class);

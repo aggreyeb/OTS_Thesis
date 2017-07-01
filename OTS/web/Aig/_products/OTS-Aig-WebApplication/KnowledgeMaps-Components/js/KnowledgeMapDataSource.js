@@ -10,6 +10,7 @@ OTS.AigKnowlegeMapDataSource=function(){
                     DUPLICATE:"duplicate",
                     COPY:"Aig-Copy-KnoledgeMap",
                     IMPORTKnowledgeMaps:"Aig-IMPORTKnowledgeMaps",
+                    UpdateKnowledgeMapNodes:"Aig-UpdateKnowledgeMapNodes",
                     ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap"};
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
@@ -28,11 +29,11 @@ OTS.AigKnowlegeMapDataSource=function(){
        });
     };
     
-    me.CreateNew=function(data,knowledgeMap,callbackFunction){
+    me.CreateNew=function(data,callbackFunction){
        var callback= callbackFunction;
-       var data={action:actionType.NEW,ID:data.id, Name:data.name, Description:data.description,KnowledgeMap:knowledgeMap};
+       var record={action:actionType.NEW,data:data};
          
-        $.post("KnowledgeMapServlet",data,function(msg){
+        $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);
         });
@@ -48,11 +49,11 @@ OTS.AigKnowlegeMapDataSource=function(){
         });
    };
     
-    me.UpdateKnowledeMap=function(data,knowledgeMap,callbackFunction){
+    me.UpdateKnowledeMap=function(data,callbackFunction){
        var callback= callbackFunction;
-       var data={action:actionType.UPDATE,ID:data.id, Name:data.name, Description:data.description,KnowledgeMap:knowledgeMap};
+       var record={action:actionType.UPDATE,data:data};
          
-        $.post("KnowledgeMapServlet",data,function(msg){
+        $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);
         });
@@ -62,11 +63,11 @@ OTS.AigKnowlegeMapDataSource=function(){
         //import knowledge map
     };
     
-    me.DeleteKnowledeMap=function(id,callbackFunction){
+    me.DeleteKnowledeMap=function(data,callbackFunction){
        var  callback=callbackFunction;
-        var data={action:actionType.DELETE,ID:id};
+        var record={action:actionType.DELETE,data:data};
 
-        $.post("KnowledgeMapServlet",data,function(msg){
+        $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);
         });
@@ -88,8 +89,17 @@ OTS.AigKnowlegeMapDataSource=function(){
    
    me.ImportsKnowledgeMap=function(data,callbackFunction){
        var callback=callbackFunction;
-       var data={action:actionType.IMPORTKnowledgeMaps,data:data};
-        $.post("KnowledgeMapServlet",data,function(msg){
+       var record={action:actionType.IMPORTKnowledgeMaps,data:data};
+        $.post("KnowledgeMapServlet",record,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   };
+   
+   me.UpdateKnowledgeMapNodes=function(knowledgeMapId,nodes,callbackFunction){
+        var callback=callbackFunction;
+       var record={action:actionType.UpdateKnowledgeMapNodes,knowledgeMapId:knowledgeMapId, data:nodes};
+        $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);
         });

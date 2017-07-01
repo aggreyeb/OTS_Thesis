@@ -23,5 +23,6 @@ public class KnowledgeMapDescription {
      public Boolean IsPublic;
      public Boolean IsImported;
      public Boolean IsSelected;
+      public Boolean IsSharing;
      
 }

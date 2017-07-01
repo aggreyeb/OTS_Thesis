@@ -87,6 +87,44 @@ OTS.AigDataStructureKnowlegeMap=function(){
        knowledgeMapItem.copied=true;
        knowledgeMapItem.iconClass="fa fa-asterisk";
         var jsonknowledgeMap=JSON.stringify(knowledgeMapItem);
+        var  knowledgeMap=JSON.parse(jsonknowledgeMap);
+        var decodedKnowledgeMap=me.DecodeString(knowledgeMap.Concepts.replace(/\"/g, ""));
+        var concepts= JSON.parse(decodedKnowledgeMap);
+        
+        for(var i=0;i<concepts[0].nodes.length;i++){
+            var items=printRecursive(concepts[0].nodes[i]);
+            addNodes(items);
+        }
+         
+        for(var i=0;i<conceptNodes.length;i++){
+          // var item=  findNode(knowledgeMap.nodes,items[i].id);
+          //change newid to id;
+          conceptNodes[i].id= new Aig.Guid().NewGuid();
+         
+           me.ReAssignConceptSchemasId(conceptNodes[i]);
+        }
+       // knowledgeMapItem.id=concepts[0].id;
+        //var editedKnowledgeMap=knowledgeMapItem;
+         
+        concepts[0].IsImported=true;
+        concepts[0].knowledgeMap=me.EncodeString(JSON.stringify(concepts));
+         concepts[0].Concepts= me.EncodeString(JSON.stringify(concepts));
+        return concepts[0];
+        }
+        catch(error){
+            return knowledgeMapItem;
+        }
+    
+    };
+    
+    me.Duplicate=function(knowledgeMapItem){
+        if(knowledgeMapItem===undefined || knowledgeMapItem===null)
+            throw  new Error("knowledgeMapitem can not be null");
+        
+        try{
+       knowledgeMapItem.copied=true;
+       knowledgeMapItem.iconClass="fa fa-asterisk";
+        var jsonknowledgeMap=JSON.stringify(knowledgeMapItem);
       var  knowledgeMap=JSON.parse(jsonknowledgeMap)
         for(var i=0;i<knowledgeMap.nodes.length;i++){
             var items=printRecursive(knowledgeMap.nodes[i]);
@@ -108,6 +146,7 @@ OTS.AigDataStructureKnowlegeMap=function(){
         }
     
     };
+    
    
     me.Add=function(ivalidateable){
         if(ivalidateable!==undefined &&
@@ -140,13 +179,7 @@ OTS.AigDataStructureKnowlegeMap=function(){
      return str;
    };
     
-    me.Duplicate=function(knowledgeMapItem){
-        if(knowledgeMapItem===undefined || knowledgeMapItem===null)
-            throw  new Error("knowledgeMapitem can not be null");
-        
-        throw new Error("NotImplemented Exception");
-    };
-    
+   
     
     
     me.Validate=function(knowledgeMapItem){
