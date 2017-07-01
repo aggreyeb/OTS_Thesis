@@ -161,7 +161,11 @@ OTS.AigCourseAssignmentViewModel=function(){
             });
         },
         onSave:function(){
-             var course= ko.toJS(me.SelectedCourse); 
+             var course= ko.toJS(me.SelectedCourse);
+             if(course===undefined || course===null){
+                   alertBox.ShowErrorMessage("Please select Course and try again"); 
+                return ;
+             }
               course.CourseKnowledgeMaps=[];
                var selectedKnowlegeMaps=ko.toJS(me.SelectedKnowledgeMaps);
                 for(var i=0;i<selectedKnowlegeMaps.length;i++){

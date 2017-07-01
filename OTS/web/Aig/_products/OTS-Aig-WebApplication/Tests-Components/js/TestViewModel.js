@@ -201,6 +201,9 @@ OTS.AigTestViewModel=function(){
              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                   var knowledgeMaps=[]; 
                   var items=JSON.parse(result.Content);
+                  
+                  /*
+                   var items=JSON.parse(result.Content);
                   //Decode base64String
                   items[0].Concepts= window.atob(items[0].Concepts.replace(/\"/g, "")); 
                   for(var i=0;i<items.length;i++){
@@ -210,7 +213,15 @@ OTS.AigTestViewModel=function(){
                        description:data.description,nodes:data.nodes};
                      knowledgeMaps.push(item);
                   }
-                  
+                  */
+                 for(var i=0; i<items.length;i++){
+                   var conceptNodes=items[i].Concepts.replace(/\"/g, "");
+                    var decodedNodes=me.DecodeString(conceptNodes);
+                    var nodes=JSON.parse(decodedNodes);
+                    var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,items[i].Name);
+                    knowledgeMap.nodes=nodes;
+                    knowledgeMaps.push(knowledgeMap);
+                } 
                 knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
                 knowledgeMapTreeView.OnNodeSelected(me.ConceptNodeSelected);
                 knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);

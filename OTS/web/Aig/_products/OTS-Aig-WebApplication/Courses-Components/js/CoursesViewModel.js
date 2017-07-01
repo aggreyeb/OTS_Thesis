@@ -29,13 +29,23 @@ OTS.AigCourseViewModel=function(){
     
     me.CourseActions={
         CourseHeaderText:ko.observable("Add New Course"),
+        enableActions:ko.observable(false),
+        onCancel:function(){
+            me.CourseActions.CourseHeaderText("Add New Course");
+            me.SelectedCourse=null;
+            me.CourseActions.enableActions(false);
+            me.Number("");
+            me.CourseName("");
+            
+        },
         validate:function(){
            var  isValid =true;
            var errorMessage=[];
+           /*
            if(me.Number()===""){
                isValid=false;
                errorMessage.push("Course Number required");
-           }
+           }*/
            if(me.CourseName()===""){
                isValid=false;
                errorMessage.push("Course CourseName required");
@@ -63,9 +73,10 @@ OTS.AigCourseViewModel=function(){
             me.SelectedCourse=data;
             me.CourseName(data.CourseName);
             me.Number(data.Number);
+            
             me.CourseActions.CourseHeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
-             
+            me.CourseActions.enableActions(true);
         },
         onDelete:function(data,e){
             me.SelectedAction=me.ActionType.DELETE

@@ -81,7 +81,7 @@ public class CourseDataService {
            }
           
             //Retrive Teacher KnowledgeMaps
-          String sqlTemplate= "SELECT KnowledgeMapId as Id,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
+          String sqlTemplate= "SELECT KnowledgeMapId ,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
           String lookupSql=String.format(sqlTemplate, teacherid);
           List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(lookupSql, knowlwdgeMaps,KnowledgeMapElement.class);
@@ -107,7 +107,7 @@ public class CourseDataService {
      public TransactionResult ListTeacherKnowledgeMaps(int teacherid){
        TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplate= "SELECT KnowledgeMapId as Id,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
+          String sqlTemplate= "SELECT KnowledgeMapId ,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
           String sql=String.format(sqlTemplate, teacherid);
           List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, knowlwdgeMaps,KnowledgeMapElement.class);
