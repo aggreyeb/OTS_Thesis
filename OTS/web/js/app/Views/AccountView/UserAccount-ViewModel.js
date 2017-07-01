@@ -145,6 +145,19 @@ OTS.ViewModels.UserAccountViewModel=function(){
            $("#account-message-box").show();
            return;
        }
+       
+       var result= me.Validate();
+       if(result.Errors.length>0){
+           $("#account-message-box").addClass("alert alert-danger");
+           $("#account-message-box").html('<p>Please enter all the fields and try again</p>');
+           $("#account-message-box").show();
+          
+          return;
+       }
+       
+   
+      
+       
        if(createAccountCallback!==null){
           
           var accountItem={

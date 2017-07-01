@@ -633,6 +633,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 me.AutoUpdateTreeview(me.knowledgeMapEditorViewModel.selectedNode.id);
         }
         
+        /*
         var nodes= knowledgeMapTreeView.ToJson();
         var base64String= me.EncodeString(nodes)
         
@@ -640,12 +641,20 @@ OTS.AigKnowledgeMapListManagementView=function(){
             id:me.selectedKnowledgeMap.id,
             conceptSchemas:base64String
         };
-     
-       var validationResult=dataStructureKnowledgeMap.Validate(me.knowledgeMapEditorViewModel.selectedNode) ; 
-       if(!validationResult.HasErrors){  
+       */
       
-        knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
-             $(".icon-spinner").hide();
+       var jsonKnowledgeMap=ko.toJS(me.CurrentKnowledgeMapTree);
+            var jsonNode =JSON.parse(knowledgeMapTreeView.ToJson());
+             var conceptNodes=jsonNode[0].nodes;
+            var nodes= me.EncodeString(JSON.stringify(conceptNodes));
+          
+      var validationResult=dataStructureKnowledgeMap.Validate(me.knowledgeMapEditorViewModel.selectedNode) ; 
+       
+        if(!validationResult.HasErrors){  
+      
+       // knowledgeMapComponent.UpdateKnoledgeMapConceptSchemas(item,function(msg){
+           knowledgeMapComponent.UpdateKnowledgeMapNodes(jsonKnowledgeMap.KnowledgeMapId,nodes, function(e){     
+            $(".icon-spinner").hide();
              me.ConceptSchemaStateChanged=false;
              me.KnowledgeMapTreeStateChanged=false;
         });
