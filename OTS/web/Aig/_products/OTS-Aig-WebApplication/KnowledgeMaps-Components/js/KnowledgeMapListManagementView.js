@@ -316,8 +316,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
           selectedRelationType:ko.observable(),
           onSelectedNode:function(e){
              
-              me.conceptSchemaFormHeading( e.name);
-              
+              me.conceptSchemaFormHeading(e.name);
+               $("#alert-validation-alert").html("<p></p>")
+               $("#alert-validation-alert").hide();
               if(e.parentid===undefined ||e.parentid===null || e.parentid===""){
                   //$("#cmd-submit-knowledgeMap-with-coneceptschema").click();
                 me.knowledgeMapEditorViewModel.selectedNode=null;
@@ -652,16 +653,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 me.AutoUpdateTreeview(me.knowledgeMapEditorViewModel.selectedNode.id);
         }
         
-        /*
-        var nodes= knowledgeMapTreeView.ToJson();
-        var base64String= me.EncodeString(nodes)
-        
-        var item ={
-            id:me.selectedKnowledgeMap.id,
-            conceptSchemas:base64String
-        };
-       */
-      
+     
        var jsonKnowledgeMap=ko.toJS(me.CurrentKnowledgeMapTree);
             var jsonNode =JSON.parse(knowledgeMapTreeView.ToJson());
              var conceptNodes=jsonNode[0].nodes;
