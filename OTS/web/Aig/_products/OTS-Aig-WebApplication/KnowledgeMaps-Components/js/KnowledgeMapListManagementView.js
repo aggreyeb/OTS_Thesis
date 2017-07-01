@@ -152,6 +152,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            jsDuplicate.KnowledgeMapId= new Aig.Guid().NewGuid();
            jsDuplicate.Name+="Copy";
            jsDuplicate.Description+="Copy";
+           jsDuplicate.IsImported=false;
            var data=JSON.stringify(jsDuplicate);
             knowledgeMapComponent.SaveKnowledgeMap(data, function(e){
               
@@ -416,10 +417,16 @@ OTS.AigKnowledgeMapListManagementView=function(){
                   return;
               }
            
+            var selectedNodes=   knowledgeMapTreeView.RetriveSelectedNodes();
+              var currentNodeSelected=selectedNodes[0];
+              knowledgeMapTreeView.RemoveNode(currentNodeSelected);
+               me.KnowledgeMapTreeStateChanged=true;
+              knowledgeMapTreeView.UnSelectNodes();
+              
              var jsonKnowledgeMap=ko.toJS(me.CurrentKnowledgeMapTree);
              var jsonNode =JSON.parse(knowledgeMapTreeView.ToJson());
              var conceptNodes=jsonNode[0].nodes;
-            var nodes= me.EncodeString(JSON.stringify(conceptNodes));
+             var nodes= me.EncodeString(JSON.stringify(conceptNodes));
           
             
              knowledgeMapComponent.UpdateKnowledgeMapNodes(jsonKnowledgeMap.KnowledgeMapId,nodes, function(e){
