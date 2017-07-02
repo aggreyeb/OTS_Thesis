@@ -264,12 +264,15 @@ OTS.AigTestViewModel=function(){
                      
                    }
                   if(hasConceptSchemaErrors){
-                      me.Actions.enableGenerateAction(false);
+                     
                      //var layout=me.BuildValidationErrorsLayout(errors);
                      //$("#alert-item-generation-validation-alert").html("<b><p>Please enter all the required fields below and try again</p>" + layout);
                      //$("#alert-item-generation-validation-alert").show();
                       alert("Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again");
-                      return;
+                       me.Actions.enableGenerateAction(false);
+                       $("#cmd-generate-test-items").prop('disabled', true);
+                     return;
+                    
                   }
                   else{
                    me.DataBindTestItemGenerationEditor();
