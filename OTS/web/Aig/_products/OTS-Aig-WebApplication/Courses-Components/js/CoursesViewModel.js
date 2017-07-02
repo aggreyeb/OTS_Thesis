@@ -89,7 +89,7 @@ OTS.AigCourseViewModel=function(){
                      alertBox.ShowSuccessMessage("Course Deleted");
                 }
                 else{
-                    alertBox.ShowErrorMessage("Course Delete Failed");
+                    alertBox.ShowErrorMessage(result.Message);
                   }
                  me.SelectedAction=me.ActionType.NEW;
                 me.CourseActions.ResetForm();
@@ -123,7 +123,7 @@ OTS.AigCourseViewModel=function(){
                      
                 }
                 else{
-                    alertBox.ShowErrorMessage("Course Save Failed");
+                    alertBox.ShowErrorMessage(result.Message);
                   }
                  });
                   

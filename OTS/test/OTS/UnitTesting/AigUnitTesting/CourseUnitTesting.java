@@ -10,8 +10,6 @@ import OTS.Aig.KnowledgeMapDataServices.CourseDataService;
 import OTS.Aig.KnowledgeMapDataServices.CourseElement;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.DataModels.MySqlDataSource;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Test;
@@ -28,7 +26,7 @@ public class CourseUnitTesting {
         //Arrange
         CourseElement courseElement= new CourseElement();
         courseElement.Id= uuid.toString();
-        courseElement.Number="1266";
+       // courseElement.Number="1266";
         courseElement.Name="Testing and Test";
         courseElement.Createdby=2;
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
@@ -56,13 +54,49 @@ public class CourseUnitTesting {
     
     
    @Test
-    public void DeleteCourse(){
+    public void UserUnAthorizedToDeleteCourse(){
         
         //Arrange
-        String Id="b8d56dbd-9b67-47ca-afff-3038790fce99";
+        int userId=2; 
+        String Id="30d3bf1b-7616-4a27-be54-cfc0e9693c79"; //Course does not belong to user 
+        
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
         //Act
-         TransactionResult result= courseDataService.DeleteCourse(Id);
+         TransactionResult result= courseDataService.DeleteCourse(userId,Id);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.fail,"");
+    }
+    
+    
+    @Test
+    public void CourseAssociatedKnowledgeMapCanNOTDelete(){
+        
+        //Arrange
+        int userId=2; 
+        //Course belongs to user
+        //COurse  associated with
+        String Id="7e0ddefa-6e77-4899-81ff-e93a26036617";  
+        
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.DeleteCourse(userId,Id);
+        //Asset
+        Assert.isTrue(result.ActionResultType==ActionResultType.fail,"");
+    }
+    
+    
+      @Test
+    public void CourseNOTAssociatedKnowledgeMapCanDelete(){
+        
+        //Arrange
+        int userId=2; 
+        //Course belongs to user
+        //COurse not associated with
+        String Id="9fd44f10-91f6-4f79-9524-d6ea93124e14";  
+        
+        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
+        //Act
+         TransactionResult result= courseDataService.DeleteCourse(userId,Id);
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }

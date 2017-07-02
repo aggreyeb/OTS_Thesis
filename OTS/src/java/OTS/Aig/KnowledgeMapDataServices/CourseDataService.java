@@ -6,7 +6,6 @@
 package OTS.Aig.KnowledgeMapDataServices;
 
 import OTS.DataModels.DataSource;
-import OTS.DataModels.KnowledgeMapDescription;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
@@ -240,12 +239,17 @@ public class CourseDataService {
             }
     }
     
-    public TransactionResult DeleteCourse(String id){
+    public TransactionResult DeleteCourse(int userId,String id){
          TransactionResult result= new TransactionResult();
         try{ 
+          if(this.CanDelete(userId, id)){
           String sql="DELETE FROM course WHERE Id=" + "'" + id + "'";
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
+             return result;
+             }
+             result.Message="You can only delete course you created and not assciated with knowledge map";
+             result.ActionResultType= ActionResultType.fail;
              return result;
            }
            catch(Throwable ex){
@@ -260,7 +264,7 @@ public class CourseDataService {
     
       public TransactionResult SaveCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
        
-            if(!this.HasCourse(teacherId, courseId)){
+            if(!this.HasCourseKnowledgeMap(teacherId, courseId)){
                 return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
             }
             return  this.UpdateCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
@@ -272,13 +276,15 @@ public class CourseDataService {
       
        public TransactionResult DeleteCourseKnowledgeMaps(String id){
         TransactionResult result= new TransactionResult();
+     
         try{ 
-           
-            String InsertTemplate="DELETE FROM  teacher  Where Id='%s'";
+          
+          String InsertTemplate="DELETE FROM  teacher  Where Id='%s'";
           String sql= String.format(InsertTemplate,id);
            this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
+         
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -288,6 +294,7 @@ public class CourseDataService {
            finally{
              
             }
+        
     }
       
     
@@ -359,12 +366,25 @@ public class CourseDataService {
     }
     
     
-    private TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+    public TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
         TransactionResult result= new TransactionResult();
         try{ 
           String InsertTemplate="UPDATE Teacher SET CourseKnowledgeMaps='%s' WHERE TeacherId='%s' AND CourseId='%s'";
          String sql= String.format(InsertTemplate,knowledgeMaps,teacherId,courseId);
           this.dataSource.ExecuteNonQuery(sql);
+            
+             //Check has course knowledgeMap
+           String selectTemplate ="Select CourseKnowledgeMaps from Teacher Where TeacherId='%d' and CourseId='%s'";
+           String selectSql=String.format(selectTemplate, teacherId,courseId);
+           List<TeacherCourseKnowledgeMapItem> items=new ArrayList();
+           this.dataSource.ExecuteCustomDataSet(selectSql, items, TeacherCourseKnowledgeMapItem.class);
+            TeacherCourseKnowledgeMapItem item=items.get(0);
+            if(item.CourseKnowledgeMaps.equals("[]")){
+                //Delete the record
+                String deleteSqlTemplate="Delete from Teacher  Where TeacherId='%d' and CourseId='%s'";
+                String deleteSql=String.format(deleteSqlTemplate, teacherId,courseId);
+                this.dataSource.ExecuteNonQuery(deleteSql);
+            }
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -378,12 +398,18 @@ public class CourseDataService {
             }
     }
     
-   
-    
-     private Boolean HasCourse (int teacherId,String courseId){
-        TransactionResult result= new TransactionResult();
+     private Boolean CanDelete(int teacherId,String courseId){
+         if(this.HasCourse(teacherId, courseId) && !CourseAssociatedWithKnowledgeMap(courseId)){
+               return true;
+         }
+         return false;
+     }
+
+     
+      private Boolean HasCourseKnowledgeMap (int teacherId,String courseId){
+      
         try{ 
-          String InsertTemplate="SELECT Count(*) FROM Teacher Where TeacherId='%s' AND CourseId='%s'";
+          String InsertTemplate="SELECT Count(*) FROM Teacher Where TeacherId='%d' AND CourseId='%s'";
           String sql= String.format(InsertTemplate,teacherId,courseId);
           int[] returnValue= new int[1];
           this.dataSource.ExecuteScalar(sql,returnValue);
@@ -401,6 +427,34 @@ public class CourseDataService {
             }
     }
     
-   
+     private Boolean HasCourse (int teacherId,String courseId){
+      
+        try{ 
+          String InsertTemplate="SELECT Count(*) FROM Course Where Createdby='%d' AND Id='%s'";
+          String sql= String.format(InsertTemplate,teacherId,courseId);
+          int[] returnValue= new int[1];
+          this.dataSource.ExecuteScalar(sql,returnValue);
+              if(returnValue[0] ==0){
+                   return false;
+              }
+              return true;
+           }
+           catch(Throwable ex){
+              
+               return false;
+           }
+           finally{
+             
+            }
+    }
+    
+    private Boolean CourseAssociatedWithKnowledgeMap(String courseId){
+        
+          String template= "Select Id,TeacherId,CourseId,CourseKnowledgeMaps from Teacher where CourseId='%s'";
+          String sql=String.format(template, courseId);
+          List<TeacherCourseKnowledgeMapItem> courseKnowledgeMaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgeMaps,TeacherCourseKnowledgeMapItem.class);
+          return courseKnowledgeMaps.size()>0;
+      }
     
 }
