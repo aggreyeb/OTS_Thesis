@@ -108,8 +108,10 @@ OTS.TeacherCourse=function(id,name){
 OTS.AigTestViewModel=function(){
     var me=this;
     var testComponent;
-     var knowledgeMapTreeView;
+    var knowledgeMapTreeView;
     var alertBox=new Aig.AlertBox("alert-test-alert");
+    var dataStructureKnowledgeMap;
+    
     me.ActionType={
        NEW:"NEW" ,
        EDIT:"EDIT",
@@ -145,6 +147,7 @@ OTS.AigTestViewModel=function(){
     me.Actions={
         enableCancel:ko.observable(false),
         formHeading:ko.observable("Create New Test"),
+        enableGenerateAction:ko.observable(false),
         onCancelEditing:function(){
             me.Actions.ResetForm();
             me.Actions.enableCancel(false);
@@ -217,6 +220,10 @@ OTS.AigTestViewModel=function(){
                     knowledgeMap.nodes=nodes;
                     knowledgeMaps.push(knowledgeMap);
                 } 
+                
+               
+          
+               //*********************************************************
                 knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
                 knowledgeMapTreeView.OnNodeSelected(me.ConceptNodeSelected);
                 knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);
@@ -224,9 +231,51 @@ OTS.AigTestViewModel=function(){
                  $("#div-test-list-add-edit-container").hide();
                  $("#div-test-item-gen-container").show();
                  
-                 //********Now populate the test items and test sheet*******
-                  me.DataBindTestItemGenerationEditor();
+                
+                 //Validate before Populating  the Tree View
+                var jsonNodes =JSON.parse(knowledgeMapTreeView.ToJson());
+                /*
                  
+                */
+                  var hasNodes=  me.IsKnowledgeMapsHasNodes(jsonNodes);
+                 //********Now populate the test items and test sheet*******
+                 if(hasNodes){
+                   me.DataBindTestItemGenerationEditor();
+                   me.Actions.enableGenerateAction(true);
+                 }
+                 else{
+                  me.Actions.enableGenerateAction(false);
+                  alert("CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again");
+                    return;
+                 }
+               
+                 //Check that all the concept schema constraints are meet.
+                   var hasConceptSchemaErrors=false;
+                   var errors=[];
+                  for(var i=0;i<jsonNodes.length;i++){
+                      
+                      for(var j=0;j<jsonNodes[i].nodes.length;j++){
+                         var validationResult=dataStructureKnowledgeMap.Validate(jsonNodes[i].nodes[j]) ; 
+                         if(validationResult.HasErrors){
+                             hasConceptSchemaErrors=true;
+                             errors.push(validationResult.Errors);
+                          }
+                      }
+                     
+                   }
+                  if(hasConceptSchemaErrors){
+                      me.Actions.enableGenerateAction(false);
+                     //var layout=me.BuildValidationErrorsLayout(errors);
+                     //$("#alert-item-generation-validation-alert").html("<b><p>Please enter all the required fields below and try again</p>" + layout);
+                     //$("#alert-item-generation-validation-alert").show();
+                      alert("Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again");
+                      return;
+                  }
+                  else{
+                   me.DataBindTestItemGenerationEditor();
+                   me.Actions.enableGenerateAction(true);
+                  }
+                 //Validation section 
                 }
                 else{
                      alertBox.ShowErrorMessage(result.Message);  
@@ -893,6 +942,35 @@ OTS.AigTestViewModel=function(){
              
         }
     };
+    
+    
+    me.AddDataStructureKnowledgeMap=function(aDataStructureKnowledgeMap){
+        dataStructureKnowledgeMap=aDataStructureKnowledgeMap;
+    };
+    
+    me.IsKnowledgeMapsHasNodes=function(knowledgeMaps){
+         if(knowledgeMaps===undefined ||knowledgeMaps===null )
+             return false;
+        var hasNodes=true;
+       for(var i=0; i< knowledgeMaps.length;i++){
+           var item=knowledgeMaps[i];
+           if(item.nodes.length===0){
+               hasNodes=false;
+               break;
+           }
+       }
+        return hasNodes;
+    };
+    
+     me.BuildValidationErrorsLayout=function(errors){
+        var html="<ul>";
+        for(var i=0;i<errors.length;i++){
+            html+="<li>" + errors[i] + "</li>"
+        }
+        html+="</ul>";
+        return html;
+    };
+    
 }; //end class function
 
 
