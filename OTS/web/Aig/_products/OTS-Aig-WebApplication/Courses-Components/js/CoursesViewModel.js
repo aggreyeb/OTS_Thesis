@@ -68,6 +68,7 @@ OTS.AigCourseViewModel=function(){
              me.CourseName("");
              me.Number("");
              me.CourseActions.enableCancel(false),
+             me.CourseActions.CourseHeaderText("Add New Course");        
              me.SelectedAction=me.ActionType.NEW
          },
         onEdit:function(data,e){
@@ -146,7 +147,8 @@ OTS.AigCourseViewModel=function(){
                     me.CourseActions.CourseHeaderText("Add New Course");
                 }
                 else{
-                    alertBox.ShowErrorMessage("Course Update Failed");
+                     me.CourseActions.ResetForm();
+                    alertBox.ShowErrorMessage(result.Message);
                   }
                
                    

@@ -45,9 +45,10 @@ public class CourseUnitTesting {
         courseElement.Id= "b8d56dbd-9b67-47ca-afff-3038790fce98";
         courseElement.Number="X109";
         courseElement.Name="Software Development";
+        int userid=1;
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
         //Act
-         TransactionResult result= courseDataService.UpdateCourse(courseElement);
+         TransactionResult result= courseDataService.UpdateCourse(courseElement,userid);
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }

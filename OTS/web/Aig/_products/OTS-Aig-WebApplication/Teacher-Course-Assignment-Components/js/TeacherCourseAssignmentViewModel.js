@@ -169,11 +169,12 @@ OTS.AigCourseAssignmentViewModel=function(){
              }
               course.CourseKnowledgeMaps=[];
               var selectedKnowlegeMaps=ko.toJS(me.SelectedKnowledgeMaps);
-               if(selectedKnowlegeMaps.length===0){
+              /*
+            if(selectedKnowlegeMaps.length===0){
                       alertBox.ShowErrorMessage("Please select KowledgeMap(s) and try again"); 
                     return ;
                }
-               
+               */
                 for(var i=0;i<selectedKnowlegeMaps.length;i++){
                   course.CourseKnowledgeMaps.push(selectedKnowlegeMaps[i]); 
                 }  

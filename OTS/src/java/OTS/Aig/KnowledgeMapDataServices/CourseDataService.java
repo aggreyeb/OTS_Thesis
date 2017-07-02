@@ -220,14 +220,21 @@ public class CourseDataService {
        
     }
 
-    public TransactionResult UpdateCourse(CourseElement courseItem){
+    public TransactionResult UpdateCourse(CourseElement courseItem,int userId){
         TransactionResult result= new TransactionResult();
         try{ 
+           if(this.CanUpdate(userId, courseItem.Id)){
           String InsertTemplate="UPDATE course SET Number='%s', Name='%s' WHERE Id='%s'";
           String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name,courseItem.Id);
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
+            }
+            else{
+                result.Message="You can only Update course you created";
+                result.ActionResultType=ActionResultType.fail;
+                return result;
+             }
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -248,7 +255,7 @@ public class CourseDataService {
              result.ActionResultType=ActionResultType.ok;
              return result;
              }
-             result.Message="You can only delete course you created and not assciated with knowledge map";
+             result.Message="You can only delete course you created and not assciated with knowledge map and test";
              result.ActionResultType= ActionResultType.fail;
              return result;
            }
@@ -398,8 +405,19 @@ public class CourseDataService {
             }
     }
     
-     private Boolean CanDelete(int teacherId,String courseId){
+     private Boolean CanUpdate(int teacherId,String courseId){
          if(this.HasCourse(teacherId, courseId) && !CourseAssociatedWithKnowledgeMap(courseId)){
+               return true;
+         }
+         return false;
+     }
+    
+    
+    
+     private Boolean CanDelete(int teacherId,String courseId){
+         if(this.HasCourse(teacherId, courseId) && 
+                 !IsCourseAssocatedWithTest(courseId) &&
+                 !CourseAssociatedWithKnowledgeMap(courseId)){
                return true;
          }
          return false;
@@ -448,6 +466,7 @@ public class CourseDataService {
             }
     }
     
+        
     private Boolean CourseAssociatedWithKnowledgeMap(String courseId){
         
           String template= "Select Id,TeacherId,CourseId,CourseKnowledgeMaps from Teacher where CourseId='%s'";
@@ -456,5 +475,27 @@ public class CourseDataService {
           this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgeMaps,TeacherCourseKnowledgeMapItem.class);
           return courseKnowledgeMaps.size()>0;
       }
+    
+    
+    private Boolean IsCourseAssocatedWithTest(String courseId){
+       
+          try{ 
+          String InsertTemplate="Select count(*) from exam where CourseId='%s'";
+          String sql= String.format(InsertTemplate,courseId);
+          int[] returnValue= new int[1];
+          this.dataSource.ExecuteScalar(sql,returnValue);
+              if(returnValue[0] ==0){
+                   return false;
+              }
+              return true;
+           }
+           catch(Throwable ex){
+              
+               return false;
+           }
+           finally{
+             
+            }
+    }
     
 }

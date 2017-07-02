@@ -139,7 +139,7 @@ public class CourseServlet extends Servlet {
                       newCourse.Name=Name;
                       newCourse.Number=Number;
                       service= new CourseDataService(new MySqlDataSource());
-                      return service.UpdateCourse(newCourse);
+                      return service.UpdateCourse(newCourse,userProfile.UserId);
      
                  case "Aig-DeleteCourse":
                      Id=request.getParameter("Id");

@@ -130,13 +130,17 @@ public class TestDataService {
                TransactionResult result= new TransactionResult();
           
         try{ 
-          
+           if(!this.IsTestActivated(testId)){
           String deleteTemplate="DELETE FROM exam WHERE Id='%s'";
           String sql= String.format(deleteTemplate,testId);
                                     
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
              return result;
+           }
+            result.Message="Can not delete test already activated";
+            result.ActionResultType=ActionResultType.fail;
+            return result;
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -189,4 +193,26 @@ public class TestDataService {
             }
        }
       
+       
+       private Boolean IsTestActivated(String testId){
+            TransactionResult result= new TransactionResult();
+        try{ 
+          String sqlTemplete= "SELECT  *  FROM  Exam where Id='%s'";
+          String sql=String.format(sqlTemplete, testId);
+          List<TestElement> tests= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, tests,TestElement.class);
+               TestElement item=tests.get(0);
+               if(item.Activated==1){
+                   return true;
+               }
+               return false;
+            
+           }
+           catch(Throwable ex){
+               return false;
+           }
+           finally{
+             
+            }
+       }
 }
