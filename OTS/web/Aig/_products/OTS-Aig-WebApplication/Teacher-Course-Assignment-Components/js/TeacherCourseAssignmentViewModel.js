@@ -107,8 +107,7 @@ OTS.AigCourseAssignmentViewModel=function(){
          
          },
          ResetForm:function(){
-           
-          
+
              me.SelectedCourseId("");
              me.SelectedCourseName("");
             // me.SelectedKnowledgeMaps([]);
@@ -153,6 +152,7 @@ OTS.AigCourseAssignmentViewModel=function(){
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         me.CourseKnowledgeMapAssociations.remove(me.SelectedCourse);
                         me.SelectedCourse=null;
+                        me.Actions.ResetForm();
                          alertBox.ShowSuccessMessage("Course Knowledge Map Deleted");
                     }
                     else{
@@ -162,7 +162,8 @@ OTS.AigCourseAssignmentViewModel=function(){
         },
         onSave:function(){
              var course= ko.toJS(me.SelectedCourse);
-             if(course===undefined || course===null){
+         
+             if(course===undefined || course===null ||  me.SelectedCourseName()===""){
                    alertBox.ShowErrorMessage("Please select Course and try again"); 
                 return ;
              }
@@ -226,7 +227,9 @@ OTS.AigCourseAssignmentViewModel=function(){
       
    };
    
-   
+   me.ResetForm=function(){
+       me.Actions.ResetForm();
+   };
 };
 
 

@@ -27,7 +27,7 @@ OTS.AigTeacherCourseAssignmentComponent=function(){
         allPanels.hide();
         var panel=  control.SelectById("div-course-assignment-content");
         panel.show();
-         
+         viewModel.ResetForm();
          if(initialized)return;
        
         var element;
