@@ -143,8 +143,12 @@ OTS.AigTestViewModel=function(){
    };
     
     me.Actions={
-       
+        enableCancel:ko.observable(false),
         formHeading:ko.observable("Create New Test"),
+        onCancelEditing:function(){
+            me.Actions.ResetForm();
+            me.Actions.enableCancel(false);
+        },
         ResetForm:function(){
             me.Id("");
             me.Name("");
@@ -153,10 +157,13 @@ OTS.AigTestViewModel=function(){
             me.StartTime("");
             me.EndTime("");
             me.IsActivated(false);
+            me.SelectedTest=null;
+            me.Actions.formHeading("Create New Test");
+            me.SelectedAction=me.ActionType.NEW;
        },    
         onCreateNew:function(){
              me.Actions.ResetForm();
-             me.SelectedAction=me.ActionType.NEW
+             me.SelectedAction=me.ActionType.NEW;
          },
          refreshTestItemList:function(items){
              if(items===undefined || items===null) return;
@@ -254,6 +261,7 @@ OTS.AigTestViewModel=function(){
             me.IsActivated(data.IsActivated);
             me.SelectedAction=me.ActionType.EDIT
             me.Actions.formHeading("Edit Test");
+            me.Actions.enableCancel(true);
         },
         onActivate:function(data,e){
             me.SelectedTest=data;

@@ -1,7 +1,7 @@
 <div style="border: 1px solid #ddd;margin-left: 20px;margin-top: 10px;padding: 1px">
     <div class="row">
         <div class="col-xs-12">
-           <!-- <h3><span data-bind="text:$root.Actions.formHeading" class="label label-default">New/Edit</span></h3>-->
+           <h3><span data-bind="text:$root.Actions.formHeading" class="label label-default">New/Edit</span></h3>
         </div>
     </div><br>
     <div class="row">
@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="margin-top: 5px">
-                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>  <button data-bind="click:Actions.onCancelEditing,enable:Actions.enableCancel" class="btn btn-sm btn-default">Cancel</button>
             </div>
         </div>
         
