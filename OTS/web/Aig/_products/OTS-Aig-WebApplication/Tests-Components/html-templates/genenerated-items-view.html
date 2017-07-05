@@ -5,8 +5,8 @@
     <div data-bind="visible:ShowItemsGeneratedAlert" style="margin-right: 10px" class="alert alert-success" >
         Number of items generated: <span  data-bind="text:NumberItemsGenerated" class="badge" >0</span> <span class="pull-right"><a  data-bind="click:ClearTestItemGenerated" class=" btn btn-default" href="#">Clear</a>&nbsp;<a  data-bind="click:SaveToTestQuestionBank" class="pull-right btn btn-success" href="#">Save to test question bank</a></span>
    </div>
-    <div style="display: none" id="alert-item-generation-validation-alert" class="alert alert-danger">
-        CRITICAL !!
+    <div  id="alert-item-generation-validation-alert" class="alert alert-danger">
+       
     </div>
     <div class="row">
         <div style="overflow-y: scroll; height: 450px;margin-left: 15px;margin-right: 15px" class="table-responsive">
@@ -30,8 +30,9 @@
                     <div class="panel-footer panel-default">
                         <div class="form-group">
                         <label>Key</label><br/> 
-                        <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
-                        <label>Is Higher Cognitive Level Test Item ?&nbsp;</label><input data-bind="checked:IsHigherCognitiveLevel" type="checkbox" />                         
+                      <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>               
+                       <!-- <label>Is Higher Cognitive Level Test Item ?&nbsp;</label><input data-bind="checked:IsHigherCognitiveLevel" type="checkbox" /> -->
+                        <h4> <span class="label label-info">Cognitive Type:</span><span data-bind="text:CognitiveType" class="label label-default"></span></h4>
                     </div>
                     </div>
                      </div>

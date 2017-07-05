@@ -80,12 +80,12 @@ Aig.Components.EvaluateTimeComplexityTypeAComponent = function(id) {
     var modelanswerOptions=null;
     var stem=null;
     var correctAnswer=null;
-    var congnitiveType=Aig.CongnitiveLevelType.Analysis;
+    var congnitiveType=Aig.CongnitiveLevelType.Evaluate;
     var  answerOptions=[];
      var stimulusTemplate="Four {actor} " +
                           "implemented functions to be used in implementation " +  
                           "of software component which utilize {selectedNodeName} to store " + 
-                          "data set " + "The respective algorithm computer processing time in " + 
+                          "data set. " + " The respective algorithm computer processing time in " + 
                           "relationship with time complexity for each {actor}'s " +
                           "algorithm is shown show below <b> " +
                           "{algorithms}"  

@@ -245,7 +245,10 @@ OTS.AigTestViewModel=function(){
                  }
                  else{
                   me.Actions.enableGenerateAction(false);
-                  alert("CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again");
+                  var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>";
+                  
+                  me.ShowItemGenerationErrorAlert(message);
+                 // alert("CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again");
                     return;
                  }
                
@@ -265,11 +268,10 @@ OTS.AigTestViewModel=function(){
                    }
                   if(hasConceptSchemaErrors){
                      
-                     //var layout=me.BuildValidationErrorsLayout(errors);
-                     //$("#alert-item-generation-validation-alert").html("<b><p>Please enter all the required fields below and try again</p>" + layout);
-                     //$("#alert-item-generation-validation-alert").show();
-                      alert("Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again");
-                       me.Actions.enableGenerateAction(false);
+                      var message="<p>Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again</p>";
+                     // alert("Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again");
+                        me.ShowItemGenerationErrorAlert(message);
+                        me.Actions.enableGenerateAction(false);
                        $("#cmd-generate-test-items").prop('disabled', true);
                      return;
                     
@@ -823,7 +825,8 @@ OTS.AigTestViewModel=function(){
        }
     };
     me.OnStartGenerateTestsItems=function(){
-         me.ShowItemsGeneratedAlert(false);
+        me.HideItemGenerationErrorAlert();
+        me.ShowItemsGeneratedAlert(false);
         if( me.SelectedNodeForItemsGeneration!==null){
             
             var  conceptNodes = knowledgeMapTreeView.ToList();
@@ -858,6 +861,7 @@ OTS.AigTestViewModel=function(){
              item.serialNumber=new Aig.Guid().NewGuid();
                 var htmlItem= testComponent.RenderHtmlTestItem(item);
                 htmlItem.ComponentCode=item.componentCode;
+                htmlItem.CognitiveType=htmlItem.CongnitiveLevelType.name;
                 htmlItem.Number=i+1;
                 me.TestItems.push(htmlItem); 
            }
@@ -972,6 +976,17 @@ OTS.AigTestViewModel=function(){
         }
         html+="</ul>";
         return html;
+    };
+    
+    me.ShowItemGenerationErrorAlert=function(message){
+       // var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>"
+        $("#alert-item-generation-validation-alert").html(message);
+        $("#alert-item-generation-validation-alert").show();
+    };
+    
+     me.HideItemGenerationErrorAlert=function(){
+         $("#alert-item-generation-validation-alert").html("<p></p>");
+       $("#alert-item-generation-validation-alert").hide();
     };
     
 }; //end class function

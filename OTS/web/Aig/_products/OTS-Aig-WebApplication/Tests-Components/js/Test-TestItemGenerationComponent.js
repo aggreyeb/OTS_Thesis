@@ -156,7 +156,7 @@ OTS.AigTestItemGenerationComponent=function(){
          $("#txt-endTime").timepicker('showWidget');
             
          });
-         
+         viewModel.HideItemGenerationErrorAlert();
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
          
      };
