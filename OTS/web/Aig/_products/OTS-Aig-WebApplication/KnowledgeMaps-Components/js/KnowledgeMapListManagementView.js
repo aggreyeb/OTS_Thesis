@@ -222,6 +222,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                newKnowledgeMap.IsPublic=true;
                newKnowledgeMap.IsImported=false;
                newKnowledgeMap.KnowledgeMapId=new Aig.Guid().NewGuid();
+               newKnowledgeMap.CreatedBy=0;
                newKnowledgeMap.Concepts=me.EncodeString(JSON.stringify([]));
                var data=JSON.stringify(newKnowledgeMap);
                 knowledgeMapComponent.SaveKnowledgeMap(data, function(e){
@@ -249,6 +250,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                
           if(me.selectedMode===modeType.Edit){
                 var jsdata=ko.toJS( me.SelectedKnowledgeMap); 
+                 jsdata.CreatedBy=0;//replace with login user
                 var data=JSON.stringify(jsdata);
                 knowledgeMapComponent.UpdateKnowledgeMap(data,function(e){
                 
@@ -833,7 +835,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
     me.SubmitSelectedForImport=function(){
         if(me.ImportList().length===0){
-            alert("Please Select KnowledgeMap(S) and try again");
+            alert("Please Select KnowledgeMap(s) and try again");
             return;
         }
         var selectedItems=[];

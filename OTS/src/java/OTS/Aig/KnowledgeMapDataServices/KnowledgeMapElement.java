@@ -21,7 +21,7 @@ public class KnowledgeMapElement {
     public Boolean IsImported;
     public Boolean IsSharing;
     public Boolean IsSelected;
-    public int CreatedBy;
+    public int CreatedBy=0;
     public Date CreateOn;
     public Date LastUpdated ;
     public String ImportedIcon="fa fa-";

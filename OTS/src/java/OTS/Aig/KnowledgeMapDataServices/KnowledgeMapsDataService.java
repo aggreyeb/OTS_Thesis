@@ -42,6 +42,7 @@ public class KnowledgeMapsDataService {
             "Values ('%s','%s','%s','%s',%d,%s,%b,%b,%b)";     
         try{
          KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+         item.CreatedBy=userId;
          String todaysDate="'" + currentTime + "'";
          String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
          this.dataSource.ExecuteNonQuery(sql);
