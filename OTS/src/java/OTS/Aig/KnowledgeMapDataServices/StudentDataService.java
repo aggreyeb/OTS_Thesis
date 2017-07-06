@@ -29,7 +29,7 @@ public class StudentDataService {
     public TransactionResult  ListAllStudents(){
       TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select UserId as Id,FirstName,LastName,Email,Phone,UserTypeId,UserAccountId as AccountId  from User";
+          String sql= "Select UserId as Id,FirstName,LastName,Email,Phone,UserTypeId,UserAccountId as AccountId  from User where UserTypeId=2";
           List<StudentElement> students= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, students,StudentElement.class);
        

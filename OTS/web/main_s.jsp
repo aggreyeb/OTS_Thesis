@@ -139,18 +139,29 @@
     <body style="padding-top: 65px;">
         <header id="header">  </header>
         <div id="mainContainer"  style=" margin: 10px" >
-            <div class="row">
+           <ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">Course/Test Information</a></li>
+  <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+  <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+  
+         <div class="row">
                 <div class=" col-xs-4">
-                   <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
-                    <h3>Course/Test Information</h3>
-                  </div>
-                   <div>
+                  
+                    <div style=" border-style:solid;color: #ddd; border-width:1px; margin-left: 2px;margin-top: 2px">
                         <h3><span class="label label-default" >Register Courses</span></h3>  
                         <select class="form-control">
                             <option value="1">Software Engineering</option>
                             <option value="2">Mechanical Engineering</option>
                         </select>
+                        <div  style=" margin-top: 10px;margin-bottom: 10px;margin-left: 2px">
+                          <button class="btn btn-sm btn-primary" >Save</button>
+                         </div>
                     </div><br>
+                  
                          <h3><span class="label label-default" >Registered Courses Test</span></h3>  
                          <div style=" overflow-y: auto;height: 300px" class="table-responsive">
                              <table class="table table-bordered table-hover">
@@ -173,12 +184,10 @@
                                  </tbody>
                              </table>
                          </div>
-                    
+                
                   </div>
                 <div class=" col-xs-8">
-                   <div style="background: #31708f;color: white;height:62px;padding-right: 50px" class=" col-xs-12  active">
-                    <h3>Test Sheet</h3>
-                  </div>
+                
                     <div style=" margin-bottom: 2px" class="row">
                         <div class=" col-xs-6">Name:<span>Software Engineering</span></div>
                         <div class=" col-xs-6">Start Date:<span>2017/09/10</span></div>
@@ -227,13 +236,21 @@
         </div> <!--Table Responsive-->
       </div><!--Test Sheet Ends-->        
       </div>
-            </div>
+ </div>
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <h3>Menu 1</h3>
+    <p>Some content in menu 1.</p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>Menu 2</h3>
+    <p>Some content in menu 2.</p>
+  </div>
+</div>
         </div>
         
         <footer id="footer">
-            <div class="container">
-                 
-            </div>
+    
         </footer>
     </body>
 </html>
