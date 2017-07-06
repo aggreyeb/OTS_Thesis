@@ -26,6 +26,9 @@ OTS.AigStudentPortalViewModel=function(){
     me.CouresTests=ko.observableArray([]);
     me.SelectedCourseTest=ko.observable();
     
+    me.RegisteredCourses=ko.observableArray([]);
+    me.SelectedRegisteredCourses=ko.observable();
+    
     var studentPortalComponent;
     
     me.onRegisterCourse=function(data,e){
@@ -51,6 +54,14 @@ OTS.AigStudentPortalViewModel=function(){
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
                 me.Courses.push(items[i]);
+            }
+        }
+    };
+    
+     me.BindRegisteredCourseList=function(items){
+        if(items!==undefined && items!==null && items.length){
+            for(var i=0;i<items.length;i++){
+                me.RegisteredCourses.push(items[i]);
             }
         }
     };

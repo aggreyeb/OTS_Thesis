@@ -5,7 +5,7 @@ OTS.StudentPortalDatSource=function(){
         RegisterStudentCourse:"Aig-RegisterStudentCourse",
         UpdateStudentTestStartTime:"Aig-UpdateStudentTestStartTime",
         SubmitStudentTest:"Aig-SubmitStudentTest",
-        LoadPortalViewInformation:"LoadPortalViewInformation"
+        LoadPortalViewInformation:"Aig-LoadPortalViewInformation"
     };
     
     me.LoadPortalViewInformation=function(callbackFunction){

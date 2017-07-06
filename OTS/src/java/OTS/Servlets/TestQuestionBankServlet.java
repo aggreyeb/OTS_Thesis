@@ -171,11 +171,9 @@ public class TestQuestionBankServlet extends Servlet {
                    
                     case "Aig-LoadPortalViewInformation":
                     int userId=   userProfile.UserId;
-                   
-                   service= new TestQuestionBankDataService(new MySqlDataSource());
-                   
-                   
-                   
+                    service= new TestQuestionBankDataService(new MySqlDataSource());
+                    return service.LoadStudentPortalViewInformation(userId);
+                  
                //Old Method Calls      
              case  "ListTestQuestionBank1":
                Questions questions= new Questions(db,response);

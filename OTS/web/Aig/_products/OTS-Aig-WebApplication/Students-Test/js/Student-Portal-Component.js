@@ -20,14 +20,16 @@ OTS.AigStudentPortalComponent=function(){
         dataSource.LoadPortalViewInformation(function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-              var courses=JSON.parse(result.Content);
-              var courseTest=JSOn.parse(result.LookupTable);
+              var content=JSON.parse(result.Content);
+              var courses=JSON.parse(content.StudentCourses);
+              var studentRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
                 
-                viewModel= new OTS.AigStudentPortalViewModel()
+                viewModel= new OTS.AigStudentPortalViewModel();
                 viewModel.BindCourseList(courses);
-                viewModel.BindCourseTestList(courseTest);
+               // viewModel.BindCourseTestList(courseTest);
                 //Apply Ko Bindings
                 ko.applyBindings(viewModel,$("#mainContainer")[0]);
+                 $(".chosen-select").chosen({width: "100%"});
             } 
         });
     };

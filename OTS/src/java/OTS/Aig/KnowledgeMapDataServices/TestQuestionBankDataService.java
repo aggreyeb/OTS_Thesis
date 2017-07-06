@@ -198,7 +198,7 @@ public class TestQuestionBankDataService {
       public TransactionResult LoadStudentPortalViewInformation(int studentId){
           TransactionResult result= new TransactionResult();
         try{ 
-          String sql="Select * from Course";
+          String sql="Select Id,Name from Course";
           List<CourseElement> allCourse= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql,allCourse,CourseElement.class);
           

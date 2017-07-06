@@ -33,7 +33,10 @@
         <script src="scripts/bootstrap-select.js" type="text/javascript"></script>
         <script src="scripts/knockout-2.2.0.js" type="text/javascript"></script>
         <script src="scripts/jqTreeContextMenu.js" type="text/javascript"></script>
-     
+        <link href="scripts/Choosen1.7/chosen_v1.7.0/chosen.css" rel="stylesheet" type="text/css"/>
+        <script src="scripts/Choosen1.7/chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
+      
+        
        <!-- <script src="classes/Page.js" type="text/javascript"></script>-->
        <!-- <script src="classes/teacher/TeacherKnowledgeMapPage.js" type="text/javascript"></script>-->
         <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
@@ -78,13 +81,15 @@
   
             var view;
             $(document).ready(function(){
-             
+             /*
              var menu= new OTS.Views.TeacherMainMenu();
               menu.addSubscriber(new OTS.Views.WelcomeView());
               menu.addSubscriber(new OTS.Views.StudentAllCoursesView());
               menu.addSubscriber(new OTS.Views.StudentRegisteredCoursesView());
               menu.addSubscriber(new OTS.Views.StudentMyTestView());
-              $('#btn-new-knowledgemap').popover({html:true, title:"Testing",placement:'bottom',
+              */
+            /*
+            $('#btn-new-knowledgemap').popover({html:true, title:"Testing",placement:'bottom',
                  title:function(){
                      return  $("#frm-knowledgemap-Title").html();
                  },content:function(){
@@ -92,14 +97,14 @@
                  }}   
                );
   
-           
-               view =new   OTS.Views.KnowledgeMapsView();
-                ko.applyBindings(view,$("#mainContainer")[0]);
-                
-                 $("#sel-relationType").selectpicker();
-             
-            $("#sel-knowledgemap-action").selectpicker();
+             */
             
+              //ko.applyBindings(view,$("#mainContainer")[0]);
+                
+               //  $("#sel-relationType").selectpicker();
+             
+                // $("#sel-knowledgemap-action").selectpicker();
+              view =new   OTS.Views.KnowledgeMapsView();
              $("#btn-new-concept-schema").popover({html:true, title:"Testing",placement:'bottom',
                  title:function(){
                      return  $("#frm-conceptSchem-Title").html();
@@ -108,6 +113,11 @@
                  }});
               
             });
+            
+            //initialize the component here
+           
+          var component= new   OTS.AigStudentPortalComponent();
+          component.Activate();
             
         </script>
         <style>
@@ -141,7 +151,7 @@
         <div id="mainContainer"  style=" margin: 10px" >
            <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#home">Course/Test Information</a></li>
-  <li><a data-toggle="tab" href="#menu1">Knowledgemaps</a></li>
+  <li><a data-toggle="tab" href="#menu1">Knowledge maps</a></li>
   <li><a data-toggle="tab" href="#menu2">Other</a></li>
 </ul>
 
@@ -152,18 +162,26 @@
                 <div class=" col-xs-4">
                   
                     <div style=" border-style:solid;color: #ddd; border-width:1px; margin-left: 2px;margin-top: 2px">
-                        <h3><span class="label label-default" >Register Courses</span></h3>  
-                        <select class="form-control">
-                            <option value="1">Software Engineering</option>
-                            <option value="2">Mechanical Engineering</option>
+                        <h3><span class="label label-default" >Register Courses</span></h3> 
+                        <div style=" margin: 2px">
+                            <div>
+                            <span  class="label label-info"><i class="fa fa-info"></i> Select Course(s) and click save </span> <br>
+                            </div><br>
+                         <select style=" margin-top: 3px" id="sel-availble-courses" class="form-control chosen-select" multiple data-bind="options: Courses,
+                       optionsText: 'Name',
+                       value: 'Id',
+                       selectedOptions:SelectedCourses,optionsCaption: 'Choose...'">
+                           
                         </select>
+                        </div>
+                       
                         <div  style=" margin-top: 10px;margin-bottom: 10px;margin-left: 2px">
                           <button class="btn btn-sm btn-primary" >Save</button>
                          </div>
                     </div><br>
                   
                          <h3><span class="label label-default" >Registered Courses Test</span></h3>  
-                         <div style=" overflow-y: auto;height: 300px" class="table-responsive">
+                         <div style=" overflow-y: scroll;height: 300px" class="table-responsive">
                              <table class="table table-bordered table-hover">
                                  <tr>
                                       <th>Actions</th>
