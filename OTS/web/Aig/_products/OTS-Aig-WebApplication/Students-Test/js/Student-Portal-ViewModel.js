@@ -19,6 +19,7 @@ OTS.AigStudentTestItem=function(){
 };
 OTS.AigStudentPortalViewModel=function(){
     var me=this;
+    var alertBox= new Aig.AlertBox("alert-register-course-alert");
     me.TestItems= ko.observableArray([]);
     me.Courses=ko.observableArray([]);
     me.SelectedCourses=ko.observableArray([]);
@@ -28,6 +29,13 @@ OTS.AigStudentPortalViewModel=function(){
     
     me.RegisteredCourses=ko.observableArray([]);
     me.SelectedRegisteredCourses=ko.observable();
+    
+    me.TestSheetViewModel={
+        TestName:ko.observable(""),
+        TestStartDate:ko.observable(""),
+        TestStartTime:ko.observable(""),
+        TestEndTime:ko.observable("")
+    };
     
     var studentPortalComponent;
     
@@ -46,16 +54,20 @@ OTS.AigStudentPortalViewModel=function(){
                       if(jsonRegistedCourses[i].RegisteredCourses==="[]") continue;
                 }
                 me.BindRegisteredCourseList(studentRegisteredItems[0]);
+                alertBox.ShowSuccessMessage("Course Registered");
             }
             else{
-                
+                alertBox.ShowErrorMessage("Failed to registered course");
             }
         });
     };
     
     
     me.TakeTest=function(data,e){
-        alert("Take Test");
+        me.TestSheetViewModel.TestName(data.Name);
+        me.TestSheetViewModel.TestStartDate(data.StartDate);
+        me.TestSheetViewModel.TestStartTime(data.StartTime);
+        me.TestSheetViewModel.TestEndTime(data.EndTime);
     };
     me.onStartTests=function(){
         studentPortalComponent.UpdateStudentTestStartTime(function(msg){

@@ -56,6 +56,7 @@
          <script src="scripts/moment.js" type="text/javascript"></script>
          
          <!--Student Portal -->
+         <script src="Aig/Components/App-Controls/AlertBox.js" type="text/javascript"></script>
          <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-ViewModel.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-DataSource.js" type="text/javascript"></script>
@@ -179,8 +180,11 @@
                         <div  style=" margin-top: 10px;margin-bottom: 10px;margin-left: 2px">
                             <button data-bind="click:onRegisterCourse" class="btn btn-sm btn-primary" >Save</button>
                          </div>
+                        <div  style="display: none" class=" alert alert-success" id="alert-register-course-alert">
+                             Message
+                        </div>
                     </div><br>
-                  
+                        
                          <h3><span class="label label-default" >Registered Courses Test</span></h3>  
                          <div style=" overflow-y: scroll;height: 300px" class="table-responsive">
                              <table class="table table-bordered table-hover">
@@ -207,19 +211,19 @@
                 <div class=" col-xs-8">
                 
                     <div style=" margin-bottom: 2px" class="row">
-                        <div class=" col-xs-6">Name:<span>Software Engineering</span></div>
-                        <div class=" col-xs-6">Start Date:<span>2017/09/10</span></div>
+                        <div class=" col-xs-6"><b>Name:</b><span  data-bind="text:TestSheetViewModel.TestName"></span></div>
+                        <div class=" col-xs-6"><b>Start Date:</b><span data-bind="text:TestSheetViewModel.TestStartDate"></span></div>
                     </div>
                     <div style=" margin-bottom: 2px" class="row">
-                        <div class=" col-xs-6">Start Time<span>10:30AM</span></div>
-                        <div class=" col-xs-6">End Time:<span>11:45AM</span></div>
+                        <div class=" col-xs-6"><b>Start Time</b><span data-bind="text:TestSheetViewModel.TestStartTime"></span></div>
+                        <div class=" col-xs-6"><b>End Time:</b><span data-bind="text:TestSheetViewModel.TestEndTime">11:45AM</span></div>
                     </div>
                     <hr>
                     <!-- ********** Test Sheet Starts **************-->
               <div id="test-sheet-row">
              <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
                  <div class="alert alert-info">
-                     Please complete the test and submit the test.Once submitted you can can not change your answers <a  class="btn btn-sm btn-primary" href="#">Start Test</a> <span  class=" pull-right"><a class="btn btn-sm btn-success" href="#">Submit</a></span>
+                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  class="btn btn-sm btn-primary" href="#">Start Test</a> <span  class=" pull-right"><a class="btn btn-sm btn-success" href="#">Submit</a></span>
                  </div>
                  <table class="table table-bordered table-hover ">
                  <tr>

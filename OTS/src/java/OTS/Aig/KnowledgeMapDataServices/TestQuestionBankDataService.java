@@ -220,7 +220,7 @@ public class TestQuestionBankDataService {
                     items.add("'" + a.Id + "'");
                 }
                 String Ids=String.join(",", items);
-                String courseTestSql="Select * from Exam where CourseId IN(" + Ids + ")";
+                String courseTestSql="Select * from Exam where Activated =1 AND CourseId IN(" + Ids + ")";
 
 
                  this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
