@@ -197,6 +197,7 @@ public class TestQuestionBankDataService {
      
       public TransactionResult LoadStudentPortalViewInformation(int studentId){
           TransactionResult result= new TransactionResult();
+          Gson g= new Gson();
         try{ 
           String sql="Select Id,Name from Course";
           List<CourseElement> allCourse= new ArrayList();
@@ -208,10 +209,28 @@ public class TestQuestionBankDataService {
           List<StudentRegisteredCourseElement> studentRegistedCourses= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(registedCoursesSql,studentRegistedCourses,StudentRegisteredCourseElement.class);
          
-          Gson g=new Gson();
+          //Get registered course Test
+          List<TestElement> tests=new ArrayList();
+          if(studentRegistedCourses.size()>0){
+                List<String> items= new ArrayList();
+
+                CourseElement[] selectedCourses= (CourseElement[])g.fromJson(studentRegistedCourses.get(0).RegisteredCourses, CourseElement[].class);
+                if(selectedCourses.length>0){
+                for(CourseElement a:selectedCourses){
+                    items.add("'" + a.Id + "'");
+                }
+                String Ids=String.join(",", items);
+                String courseTestSql="Select * from Exam where CourseId IN(" + Ids + ")";
+
+
+                 this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
+
+                }
+          }
            StudentPortalViewElement studentPortalView= new StudentPortalViewElement();
            studentPortalView.StudentCourses=g.toJson(allCourse);
            studentPortalView.StudentRegisteredCourses=g.toJson(studentRegistedCourses);
+           studentPortalView.ActivatedCourseTest=g.toJson(tests);
           
            result.ActionResultType=ActionResultType.ok;
            result.Content=g.toJson(studentPortalView);
@@ -227,5 +246,91 @@ public class TestQuestionBankDataService {
             }
        
     } 
+      
+      
+     private Boolean IsStudentCourseCreated (int studentId){
+      
+        try{ 
+          String InsertTemplate="SELECT Count(*) FROM Student Where StudentId=%d" ;
+          String sql= String.format(InsertTemplate,studentId);
+          int[] returnValue= new int[1];
+          this.dataSource.ExecuteScalar(sql,returnValue);
+              if(returnValue[0] ==0){
+                   return false;
+              }
+              return true;
+           }
+           catch(Throwable ex){
+              
+               return false;
+           }
+           finally{
+             
+            }
+    }
+      
+       public TransactionResult SaveStudentSelectedCourse(String id,int studentid,String courses){
+                if(IsStudentCourseCreated(studentid)){
+                    return this.UpdateStudentRegisteredCourse(id, studentid, courses);
+                }
+                return this.RegisterStudentCourse(id, studentid, courses);
+       }
+       
+     
+     public TransactionResult UpdateStudentRegisteredCourse(String id,int studentid,String courses){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String updateTemplate="UPDATE  Student SET RegisteredCourses='%s' Where StudentId=%d";
+          String sql= String.format(updateTemplate,courses,studentid);
+          this.dataSource.ExecuteNonQuery(sql);
+           return LoadStudentPortalViewInformation(studentid);
+           
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    } 
+      
 
+    public TransactionResult RegisterStudentCourse(String id,int studentid,String courses){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="INSERT INTO Student (Id,StudentId,RegisteredCourses) Values('%s','%s','%s')";
+          String sql= String.format(InsertTemplate,id,studentid,courses);
+          this.dataSource.ExecuteNonQuery(sql);
+          
+          //For Each Course selected , select the course Test
+          Gson g = new Gson();
+          List<String> items= new ArrayList();
+         
+          CourseElement[] selectedCourses= (CourseElement[])g.fromJson(courses, CourseElement[].class);
+          for(CourseElement a:selectedCourses){
+              items.add("'" + a.Id + "'");
+          }
+          String Ids=String.join(",", items);
+          String courseTestSql="Select * from Exam where CourseId IN(" + Ids + ")";
+          
+          List<TestElement> tests= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
+          result.Content=g.toJson(tests);
+          result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }   
+      
 }

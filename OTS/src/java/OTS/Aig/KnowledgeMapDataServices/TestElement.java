@@ -24,5 +24,11 @@ public class TestElement {
    public String TestQuestions;
    public String TestSheet;
    public String AnswerSheet;
+   public String Score="";
+   public Boolean Taken;
+   public Boolean Marked;
+   public String TakenText="No";
+   public String MarkedText="No";
+   public String Comments="";
            
 }

@@ -32,12 +32,31 @@ OTS.AigStudentPortalViewModel=function(){
     var studentPortalComponent;
     
     me.onRegisterCourse=function(data,e){
-        
-        studentPortalComponent.RegisterStudentCourse(data,function(msg){
-            
+         var data=JSON.stringify(ko.toJS(me.SelectedCourses));
+         var id=new Aig.Guid().NewGuid();
+        studentPortalComponent.RegisterStudentCourse(id, data,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var content=JSON.parse(result.Content) ;
+               var jsonRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
+             
+                var studentRegisteredItems=[];
+                for(var i=0;i<jsonRegistedCourses.length;i++){
+                    studentRegisteredItems.push(JSON.parse(jsonRegistedCourses[i].RegisteredCourses));
+                      if(jsonRegistedCourses[i].RegisteredCourses==="[]") continue;
+                }
+                me.BindRegisteredCourseList(studentRegisteredItems[0]);
+            }
+            else{
+                
+            }
         });
     };
     
+    
+    me.TakeTest=function(data,e){
+        alert("Take Test");
+    };
     me.onStartTests=function(){
         studentPortalComponent.UpdateStudentTestStartTime(function(msg){
             
@@ -59,18 +78,36 @@ OTS.AigStudentPortalViewModel=function(){
     };
     
      me.BindRegisteredCourseList=function(items){
-        if(items!==undefined && items!==null && items.length){
-            for(var i=0;i<items.length;i++){
-                me.RegisteredCourses.push(items[i]);
-            }
-        }
+         var elements=   $('.chosen-select option');
+           for(var i=0;i<items.length;i++){
+               if(me.SelectCourse(items[i],elements)){
+                  var element=elements[i];
+                 $(element).prop('selected', true); 
+               }
+           }
+           $('#sel-availble-courses').trigger("chosen:updated"); 
     };
     
+    me.SelectCourse=function(item,elements){
+       
+        for(var i=0;i<elements.length;i++){
+            if(item.Name.trim()===elements[i].innerHTML.trim()){
+               var element=elements[i];
+                $(element).prop('selected', true); 
+            }
+        }
+         
+    };
+  
     me.BindCourseTestList=function(items){
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
-               
-                var item= new OTS.AigStudentTestItem();
+               if(items[i].Taken){
+                   items[i].TakenText="Yes";
+               }
+               if(items[i].Marked) {
+                   items[i].MarkedText="Yes";
+               }
                 me.CouresTests.push(items[i]);
             }
         }
@@ -89,6 +126,10 @@ OTS.AigStudentPortalViewModel=function(){
         studentPortalComponent=component;
     };
     
-    
+    me.ResetSelectedCourses=function(){
+            me.SelectedCourses([]);
+            $('#sel-availble-courses option:selected').removeAttr('selected');
+            $('#sel-availble-courses').trigger('chosen:updated');
+     };
 };
 

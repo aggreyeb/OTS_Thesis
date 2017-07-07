@@ -56,6 +56,7 @@
          <script src="scripts/moment.js" type="text/javascript"></script>
          
          <!--Student Portal -->
+         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-ViewModel.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-DataSource.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-Component.js" type="text/javascript"></script>
@@ -165,7 +166,7 @@
                         <h3><span class="label label-default" >Register Courses</span></h3> 
                         <div style=" margin: 2px">
                             <div>
-                            <span  class="label label-info"><i class="fa fa-info"></i> Select Course(s) and click save </span> <br>
+                                <i class="fa fa-info"></i> <span  class="label label-info">Select Course(s) and click save </span><br>
                             </div><br>
                          <select style=" margin-top: 3px" id="sel-availble-courses" class="form-control chosen-select" multiple data-bind="options: Courses,
                        optionsText: 'Name',
@@ -176,7 +177,7 @@
                         </div>
                        
                         <div  style=" margin-top: 10px;margin-bottom: 10px;margin-left: 2px">
-                          <button class="btn btn-sm btn-primary" >Save</button>
+                            <button data-bind="click:onRegisterCourse" class="btn btn-sm btn-primary" >Save</button>
                          </div>
                     </div><br>
                   
@@ -186,18 +187,17 @@
                                  <tr>
                                       <th>Actions</th>
                                      <th>Test Name</th>
-                                      <th>Start Date</th>
-                                      <th>Taken</th>
-                                      <th>Marked</th>
-                                     
+                                     <th style="display: none">Start Date</th>
+                                     <th style="display: none">Taken</th>
+                                      <th>Score(%)</th>
                                  </tr>
                                  <tbody>
-                                     <tr>
-                                         <td><a title="Take Test" href="#">Take Test</a></td>
-                                         <td>Software Engineering</td>
-                                         <td>Start Date</td>
-                                          <td>No</td>
-                                          <td>No</td>
+                                     <tr data-bind="foreach:CouresTests">
+                                         <td><a data-bind="event:{click:$parent.TakeTest}" title="Take Test" href="#">Take Test</a></td>
+                                         <td data-bind="text:Name"></td>
+                                         <td style="display: none" data-bind="text:StartDate"></td>
+                                         <td style="display: none" data-bind="text:TakenText"></td>
+                                         <td data-bind="text:Score"></td>
                                      </tr>
                                  </tbody>
                              </table>

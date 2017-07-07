@@ -16,9 +16,9 @@ OTS.StudentPortalDatSource=function(){
           });
     };
     
-    me.RegisterStudentCourse=function(data,callbackFunction){
+    me.RegisterStudentCourse=function(id,data,callbackFunction){
            var callback= callbackFunction;
-           $.post("TestQuestionBankServlet",{action:actionType.RegisterStudentCourse,data:data},function(msg){
+           $.post("TestQuestionBankServlet",{action:actionType.RegisterStudentCourse,Id:id,data:data},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
           });

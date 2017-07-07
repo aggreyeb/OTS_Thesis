@@ -12,4 +12,5 @@ package OTS.Aig.KnowledgeMapDataServices;
 public class StudentPortalViewElement {
     public String StudentCourses;
     public String StudentRegisteredCourses;
+    public String ActivatedCourseTest;
 }

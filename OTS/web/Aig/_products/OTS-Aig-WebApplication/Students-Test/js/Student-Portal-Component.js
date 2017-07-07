@@ -3,8 +3,12 @@ OTS.AigStudentPortalComponent=function(){
     var me=this;
      
     var viewModel;    
-     me.RegisterStudentCourse=function(data,callbackFunction){
+     me.RegisterStudentCourse=function(id,data,callbackFunction){
            var callback= callbackFunction;
+          var dataSource= new  OTS.StudentPortalDatSource();
+          dataSource.RegisterStudentCourse(id,data,function(msg){
+              callback(msg);
+          });
     };
     
     me.UpdateStudentTestStartTime=function(callbackFunction){
@@ -22,14 +26,27 @@ OTS.AigStudentPortalComponent=function(){
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
               var content=JSON.parse(result.Content);
               var courses=JSON.parse(content.StudentCourses);
-              var studentRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
-                
+              var jsonRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
+              var jsonActivatedCourseTest=JSON.parse(content.ActivatedCourseTest);
+              var courseTest=[];
+               for(var j=0;j<jsonActivatedCourseTest.length;j++){
+                   courseTest.push(jsonActivatedCourseTest[j]);
+               }
                 viewModel= new OTS.AigStudentPortalViewModel();
+                viewModel.AddStudentPortalComponent(me);
                 viewModel.BindCourseList(courses);
-               // viewModel.BindCourseTestList(courseTest);
-                //Apply Ko Bindings
+                viewModel.BindCourseTestList(courseTest);
+               
                 ko.applyBindings(viewModel,$("#mainContainer")[0]);
-                 $(".chosen-select").chosen({width: "100%"});
+                $(".chosen-select").chosen({width: "100%"});
+                
+              var studentRegisteredItems=[];
+                for(var i=0;i<jsonRegistedCourses.length;i++){
+                    studentRegisteredItems.push(JSON.parse(jsonRegistedCourses[i].RegisteredCourses));
+                      if(jsonRegistedCourses[i].RegisteredCourses==="[]") continue;
+                }
+                viewModel.BindRegisteredCourseList(studentRegisteredItems[0]);
+            
             } 
         });
     };

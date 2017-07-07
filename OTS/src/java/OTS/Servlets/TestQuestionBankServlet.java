@@ -97,6 +97,7 @@ public class TestQuestionBankServlet extends Servlet {
             String acourseId;
           UserProfile userProfile=this.LoadSession(request);
           TestQuestionBankElement element;
+           String data;
            try{
        
          switch(action){
@@ -116,7 +117,7 @@ public class TestQuestionBankServlet extends Servlet {
                      String Id=request.getParameter("Id");
                      testId=request.getParameter("TestId");
                      acourseId=request.getParameter("CourseId");
-                     String data=request.getParameter("data");
+                     data=request.getParameter("data");
                      element=new TestQuestionBankElement();
                      element.Id=Id;
                      element.TestId=testId;
@@ -174,6 +175,13 @@ public class TestQuestionBankServlet extends Servlet {
                     service= new TestQuestionBankDataService(new MySqlDataSource());
                     return service.LoadStudentPortalViewInformation(userId);
                   
+                     case "Aig-RegisterStudentCourse":
+                     data=request.getParameter("data");
+                     String recordId=request.getParameter("Id");
+                    service= new TestQuestionBankDataService(new MySqlDataSource());
+                    return service.SaveStudentSelectedCourse(recordId,userProfile.UserId,data);
+                  
+                    
                //Old Method Calls      
              case  "ListTestQuestionBank1":
                Questions questions= new Questions(db,response);
