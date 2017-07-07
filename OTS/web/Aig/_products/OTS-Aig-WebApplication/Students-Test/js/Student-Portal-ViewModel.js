@@ -34,10 +34,22 @@ OTS.AigStudentPortalViewModel=function(){
         TestName:ko.observable(""),
         TestStartDate:ko.observable(""),
         TestStartTime:ko.observable(""),
-        TestEndTime:ko.observable("")
+        TestEndTime:ko.observable(""),
+        TestItems:ko.observableArray([])
     };
     
     var studentPortalComponent;
+    var testGenerationComponent;
+    
+     me.EncodeString=function(text){
+       var str=window.btoa(text);
+       return str;
+   };
+   
+   me.DecodeString=function(text){
+     var str=  window.atob(text);
+     return str;
+   };
     
     me.onRegisterCourse=function(data,e){
          var data=JSON.stringify(ko.toJS(me.SelectedCourses));
@@ -64,10 +76,18 @@ OTS.AigStudentPortalViewModel=function(){
     
     
     me.TakeTest=function(data,e){
+       me.TestSheetViewModel.TestItems([]);
         me.TestSheetViewModel.TestName(data.Name);
         me.TestSheetViewModel.TestStartDate(data.StartDate);
         me.TestSheetViewModel.TestStartTime(data.StartTime);
         me.TestSheetViewModel.TestEndTime(data.EndTime);
+        var testQuestionsDecodeded=me.DecodeString(data.TestQuestions);
+        var testQuestions=JSON.parse(testQuestionsDecodeded);
+        for( var i=0;i<testQuestions.length;i++){
+            var item=testQuestions[i];
+            var htmlItem= testGenerationComponent.RenderHtmlTestItem(item);
+            me.TestSheetViewModel.TestItems.push(htmlItem);
+        }
     };
     me.onStartTests=function(){
         studentPortalComponent.UpdateStudentTestStartTime(function(msg){
@@ -136,6 +156,10 @@ OTS.AigStudentPortalViewModel=function(){
         if(component ===undefined || component ===null)
             throw new Error("component can not be null or empty");
         studentPortalComponent=component;
+    };
+    
+    me.AddTestGenerationComponent=function(atestGenerationComponent){
+        testGenerationComponent=atestGenerationComponent;
     };
     
     me.ResetSelectedCourses=function(){

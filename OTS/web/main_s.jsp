@@ -54,10 +54,50 @@
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
          <script src="scripts/moment.js" type="text/javascript"></script>
+        
+        <script src="Aig/scripts/leaflet/leaflet.js" type="text/javascript"></script>
+        <script src="Aig/scripts/leaflet/esri-leaflet.js" type="text/javascript"></script>
+         
+         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
+          <!--TEST GENERATION COMPONENTS-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/DataStructures.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/TestItemGeneration.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/_TestItemGenerationComponents.js" type="text/javascript"></script>
+         <!--REMEMBER-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseCorrectComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseInCorrectComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeAComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeBComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeCComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeDComponent.js" type="text/javascript"></script>
+       
+        <!--UNDERSTANDING-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeAComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeBComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeCComponent.js" type="text/javascript"></script>
+        
+        <!--HIGHER COGNITIVE ITEMS
+        <!--APPLICATION-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Applications/ApplicationTypeAComponent.js" type="text/javascript"></script>
+        
+        <!--Analysis-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisQuadraticTimeComplexityTypeAComponent.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisLinearTimeComplexityTypeAComponent.js" type="text/javascript"></script>
+       
+        <!--Evaluate-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Evaluate/EvaluteTimeComplexityTypeAComponent.js" type="text/javascript"></script>
+        
+        
+        <!--Test Generation Component-->
+        <script src="Aig/Components/App-HtmlDataSources/TemplateDataSources.js" type="text/javascript"></script>
+        <script src="Aig/Components/App-Controls/Controls.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/TestViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/Test-TestItemGenerationComponent.js" type="text/javascript"></script>
+         
          
          <!--Student Portal -->
          <script src="Aig/Components/App-Controls/AlertBox.js" type="text/javascript"></script>
-         <script src="Aig/Components/1_App-Intefaces/App-Interfaces.js" type="text/javascript"></script>
+       
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-ViewModel.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-DataSource.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/Student-Portal-Component.js" type="text/javascript"></script>
@@ -230,7 +270,7 @@
                     <th>#</th>
                      <th>Test Item</th>
                 </tr>
-                <tbody data-bind="foreach:TestItems">
+                <tbody data-bind="foreach:TestSheetViewModel.TestItems">
                  <tr>
                      <td style=" width: 5%" data-bind="text:Number"></td>
                      <td style=" width: 95%">

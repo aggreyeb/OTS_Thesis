@@ -2,8 +2,11 @@ var OTS=OTS||{};
 OTS.AigStudentPortalComponent=function(){
     var me=this;
      
-    var viewModel;    
-     me.RegisterStudentCourse=function(id,data,callbackFunction){
+    var viewModel; 
+     
+    var testGenerationComponent;
+     
+    me.RegisterStudentCourse=function(id,data,callbackFunction){
            var callback= callbackFunction;
           var dataSource= new  OTS.StudentPortalDatSource();
           dataSource.RegisterStudentCourse(id,data,function(msg){
@@ -21,6 +24,8 @@ OTS.AigStudentPortalComponent=function(){
     
     me.Activate=function(){
         var dataSource= new  OTS.StudentPortalDatSource();
+       testGenerationComponent=  new  OTS.AigTestItemGenerationComponent();
+       testGenerationComponent.InitializeTestGenerationAlgorithms();
         dataSource.LoadPortalViewInformation(function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -34,6 +39,7 @@ OTS.AigStudentPortalComponent=function(){
                }
                 viewModel= new OTS.AigStudentPortalViewModel();
                 viewModel.AddStudentPortalComponent(me);
+                viewModel.AddTestGenerationComponent(testGenerationComponent);
                 viewModel.BindCourseList(courses);
                 viewModel.BindCourseTestList(courseTest);
                
