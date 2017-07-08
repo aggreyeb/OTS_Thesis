@@ -9,6 +9,7 @@ import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,12 +21,59 @@ import java.util.List;
  */
 public class TestQuestionBankDataService {
      private  DataSource dataSource;
-      Date currentDate;
+      String currentTime;
 
     public TestQuestionBankDataService(DataSource dataSource) {
         this.dataSource = dataSource;
+         SimpleDateFormat   sdf= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         Date   dt =new Date();
+        currentTime = sdf.format(dt);
     }
       
+    
+       public TransactionResult UpdateStudentTest(StudentTestSheetElement element){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d WHERE TestId='%s' AND StudentId='%s'";
+          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestId,element.StudentId);
+          this.dataSource.ExecuteNonQuery(sql);
+          result.CurrentId=element.Id;
+          result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
+    
+    
+    
+    public TransactionResult SaveStudentTestStartTime(String id,String testId,int studentId){
+         TransactionResult result= new TransactionResult();
+        try{ 
+          String InsertTemplate="INSERT INTO studentexam (Id,TestId,StudentId,StartDateTime) Values('%s','%s','%s','%s')";
+          String sql= String.format(InsertTemplate,id,testId,studentId,currentTime);
+          this.dataSource.ExecuteNonQuery(sql);
+          result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
+    
     //LoadCourseTestItemsFromQuestionBank
     
     public TransactionResult LoadCourseTestItemsFromQuestionBank(String testId,String courseId){

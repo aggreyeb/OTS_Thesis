@@ -3,10 +3,20 @@ OTS.StudentPortalDatSource=function(){
     var me=this;
      var actionType={
         RegisterStudentCourse:"Aig-RegisterStudentCourse",
-        UpdateStudentTestStartTime:"Aig-UpdateStudentTestStartTime",
+        SaveStudentTestStartTime:"Aig-SaveStudentTestStartTime",
         SubmitStudentTest:"Aig-SubmitStudentTest",
         LoadPortalViewInformation:"Aig-LoadPortalViewInformation"
     };
+    
+        me.SubmitStudentTest=function(data,callbackFunction){
+             var callback= callbackFunction;
+         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,data:data},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+          });
+        };
+
+    
     
     me.LoadPortalViewInformation=function(callbackFunction){
         var callback= callbackFunction;

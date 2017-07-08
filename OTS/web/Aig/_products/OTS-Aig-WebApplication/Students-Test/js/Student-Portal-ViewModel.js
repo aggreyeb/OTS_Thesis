@@ -31,12 +31,15 @@ OTS.AigStudentPortalViewModel=function(){
     me.SelectedRegisteredCourses=ko.observable();
     
     me.TestSheetViewModel={
+        TestId:ko.observable(""),
         TestName:ko.observable(""),
         TestStartDate:ko.observable(""),
         TestStartTime:ko.observable(""),
         TestEndTime:ko.observable(""),
         TestItems:ko.observableArray([])
     };
+    me.ToggleStartTest=ko.observable(true);
+    me.ToggleSubmitTest=ko.observable(false);
     
     var studentPortalComponent;
     var testGenerationComponent;
@@ -134,7 +137,8 @@ OTS.AigStudentPortalViewModel=function(){
     };
     
     me.TakeTest=function(data,e){
-       me.TestSheetViewModel.TestItems([]);
+        me.TestSheetViewModel.TestItems([]);
+        me.TestSheetViewModel.TestId(data.Id);
         me.TestSheetViewModel.TestName(data.Name);
         me.TestSheetViewModel.TestStartDate(data.StartDate);
         me.TestSheetViewModel.TestStartTime(data.StartTime);
@@ -170,13 +174,57 @@ OTS.AigStudentPortalViewModel=function(){
         
     };
     me.onStartTests=function(){
-        studentPortalComponent.UpdateStudentTestStartTime(function(msg){
-            
+        var testId=me.TestSheetViewModel.TestId();
+        studentPortalComponent.UpdateStudentTestStartTime(testId,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                //disable the start test button
+                //Enable the Submit button
+                me.ToggleStartTest(false);
+                me.ToggleSubmitTest(true);
+            }
+            else{
+                
+            }
         });
     };
     
-    me.onSubmitStudentTest=function(){
-        studentPortalComponent.SubmitStudentTest(function(msg){
+     me.onSubmitStudentTest=function(){
+        var testItems = me.TestSheetViewModel.TestItems();
+        var testId=me.TestSheetViewModel.TestId();
+        var selectedAnswers=[];
+        //Calculate the marks
+        var mark=0;
+        for(var i=0;i<testItems.length;i++){
+           if(testItems[i].Mark){
+               mark+=testItems[i].Mark;
+           }
+           else{
+               mark+=0;
+           }
+        }
+        
+        //Find the student answers
+        for(var j=0;j<testItems.length;j++){
+            var item=testItems[j].SelectedAnswerOption;
+            var selectedAnswer={
+                Label:item.label,
+                Text:item.Text
+            };
+            selectedAnswers.push(selectedAnswer);
+        }
+        
+        var studentTestItem={
+            StudentId:"unknown", //replace at server side
+            TestId:testId,
+            Mark:mark,
+            Answers:selectedAnswers,
+            StartTime:"",
+            EndTime:"",
+            Comments:""
+        };
+        var data=JSON.stringify(studentTestItem);
+        studentPortalComponent.SubmitStudentTest(data,function(msg){
             
         });
     };

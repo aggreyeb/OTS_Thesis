@@ -6,11 +6,7 @@
 package OTS.Aig.KnowledgeMapDataServices;
 
 import OTS.DataModels.DataSource;
-import OTS.DataModels.KnowledgeMapDescription;
-import OTS.DataModels.Knowledgemap;
-import OTS.DataModels.Node;
 import OTS.DataModels.User;
-import OTS.Identity;
 import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +25,7 @@ public class KnowledgeMapsDataService {
     //Date currentDate;
     public KnowledgeMapsDataService(DataSource dataSource) {
         this.dataSource = dataSource;
-      SimpleDateFormat   sdf= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");;
+      SimpleDateFormat   sdf= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
          Date   dt =new Date();
         currentTime = sdf.format(dt);
     }

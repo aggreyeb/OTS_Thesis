@@ -6,6 +6,14 @@ OTS.AigStudentPortalComponent=function(){
      
     var testGenerationComponent;
      
+    me.SubmitStudentTest=function(data,callbackFunction){
+          var callback= callbackFunction;
+          var dataSource= new  OTS.StudentPortalDatSource();
+          dataSource.RegisterStudentCourse(data,function(msg){
+              callback(msg);
+          });
+    };
+     
     me.RegisterStudentCourse=function(id,data,callbackFunction){
            var callback= callbackFunction;
           var dataSource= new  OTS.StudentPortalDatSource();
@@ -14,8 +22,12 @@ OTS.AigStudentPortalComponent=function(){
           });
     };
     
-    me.UpdateStudentTestStartTime=function(callbackFunction){
-        var callback= callbackFunction;
+    me.UpdateStudentTestStartTime=function(testid,callbackFunction){
+         var callback= callbackFunction;
+          var dataSource= new  OTS.StudentPortalDatSource();
+          dataSource.UpdateStudentTestStartTime(testid,function(msg){
+              callback(msg);
+          });
     }; 
     
     me.SubmitStudentTest=function(data,callbackFunction){

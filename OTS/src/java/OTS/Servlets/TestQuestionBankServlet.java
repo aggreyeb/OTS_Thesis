@@ -5,6 +5,7 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.StudentTestSheetElement;
 import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankElement;
 import OTS.DataModels.DataSource;
@@ -98,6 +99,7 @@ public class TestQuestionBankServlet extends Servlet {
           UserProfile userProfile=this.LoadSession(request);
           TestQuestionBankElement element;
            String data;
+           String recordId;
            try{
        
          switch(action){
@@ -177,13 +179,31 @@ public class TestQuestionBankServlet extends Servlet {
                   
                      case "Aig-RegisterStudentCourse":
                      data=request.getParameter("data");
-                     String recordId=request.getParameter("Id");
+                      recordId=request.getParameter("Id");
                     service= new TestQuestionBankDataService(new MySqlDataSource());
                     return service.SaveStudentSelectedCourse(recordId,userProfile.UserId,data);
                   
+                     case "Aig-SaveStudentTestStartTime":
+                     recordId=request.getParameter("Id");
+                     testId=request.getParameter("TestId");
+                     int studentId=userProfile.UserId;
+                    
+                     service= new TestQuestionBankDataService(new MySqlDataSource());
+                     return service.SaveStudentTestStartTime(recordId,testId,studentId);
+                  
+                    
+                     case "Aig-SubmitStudentTest":
+                     data=request.getParameter("data");
+                     StudentTestSheetElement  testSheetElement=new Gson().fromJson(data, StudentTestSheetElement.class);
+                     testSheetElement.Marked=true;
+                     testSheetElement.Taken=true;
+                     testSheetElement.StudentId=userProfile.UserId;
+                     service= new TestQuestionBankDataService(new MySqlDataSource());
+                     return service.UpdateStudentTest(testSheetElement);
+                  
                     
                //Old Method Calls      
-             case  "ListTestQuestionBank1":
+               case  "ListTestQuestionBank1":
                Questions questions= new Questions(db,response);
                int id= Integer.parseInt(request.getParameter("testid"));
                questions.ListTestQuestionBank(id);
