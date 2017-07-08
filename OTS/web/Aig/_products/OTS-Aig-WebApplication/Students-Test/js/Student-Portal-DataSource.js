@@ -34,9 +34,9 @@ OTS.StudentPortalDatSource=function(){
           });
     };
     
-    me.UpdateStudentTestStartTime=function(testId,callbackFunction){
+    me.UpdateStudentTestStartTime=function(Id,testId,callbackFunction){
         var callback= callbackFunction;
-         $.post("TestQuestionBankServlet",{action:actionType.UpdateStudentTestStartTime,TestId:testId},function(msg){
+         $.post("TestQuestionBankServlet",{action:actionType.UpdateStudentTestStartTime,Id:Id,TestId:testId},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
           });

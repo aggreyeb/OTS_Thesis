@@ -175,7 +175,8 @@ OTS.AigStudentPortalViewModel=function(){
     };
     me.onStartTests=function(){
         var testId=me.TestSheetViewModel.TestId();
-        studentPortalComponent.UpdateStudentTestStartTime(testId,function(msg){
+        var Id=new Aig.Guid().NewGuid();
+        studentPortalComponent.UpdateStudentTestStartTime(Id,testId,function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                 //disable the start test button
@@ -214,11 +215,14 @@ OTS.AigStudentPortalViewModel=function(){
             selectedAnswers.push(selectedAnswer);
         }
         
+  
         var studentTestItem={
             StudentId:"unknown", //replace at server side
             TestId:testId,
+            Marked:true,
+            Taken:true,
             Mark:mark,
-            Answers:selectedAnswers,
+            TestSheet:selectedAnswers,
             StartTime:"",
             EndTime:"",
             Comments:""

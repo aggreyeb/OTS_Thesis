@@ -22,10 +22,10 @@ OTS.AigStudentPortalComponent=function(){
           });
     };
     
-    me.UpdateStudentTestStartTime=function(testid,callbackFunction){
+    me.UpdateStudentTestStartTime=function(Id,testid,callbackFunction){
          var callback= callbackFunction;
           var dataSource= new  OTS.StudentPortalDatSource();
-          dataSource.UpdateStudentTestStartTime(testid,function(msg){
+          dataSource.UpdateStudentTestStartTime(Id,testid,function(msg){
               callback(msg);
           });
     }; 
