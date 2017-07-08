@@ -29,6 +29,9 @@ Aig.AnswerOption = function(label,text) {
     me.Label = label;
     me.Text = text;
     me.IsKey = false;
+    me.Selected=false;
+    me.BackgroundColor="";
+    me.IsCorrect=false;
 };
 
 /*

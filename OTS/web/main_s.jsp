@@ -14,6 +14,7 @@
          <META HTTP-EQUIV="Expires" CONTENT="-1">
          <meta http-equiv="cache-control" content="no-cache" />
         <title>Main</title>
+         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
         <link href="content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
         <link href="content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         
@@ -207,7 +208,7 @@
                         <h3><span class="label label-default" >Register Courses</span></h3> 
                         <div style=" margin: 2px">
                             <div>
-                                <i class="fa fa-info"></i> <span  class="label label-info">Select Course(s) and click save </span><br>
+                              <span  class="label label-info">   <i class="fa fa-info-circle"></i> Select Course(s) and click save </span><br>
                             </div><br>
                          <select style=" margin-top: 3px" id="sel-availble-courses" class="form-control chosen-select" multiple data-bind="options: Courses,
                        optionsText: 'Name',
@@ -225,7 +226,11 @@
                         </div>
                     </div><br>
                         
-                         <h3><span class="label label-default" >Registered Courses Test</span></h3>  
+                         <h3><span class="label label-default" >Registered Courses Test</span></h3> 
+                         <div style=" margin-bottom: 5px">
+                            <span class="label label-info"><i class="fa fa-info-circle"></i> Click on Take Test to show test details</span>
+                         </div>
+                         
                          <div style=" overflow-y: scroll;height: 300px" class="table-responsive">
                              <table class="table table-bordered table-hover">
                                  <tr>
@@ -263,7 +268,10 @@
               <div id="test-sheet-row">
              <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
                  <div class="alert alert-info">
-                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  class="btn btn-sm btn-primary" href="#">Start Test</a> <span  class=" pull-right"><a class="btn btn-sm btn-success" href="#">Submit</a></span>
+                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  class="btn btn-sm btn-primary" href="#">Start Test</a> 
+                 </div>
+                 <div style="margin-bottom: 3px" class=" pull-right">
+                     <span  class=" pull-right"><a class="btn btn-sm btn-success" href="#">Submit</a></span>
                  </div>
                  <table class="table table-bordered table-hover ">
                  <tr>
@@ -279,7 +287,8 @@
                       <div class="panel-body">
                          <div data-bind="text:Stem,style:{'font-weight':'bold'}"></div><br />
                          <div data-bind="foreach:AnswerOptions">
-                           <span data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp;<span data-bind="text:Text"></span><br />
+                            <!-- <span  data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp; <span data-bind="text:Text"></span><br />-->
+                            <span  data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp; <button style=" margin-bottom: 2px" class="btn btn-sm btn-default" data-bind="text:Text,event:{click:$root.onAnswerOptionClicked} "></button><br />
                        </div>
                      </div>
                     <div class="panel-footer panel-default">

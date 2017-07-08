@@ -251,6 +251,20 @@ OTS.AigTestViewModel=function(){
                  // alert("CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again");
                     return;
                  }
+                 
+                 //Check to see if the knowledge map has 4 nodes
+                  var nodeCount=0;
+                  if(jsonNodes !==undefined && jsonNodes!==null && jsonNodes[0] !==undefined){
+                      nodeCount=jsonNodes[0].nodes.length;
+                  }
+                  //Set it to four when deploying
+                  if(nodeCount<2){
+                       var message="<p>Can not generate test items.Please ensure that the knowledge map has four or more node</p>";
+                        me.ShowItemGenerationErrorAlert(message);
+                        me.Actions.enableGenerateAction(false);
+                       $("#cmd-generate-test-items").prop('disabled', true);
+                       return;
+                  }
                
                  //Check that all the concept schema constraints are meet.
                    var hasConceptSchemaErrors=false;

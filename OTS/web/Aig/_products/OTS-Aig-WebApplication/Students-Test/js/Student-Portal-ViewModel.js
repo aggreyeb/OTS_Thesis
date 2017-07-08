@@ -74,6 +74,54 @@ OTS.AigStudentPortalViewModel=function(){
         });
     };
     
+    me.onAnswerOptionClicked=function(data,e){
+     
+        var parentId=data.ParentId;
+        var item=null;
+        var testItems= me.TestSheetViewModel.TestItems();
+        for(var i=0;i<testItems.length;i++){
+            if(testItems[i].Id===parentId){
+                item=testItems[i];
+                break;
+            }
+        }
+        
+       
+        
+        
+        var selectedOption=null;
+        if(item!==null){
+            
+           //Reset all the options
+            for(var r=0;r<item.AnswerOptions.length;r++){
+                item.AnswerOptions[r].Selected=false;
+                item.AnswerOptions[r].BackgroundColor="";
+                if(item.AnswerOptions[r].element){
+                  var el=item.AnswerOptions[r].element;
+                    $(el.target).css({"background-color": '',
+                           "color" : "black"
+                   });
+                }
+            } 
+            
+            
+            for(var x=0;x<item.AnswerOptions.length;x++){
+                  if(item.AnswerOptions[x].Id===data.Id){
+                      selectedOption=item.AnswerOptions[x];
+                      break;
+                  }
+            }
+        }
+        
+        if(selectedOption!==null){
+            selectedOption.Selected=true;
+            selectedOption.BackgroundColor="green";
+            selectedOption.element=e;
+            $(e.target).css({"background-color": 'green',
+                           "color" : "white"
+            });
+        }
+    };
     
     me.TakeTest=function(data,e){
        me.TestSheetViewModel.TestItems([]);
@@ -83,11 +131,33 @@ OTS.AigStudentPortalViewModel=function(){
         me.TestSheetViewModel.TestEndTime(data.EndTime);
         var testQuestionsDecodeded=me.DecodeString(data.TestQuestions);
         var testQuestions=JSON.parse(testQuestionsDecodeded);
+       
         for( var i=0;i<testQuestions.length;i++){
             var item=testQuestions[i];
             var htmlItem= testGenerationComponent.RenderHtmlTestItem(item);
             me.TestSheetViewModel.TestItems.push(htmlItem);
         }
+        
+         //Assign Test Item id to the each of the Answer Options
+        //so that when you click on Answer option you can trak
+        //the item to set the state : selected/ compere answer selected
+        //with key
+        var testItems = me.TestSheetViewModel.TestItems();
+        for(var x=0;x<testItems.length;x++){
+            var item=testItems[x];
+            item.Id=new Aig.Guid().NewGuid();
+            for(var y=0;y<item.AnswerOptions.length;y++){
+                var option=item.AnswerOptions[y];
+                option.Id=new Aig.Guid().NewGuid();
+                option.ParentId=item.Id;
+                option.Selected=false;
+                option.BackgroundColor="";
+                option.IsCorrect=false;
+                option.element=null;
+            }
+        }
+        
+        
     };
     me.onStartTests=function(){
         studentPortalComponent.UpdateStudentTestStartTime(function(msg){
