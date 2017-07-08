@@ -78,6 +78,7 @@ OTS.AigStudentPortalViewModel=function(){
      
         var parentId=data.ParentId;
         var item=null;
+        //Find the item of the selected Answer Option
         var testItems= me.TestSheetViewModel.TestItems();
         for(var i=0;i<testItems.length;i++){
             if(testItems[i].Id===parentId){
@@ -85,10 +86,7 @@ OTS.AigStudentPortalViewModel=function(){
                 break;
             }
         }
-        
-       
-        
-        
+      
         var selectedOption=null;
         if(item!==null){
             
@@ -104,7 +102,7 @@ OTS.AigStudentPortalViewModel=function(){
                 }
             } 
             
-            
+            //Find the selected answer Option
             for(var x=0;x<item.AnswerOptions.length;x++){
                   if(item.AnswerOptions[x].Id===data.Id){
                       selectedOption=item.AnswerOptions[x];
@@ -112,14 +110,26 @@ OTS.AigStudentPortalViewModel=function(){
                   }
             }
         }
-        
+        //Change the selected Answer Option background
+        //to Green
         if(selectedOption!==null){
             selectedOption.Selected=true;
             selectedOption.BackgroundColor="green";
             selectedOption.element=e;
+            //Let the item know the selected answer option
+            item.SelectedAnswerOption=selectedOption;
             $(e.target).css({"background-color": 'green',
                            "color" : "white"
             });
+          //Mark the test item: Compare Key with the selected answer option
+           if(item.CorrectAnswer.Label===item.SelectedAnswerOption.Label){
+               item.IsCorrect=true;
+               item.Mark=1;
+           }
+           else{
+               item.IsCorrect=false;
+               item.Mark=0;
+           }
         }
     };
     
