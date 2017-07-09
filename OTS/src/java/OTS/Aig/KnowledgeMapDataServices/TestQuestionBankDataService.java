@@ -42,20 +42,8 @@ public class TestQuestionBankDataService {
           String selectSqlTemplate="Select e.Id,e.Name,se.StudentId,se.Taken,se.Marked,se.TestItemCount,se.Mark from exam e inner join studentexam se on e.Id=se.TestId  where se.TestId='%s' and se.StudentId=%d;";
           String selectSql=String.format(selectSqlTemplate, element.TestId,element.StudentId);
           this.dataSource.ExecuteCustomDataSet(selectSql, tests, StudentTest.class);
-          StudentTest test=null;
-           if(tests.size()>0){
-               test=tests.get(0);
-               int score=(test.Mark/test.TestItemCount) * 100;
-               test.Score=Integer.toString(score);
-              result.Content=new Gson().toJson(test);
-              result.ActionResultType=ActionResultType.ok;
-             return result;
-           }
-           else{
-              result.Content="";
-              result.ActionResultType=ActionResultType.ok;
-              return result;
-           }
+           return this.LoadStudentPortalViewInformation(element.StudentId);
+         
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -276,6 +264,16 @@ public class TestQuestionBankDataService {
        
     }
      
+     public Boolean IsTestAlreadyTaken(String testId,List<StudentTestSheetElement> tests){
+           Boolean found=false;
+           for(StudentTestSheetElement t:tests){
+               if(t.TestId.equals(testId)){
+                   found=true;
+                   break;
+               }
+           }
+           return found;
+     };
      
       public TransactionResult LoadStudentPortalViewInformation(int studentId){
           TransactionResult result= new TransactionResult();
@@ -285,16 +283,26 @@ public class TestQuestionBankDataService {
           List<CourseElement> allCourse= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql,allCourse,CourseElement.class);
           
-          //Student RegisteredCourse
+         
+          
+          // Select the Test Result Summary for the Student
+           List<StudentTestSheetElement> testResults= new ArrayList();
+           String testResultSqlTemplate="select se.Id,se.TestId,se.StudentId,se.StartDateTime,se.EndDateTime,se.Taken,se.Marked,se.Mark,se.TestItemCount,e.Name from studentexam se inner join exam e on se.TestId=e.Id Where StudentId=%d";
+           String testResultSql=String.format(testResultSqlTemplate, studentId);
+           this.dataSource.ExecuteCustomDataSet(testResultSql, testResults, StudentTestSheetElement.class);
+           
+           
+            //Student RegisteredCourse
           String registedCoursesSqlTemplate="Select * from Student Where StudentId=%s";
           String registedCoursesSql=String.format(registedCoursesSqlTemplate, studentId);
           List<StudentRegisteredCourseElement> studentRegistedCourses= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(registedCoursesSql,studentRegistedCourses,StudentRegisteredCourseElement.class);
          
           //Get registered course Test
+          List<String> items=null;
           List<TestElement> tests=new ArrayList();
           if(studentRegistedCourses.size()>0){
-                List<String> items= new ArrayList();
+                items= new ArrayList();
 
                 CourseElement[] selectedCourses= (CourseElement[])g.fromJson(studentRegistedCourses.get(0).RegisteredCourses, CourseElement[].class);
                 if(selectedCourses.length>0){
@@ -307,11 +315,21 @@ public class TestQuestionBankDataService {
 
                 }
           }
+           
+          // Filter Test Already Taken
+           List<TestElement> filteredList= new ArrayList();
+           for(TestElement a:tests){
+               if(!this.IsTestAlreadyTaken(a.Id, testResults)){
+                   filteredList.add(a);
+               }
+           }
+           
            StudentPortalViewElement studentPortalView= new StudentPortalViewElement();
            studentPortalView.StudentCourses=g.toJson(allCourse);
            studentPortalView.StudentRegisteredCourses=g.toJson(studentRegistedCourses);
-           studentPortalView.ActivatedCourseTest=g.toJson(tests);
-          
+           studentPortalView.ActivatedCourseTest=g.toJson(filteredList);
+           studentPortalView.TestResultSummary=g.toJson(testResults);
+           
            result.ActionResultType=ActionResultType.ok;
            result.Content=g.toJson(studentPortalView);
              return result;

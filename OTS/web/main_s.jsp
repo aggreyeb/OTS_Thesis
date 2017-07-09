@@ -225,20 +225,20 @@
                              Message
                         </div>
                     </div><br>
-                        
+                   
                          <h3><span class="label label-default" >Registered Courses Test</span></h3> 
                          <div style=" margin-bottom: 5px">
                             <span class="label label-info"><i class="fa fa-info-circle"></i> Click on Take Test to show test details</span>
                          </div>
                          
-                         <div style=" overflow-y: scroll;height: 300px" class="table-responsive">
+                         <div style=" overflow-y: auto;height: 100px" class="table-responsive">
                              <table class="table table-bordered table-hover">
                                  <tr>
                                       <th>Actions</th>
                                      <th>Test Name</th>
-                                     <th style="display: none">Start Date</th>
+                                     <th  style="display: none">Start Date</th>
                                      <th style="display: none">Taken</th>
-                                      <th>Score(%)</th>
+                                     
                                  </tr>
                                  <tbody>
                                      <tr data-bind="foreach:CouresTests">
@@ -250,10 +250,35 @@
                                          <td data-bind="text:Name"></td>
                                          <td style="display: none" data-bind="text:StartDate"></td>
                                          <td style="display: none" data-bind="text:TakenText"></td>
-                                         <td data-bind="text:Score"></td>
+                                        
                                      </tr>
                                  </tbody>
                              </table>
+                         </div><br>
+                          <!--Test Result Summary-->
+                         <div class="col-xs-12">
+                             <div>
+                                  <h3><span class="label label-default" >Test Result Summary</span></h3> 
+                             </div>
+                             <div class="table-responsive">
+                                 <table class="table table-bordered table-hover">
+                                     <tr>
+                                         <th>Name</th>
+                                         <th>Start Date/Time</th>
+                                         <th>End Date/Time</th>
+                                         <th>Mark(%)</th>
+                                     </tr>
+                                     <tbody data-bind="foreach:TestResultSummary">
+                                         <tr>
+                                             <td data-bind="text:Name"></td>
+                                             <td data-bind="text:StartDateTime"></td>
+                                             <td data-bind="text:EndDateTime"></td>
+                                             <td data-bind="text:Score" ></td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                              <!--Test Result Summary End-->
                          </div>
                 
                   </div>
@@ -272,10 +297,13 @@
               <div id="test-sheet-row">
              <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
                  <div class="alert alert-info">
-                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  data-bind="enable:ToggleStartTest,click:onStartTests" class="btn btn-sm btn-primary" href="#">Start Test</a> 
+                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <button  data-bind="enable:ToggleStartTest,click:onStartTests" class="btn btn-sm btn-primary" >Start Test</button> 
                  </div>
+                 <div class="alert alert-danger" style=" display: none" id="alert-testsheet-submit-alert">
+                     
+                 </div><br>
                  <div style="margin-bottom: 3px" class=" pull-right">
-                     <span  class=" pull-right"><a data-bind="enable:ToggleSubmitTest,click:onSubmitStudentTest" class="btn btn-sm btn-success" href="#">Submit</a></span>
+                     <span  class=" pull-right"><button data-bind="enable:ToggleSubmitTest,click:onSubmitStudentTest" class="btn btn-sm btn-success" >Submit</button></span>
                  </div>
                  <table class="table table-bordered table-hover ">
                  <tr>

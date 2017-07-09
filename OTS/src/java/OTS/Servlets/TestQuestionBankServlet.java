@@ -204,8 +204,8 @@ public class TestQuestionBankServlet extends Servlet {
                      testSheetElement.Mark=mark;
                      testSheetElement.TestItemCount=testItemCount;
                      testSheetElement.TestSheet=testSheet;
-                     testSheetElement.Marked=true;
-                     testSheetElement.Taken=true;
+                     testSheetElement.Marked=1;
+                     testSheetElement.Taken=1;
                      testSheetElement.StudentId=userProfile.UserId;
                      service= new TestQuestionBankDataService(new MySqlDataSource());
                      return service.UpdateStudentTest(testSheetElement);

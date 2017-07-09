@@ -42,6 +42,7 @@ OTS.AigStudentPortalComponent=function(){
               var courses=JSON.parse(content.StudentCourses);
               var jsonRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
               var jsonActivatedCourseTest=JSON.parse(content.ActivatedCourseTest);
+              var jsonTestResultSummary=JSON.parse(content.TestResultSummary);
               var courseTest=[];
                for(var j=0;j<jsonActivatedCourseTest.length;j++){
                    courseTest.push(jsonActivatedCourseTest[j]);
@@ -51,6 +52,7 @@ OTS.AigStudentPortalComponent=function(){
                 viewModel.AddTestGenerationComponent(testGenerationComponent);
                 viewModel.BindCourseList(courses);
                 viewModel.BindCourseTestList(courseTest);
+                viewModel.BindTestResultSummary(jsonTestResultSummary);
                
                 ko.applyBindings(viewModel,$("#mainContainer")[0]);
                 $(".chosen-select").chosen({width: "100%"});

@@ -20,6 +20,8 @@ OTS.AigStudentTestItem=function(){
 OTS.AigStudentPortalViewModel=function(){
     var me=this;
     var alertBox= new Aig.AlertBox("alert-register-course-alert");
+    var submitAlertBox= new Aig.AlertBox("alert-testsheet-submit-alert");
+    
     me.TestItems= ko.observableArray([]);
     me.Courses=ko.observableArray([]);
     me.SelectedCourses=ko.observableArray([]);
@@ -29,6 +31,7 @@ OTS.AigStudentPortalViewModel=function(){
     
     me.RegisteredCourses=ko.observableArray([]);
     me.SelectedRegisteredCourses=ko.observable();
+    me.TestResultSummary=ko.observableArray([]);
     
     me.TestSheetViewModel={
         TestId:ko.observable(""),
@@ -37,7 +40,18 @@ OTS.AigStudentPortalViewModel=function(){
         TestStartTime:ko.observable(""),
         TestEndTime:ko.observable(""),
         TestItems:ko.observableArray([])
+       
     };
+    
+    me.ResetTestSheet=function(){
+        me.TestSheetViewModel.TestId("");
+        me.TestSheetViewModel.TestName("");
+        me.TestSheetViewModel.TestStartDate("");
+        me.TestSheetViewModel.TestStartTime("");
+        me.TestSheetViewModel.TestEndTime("");
+        me.TestSheetViewModel.TestItems([]);
+    };
+    
     me.ToggleStartTest=ko.observable(false);
     me.ToggleSubmitTest=ko.observable(false);
     me.SelectedTestToTake=null;
@@ -197,7 +211,8 @@ OTS.AigStudentPortalViewModel=function(){
     };
     
      me.onSubmitStudentTest=function(){
-        var testItems = me.TestSheetViewModel.TestItems();
+      
+         var testItems = me.TestSheetViewModel.TestItems();
         var testId=me.TestSheetViewModel.TestId();
         var selectedAnswers=[];
         //Calculate the marks
@@ -211,6 +226,12 @@ OTS.AigStudentPortalViewModel=function(){
            }
         }
         
+        for(var d=0;d<testItems.length;d++){
+             for(var x=0;x<testItems[d].AnswerOptions.length;x++){
+                 var item=testItems[d].AnswerOptions[x];
+                 delete item.element;
+             }
+        }
         var testTaken= JSON.stringify(testItems);
         var decodedTest=me.EncodeString(testTaken);
         
@@ -232,28 +253,47 @@ OTS.AigStudentPortalViewModel=function(){
         studentPortalComponent.SubmitStudentTest(studentTestItem,function(msg){
                var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-               var item=JSON.parse(result.Content);
-               var score=((item.Mark/item.TestItemCount) * 100);
-               item.Score=score;
-               item.StartDate="";
-               item.StartTime="";
-               item.EndTime="";
-               item.Marked=true;
-               me.CouresTests.replace(me.SelectedTestToTake,item);
-               var copyiedCouresTests=ko.toJS(me.CouresTests);
-               me.CouresTests([]);
-               for(var i=0;i<copyiedCouresTests.length;i++){
-                   me.CouresTests.push(copyiedCouresTests[i]);
-               }
                
+              var content=JSON.parse(result.Content);
+              var courses=JSON.parse(content.StudentCourses);
+              var jsonRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
+              var jsonActivatedCourseTest=JSON.parse(content.ActivatedCourseTest);
+              var jsonTestResultSummary=JSON.parse(content.TestResultSummary);
+              var courseTest=[];
+               for(var j=0;j<jsonActivatedCourseTest.length;j++){
+                   courseTest.push(jsonActivatedCourseTest[j]);
+               }
+              
+                me.BindCourseList(courses);
+                me.BindCourseTestList(courseTest);
+                me.BindTestResultSummary(jsonTestResultSummary);
+                me.BindTestSheet([]);
+                
+                 var studentRegisteredItems=[];
+                for(var i=0;i<jsonRegistedCourses.length;i++){
+                    studentRegisteredItems.push(JSON.parse(jsonRegistedCourses[i].RegisteredCourses));
+                      if(jsonRegistedCourses[i].RegisteredCourses==="[]") continue;
+                }
+                me.BindRegisteredCourseList(studentRegisteredItems[0]);
+                me.ResetTestSheet();
+                var message ="Your Test Sheet has been submitted Successfully.";
+                submitAlertBox.ShowSuccessMessage(message);
              }
              else{
                  // some message here 
+                 var errorMessage="Failed to Submit your test sheet";
+                 if(result.Message!==""){
+                     errorMessage=result.Message;
+                 }
+                submitAlertBox.ShowErrorMessage(errorMessage);
              }
         });
     };
     
     me.BindCourseList=function(items){
+         me.Courses([]);
+         me.ToggleStartTest(false);
+         me.ToggleSubmitTest(false);
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
                 me.Courses.push(items[i]);
@@ -284,7 +324,9 @@ OTS.AigStudentPortalViewModel=function(){
     };
   
     me.BindCourseTestList=function(items){
+          me.CouresTests([]);
         if(items!==undefined && items!==null && items.length){
+         
             for(var i=0;i<items.length;i++){
                
                 if(items[i].Taken){
@@ -300,13 +342,28 @@ OTS.AigStudentPortalViewModel=function(){
     };
     
     me.BindTestSheet=function(items){
+         me.SelectedCourseTest([]);
         if(items!==undefined && items!==null && items.length){
+          
             for(var i=0;i<items.length;i++){
              
                 me.SelectedCourseTest.push(items[i]);
             }
         }
     };
+    
+    me.BindTestResultSummary=function(items){
+         me.TestResultSummary([]);
+        if(items!==undefined && items!==null && items.length){
+            for(var i=0;i<items.length;i++){
+               var item=items[i];
+               var score=((item.Mark/item.TestItemCount) * 100);
+                items[i].Score= score;
+                me.TestResultSummary.push(items[i]);
+            }
+        }
+    };
+    
     me.AddStudentPortalComponent=function(component){
         if(component ===undefined || component ===null)
             throw new Error("component can not be null or empty");

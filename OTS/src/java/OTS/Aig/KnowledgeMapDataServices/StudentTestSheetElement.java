@@ -12,14 +12,15 @@ import java.util.Date;
  * @author MEA
  */
 public class StudentTestSheetElement {
-  public  String Id;
+   public  String Id;
+   public String Name;
    public String TestId;
    public  int StudentId;
    public  String TestSheet;
    public  Date StartDateTime;
    public   Date EndDateTime;
-   public  Boolean Marked;
-   public  Boolean Taken;
+   public  int Marked;
+   public  int Taken;
    public  int Mark;
    public int TestItemCount;
    public  String Comments;

@@ -13,4 +13,5 @@ public class StudentPortalViewElement {
     public String StudentCourses;
     public String StudentRegisteredCourses;
     public String ActivatedCourseTest;
+    public String TestResultSummary;
 }
