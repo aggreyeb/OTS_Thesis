@@ -21,5 +21,6 @@ public class StudentTestSheetElement {
    public  Boolean Marked;
    public  Boolean Taken;
    public  int Mark;
+   public int TestItemCount;
    public  String Comments;
 }

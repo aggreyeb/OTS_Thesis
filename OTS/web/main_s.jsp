@@ -242,7 +242,11 @@
                                  </tr>
                                  <tbody>
                                      <tr data-bind="foreach:CouresTests">
-                                         <td><a data-bind="event:{click:$parent.TakeTest}" title="Take Test" href="#">Take Test</a></td>
+                                         <td>
+                                            
+                                           <a data-bind="event:{click:$parent.TakeTest}" title="Take Test" href="#">Take Test</a>
+                                           
+                                         </td>
                                          <td data-bind="text:Name"></td>
                                          <td style="display: none" data-bind="text:StartDate"></td>
                                          <td style="display: none" data-bind="text:TakenText"></td>
@@ -268,10 +272,10 @@
               <div id="test-sheet-row">
              <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
                  <div class="alert alert-info">
-                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  data-bind="enable:ToggleStartTest" class="btn btn-sm btn-primary" href="#">Start Test</a> 
+                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <a  data-bind="enable:ToggleStartTest,click:onStartTests" class="btn btn-sm btn-primary" href="#">Start Test</a> 
                  </div>
                  <div style="margin-bottom: 3px" class=" pull-right">
-                     <span  class=" pull-right"><a data-bind="enable:ToggleSubmitTest" class="btn btn-sm btn-success" href="#">Submit</a></span>
+                     <span  class=" pull-right"><a data-bind="enable:ToggleSubmitTest,click:onSubmitStudentTest" class="btn btn-sm btn-success" href="#">Submit</a></span>
                  </div>
                  <table class="table table-bordered table-hover ">
                  <tr>

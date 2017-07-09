@@ -8,15 +8,6 @@ OTS.StudentPortalDatSource=function(){
         LoadPortalViewInformation:"Aig-LoadPortalViewInformation"
     };
     
-        me.SubmitStudentTest=function(data,callbackFunction){
-             var callback= callbackFunction;
-         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,data:data},function(msg){
-             if(callback!==undefined && callback!==null)
-                callback(msg);
-          });
-        };
-
-    
     
     me.LoadPortalViewInformation=function(callbackFunction){
         var callback= callbackFunction;
@@ -36,7 +27,7 @@ OTS.StudentPortalDatSource=function(){
     
     me.UpdateStudentTestStartTime=function(Id,testId,callbackFunction){
         var callback= callbackFunction;
-         $.post("TestQuestionBankServlet",{action:actionType.UpdateStudentTestStartTime,Id:Id,TestId:testId},function(msg){
+         $.post("TestQuestionBankServlet",{action:actionType.SaveStudentTestStartTime,Id:Id,TestId:testId},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
           });
@@ -44,7 +35,14 @@ OTS.StudentPortalDatSource=function(){
     
     me.SubmitStudentTest=function(data,callbackFunction){
         var callback= callbackFunction;
-         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,data:data},function(msg){
+        
+        //TestId:testId,
+           // Marked:true,
+           // Taken:true,
+           // Mark:mark,
+           // TestSheet:JSON.stringify(selectedAnswers),
+        //
+         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet,TestItemCount:data.TestItemCount},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
           });

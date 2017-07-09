@@ -34,12 +34,28 @@ public class TestQuestionBankDataService {
        public TransactionResult UpdateStudentTest(StudentTestSheetElement element){
           TransactionResult result= new TransactionResult();
         try{ 
-          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d WHERE TestId='%s' AND StudentId='%s'";
-          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestId,element.StudentId);
+          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d,testItemCount=%d WHERE TestId='%s' AND StudentId='%s'";
+          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestItemCount, element.TestId,element.StudentId);
           this.dataSource.ExecuteNonQuery(sql);
-          result.CurrentId=element.Id;
-          result.ActionResultType=ActionResultType.ok;
+          
+          List<StudentTest> tests= new ArrayList();
+          String selectSqlTemplate="Select e.Id,e.Name,se.StudentId,se.Taken,se.Marked,se.TestItemCount,se.Mark from exam e inner join studentexam se on e.Id=se.TestId  where se.TestId='%s' and se.StudentId=%d;";
+          String selectSql=String.format(selectSqlTemplate, element.TestId,element.StudentId);
+          this.dataSource.ExecuteCustomDataSet(selectSql, tests, StudentTest.class);
+          StudentTest test=null;
+           if(tests.size()>0){
+               test=tests.get(0);
+               int score=(test.Mark/test.TestItemCount) * 100;
+               test.Score=Integer.toString(score);
+              result.Content=new Gson().toJson(test);
+              result.ActionResultType=ActionResultType.ok;
              return result;
+           }
+           else{
+              result.Content="";
+              result.ActionResultType=ActionResultType.ok;
+              return result;
+           }
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -52,15 +68,33 @@ public class TestQuestionBankDataService {
        
     }
     
+      public Boolean IsStudentTestExist(String TestId,int studentid){
+       
+          String countTemplate="Select Count(*) FROM studentexam  WHERE TestId='%s' AND StudentId=%d";
+          String sql= String.format(countTemplate,TestId, studentid);
+           List<BigInteger> items=new ArrayList();
+          this.dataSource.ExecuteDataSet(sql, items);
+          
+            BigInteger count= BigInteger.valueOf(items.get(0).intValue());
+            if(count.intValue()>0){
+                return true;
+            }
+            return false;
+       }
     
     
     public TransactionResult SaveStudentTestStartTime(String id,String testId,int studentId){
          TransactionResult result= new TransactionResult();
         try{ 
+            if(!this.IsStudentTestExist(testId, studentId)){
           String InsertTemplate="INSERT INTO studentexam (Id,TestId,StudentId,StartDateTime) Values('%s','%s','%s','%s')";
           String sql= String.format(InsertTemplate,id,testId,studentId,currentTime);
           this.dataSource.ExecuteNonQuery(sql);
-          result.ActionResultType=ActionResultType.ok;
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+            }
+            result.Message="Test has been started already";
+            result.ActionResultType=ActionResultType.ok;
              return result;
            }
            catch(Throwable ex){
@@ -267,11 +301,9 @@ public class TestQuestionBankDataService {
                 for(CourseElement a:selectedCourses){
                     items.add("'" + a.Id + "'");
                 }
-                String Ids=String.join(",", items);
-                String courseTestSql="Select * from Exam where Activated =1 AND CourseId IN(" + Ids + ")";
-
-
-                 this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
+                  String Ids=String.join(",", items);
+                  String courseTestSql="Select * from Exam where Activated =1 AND CourseId IN(" + Ids + ")";
+                  this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
 
                 }
           }

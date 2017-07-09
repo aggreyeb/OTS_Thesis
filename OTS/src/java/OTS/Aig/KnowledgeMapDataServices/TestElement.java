@@ -12,6 +12,7 @@ import java.util.Date;
  * @author MEA
  */
 public class TestElement {
+   public int StudentId;
    public String Id;
    public String Name;
    public  int TotalMark;    
@@ -27,8 +28,9 @@ public class TestElement {
    public String Score="";
    public Boolean Taken;
    public Boolean Marked;
+   public  int Mark;
    public String TakenText="No";
    public String MarkedText="No";
    public String Comments="";
-           
+   public int TestItemCount;  
 }

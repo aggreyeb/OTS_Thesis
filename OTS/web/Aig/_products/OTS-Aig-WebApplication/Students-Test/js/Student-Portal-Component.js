@@ -9,7 +9,7 @@ OTS.AigStudentPortalComponent=function(){
     me.SubmitStudentTest=function(data,callbackFunction){
           var callback= callbackFunction;
           var dataSource= new  OTS.StudentPortalDatSource();
-          dataSource.RegisterStudentCourse(data,function(msg){
+          dataSource.SubmitStudentTest(data,function(msg){
               callback(msg);
           });
     };
@@ -30,10 +30,7 @@ OTS.AigStudentPortalComponent=function(){
           });
     }; 
     
-    me.SubmitStudentTest=function(data,callbackFunction){
-        var callback= callbackFunction;
-    };
-    
+ 
     me.Activate=function(){
         var dataSource= new  OTS.StudentPortalDatSource();
        testGenerationComponent=  new  OTS.AigTestItemGenerationComponent();

@@ -38,8 +38,9 @@ OTS.AigStudentPortalViewModel=function(){
         TestEndTime:ko.observable(""),
         TestItems:ko.observableArray([])
     };
-    me.ToggleStartTest=ko.observable(true);
+    me.ToggleStartTest=ko.observable(false);
     me.ToggleSubmitTest=ko.observable(false);
+    me.SelectedTestToTake=null;
     
     var studentPortalComponent;
     var testGenerationComponent;
@@ -137,7 +138,11 @@ OTS.AigStudentPortalViewModel=function(){
     };
     
     me.TakeTest=function(data,e){
+       me.SelectedTestToTake=data;
         me.TestSheetViewModel.TestItems([]);
+         me.ToggleStartTest(true);
+         me.ToggleSubmitTest(false);
+    
         me.TestSheetViewModel.TestId(data.Id);
         me.TestSheetViewModel.TestName(data.Name);
         me.TestSheetViewModel.TestStartDate(data.StartDate);
@@ -149,6 +154,7 @@ OTS.AigStudentPortalViewModel=function(){
         for( var i=0;i<testQuestions.length;i++){
             var item=testQuestions[i];
             var htmlItem= testGenerationComponent.RenderHtmlTestItem(item);
+             htmlItem.Number=i+1;
             me.TestSheetViewModel.TestItems.push(htmlItem);
         }
         
@@ -205,16 +211,10 @@ OTS.AigStudentPortalViewModel=function(){
            }
         }
         
-        //Find the student answers
-        for(var j=0;j<testItems.length;j++){
-            var item=testItems[j].SelectedAnswerOption;
-            var selectedAnswer={
-                Label:item.label,
-                Text:item.Text
-            };
-            selectedAnswers.push(selectedAnswer);
-        }
+        var testTaken= JSON.stringify(testItems);
+        var decodedTest=me.EncodeString(testTaken);
         
+      
   
         var studentTestItem={
             StudentId:"unknown", //replace at server side
@@ -222,14 +222,34 @@ OTS.AigStudentPortalViewModel=function(){
             Marked:true,
             Taken:true,
             Mark:mark,
-            TestSheet:selectedAnswers,
+            TestItemCount:testItems.length,
+            TestSheet:decodedTest,
             StartTime:"",
             EndTime:"",
             Comments:""
         };
-        var data=JSON.stringify(studentTestItem);
-        studentPortalComponent.SubmitStudentTest(data,function(msg){
-            
+       // var data=JSON.stringify(studentTestItem);
+        studentPortalComponent.SubmitStudentTest(studentTestItem,function(msg){
+               var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var item=JSON.parse(result.Content);
+               var score=((item.Mark/item.TestItemCount) * 100);
+               item.Score=score;
+               item.StartDate="";
+               item.StartTime="";
+               item.EndTime="";
+               item.Marked=true;
+               me.CouresTests.replace(me.SelectedTestToTake,item);
+               var copyiedCouresTests=ko.toJS(me.CouresTests);
+               me.CouresTests([]);
+               for(var i=0;i<copyiedCouresTests.length;i++){
+                   me.CouresTests.push(copyiedCouresTests[i]);
+               }
+               
+             }
+             else{
+                 // some message here 
+             }
         });
     };
     
@@ -266,11 +286,13 @@ OTS.AigStudentPortalViewModel=function(){
     me.BindCourseTestList=function(items){
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
-               if(items[i].Taken){
+               
+                if(items[i].Taken){
                    items[i].TakenText="Yes";
                }
                if(items[i].Marked) {
                    items[i].MarkedText="Yes";
+                  
                }
                 me.CouresTests.push(items[i]);
             }
@@ -280,6 +302,7 @@ OTS.AigStudentPortalViewModel=function(){
     me.BindTestSheet=function(items){
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
+             
                 me.SelectedCourseTest.push(items[i]);
             }
         }

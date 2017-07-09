@@ -193,8 +193,17 @@ public class TestQuestionBankServlet extends Servlet {
                   
                     
                      case "Aig-SubmitStudentTest":
-                     data=request.getParameter("data");
-                     StudentTestSheetElement  testSheetElement=new Gson().fromJson(data, StudentTestSheetElement.class);
+                    //TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet
+                     testId=request.getParameter("TestId");
+                     int mark=Integer.parseInt(request.getParameter("Mark"));
+                     //TestItemCount
+                     int testItemCount=Integer.parseInt(request.getParameter("TestItemCount"));
+                     String testSheet=request.getParameter("TestSheet");
+                     StudentTestSheetElement  testSheetElement= new StudentTestSheetElement();
+                     testSheetElement.TestId=testId;
+                     testSheetElement.Mark=mark;
+                     testSheetElement.TestItemCount=testItemCount;
+                     testSheetElement.TestSheet=testSheet;
                      testSheetElement.Marked=true;
                      testSheetElement.Taken=true;
                      testSheetElement.StudentId=userProfile.UserId;
