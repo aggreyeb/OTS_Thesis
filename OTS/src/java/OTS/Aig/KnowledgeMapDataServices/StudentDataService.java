@@ -29,7 +29,8 @@ public class StudentDataService {
     public TransactionResult  ListAllStudents(){
       TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select UserId as Id,FirstName,LastName,Email,Phone,UserTypeId,UserAccountId as AccountId  from User where UserTypeId=2";
+          //String sql= "Select UserId as Id,FirstName,LastName,Email,Phone,UserTypeId,UserAccountId as AccountId  from User where UserTypeId=2";
+         String sql="Select a.UserAccountId as AccountId, a.UserName,a.Password,u.UserId as Id,u.Phone,u.UserTypeId,u.FirstName,u.LastName from useraccount a inner join user u on a.UserAccountId=u.UserAccountId where u.UserTypeId=2";
           List<StudentElement> students= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, students,StudentElement.class);
        
@@ -72,9 +73,10 @@ public class StudentDataService {
         item.Password=studentElement.Password;
         users.Save(item);
         if(response.Status().equals("ok")){
-            result.ActionResultType=ActionResultType.ok;
-            result.CurrentId=response.CurrentId();
-            return result;
+           // result.ActionResultType=ActionResultType.ok;
+           // result.CurrentId=response.CurrentId();
+           // return result;
+           return ListAllStudents();
         }
         result.ActionResultType=ActionResultType.fail;
         return result;
@@ -92,9 +94,10 @@ public class StudentDataService {
         //item.Password=studentElement.Password;
         users.Save(item);
         if(response.Status().equals("ok")){
-            result.ActionResultType=ActionResultType.ok;
-            result.CurrentId=response.CurrentId();
-            return result;
+            //result.ActionResultType=ActionResultType.ok;
+           // result.CurrentId=response.CurrentId();
+           // return result;
+            return ListAllStudents();
         }
         result.ActionResultType=ActionResultType.fail;
         return result;

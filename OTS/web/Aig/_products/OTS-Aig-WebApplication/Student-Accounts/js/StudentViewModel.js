@@ -27,26 +27,42 @@ OTS.AigStudentViewModel=function(){
     };
     me.SelectedAction="";
     me.Binded=false;
-    
+   
     me.Id=ko.observable(0);
     me.FirstName=ko.observable("");
     me.LastName=ko.observable("");
     me.Email=ko.observable("");
     me.Phone=ko.observable("");
     me.UserType=ko.observable(OTS.UserType.Student);
-    
+    me.Password=ko.observable("");
+    me.UserName=ko.observable("");
     me.Students=ko.observableArray([]);
     me.SelectedStudent={};
+    
+    var validateEmail=function(mail)   
+     {  
+     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))  
+      {  
+       return (true)  
+     }  
+   
+    return (false)  
+   } ;
     
     me.Actions={
          formHeading:ko.observable("Create new Student Account"),
          emailVisible:ko.observable(true),
+         enableCancel:ko.observable(false),
          ResetForm:function(){
            me.FirstName("");
            me.LastName("");
            me.Email("");
            me.Phone("");
+           me.Password("");
+           me.UserName("");
            me.UserType(OTS.UserType.Student);
+           me.Actions.formHeading("Create new Student Accoun");
+           me.Actions.enableCancel(false);
           },    
         onCreateNew:function(){
             me.Actions.ResetForm();
@@ -54,14 +70,24 @@ OTS.AigStudentViewModel=function(){
          },
        
         onEdit:function(data,e){
-            me.SelectedStudent=data;
-            me.FirstName(data.FirstName);
+           me.SelectedStudent=data;
+           me.FirstName(data.FirstName);
            me.LastName(data.LastName);
-           me.Email(data.Email);
+           me.Email(data.Email||data.UserName);
            me.Phone(data.Phone);
+           me.Password(data.Password);
+           me.UserName(data.UserName);
            me.Actions.emailVisible(false);
+           me.Actions.enableCancel(true);
            me.Actions.formHeading("Edit Student Account")
            me.SelectedAction=me.ActionType.EDIT
+        },
+        onCancelEditStudent:function(){
+             me.SelectedStudent=null;
+             me.SelectedAction=me.ActionType.NEW;
+             me.Actions.formHeading("Create new Student Account")
+             me.Actions.enableCancel(false);
+             me.Actions.ResetForm();
         },
         onResetPassword:function(data,e){
                  me.SelectedStudent=data;
@@ -98,6 +124,24 @@ OTS.AigStudentViewModel=function(){
             
         },
         onSave:function(data,e){
+            if(me.FirstName()==="" ){
+                 alertBox.ShowErrorMessage("First Name required");  
+                return ;
+            }
+            
+            if(me.LastName()==="" ){
+                 alertBox.ShowErrorMessage("Last Name required");  
+                return ;
+            }
+            if(me.Email()==="" ){
+                 alertBox.ShowErrorMessage("Email required");  
+                return ;
+            }
+            
+            if(!validateEmail(me.Email())){
+               alertBox.ShowErrorMessage("The Email entered is not valid");  
+                return ;
+            }
             
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
@@ -110,8 +154,10 @@ OTS.AigStudentViewModel=function(){
                   studentComponent.CreateNewStudent(studentItem,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         studentItem.Id=result.CurrentId;
-                         me.Students.push(studentItem);
+                         //studentItem.Id=result.CurrentId;
+                        // me.Students.push(studentItem);
+                        var contents=JSON.parse(result.Content);
+                         me.DataBind(contents);
                           me.Actions.ResetForm();
                          alertBox.ShowSuccessMessage("Student Created");
                     }
@@ -133,8 +179,10 @@ OTS.AigStudentViewModel=function(){
                   studentComponent.UpdateStudent(studentItem,function(msg){
                    var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                         studentItem.Id=result.CurrentId;
-                         me.Students.replace(me.SelectedStudent, studentItem);
+                         //studentItem.Id=result.CurrentId;
+                        // me.Students.replace(me.SelectedStudent, studentItem);
+                          var contents=JSON.parse(result.Content);
+                          me.DataBind(contents);
                           me.Actions.ResetForm();
                          alertBox.ShowSuccessMessage("Student Record Updated");
                     }

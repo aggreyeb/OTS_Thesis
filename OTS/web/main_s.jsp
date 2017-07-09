@@ -194,8 +194,8 @@
         <div id="mainContainer"  style=" margin: 10px" >
            <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#home">Course/Test Information</a></li>
-  <li><a data-toggle="tab" href="#menu1">Knowledge maps</a></li>
-  <li><a data-toggle="tab" href="#menu2">Other</a></li>
+ <!-- <li><a data-toggle="tab" href="#menu1">Knowledge maps</a></li>-->
+ <!-- <li><a data-toggle="tab" href="#menu2">Other</a></li>-->
 </ul>
 
 <div class="tab-content">
@@ -324,11 +324,11 @@
                        </div>
                      </div>
                     <div class="panel-footer panel-default">
-                        <div class="form-group">
+                        <div style=" display: none" class="form-group">
                         <label>Key</label><br/> 
                         <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
                             
-                    </div>
+                        </div>
                     </div>
                      </div>
                  </td>

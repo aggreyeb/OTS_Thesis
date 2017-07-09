@@ -32,11 +32,24 @@
                 <input  data-bind="value:Email"class="form-control" type="text"/>
             </div>
         </div>
+        <div class="col-xs-6">
+           
+                <label>User Name</label>
+                <input style="width:150px " readonly  data-bind="value:UserName"class="form-control" type="text"/>
+            
+        </div>
+         <div class="col-xs-6">
+           
+                <label>Password</label>
+                <input style="width:150px " readonly  data-bind="value:Password"class="form-control" type="text"/>
+            
+        </div>
+        
     </div><br>
     <div class="row">
         <div class="col-xs-12">
             <div>
-                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button>
+                <button data-bind="click:Actions.onSave" class="btn btn-sm btn-primary">Save</button> <button data-bind="click:Actions.onCancelEditStudent,enable:Actions.enableCancel" class="btn btn-sm btn-default">Cancel</button>
             </div>
         </div>
     </div><br>
