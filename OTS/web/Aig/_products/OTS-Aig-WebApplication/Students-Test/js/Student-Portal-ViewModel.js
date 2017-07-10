@@ -357,8 +357,9 @@ OTS.AigStudentPortalViewModel=function(){
         if(items!==undefined && items!==null && items.length){
             for(var i=0;i<items.length;i++){
                var item=items[i];
-               var score=((item.Mark/item.TestItemCount) * 100);
-                items[i].Score= score;
+               var score=((item.Mark/item.TestItemCount) * 100).toString();
+               var roundedScore=parseFloat(score).toFixed(2);
+                items[i].Score= roundedScore;
                 me.TestResultSummary.push(items[i]);
             }
         }
