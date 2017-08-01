@@ -274,6 +274,17 @@ public class TestQuestionBankDataService {
            return found;
      };
      
+      public String ConcatList(List<String> list){
+       String s="";
+       for(String a:list){
+           s+=a + ",";
+       }
+       if(s.lastIndexOf(",")>0){
+           s=s.substring(0,s.length()-1);
+       }
+       return s;
+    }
+     
       public TransactionResult LoadStudentPortalViewInformation(int studentId){
           TransactionResult result= new TransactionResult();
           Gson g= new Gson();
@@ -308,7 +319,7 @@ public class TestQuestionBankDataService {
                 for(CourseElement a:selectedCourses){
                     items.add("'" + a.Id + "'");
                 }
-                  String Ids=String.join(",", items);
+                  String Ids=ConcatList(items); // String.join(",", items);
                   String courseTestSql="Select * from exam where Activated =1 AND CourseId IN(" + Ids + ")";
                   this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
 
@@ -410,7 +421,7 @@ public class TestQuestionBankDataService {
           for(CourseElement a:selectedCourses){
               items.add("'" + a.Id + "'");
           }
-          String Ids=String.join(",", items);
+          String Ids=ConcatList(items); //String.join(",", items);
           String courseTestSql="Select * from exam where CourseId IN(" + Ids + ")";
           
           List<TestElement> tests= new ArrayList();

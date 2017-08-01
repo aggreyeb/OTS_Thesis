@@ -75,6 +75,7 @@ OTS.AigStudentPortalViewModel=function(){
         studentPortalComponent.RegisterStudentCourse(id, data,function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               
                var content=JSON.parse(result.Content) ;
                var jsonRegistedCourses=JSON.parse(content.StudentRegisteredCourses);
              
@@ -84,7 +85,10 @@ OTS.AigStudentPortalViewModel=function(){
                       if(jsonRegistedCourses[i].RegisteredCourses==="[]") continue;
                 }
                 me.BindRegisteredCourseList(studentRegisteredItems[0]);
+                studentPortalComponent.RefreshStudentPortalView();
                 alertBox.ShowSuccessMessage("Course Registered");
+               
+            
             }
             else{
                 alertBox.ShowErrorMessage("Failed to registered course");
