@@ -222,8 +222,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
                var item;
              if(me.selectedMode===modeType.New){
                var newKnowledgeMap=ko.toJS( me.SelectedKnowledgeMap);
-               newKnowledgeMap.IsPublic=true;
-               newKnowledgeMap.IsImported=false;
+             //  newKnowledgeMap.IsPublic=true;
+             //  newKnowledgeMap.IsImported=false;
                newKnowledgeMap.KnowledgeMapId=new Aig.Guid().NewGuid();
                newKnowledgeMap.CreatedBy=0;
                newKnowledgeMap.Concepts=me.EncodeString(JSON.stringify([]));

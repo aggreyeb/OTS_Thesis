@@ -12,7 +12,6 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -279,7 +278,7 @@ public class TestQuestionBankDataService {
           TransactionResult result= new TransactionResult();
           Gson g= new Gson();
         try{ 
-          String sql="Select Id,Name from Course";
+          String sql="Select Id,Name from course";
           List<CourseElement> allCourse= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql,allCourse,CourseElement.class);
           
@@ -293,7 +292,7 @@ public class TestQuestionBankDataService {
            
            
             //Student RegisteredCourse
-          String registedCoursesSqlTemplate="Select * from Student Where StudentId=%s";
+          String registedCoursesSqlTemplate="Select * from student Where StudentId=%s";
           String registedCoursesSql=String.format(registedCoursesSqlTemplate, studentId);
           List<StudentRegisteredCourseElement> studentRegistedCourses= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(registedCoursesSql,studentRegistedCourses,StudentRegisteredCourseElement.class);
@@ -310,7 +309,7 @@ public class TestQuestionBankDataService {
                     items.add("'" + a.Id + "'");
                 }
                   String Ids=String.join(",", items);
-                  String courseTestSql="Select * from Exam where Activated =1 AND CourseId IN(" + Ids + ")";
+                  String courseTestSql="Select * from exam where Activated =1 AND CourseId IN(" + Ids + ")";
                   this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);
 
                 }
@@ -349,7 +348,7 @@ public class TestQuestionBankDataService {
      private Boolean IsStudentCourseCreated (int studentId){
       
         try{ 
-          String InsertTemplate="SELECT Count(*) FROM Student Where StudentId=%d" ;
+          String InsertTemplate="SELECT Count(*) FROM student Where StudentId=%d" ;
           String sql= String.format(InsertTemplate,studentId);
           int[] returnValue= new int[1];
           this.dataSource.ExecuteScalar(sql,returnValue);
@@ -378,7 +377,7 @@ public class TestQuestionBankDataService {
      public TransactionResult UpdateStudentRegisteredCourse(String id,int studentid,String courses){
           TransactionResult result= new TransactionResult();
         try{ 
-          String updateTemplate="UPDATE  Student SET RegisteredCourses='%s' Where StudentId=%d";
+          String updateTemplate="UPDATE  student SET RegisteredCourses='%s' Where StudentId=%d";
           String sql= String.format(updateTemplate,courses,studentid);
           this.dataSource.ExecuteNonQuery(sql);
            return LoadStudentPortalViewInformation(studentid);
@@ -399,7 +398,7 @@ public class TestQuestionBankDataService {
     public TransactionResult RegisterStudentCourse(String id,int studentid,String courses){
           TransactionResult result= new TransactionResult();
         try{ 
-          String InsertTemplate="INSERT INTO Student (Id,StudentId,RegisteredCourses) Values('%s','%s','%s')";
+          String InsertTemplate="INSERT INTO student (Id,StudentId,RegisteredCourses) Values('%s','%s','%s')";
           String sql= String.format(InsertTemplate,id,studentid,courses);
           this.dataSource.ExecuteNonQuery(sql);
           
@@ -412,7 +411,7 @@ public class TestQuestionBankDataService {
               items.add("'" + a.Id + "'");
           }
           String Ids=String.join(",", items);
-          String courseTestSql="Select * from Exam where CourseId IN(" + Ids + ")";
+          String courseTestSql="Select * from exam where CourseId IN(" + Ids + ")";
           
           List<TestElement> tests= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(courseTestSql, tests, TestElement.class);

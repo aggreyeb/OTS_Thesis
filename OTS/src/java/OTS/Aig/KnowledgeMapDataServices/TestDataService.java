@@ -27,7 +27,7 @@ public class TestDataService {
          
          TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "SELECT  *  FROM  Exam";
+          String sql= "SELECT  *  FROM  exam";
         
           List<TestElement> tests= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, tests,TestElement.class);
@@ -73,7 +73,7 @@ public class TestDataService {
            TransactionResult result= new TransactionResult();
           
         try{ 
-          String InsertTemplate="INSERT INTO Exam (Id,Name,StartDate,StartTime,EndTime,TotalMark,Activated,CourseId) "
+          String InsertTemplate="INSERT INTO exam (Id,Name,StartDate,StartTime,EndTime,TotalMark,Activated,CourseId) "
                                    + "Values('%s','%s','%s','%s','%s',%d,%d,'%s')";
           String sql= String.format(InsertTemplate, 
                                     testElement.Id,
@@ -157,7 +157,7 @@ public class TestDataService {
               TransactionResult result= new TransactionResult();
           
         try{ 
-          String updateTemplate="UPDATE  Exam SET Activated=%d WHERE Id='%s'";
+          String updateTemplate="UPDATE  exam SET Activated=%d WHERE Id='%s'";
           String sql= String.format(updateTemplate,1,testId );
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
@@ -177,7 +177,7 @@ public class TestDataService {
               TransactionResult result= new TransactionResult();
           
         try{ 
-          String updateTemplate="UPDATE  Exam SET Activated=%d WHERE Id='%s'";
+          String updateTemplate="UPDATE  exam SET Activated=%d WHERE Id='%s'";
           String sql= String.format(updateTemplate,0,testId );
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
@@ -197,7 +197,7 @@ public class TestDataService {
        private Boolean IsTestActivated(String testId){
             TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplete= "SELECT  *  FROM  Exam where Id='%s'";
+          String sqlTemplete= "SELECT  *  FROM  exam where Id='%s'";
           String sql=String.format(sqlTemplete, testId);
           List<TestElement> tests= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, tests,TestElement.class);
