@@ -258,7 +258,7 @@ OTS.AigTestViewModel=function(){
                       nodeCount=jsonNodes[0].nodes.length;
                   }
                   //Set it to four when deploying
-                  if(nodeCount<2){
+                  if(nodeCount<4){
                        var message="<p>Can not generate test items.Please ensure that the knowledge map has four or more node</p>";
                         me.ShowItemGenerationErrorAlert(message);
                         me.Actions.enableGenerateAction(false);

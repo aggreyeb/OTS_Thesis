@@ -115,6 +115,7 @@ Aig.Controls.LayoutControls=function(){
                 renderable.Render();
             }
         }
+       
     };
     
      me.UnRender=function(){

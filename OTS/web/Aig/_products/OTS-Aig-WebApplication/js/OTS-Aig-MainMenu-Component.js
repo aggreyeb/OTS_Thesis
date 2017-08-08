@@ -32,6 +32,7 @@ OTS.MenuComponent=function(){
               //alert("Hello");
                //3000
              $("#cmd-toggle-main-menu").click();
+             $("#lnk-courses").click();
            }, 0);
           
        });
