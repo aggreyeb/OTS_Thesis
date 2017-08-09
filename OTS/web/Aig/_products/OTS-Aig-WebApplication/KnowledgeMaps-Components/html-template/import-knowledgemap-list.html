@@ -3,7 +3,7 @@
         <div class="col-xs-12">
             <h3><span class="label label-default">Available Knowledge Map List</span></h3>
             <span class="pull-right" style="margin-right:5px;margin-bottom: 2px">
-                <a data-bind="click:OnCloseKnowledgeMapForImport" class="btn btn-sm btn-default" href="#">Close Available Import List</a> &nbsp;<a data-bind="click:SubmitSelectedForImport" class="btn btn-sm btn-primary" href="#">Submit Selected Knowledge Map(s)</a>
+                <a data-bind="click:OnCloseKnowledgeMapForImport" class="btn btn-sm btn-default" href="#">My Knowledge Map List</a> &nbsp;<a data-bind="click:SubmitSelectedForImport" class="btn btn-sm btn-primary" href="#">Import Selected Knowledge Map(s)</a>
             </span>
         </div>
     </div>
@@ -22,7 +22,6 @@
             </thead>
             <tbody data-bind="foreach:ImportList">
                 <tr>
-                   
                     <td style="width:40%" data-bind="text:Name"></td>
                     <td style="width:55" data-bind="text:Description"></td> 
                     <td style="width:5%"> <input  data-bind="checked:IsSelected" type="checkbox"/></td>

@@ -136,7 +136,7 @@ public class CourseUnitTesting {
         String knowledgeMaps="{Testing}";
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
         //Act
-         TransactionResult result= courseDataService.SaveCourseKnowledgeMap(teacherId, CourseId, knowledgeMaps);
+         TransactionResult result= courseDataService.AssociateCourseKnowledgeMaps(teacherId, CourseId, knowledgeMaps);
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
@@ -151,47 +151,25 @@ public class CourseUnitTesting {
         String knowledgeMaps="{Testing1}";
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
         //Act
-         TransactionResult result= courseDataService.SaveCourseKnowledgeMap(teacherId, CourseId, knowledgeMaps);
+         TransactionResult result= courseDataService.AssociateCourseKnowledgeMaps(teacherId, CourseId, knowledgeMaps);
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
     
+   
+    
     @Test
-    public void RetreiveCourseCourseKnowledgeMap(){
+    public void ListTeacherCourseKnowledgeMap(){
         
         //Arrange
         int teacherId=2;
-        String CourseId="3793e257-453b-40a8-94fa-272a7fc704bc";
-       
+      
         CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
         //Act
-         TransactionResult result= courseDataService.ListTeacherCourseKnowledgeMap(teacherId, CourseId);
+         TransactionResult result= courseDataService.ListTeacherCourseKnowledgeMap(teacherId);
         //Asset
         Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
     }
-    
-    @Test
-    public void ListTeacherCourseKnowedgeMapInformation(){
-        
-        //Arrange
-        int teacherId=2;
-       
-        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
-        //Act
-         TransactionResult result= courseDataService.ListTeacherCourseKnowedgeMapInformation(teacherId);
-        //Asset
-        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
-    }
-   @Test  
-   public void ListCourseTestConceptHierarchy(){
-        int teacherId=2;
-        String courseId="ab0fb659-8b53-49d0-b1c5-4acffe4c4e3f";
-        CourseDataService courseDataService= new CourseDataService(new MySqlDataSource());
-        //Act
-         TransactionResult result= courseDataService.ListCourseTestConceptHierarchy(teacherId,courseId);
-        //Asset
-        Assert.isTrue(result.ActionResultType==ActionResultType.ok,"");
-   }
-    
+  
     
 }

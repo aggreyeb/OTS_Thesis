@@ -35,6 +35,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
     var importedKnowldegeMapIcon="fa fa-arrow-circle-o-down";
     var nonImportedKnowldegeMapIcon="fa fa-asterisk";
+    var sharingIcon="fa fa-share"
     me.selectedKnowledgeMap=null;
     me.KnowledgeMapTreeStateChanged=false;
     me.ConceptSchemaStateChanged=false;
@@ -287,13 +288,25 @@ OTS.AigKnowledgeMapListManagementView=function(){
            // if(binding) return;
            var state=e.target.checked;
            data.IsPublic=state;
-           alert(data.IsPublic);
+            knowledgeMapComponent.ToggleOpenToImport(data.KnowledgeMapId,data.IsPublic,function(e){
+                 var result=JSON.parse(e);
+                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                     var items=JSON.parse(result.Content);
+                     me.DataBind(items);
+                 }
+            });
         },
         onOpenToSharing:function(data,e){
            //  if(binding) return;
             var state=e.target.checked;
             data.IsSharing=state;
-            alert(data.IsSharing);
+            knowledgeMapComponent.ToggleOpenToSharing(data.KnowledgeMapId,data.IsSharing,function(e){
+               var result=JSON.parse(e);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                     var items=JSON.parse(result.Content);
+                     me.DataBind(items);
+                 }
+            });
         }
     };
     
@@ -551,14 +564,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
                     items[i].ImportedIcon=ko.observable(nonImportedKnowldegeMapIcon); 
                }
               
-               if(items[i].IsSharing){
+              if(items[i].IsSharing){
                     items[i].IsSharing=ko.observable(items[i].IsSharing); 
-                    items[i].ImportedIcon=ko.observable(importedKnowldegeMapIcon);
+                    items[i].ImportedIcon=ko.observable(sharingIcon);
                }
                else{
                     items[i].ImportedIcon=ko.observable(nonImportedKnowldegeMapIcon); 
                }
-               
+              
                 me.KnowledgeMaps.push(items[i]); 
                }
            }  

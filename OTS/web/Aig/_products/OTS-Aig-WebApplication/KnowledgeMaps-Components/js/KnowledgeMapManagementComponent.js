@@ -279,7 +279,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
    me.ToggleOpenToSharing=function(knowledgeMapId, state, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigKnowlegeMapDataSource();
-        datasource.ToggleOpenToImport(knowledgeMapId,state,function(msg){
+        datasource.ToggleOpenToSharing(knowledgeMapId,state,function(msg){
             callback(msg);
         });
    };

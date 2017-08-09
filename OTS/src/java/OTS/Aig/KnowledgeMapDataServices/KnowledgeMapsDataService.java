@@ -143,8 +143,8 @@ public class KnowledgeMapsDataService {
        public TransactionResult ToggleOpenToSharing(int userId,StatusItem item){
          Gson g=new Gson();
         try{
-              String updateTemplate="Update knowledgemap Set IsSharing='%b'  Where KnowledgeMapId='%s'";
-              String sql=String.format(updateTemplate, item.status,item.Id);
+              String updateTemplate="Update knowledgemap Set IsSharing=%b  Where KnowledgeMapId='%s'";
+              String sql=String.format(updateTemplate, item.Status,item.Id);
               this.dataSource.ExecuteNonQuery(sql);
               return  this.ListTeacherKnowledgeMaps(userId);
           }
@@ -162,8 +162,8 @@ public class KnowledgeMapsDataService {
      public TransactionResult ToggleOpenToImport(int userId,StatusItem item){
          Gson g=new Gson();
         try{
-              String updateTemplate="Update knowledgemap Set IsPublic='%b'  Where KnowledgeMapId='%s'";
-              String sql=String.format(updateTemplate, item.status,item.Id);
+              String updateTemplate="Update knowledgemap Set IsPublic=%b  Where KnowledgeMapId='%s'";
+              String sql=String.format(updateTemplate, item.Status,item.Id);
               this.dataSource.ExecuteNonQuery(sql);
               return  this.ListTeacherKnowledgeMaps(userId);
           }

@@ -53,7 +53,7 @@ OTS.AigCoursesComponent=function(){
        viewModel.AddCourseComponent(me);
         var dataSource=new OTS.AigCourseDataSource();
       // ko.applyBindings(viewModel,$("#div-courses-content")[0]);
-       dataSource.ListTeacherCourses(function(msg){
+       dataSource.ListTeacherCourseKnowledgeMap(function(msg){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content);
          viewModel.DataBind(items)
@@ -106,7 +106,33 @@ OTS.AigCoursesComponent=function(){
        });
    };
    
-   
+    me.ListTeacherCourseKnowledgeMap=function(callbackFunction){
+          var dataSource=new OTS.AigCourseDataSource();
+       var callback=callbackFunction;
+       dataSource.ListTeacherCourseKnowledgeMap(function(msg){
+           if(callback!==undefined && callback!==null)
+               callback(msg);
+       });
+    };
+    me.ListTeacherKnowledgeMaps=function(callbackFunction){
+          var dataSource=new OTS.AigCourseDataSource();
+       var callback=callbackFunction;
+       dataSource.ListTeacherKnowledgeMaps(function(msg){
+           if(callback!==undefined && callback!==null)
+               callback(msg);
+       });
+    };
+    
+    
+    me.AssociateCourseKnowledgeMaps=function(courseId,knowledgeMaps,callbackFunction){
+          var dataSource=new OTS.AigCourseDataSource();
+       var callback=callbackFunction;
+       dataSource.AssociateCourseKnowledgeMaps(courseId,knowledgeMaps,function(msg){
+           if(callback!==undefined && callback!==null)
+               callback(msg);
+       });
+    }
+    
 };
 OTS.AigCoursesComponent.prototype=  new Aig.IInitializable();
 OTS.AigCoursesComponent.prototype.constructor= OTS.AigCoursesComponent;

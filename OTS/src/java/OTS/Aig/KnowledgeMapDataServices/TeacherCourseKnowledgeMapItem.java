@@ -5,15 +5,21 @@
  */
 package OTS.Aig.KnowledgeMapDataServices;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author MEA
  */
 public class TeacherCourseKnowledgeMapItem {
-    public String Id;
-    public String CourseId;
-    public int TeacherId;
-    public String Name;
-    public String Number;
-    public String CourseKnowledgeMaps;
+    public String CourseId; 
+    public String CourseName;
+    public List<LookUpItem> CourseKnowledgeMaps;
+
+    public TeacherCourseKnowledgeMapItem() {
+       CourseKnowledgeMaps= new ArrayList();
+    }
+    
+    
 }

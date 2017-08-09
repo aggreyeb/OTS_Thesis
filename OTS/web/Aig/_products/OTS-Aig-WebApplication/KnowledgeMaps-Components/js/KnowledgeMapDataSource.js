@@ -127,7 +127,7 @@ OTS.AigKnowlegeMapDataSource=function(){
               Id:knowledgeMapId,
               Status:state
           };
-       var record={action:actionType.ToggleOpenToSharing,knowledgeMapId:knowledgeMapId, state:JSON.stringify(data)};
+       var record={action:actionType.ToggleOpenToSharing,knowledgeMapId:knowledgeMapId, data:JSON.stringify(data)};
         $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )
                callback(msg);

@@ -146,47 +146,33 @@ public class CourseServlet extends Servlet {
                      service= new CourseDataService(new MySqlDataSource());
                       return service.DeleteCourse(userProfile.UserId,Id);
                
-                   case "Aig-SaveCourseKnowledgeMap":
+                   case "Aig-AssociateCourseKnowledgeMaps":
                      
                      String teacherCourseId=request.getParameter("CourseId");
                      teacherId=userProfile.UserId;
                      String knowledgeMaps=request.getParameter("KnowledgeMaps");
                      service= new CourseDataService(new MySqlDataSource());
-                      return service.SaveCourseKnowledgeMap(teacherId, teacherCourseId, knowledgeMaps);    
+                      return service.AssociateCourseKnowledgeMaps(teacherId, teacherCourseId, knowledgeMaps);    
               
                       case "Aig-ListTeacherCourseKnowledgeMap":
                      teacherId=userProfile.UserId;
-                     String teachercourseId=request.getParameter("CourseId");
                      service= new CourseDataService(new MySqlDataSource());
-                     return service.ListTeacherCourseKnowledgeMap(teacherId,teachercourseId);    
+                     return service.ListTeacherCourseKnowledgeMap(teacherId);    
               
                     
-                     case "Aig-ListTeacherCourseKnowedgeMapInformation":
-                     teacherId=userProfile.UserId;
                     
-                     service= new CourseDataService(new MySqlDataSource());
-                     return service.ListTeacherCourseKnowedgeMapInformation(teacherId);    
-                     
                       case "Aig-DeleteCourseKnowledgeMaps":
                       Id=request.getParameter("Id");
                      service= new CourseDataService(new MySqlDataSource());
                      return service.DeleteCourseKnowledgeMaps(Id);    
+                     
                      
                       case "Aig-ListTeacherKnowledgeMaps":
                      teacherId=userProfile.UserId;
                      service= new CourseDataService(new MySqlDataSource());
                      return service.ListTeacherKnowledgeMaps(teacherId); 
                      
-                    case "Aig-ListCourseTestConceptHierarchy":
-                      teacherId=userProfile.UserId;
-                     String testcourseId=request.getParameter("CourseId");
-                     service= new CourseDataService(new MySqlDataSource());
-                     return service.ListCourseTestConceptHierarchy(teacherId,testcourseId); 
-                     
-                     
-                     
-                     //Aig-ListCourseTestConceptHierarchy
-                     
+                   
                //******************************Old Stuff**********************
                case "Delete":
               

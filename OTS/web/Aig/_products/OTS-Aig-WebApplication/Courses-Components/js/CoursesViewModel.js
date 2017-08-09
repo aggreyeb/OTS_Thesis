@@ -28,7 +28,7 @@ OTS.AigCourseViewModel=function(){
     Id:ko.observable(""),
     Number:ko.observable(""),
     CourseName:ko.observable(""),
-    CourseKnowledgeMaps:ko.observableArray([{Id:1,Name:"Computer Science"}])
+    CourseKnowledgeMaps:ko.observableArray([])
    };
     me.SelectedCourse = null;
     
@@ -109,13 +109,35 @@ OTS.AigCourseViewModel=function(){
         },
         onAssociateKnowledgeMaps:function(data,e){
             me.SelectedCourse=data;
-            me.CourseForm.CourseName(data.CourseName);
-            me.CourseForm.Number(data.Number);
-            me.SelectedAction=me.ActionType.ASSOCIATE_KNOWLEGEMAPS;
-            me.CourseActions.enableAddKnowledgeMapView(true);
-            me.CourseActions.CourseHeaderText("Associate Knowledge Map(s)"); 
-            me.CourseActions.enableCancel(true);
-            me.CourseActions.enableCourseName(false);
+           
+            courseComponent.ListTeacherKnowledgeMaps(function(e){
+                var result=JSON.parse(e);
+                if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                    var items=JSON.parse(result.Content);
+                        me.PopulateKnowledgeMaps(items);
+                        me.CourseForm.CourseName(data.CourseName);
+                        me.CourseForm.Number(data.Number);
+                        me.SelectedAction=me.ActionType.ASSOCIATE_KNOWLEGEMAPS;
+                        me.CourseActions.enableAddKnowledgeMapView(true);
+                        me.CourseActions.CourseHeaderText("Associate Knowledge Map(s)"); 
+                        me.CourseActions.enableCancel(true);
+                        me.CourseActions.enableCourseName(false);
+                        
+                        me.KnowledgeMaps([]);
+                       var knowledgeMaps= me.SelectedCourse.CourseKnowledgeMaps;
+                       for(var i=0;i<knowledgeMaps.length;i++){
+                           me.KnowledgeMaps.push(knowledgeMaps[i]);
+                       }
+                       
+                        var items=   $('#sel-knowledgeMaps option');
+                       for(var i=0;i<items.length;i++){
+                        me.PopulateSelectedKnowledgeMaps(knowledgeMaps,items[i]);
+                      }
+             
+                      $('#sel-knowledgeMaps').trigger("chosen:updated"); 
+                       $(".chosen-select").trigger("chosen:updated");
+                }
+            });
         },
         onSave:function(data,e){
               var result=me.CourseActions.validate();
@@ -174,6 +196,34 @@ OTS.AigCourseViewModel=function(){
                 });
               
                  break;
+                  case me.ActionType.ASSOCIATE_KNOWLEGEMAPS:
+                 
+                  var selectedKnowledgeMaps= ko.toJS(me.SelectedKnowledgeMaps());
+                  var selectedCourseId=me.SelectedCourse.Id;
+                  if(selectedKnowledgeMaps.length>0){
+                    var items=[];
+                    for(var i=0;i<selectedKnowledgeMaps.length;i++){
+                        items.push(selectedKnowledgeMaps[i].Id)
+                    }
+                    var knowledgeMaps= items.join(",");
+                     courseComponent.AssociateCourseKnowledgeMaps(selectedCourseId,knowledgeMaps,function(e){
+                          var result=JSON.parse(e);
+                          if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                                //Bind Course Knowledgemaps
+                                  alert("Ok");
+                          }
+                       else{
+                            alertBox.ShowErrorMessage(result.Message);
+                        }
+                         
+                     }); 
+                  }
+                  else{
+                     alertBox.ShowErrorMessage("Select Knowledge Maps \n\
+                       and try again"); 
+                  }
+                  
+                  break;
                  
                 default:
                     break;
@@ -186,7 +236,7 @@ OTS.AigCourseViewModel=function(){
        if(items.length){
           
            for(var i=0;i<items.length;i++){
-              items[i].CourseName=items[i].Name;
+             // items[i].CourseName=items[i].Name;
               me.Courses.push(items[i]);
            }
        }
@@ -196,14 +246,26 @@ OTS.AigCourseViewModel=function(){
        if(items===undefined ||items===null) return;
        me.KnowledgeMaps([]);
        for(var i=0;i<items.length;i++){
-            me.KnowledgeMaps.push(items[i]);
+            var km={};
+            km.Id=items[i].KnowledgeMapId;
+            km.Name=items[i].Name;
+            me.KnowledgeMaps.push(km);
        }
+       $(".chosen-select").trigger("chosen:updated");
    };
    
    me.AddCourseComponent=function(component){
        courseComponent=component;
       me.CourseActions.CourseHeaderText("Add New Course");
    };
+   
+    me.PopulateSelectedKnowledgeMaps=function(courseKnowledgeMaps,element){
+             for(var i=0;i<courseKnowledgeMaps.length;i++){
+                 if(courseKnowledgeMaps[i].Name===element.innerHTML){
+                      $(element).prop('selected', true); 
+                 }
+             }
+    };
 };
 
 

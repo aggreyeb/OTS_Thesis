@@ -6,8 +6,10 @@ OTS.AigCourseDataSource=function(){
         ListTeacherCourses:"Aig-ListTeacherCourses",
         CreateNewCourse:"Aig-CreateNewCourse",
         UpdateCourse:"Aig-UpdateCourse",
-        DeleteCourse:"Aig-DeleteCourse"
-        
+        DeleteCourse:"Aig-DeleteCourse",
+        ListTeacherCourseKnowledgeMap:"Aig-ListTeacherCourseKnowledgeMap",
+        ListTeacherKnowledgeMaps:"Aig-ListTeacherKnowledgeMaps",
+        AssociateCourseKnowledgeMaps:"Aig-AssociateCourseKnowledgeMaps"
     };
    me.ListAllCourses=function(callbackFunction){
        var callback=callbackFunction;
@@ -48,6 +50,34 @@ OTS.AigCourseDataSource=function(){
                 callback(msg);
      });
    };
+   
+   me.ListTeacherKnowledgeMaps=function(callbackFunction){
+          var callback=callbackFunction;
+       
+       $.post("CourseServlet",{action:actionType.ListTeacherKnowledgeMaps},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+   };
+   
+   
+    me.ListTeacherCourseKnowledgeMap=function(callbackFunction){
+          var callback=callbackFunction;
+       
+       $.post("CourseServlet",{action:actionType.ListTeacherCourseKnowledgeMap},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+   };
+   
+    me.AssociateCourseKnowledgeMaps=function(courseId,knowledgeMaps, callbackFunction){
+          var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.AssociateCourseKnowledgeMaps,CourseId:courseId,KnowledgeMaps:knowledgeMaps},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+   };
+   
 };
 
 

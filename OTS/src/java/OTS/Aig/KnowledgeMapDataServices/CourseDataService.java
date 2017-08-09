@@ -26,88 +26,13 @@ public class CourseDataService {
         this.currentDate = new Date();
     }
     
-     private TeacherCourseKnowledgeMapItem FindCourseKnowlegeMap(List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps, int teacherId,String courseId){
-          TeacherCourseKnowledgeMapItem found=null;
-         if(courseKnowlwdgeMaps==null) return found;
-          
-          for(TeacherCourseKnowledgeMapItem a: courseKnowlwdgeMaps){
-              if(a.TeacherId==teacherId && a.CourseId.equals(courseId)){
-                  found=a;
-                  break;
-              }
-          }
-          
-          return found;
-     }
+    
    
-    
-    public TransactionResult ListTeacherCourseKnowedgeMapInformation(int teacherid){
-    
-        TransactionResult result= new TransactionResult();
-         List<CourseElement> courses= new ArrayList();
-         List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps= new ArrayList();
-        try{ 
-          String sqlCourseKnowledgeTemplate= "Select  Id,CourseId,TeacherId, CourseKnowledgeMaps  from teacher Where TeacherId=%d";
-          String sql= "Select Id,Number,Name from course where Createdby=" + teacherid;
-          
-          String sqlCourseKnowledge=String.format(sqlCourseKnowledgeTemplate, teacherid);
-          this.dataSource.ExecuteCustomDataSet(sqlCourseKnowledge, courseKnowlwdgeMaps,TeacherCourseKnowledgeMapItem.class);
-          this.dataSource.ExecuteCustomDataSet(sql, courses,CourseElement.class);
-           
-           TeacherCourseKnowledgeMapItem courseKnowledgeMap;
-          List<TeacherCourseKnowledgeMapItem> teacherscourseKnowlwdgeMaps= new ArrayList();
-           for(CourseElement a:courses){
-             TeacherCourseKnowledgeMapItem item= FindCourseKnowlegeMap(courseKnowlwdgeMaps,teacherid,a.Id);
-             if(item!=null){
-                  courseKnowledgeMap= new TeacherCourseKnowledgeMapItem();
-                  courseKnowledgeMap.Id=item.Id;
-                  courseKnowledgeMap.CourseId=a.Id;
-                  courseKnowledgeMap.Name=a.Name;
-                  courseKnowledgeMap.Number=a.Number;
-                  courseKnowledgeMap.CourseKnowledgeMaps=item.CourseKnowledgeMaps;
-                  teacherscourseKnowlwdgeMaps.add(courseKnowledgeMap);
-             }
-             else{
-                 
-                courseKnowledgeMap= new TeacherCourseKnowledgeMapItem();
-                  courseKnowledgeMap.Id="";
-                  courseKnowledgeMap.CourseId=a.Id;
-                  courseKnowledgeMap.Name=a.Name;
-                  courseKnowledgeMap.Number=a.Number;
-                  courseKnowledgeMap.CourseKnowledgeMaps="";
-                  teacherscourseKnowlwdgeMaps.add(courseKnowledgeMap);  
-                 
-             }
-           }
-          
-            //Retrive Teacher KnowledgeMaps
-          String sqlTemplate= "SELECT KnowledgeMapId ,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
-          String lookupSql=String.format(sqlTemplate, teacherid);
-          List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(lookupSql, knowlwdgeMaps,KnowledgeMapElement.class);
-       
-            
-           
-             Gson g = new Gson();
-             result.Content=g.toJson(teacherscourseKnowlwdgeMaps);
-             result.LookupTables=g.toJson(knowlwdgeMaps);
-             result.ActionResultType=ActionResultType.ok;
-             return result;
-           }
-           catch(Throwable ex){
-               result.ActionResultType=ActionResultType.exception;
-               result.Exception=ex.toString();
-               return result;
-           }
-           finally{
-             
-            }
-    }
-    
+   
      public TransactionResult ListTeacherKnowledgeMaps(int teacherid){
        TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplate= "SELECT KnowledgeMapId ,Name,Description ,IsPublic FROM knowledgemap  Where CreatedBy='%d'";
+          String sqlTemplate= "SELECT KnowledgeMapId ,Name,Description ,IsPublic,IsSharing FROM knowledgemap  Where CreatedBy='%d' OR IsSharing=1";
           String sql=String.format(sqlTemplate, teacherid);
           List<KnowledgeMapElement> knowlwdgeMaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, knowlwdgeMaps,KnowledgeMapElement.class);
@@ -129,14 +54,26 @@ public class CourseDataService {
    }
     
     
-   public TransactionResult ListTeacherCourseKnowledgeMap(int teacherid,String courseId){
+   public TransactionResult ListTeacherCourseKnowledgeMap(int teacherid){
        TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplate= "Select  Id,CourseId,CourseKnowledgeMaps  from teacher Where TeacherId='%s' AND CourseId='%s'";
-          String sql=String.format(sqlTemplate, teacherid,courseId);
+          String sqlTemplate= "Select Id as CourseId,Name as CourseName from Course where Createdby=%d";
+          String sql=String.format(sqlTemplate, teacherid);
           List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, courseKnowlwdgeMaps,TeacherCourseKnowledgeMapItem.class);
-       
+           
+          String kmsqlTemplate="Select k.KnowledgeMapId as Id ,k.Name  from Course c \n" +
+                        "inner join courseknowledgemap m on  m.CourseId=c.Id \n" +
+                        "inner join knowledgemap k on m.KnowledgeMapId=k.KnowledgeMapId\n" +
+                        "Where c.Id='%s'";
+            for(TeacherCourseKnowledgeMapItem a:courseKnowlwdgeMaps){
+                  //Select select the Associated Knoledge Map
+                  String kmSql=String.format(kmsqlTemplate, a.CourseId);
+                  List<LookUpItem> teachercourseKnowlwdgeMaps= new ArrayList();
+                  this.dataSource.ExecuteCustomDataSet(kmSql, teachercourseKnowlwdgeMaps,LookUpItem.class);
+                  AddCourseKnowledgeMaps(a,teachercourseKnowlwdgeMaps);
+            }
+          
              Gson g = new Gson();
              result.Content=g.toJson(courseKnowlwdgeMaps);
              result.ActionResultType=ActionResultType.ok;
@@ -152,6 +89,13 @@ public class CourseDataService {
             }
        
    }
+   
+   public void AddCourseKnowledgeMaps(TeacherCourseKnowledgeMapItem a, List<LookUpItem> teachercourseKnowlwdgeMaps){
+       for(LookUpItem b:teachercourseKnowlwdgeMaps){
+          
+           a.CourseKnowledgeMaps.add(b);
+       }
+   };
     
     public TransactionResult ListAllCourses(){
          
@@ -270,13 +214,9 @@ public class CourseDataService {
             }
     }
     
-      public TransactionResult SaveCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
+      public TransactionResult AssociateCourseKnowledgeMaps(int teacherId,String courseId,String knowledgeMaps){
        
-            if(!this.HasCourseKnowledgeMap(teacherId, courseId)){
-                return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
-            }
-            return  this.UpdateCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
-    
+          return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
       }
       
       
@@ -317,93 +257,19 @@ public class CourseDataService {
        return s;
     }
     
-  public TransactionResult  ListCourseTestConceptHierarchy(int teacherId, String courseId){
-        TransactionResult result= new TransactionResult();
-        try{ 
-          String template= "Select Id,TeacherId,CourseId,CourseKnowledgeMaps from teacher where TeacherId=%d AND CourseId='%s'";
-          String sql=String.format(template, teacherId,courseId);
-          List<TeacherCourseKnowledgeMapItem> courseKnowledgeMaps= new ArrayList();
-         
-          this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgeMaps,TeacherCourseKnowledgeMapItem.class);
-          if(courseKnowledgeMaps.size()>0){
-          TeacherCourseKnowledgeMapItem item=courseKnowledgeMaps.get(0);
-          Gson g = new Gson();
-           String json=item.CourseKnowledgeMaps;
-           KnowledgeMapElement[] items=(KnowledgeMapElement[])g.fromJson(json, KnowledgeMapElement[].class);
-           List tempList= new ArrayList();
-           String temp="";
-           for(KnowledgeMapElement a:items){
-               tempList.add("'" + a.KnowledgeMapId + "'");
-           }
-           String str = ConcatList(tempList); //String.join(",", tempList);
-           
-           String sqlTemplate= "Select KnowledgeMapId ,Name,Description,Concepts from  knowledgemap where KnowledgeMapId in (%s)";
-           String sql2=String.format(sqlTemplate, str);
-           List<KnowledgeMapElement> knowledgeMapList= new ArrayList();
-           this.dataSource.ExecuteCustomDataSet(sql2, knowledgeMapList,KnowledgeMapElement.class);
-         
-             result.Content=g.toJson(knowledgeMapList);
-             result.ActionResultType=ActionResultType.ok;
-             return result;
-             }
-          else{
-              result.ActionResultType=ActionResultType.fail;
-              result.Message="There is no  knowledge map associated with the course."
-                      + "Please associate knowledge map(s) to the course and try again";
-             }
-              return result;
-            }
-           catch(Throwable ex){
-               result.ActionResultType=ActionResultType.exception;
-               result.Exception=ex.toString();
-               return result;
-           }
-           finally{
-             
-            }
-       
-    }
+ 
     
       private TransactionResult CreateNewCourseKnowledgeMap( int teacherId,String courseId,String knowledgeMaps){
         TransactionResult result= new TransactionResult();
         try{ 
-           UUID uuid = UUID.randomUUID();
-            String Id= uuid.toString();
-            String InsertTemplate="INSERT INTO teacher (Id,TeacherId,CourseId,CourseKnowledgeMaps) Values('%s','%d','%s','%s')";
-          String sql= String.format(InsertTemplate,Id,teacherId,courseId,knowledgeMaps);
-           this.dataSource.ExecuteNonQuery(sql);
-             result.ActionResultType=ActionResultType.ok;
-             return result;
-           }
-           catch(Throwable ex){
-               result.ActionResultType=ActionResultType.exception;
-               result.Exception=ex.toString();
-               return result;
-           }
-           finally{
-             
-            }
-    }
-    
-    
-    public TransactionResult UpdateCourseKnowledgeMap(int teacherId,String courseId,String knowledgeMaps){
-        TransactionResult result= new TransactionResult();
-        try{ 
-          String InsertTemplate="UPDATE teacher SET CourseKnowledgeMaps='%s' WHERE TeacherId='%s' AND CourseId='%s'";
-         String sql= String.format(InsertTemplate,knowledgeMaps,teacherId,courseId);
-          this.dataSource.ExecuteNonQuery(sql);
-            
-             //Check has course knowledgeMap
-           String selectTemplate ="Select CourseKnowledgeMaps from teacher Where TeacherId='%d' and CourseId='%s'";
-           String selectSql=String.format(selectTemplate, teacherId,courseId);
-           List<TeacherCourseKnowledgeMapItem> items=new ArrayList();
-           this.dataSource.ExecuteCustomDataSet(selectSql, items, TeacherCourseKnowledgeMapItem.class);
-            TeacherCourseKnowledgeMapItem item=items.get(0);
-            if(item.CourseKnowledgeMaps.equals("[]")){
-                //Delete the record
-                String deleteSqlTemplate="Delete from teacher  Where TeacherId='%d' and CourseId='%s'";
-                String deleteSql=String.format(deleteSqlTemplate, teacherId,courseId);
-                this.dataSource.ExecuteNonQuery(deleteSql);
+          
+            String [] arrOfStr =knowledgeMaps.split(",");
+            for(String s:arrOfStr ){
+              UUID uuid = UUID.randomUUID();
+              String Id= uuid.toString();
+              String InsertTemplate="INSERT INTO courseknowledgemap (CourseKnowledgeMapId,CourseId,KnowledgeMapId) Values('%s','%s','%s')";
+              String sql= String.format(InsertTemplate,Id,courseId,s);
+              this.dataSource.ExecuteNonQuery(sql);
             }
              result.ActionResultType=ActionResultType.ok;
              return result;
@@ -418,6 +284,8 @@ public class CourseDataService {
             }
     }
     
+    
+   
      private Boolean CanUpdate(int teacherId,String courseId){
          /*
          if(this.HasCourse(teacherId, courseId) && !CourseAssociatedWithKnowledgeMap(courseId)){
