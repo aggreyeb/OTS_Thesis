@@ -91,7 +91,7 @@ OTS.AigCourseViewModel=function(){
         onDelete:function(data,e){
             me.SelectedAction=me.ActionType.DELETE
             
-            courseComponent.DeleteCourse(data.Id,function(e){
+            courseComponent.DeleteCourse(data.CourseId,function(e){
                var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                      me.Courses.remove(data); 
@@ -122,20 +122,28 @@ OTS.AigCourseViewModel=function(){
                         me.CourseActions.CourseHeaderText("Associate Knowledge Map(s)"); 
                         me.CourseActions.enableCancel(true);
                         me.CourseActions.enableCourseName(false);
-                        
-                        me.KnowledgeMaps([]);
-                       var knowledgeMaps= me.SelectedCourse.CourseKnowledgeMaps;
-                       for(var i=0;i<knowledgeMaps.length;i++){
-                           me.KnowledgeMaps.push(knowledgeMaps[i]);
-                       }
                        
+                      if(me.SelectedCourse.CourseKnowledgeMaps!==undefined &&
+                              me.SelectedCourse.CourseKnowledgeMaps.length>0){
+                       
+                        var knowledgeMaps= me.SelectedCourse.CourseKnowledgeMaps;
+                       /*
+                        for(var i=0;i<knowledgeMaps.length;i++){
+                           me.KnowledgeMaps.push(knowledgeMaps[i]);
+                        }
+                       */
+                      
+                        for(var i=0;i<knowledgeMaps.length;i++){
+                           me.SelectedKnowledgeMaps.push(knowledgeMaps[i]);
+                        }
                         var items=   $('#sel-knowledgeMaps option');
                        for(var i=0;i<items.length;i++){
                         me.PopulateSelectedKnowledgeMaps(knowledgeMaps,items[i]);
                       }
              
-                      $('#sel-knowledgeMaps').trigger("chosen:updated"); 
+                       $('#sel-knowledgeMaps').trigger("chosen:updated"); 
                        $(".chosen-select").trigger("chosen:updated");
+                   }
                 }
             });
         },
@@ -152,12 +160,13 @@ OTS.AigCourseViewModel=function(){
                      Id:new Aig.Guid().NewGuid(),
                      Number:me.CourseForm.Number(),
                      Name:me.CourseForm.CourseName(),
-                     CourseName:me.CourseForm.CourseName()
+                     CourseName:me.CourseForm.CourseName(),
+                     CourseKnowledgeMaps:[]
                  };
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                     me.Courses.push(course); 
+                    me.Courses.push(course); 
                     me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
                    
@@ -172,7 +181,7 @@ OTS.AigCourseViewModel=function(){
                  break;
                 case me.ActionType.EDIT:
                 var updateableCourse={
-                    Id:me.SelectedCourse.Id,
+                    Id:me.SelectedCourse.CourseId,
                     CourseName:me.CourseForm.CourseName(),
                     Name:me.CourseForm.CourseName(),
                     Number:me.CourseForm.Number()
@@ -199,7 +208,7 @@ OTS.AigCourseViewModel=function(){
                   case me.ActionType.ASSOCIATE_KNOWLEGEMAPS:
                  
                   var selectedKnowledgeMaps= ko.toJS(me.SelectedKnowledgeMaps());
-                  var selectedCourseId=me.SelectedCourse.Id;
+                  var selectedCourseId=me.SelectedCourse.CourseId;
                   if(selectedKnowledgeMaps.length>0){
                     var items=[];
                     for(var i=0;i<selectedKnowledgeMaps.length;i++){
@@ -236,7 +245,10 @@ OTS.AigCourseViewModel=function(){
        if(items.length){
           
            for(var i=0;i<items.length;i++){
-             // items[i].CourseName=items[i].Name;
+             if(!items[i].CourseKnowledgeMaps)
+             {
+                items[i].CourseKnowledgeMaps=[]; 
+             }
               me.Courses.push(items[i]);
            }
        }
