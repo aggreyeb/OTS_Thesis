@@ -1,9 +1,10 @@
 var OTS=OTS||{};
-OTS.CourseItem=function(name,number){
+OTS.CourseItem=function(number,name,knowledgeMaps){
     var me=this;
     me.Id="";
     me.CourseName=name;
     me.Number=number;
+    me.CourseKnowledgeMaps=knowledgeMaps;
 };
 
 OTS.AigCourseViewModel=function(){
@@ -13,40 +14,41 @@ OTS.AigCourseViewModel=function(){
     me.ActionType={
        NEW:"NEW" ,
        EDIT:"EDIT",
-       DELETE:"DELETE"
+       DELETE:"DELETE",
+       ASSOCIATE_KNOWLEGEMAPS:"ASSOCIATE_KNOWLEGEMAPS"
     };
     me.SelectedAction=me.ActionType.NEW;
     me.Binded=false;
  
-    me.Id=ko.observable("");
-    me.Number=ko.observable("");
-    me.CourseName=ko.observable("");
     me.Courses=ko.observableArray([]);
-   
-    
-   
-    me.SelectedCourse = null;//new  OTS.AigCourseViewModel();
+    me.CourseForm={
+    Id:ko.observable(""),
+    Number:ko.observable(""),
+    CourseName:ko.observable(""),
+    CourseKnowledgeMaps:ko.observableArray([{Id:1,Name:"Computer Science"}])
+   };
+    me.SelectedCourse = null;
     
     me.CourseActions={
         CourseHeaderText:ko.observable("Add New Course"),
         enableActions:ko.observable(false),
         enableCancel:ko.observable(false),
+        enableAddKnowledgeMapView:ko.observable(false),
+        enableCourseName:ko.observable(true),
         onCancelCourseEditing:function(){
             me.CourseActions.CourseHeaderText("Add New Course");
             me.SelectedCourse=null;
-            me.Number("");
-            me.CourseName("");
+            me.CourseForm.Number("");
+            me.CourseForm.CourseName("");
             me.CourseActions.enableCancel(false);
+            me.CourseActions.enableAddKnowledgeMapView(false);
+            me.CourseActions.enableCourseName(true);
         },
         validate:function(){
            var  isValid =true;
            var errorMessage=[];
-           /*
-           if(me.Number()===""){
-               isValid=false;
-               errorMessage.push("Course Number required");
-           }*/
-           if(me.CourseName()===""){
+          
+           if( me.CourseForm.CourseName()===""){
                isValid=false;
                errorMessage.push("Course name required");
            }
@@ -57,28 +59,31 @@ OTS.AigCourseViewModel=function(){
            }
          },
          onCreateNew:function(){
-             me.Id("");
-             me.CourseName("");
-             me.Number("");
-             me.SelectedAction=me.ActionType.NEW
+              me.CourseForm.Id("");
+              me.CourseForm.CourseName("");
+              me.CourseForm.Number("");
+              me.SelectedAction=me.ActionType.NEW
              
          },
          ResetForm:function(){
-             me.Id("");
-             me.CourseName("");
-             me.Number("");
+             me.CourseForm.Id("");
+             me.CourseForm.CourseName("");
+             me.CourseForm.Number("");
              me.CourseActions.enableCancel(false),
              me.CourseActions.CourseHeaderText("Add New Course");        
              me.SelectedAction=me.ActionType.NEW
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
-            me.CourseName(data.CourseName);
-            me.Number(data.Number);
+            me.CourseForm.CourseName(data.CourseName);
+            me.CourseForm.Number(data.Number);
             me.CourseActions.enableCancel(true),
             me.CourseActions.CourseHeaderText("Edit Course");
             me.SelectedAction=me.ActionType.EDIT
             me.CourseActions.enableActions(true);
+            me.CourseActions.enableCourseName(true);
+            me.CourseActions.enableAddKnowledgeMapView(false);
+            me.CourseActions.enableCancel(true);
         },
         onDelete:function(data,e){
             me.SelectedAction=me.ActionType.DELETE
@@ -93,9 +98,21 @@ OTS.AigCourseViewModel=function(){
                     alertBox.ShowErrorMessage(result.Message);
                   }
                  me.SelectedAction=me.ActionType.NEW;
-                me.CourseActions.ResetForm();
+                 me.CourseActions.enableCourseName(true);
+                 me.CourseActions.enableAddKnowledgeMapView(false);
+                 me.CourseActions.ResetForm();
             });
             
+        },
+        onAssociateKnowledgeMaps:function(data,e){
+            me.SelectedCourse=data;
+            me.CourseForm.CourseName(data.CourseName);
+            me.CourseForm.Number(data.Number);
+            me.SelectedAction=me.ActionType.ASSOCIATE_KNOWLEGEMAPS;
+            me.CourseActions.enableAddKnowledgeMapView(true);
+            me.CourseActions.CourseHeaderText("Associate Knowledge Map(s)"); 
+            me.CourseActions.enableCancel(true);
+            me.CourseActions.enableCourseName(false);
         },
         onSave:function(data,e){
               var result=me.CourseActions.validate();
@@ -105,13 +122,12 @@ OTS.AigCourseViewModel=function(){
               }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
-                // var course= new OTS.CourseItem(me.CourseName(),me.Number());
-                // course.Id=new Aig.Guid().NewGuid();
+               
                  var course={
                      Id:new Aig.Guid().NewGuid(),
-                     Number:me.Number(),
-                     Name:me.CourseName(),
-                     CourseName:me.CourseName()
+                     Number:me.CourseForm.Number(),
+                     Name:me.CourseForm.CourseName(),
+                     CourseName:me.CourseForm.CourseName()
                  };
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
@@ -132,9 +148,9 @@ OTS.AigCourseViewModel=function(){
                 case me.ActionType.EDIT:
                 var updateableCourse={
                     Id:me.SelectedCourse.Id,
-                    CourseName:me.CourseName(),
-                    Name:me.CourseName(),
-                    Number:me.Number()
+                    CourseName:me.CourseForm.CourseName(),
+                    Name:me.CourseForm.CourseName(),
+                    Number:me.CourseForm.Number()
                 };
                 courseComponent.UpdateCourse(updateableCourse,function(e){
                 var result=JSON.parse(e);
@@ -168,7 +184,7 @@ OTS.AigCourseViewModel=function(){
           
            for(var i=0;i<items.length;i++){
               items[i].CourseName=items[i].Name;
-               me.Courses.push(items[i]);
+              me.Courses.push(items[i]);
            }
        }
    }; 

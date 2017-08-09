@@ -53,7 +53,7 @@ OTS.AigCoursesComponent=function(){
        viewModel.AddCourseComponent(me);
         var dataSource=new OTS.AigCourseDataSource();
       // ko.applyBindings(viewModel,$("#div-courses-content")[0]);
-       dataSource.ListAllCourses(function(msg){
+       dataSource.ListTeacherCourses(function(msg){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content);
          viewModel.DataBind(items)

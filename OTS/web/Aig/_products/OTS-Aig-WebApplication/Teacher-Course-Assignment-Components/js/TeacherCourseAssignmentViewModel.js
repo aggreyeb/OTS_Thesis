@@ -1,5 +1,5 @@
 var OTS=OTS||{};
-OTS.CourseItem=function(name,number){
+OTS.ZZZCourseItem=function(name,number){
     var me=this;
     me.Id="";
     me.Name=name;
