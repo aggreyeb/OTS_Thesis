@@ -7,6 +7,7 @@
 package OTS.Servlets;
 
 import OTS.Aig.KnowledgeMapDataServices.KnowledgeMapsDataService;
+import OTS.Aig.KnowledgeMapDataServices.StatusItem;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.ConceptSchemaDescription;
 import OTS.DataModels.MySqlDataSource;
@@ -119,6 +120,8 @@ public class KnowledgeMapServlet extends Servlet {
           KnowledgeMapsDataService service;
           TransactionResult result;
           String data;
+          String knowledgeMapId;
+           Gson g;
            switch(action){
             
               case  "Aig-create-new":
@@ -164,14 +167,28 @@ public class KnowledgeMapServlet extends Servlet {
                 
                  case "Aig-UpdateKnowledgeMapNodes":
               //  knowledgeMapId:knowledgeMapId, data:nodes
-                String knowledgeMapId=request.getParameter("knowledgeMapId");
+                 knowledgeMapId=request.getParameter("knowledgeMapId");
                 data=request.getParameter("data");
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
                 result= service.UpdateKnowledgeMapNodes(userProfile.UserId,knowledgeMapId, data);
                 return result;
                 
-                
-                //Aig-UpdateKnowledgeMapNodes
+                case "Aig-ToggleOpenToSharing":
+                data=request.getParameter("data");
+                 g= new Gson();
+                StatusItem item= (StatusItem)g.fromJson(data, StatusItem.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ToggleOpenToSharing(userProfile.UserId,item);
+                return result;
+                          
+               case "Aig-ToggleOpenToImport":
+                 data=request.getParameter("data");
+                 g= new Gson();
+                StatusItem statusitem= (StatusItem)g.fromJson(data, StatusItem.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ToggleOpenToImport(userProfile.UserId,statusitem);
+                return result;
+              
                  
               /******************Old Service ************************/
                case  "new":
@@ -251,7 +268,7 @@ public class KnowledgeMapServlet extends Servlet {
               case "newconceptschema":
             
                   String conceptschema=request.getParameter("conceptschema");
-                  Gson g= new Gson();
+                   g= new Gson();
                   ConceptSchemaDescription desc=g.fromJson(conceptschema, ConceptSchemaDescription.class);
                   desc.UpdateIdentity(Identity.NewGiudIdentity());
                   conceptNode= new ConceptNode(userProfile.UserId,response); //get user from session

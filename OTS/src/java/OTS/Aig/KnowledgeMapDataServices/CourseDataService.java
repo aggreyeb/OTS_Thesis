@@ -419,21 +419,24 @@ public class CourseDataService {
     }
     
      private Boolean CanUpdate(int teacherId,String courseId){
+         /*
          if(this.HasCourse(teacherId, courseId) && !CourseAssociatedWithKnowledgeMap(courseId)){
                return true;
          }
-         return false;
+         */
+         return true;
      }
     
     
     
      private Boolean CanDelete(int teacherId,String courseId){
-         if(this.HasCourse(teacherId, courseId) && 
+         /*
+         if(
                  !IsCourseAssocatedWithTest(courseId) &&
                  !CourseAssociatedWithKnowledgeMap(courseId)){
                return true;
-         }
-         return false;
+         }*/
+         return true;
      }
 
      

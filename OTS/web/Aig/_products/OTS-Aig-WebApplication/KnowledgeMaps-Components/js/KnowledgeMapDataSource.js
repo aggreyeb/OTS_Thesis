@@ -11,7 +11,10 @@ OTS.AigKnowlegeMapDataSource=function(){
                     COPY:"Aig-Copy-KnoledgeMap",
                     IMPORTKnowledgeMaps:"Aig-IMPORTKnowledgeMaps",
                     UpdateKnowledgeMapNodes:"Aig-UpdateKnowledgeMapNodes",
-                    ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap"};
+                    ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap",
+                    ToggleOpenToSharing:"Aig-ToggleOpenToSharing",
+                    ToggleOpenToImport:"Aig-ToggleOpenToImport"
+                    };
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
           var callback=callbackFunction;
@@ -104,5 +107,31 @@ OTS.AigKnowlegeMapDataSource=function(){
                callback(msg);
         });
    };
+   
+    me.ToggleOpenToImport=function(knowledgeMapId,state,callbackFunction){
+          var callback=callbackFunction;
+          var data={
+              Id:knowledgeMapId,
+              Status:state
+          };
+       var record={action:actionType.ToggleOpenToImport,knowledgeMapId:knowledgeMapId, data:JSON.stringify(data)};
+        $.post("KnowledgeMapServlet",record,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+    };
+    
+     me.ToggleOpenToSharing=function(knowledgeMapId, state, callbackFunction){
+           var callback=callbackFunction;
+            var data={
+              Id:knowledgeMapId,
+              Status:state
+          };
+       var record={action:actionType.ToggleOpenToSharing,knowledgeMapId:knowledgeMapId, state:JSON.stringify(data)};
+        $.post("KnowledgeMapServlet",record,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+     };
 };
 

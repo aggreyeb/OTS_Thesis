@@ -34,9 +34,8 @@
                             <th></th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Open to teachers</th>
-                            <th style="display: none">Imported</th>
-                            <th style="display: none">Sharing</th>
+                            <th>Open to Import</th>
+                            <th >Open to Sharing</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,11 +43,10 @@
                         <tr>
                             
                             <td ><i data-bind="css:ImportedIcon"></i></td>
-                            <td style="width: 25%" data-bind="text:Name"></td>
-                            <td style="width: 35%" data-bind="text:Description"></td>
-                            <td><input    style="width: 10%;margin-left: 60px" type="checkbox" data-bind="checked:IsPublic,disable :true" /></td>
-                            <td  style="display: none"><input type="checkbox" data-bind="checked:IsImported" /></td>
-                            <td style="display: none" ><input type="checkbox" data-bind="checked:IsSharing"/></td>
+                            <td  data-bind="text:Name"></td>
+                            <td  data-bind="text:Description"></td>
+                            <td><input    style="width: 10%;margin-left: 60px" type="checkbox" data-bind="checked:IsPublic,event:{change: $parent.knowledgeMaplistViewActions.onOpenToImport}" /></td>
+                            <td ><input style="width: 10%;margin-left: 60px" type="checkbox" data-bind="checked:IsSharing,event:{change: $parent.knowledgeMaplistViewActions.onOpenToSharing}"/></td>
                             <td>
                                 <div class="btn-group">
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onRename}" href="#" title="Rename" ><i class="fa fa-pencil-square"></i></a>

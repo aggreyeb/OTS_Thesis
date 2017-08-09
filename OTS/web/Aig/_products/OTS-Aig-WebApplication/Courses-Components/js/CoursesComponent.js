@@ -58,6 +58,7 @@ OTS.AigCoursesComponent=function(){
          var items=JSON.parse(result.Content);
          viewModel.DataBind(items)
         ko.applyBindings(viewModel,$("#div-courses-content")[0]);
+        $(".chosen-select").chosen({no_results_text: "Oops, nothing found!",width: "95%"}); 
        });
      
        

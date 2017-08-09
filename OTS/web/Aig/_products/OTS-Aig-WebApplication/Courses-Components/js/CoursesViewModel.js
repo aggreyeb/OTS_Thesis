@@ -21,6 +21,9 @@ OTS.AigCourseViewModel=function(){
     me.Binded=false;
  
     me.Courses=ko.observableArray([]);
+    me.KnowledgeMaps=ko.observableArray([]);
+    me.SelectedKnowledgeMaps=ko.observableArray([]);
+    
     me.CourseForm={
     Id:ko.observable(""),
     Number:ko.observable(""),
@@ -188,6 +191,15 @@ OTS.AigCourseViewModel=function(){
            }
        }
    }; 
+   
+    me.PopulateKnowledgeMaps=function(items){
+       if(items===undefined ||items===null) return;
+       me.KnowledgeMaps([]);
+       for(var i=0;i<items.length;i++){
+            me.KnowledgeMaps.push(items[i]);
+       }
+   };
+   
    me.AddCourseComponent=function(component){
        courseComponent=component;
       me.CourseActions.CourseHeaderText("Add New Course");

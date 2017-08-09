@@ -26,6 +26,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     var knowledgeMapComponent;
     var knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("kn-tree",new OTS.Serialization());
     var dataStructureKnowledgeMap;
+   
     var modeType={
         New:"New",
         Edit:"Edit",
@@ -282,14 +283,17 @@ OTS.AigKnowledgeMapListManagementView=function(){
         
            $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);        
         },
-        onSelecteAllForImport:function(){
-            
+        onOpenToImport:function(data,e){
+           // if(binding) return;
+           var state=e.target.checked;
+           data.IsPublic=state;
+           alert(data.IsPublic);
         },
-        onImport:function(){
-            
-        },
-        onshowImportView:function(){
-           // alert("show import view");
+        onOpenToSharing:function(data,e){
+           //  if(binding) return;
+            var state=e.target.checked;
+            data.IsSharing=state;
+            alert(data.IsSharing);
         }
     };
     
@@ -530,23 +534,31 @@ OTS.AigKnowledgeMapListManagementView=function(){
        throw new Error("knowledgeMapManagememtComponent can not be null");
     };
     
+  
+    
+    
     me.DataBind=function(items){
+       
         me.KnowledgeMaps([]);
         if(items===undefined || items===null) return;
           if(items.length>0){
               for(var i=0;i<items.length;i++){
                if(items[i].IsImported){
-                     items[i].ImportedIcon=ko.observable(importedKnowldegeMapIcon);
+                    items[i].IsImported=ko.observable(items[i].IsImported); 
+                    items[i].ImportedIcon=ko.observable(importedKnowldegeMapIcon);
                }
                else{
                     items[i].ImportedIcon=ko.observable(nonImportedKnowldegeMapIcon); 
                }
-               /*
-                if(items[i].Concepts!==undefined && items[i].Concepts!==null){
-                    var trimedBackSpaces=items[i].Concepts.replace(/\"/g, "");
-                    items[i].Concepts=me.DecodeString(trimedBackSpaces);
-                }
-                */
+              
+               if(items[i].IsSharing){
+                    items[i].IsSharing=ko.observable(items[i].IsSharing); 
+                    items[i].ImportedIcon=ko.observable(importedKnowldegeMapIcon);
+               }
+               else{
+                    items[i].ImportedIcon=ko.observable(nonImportedKnowldegeMapIcon); 
+               }
+               
                 me.KnowledgeMaps.push(items[i]); 
                }
            }  
@@ -897,6 +909,6 @@ OTS.AigKnowledgeMapListManagementView=function(){
         }
     };
     
-  
+   
 };
 

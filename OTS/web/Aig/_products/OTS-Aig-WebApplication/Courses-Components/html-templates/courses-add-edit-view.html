@@ -25,9 +25,10 @@
         <div data-bind="visible:$root.CourseActions.enableAddKnowledgeMapView" style="margin-left: 20px;margin-right: 10px">
              <div class="input-group">
             <label>Select Knowledge Maps</label>
-            <select multiple class="form-control">
-                <option  value="1">Linear Data Structures</option>
-                <option value="2">None Linear Data Structures</option>
+           <select class="chosen-select form-control"  id="sel-knowledgeMaps"  multiple data-bind="options: KnowledgeMaps,
+                       optionsText: 'Name',
+                       value: 'Id',
+                       selectedOptions:SelectedKnowledgeMaps">  
             </select>
            </div>
         </div>

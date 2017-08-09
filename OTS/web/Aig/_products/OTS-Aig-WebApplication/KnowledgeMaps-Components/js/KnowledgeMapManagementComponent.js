@@ -168,8 +168,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
               var knowledgeMaps=[];
               var items=JSON.parse(result.Content);
                try{
+                
                knowlegemapListManagement.DataBind(items);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
+                
               }
               catch(error){
                   console.log(error);
@@ -266,6 +268,20 @@ OTS.AigKnowledgeMapManagementComponent=function(){
         });
    };
    
+   me.ToggleOpenToImport=function(knowledgeMapId,state,callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigKnowlegeMapDataSource();
+        datasource.ToggleOpenToImport(knowledgeMapId,state,function(msg){
+            callback(msg);
+        });
+   };
    
+   me.ToggleOpenToSharing=function(knowledgeMapId, state, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigKnowlegeMapDataSource();
+        datasource.ToggleOpenToImport(knowledgeMapId,state,function(msg){
+            callback(msg);
+        });
+   };
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();
