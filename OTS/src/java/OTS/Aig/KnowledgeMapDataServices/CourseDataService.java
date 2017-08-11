@@ -151,8 +151,9 @@ public class CourseDataService {
           String InsertTemplate="INSERT INTO course (Id,Number,Name,Createdby,Createdon) Values('%s','%s','%s',%d,'%s')";
           String sql= String.format(InsertTemplate, courseItem.Id,courseItem.Number,courseItem.Name,courseItem.Createdby,courseItem.Createdon);
           this.dataSource.ExecuteNonQuery(sql);
-             result.ActionResultType=ActionResultType.ok;
-             return result;
+            // result.ActionResultType=ActionResultType.ok;
+            // return result;
+            return this.ListTeacherCourseKnowledgeMap(courseItem.Createdby);
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;
@@ -172,8 +173,9 @@ public class CourseDataService {
           String InsertTemplate="UPDATE course SET Number='%s', Name='%s' WHERE Id='%s'";
           String sql= String.format(InsertTemplate,courseItem.Number,courseItem.Name,courseItem.Id);
           this.dataSource.ExecuteNonQuery(sql);
-             result.ActionResultType=ActionResultType.ok;
-             return result;
+             //result.ActionResultType=ActionResultType.ok;
+            // return result;
+              return this.ListTeacherCourseKnowledgeMap(userId);
             }
             else{
                 result.Message="You can only Update course you created";
@@ -197,6 +199,8 @@ public class CourseDataService {
           if(this.CanDelete(userId, id)){
           String sql="DELETE FROM course WHERE Id=" + "'" + id + "'";
           this.dataSource.ExecuteNonQuery(sql);
+          //Delete all assoc
+           DeleteAllAssociatedCourseKnowledgeMaps(userId,id);
              result.ActionResultType=ActionResultType.ok;
              return result;
              }
@@ -216,10 +220,85 @@ public class CourseDataService {
     
       public TransactionResult AssociateCourseKnowledgeMaps(int teacherId,String courseId,String knowledgeMaps){
        
-          return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
+           //Select all the knowledge map associates with a course
+           String kmSqlTemplate="Select * from courseknowledgemap where CourseId='%s'";
+           String sql=String.format(kmSqlTemplate, courseId);
+           List<CourseKnowledgeMapItem> courseknowledgeMaps= new  ArrayList();
+           this.dataSource.ExecuteCustomDataSet(sql, courseknowledgeMaps,CourseKnowledgeMapItem.class);
+           //if not knowledge map found associate the knowledge maps to the course
+           if(courseknowledgeMaps.isEmpty()){
+             return this.CreateNewCourseKnowledgeMap(teacherId, courseId, knowledgeMaps);
+           }
+           else{
+               return UpdateAssociatedCourseKnowledgeMaps(teacherId,courseknowledgeMaps,knowledgeMaps,courseId);
+           }
       }
       
+      public TransactionResult DeleteAllAssociatedCourseKnowledgeMaps(int teacherId,String courseId){
+       
+            TransactionResult result= new TransactionResult();
+     
+        try{ 
+          
+          String deleteTemplate="DELETE FROM  courseknowledgemap  Where CourseId='%s'";
+          String sql= String.format(deleteTemplate,courseId);
+           this.dataSource.ExecuteNonQuery(sql);
+             return this.ListTeacherCourseKnowledgeMap(teacherId);
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+        
+      }
       
+      //DeleteAllAssociatedCourseKnowledgeMaps
+      
+      public boolean ContainsCourseKnowledgeMaps(String knowlegeMapId,List<CourseKnowledgeMapItem> courseknowledgeMaps){
+         boolean found=false;
+         for(CourseKnowledgeMapItem s:courseknowledgeMaps){
+             if(s.KnowledgeMapId.equals(knowlegeMapId)){
+                 found=true;
+                 break;
+             }
+         }
+         return found;
+      }
+      
+      public TransactionResult UpdateAssociatedCourseKnowledgeMaps(int teacherId,List<CourseKnowledgeMapItem> courseknowledgeMaps,String knowledgeMaps,String courseId){
+             TransactionResult result= new TransactionResult();
+             
+         String deleteTemplate="DELETE FROM  courseknowledgemap  Where KnowledgeMapId='%s' AND  CourseId='%s'";
+         String InsertTemplate="INSERT INTO courseknowledgemap (CourseKnowledgeMapId,CourseId,KnowledgeMapId) Values('%s','%s','%s')";
+             
+         try{ 
+          //Current selected knowledgemaps
+          //Delete exiting  Course knowlege Map Association
+          this.DeleteAllAssociatedCourseKnowledgeMaps(teacherId, courseId);
+          String [] arrOfStr =knowledgeMaps.split(",");
+         for(String s:arrOfStr){
+               //insert
+               UUID uuid = UUID.randomUUID();
+               String Id= uuid.toString();
+               String sqlInsert= String.format(InsertTemplate,Id,courseId,s);
+               this.dataSource.ExecuteNonQuery(sqlInsert);
+          
+            }
+             return this.ListTeacherCourseKnowledgeMap(teacherId);
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+      }
    
       
        public TransactionResult DeleteCourseKnowledgeMaps(String id){
@@ -227,7 +306,7 @@ public class CourseDataService {
      
         try{ 
           
-          String InsertTemplate="DELETE FROM  teacher  Where Id='%s'";
+          String InsertTemplate="DELETE FROM  courseknowledgemap  Where Id='%s'";
           String sql= String.format(InsertTemplate,id);
            this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;
@@ -271,8 +350,9 @@ public class CourseDataService {
               String sql= String.format(InsertTemplate,Id,courseId,s);
               this.dataSource.ExecuteNonQuery(sql);
             }
-             result.ActionResultType=ActionResultType.ok;
-             return result;
+            // result.ActionResultType=ActionResultType.ok;
+            // return result;
+            return this.ListTeacherCourseKnowledgeMap(teacherId);
            }
            catch(Throwable ex){
                result.ActionResultType=ActionResultType.exception;

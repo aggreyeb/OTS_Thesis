@@ -46,6 +46,7 @@ OTS.AigCourseViewModel=function(){
             me.CourseActions.enableCancel(false);
             me.CourseActions.enableAddKnowledgeMapView(false);
             me.CourseActions.enableCourseName(true);
+            me.SelectedAction=me.ActionType.NEW;
         },
         validate:function(){
            var  isValid =true;
@@ -68,13 +69,20 @@ OTS.AigCourseViewModel=function(){
               me.SelectedAction=me.ActionType.NEW
              
          },
+         ResetKnowledgeMaps:function(){
+            $('#sel-knowledgeMaps option:selected').removeAttr('selected');
+            $('#sel-knowledgeMaps').trigger('chosen:updated');
+         },
          ResetForm:function(){
              me.CourseForm.Id("");
              me.CourseForm.CourseName("");
              me.CourseForm.Number("");
              me.CourseActions.enableCancel(false),
              me.CourseActions.CourseHeaderText("Add New Course");        
-             me.SelectedAction=me.ActionType.NEW
+             me.SelectedAction=me.ActionType.NEW;
+             $('#sel-knowledgeMaps option:selected').removeAttr('selected');
+             $('#sel-knowledgeMaps').trigger('chosen:updated');
+              
          },
         onEdit:function(data,e){
             me.SelectedCourse=data;
@@ -166,7 +174,9 @@ OTS.AigCourseViewModel=function(){
                  courseComponent.CreateNewCourse(course,function(e){
                  var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                    me.Courses.push(course); 
+                   // me.Courses.push(course);
+                   var items=JSON.parse(result.Content);
+                   me.DataBind(items);
                     me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
                    
@@ -189,12 +199,14 @@ OTS.AigCourseViewModel=function(){
                 courseComponent.UpdateCourse(updateableCourse,function(e){
                 var result=JSON.parse(e);
                 if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                    
-                     me.Courses.replace(me.SelectedCourse,updateableCourse);
+                       var items=JSON.parse(result.Content);
+                       me.DataBind(items);
+                    // me.Courses.replace(me.SelectedCourse,updateableCourse);
                     alertBox.ShowSuccessMessage("Course Updated");
                     me.CourseActions.ResetForm();
                     me.SelectedAction=me.ActionType.NEW;
                     me.CourseActions.CourseHeaderText("Add New Course");
+                    me.CourseActions.ResetForm();
                 }
                 else{
                      me.CourseActions.ResetForm();
@@ -218,8 +230,8 @@ OTS.AigCourseViewModel=function(){
                      courseComponent.AssociateCourseKnowledgeMaps(selectedCourseId,knowledgeMaps,function(e){
                           var result=JSON.parse(e);
                           if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                                //Bind Course Knowledgemaps
-                                  alert("Ok");
+                                 var items=JSON.parse(result.Content);
+                                 me.DataBind(items);
                           }
                        else{
                             alertBox.ShowErrorMessage(result.Message);
@@ -228,10 +240,25 @@ OTS.AigCourseViewModel=function(){
                      }); 
                   }
                   else{
-                     alertBox.ShowErrorMessage("Select Knowledge Maps \n\
-                       and try again"); 
+                    //Delete all associated knowledge maps
+                     courseComponent.DeleteAllAssociatedCourseKnowledgeMaps(selectedCourseId,function(e){
+                         var result=JSON.parse(e);
+                          if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                                 var items=JSON.parse(result.Content);
+                                 me.DataBind(items);
+                          }
+                       else{
+                            alertBox.ShowErrorMessage(result.Message);
+                        }
+                     });
                   }
-                  
+                   me.CourseActions.ResetKnowledgeMaps();
+                   me.CourseActions.enableCancel(false);
+                   me.CourseActions.enableAddKnowledgeMapView(false);
+                   me.CourseActions.enableCourseName(true);
+                   me.SelectedAction=me.ActionType.NEW;
+                   me.CourseActions.CourseHeaderText("Add New Course");
+                   me.CourseActions.ResetForm();
                   break;
                  
                 default:

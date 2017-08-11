@@ -133,6 +133,14 @@ OTS.AigCoursesComponent=function(){
        });
     }
     
+     me.DeleteAllAssociatedCourseKnowledgeMaps=function(courseId,callbackFunction){
+          var dataSource=new OTS.AigCourseDataSource();
+       var callback=callbackFunction;
+       dataSource.DeleteAllAssociatedCourseKnowledgeMaps(courseId,function(msg){
+           if(callback!==undefined && callback!==null)
+               callback(msg);
+       });
+    }
 };
 OTS.AigCoursesComponent.prototype=  new Aig.IInitializable();
 OTS.AigCoursesComponent.prototype.constructor= OTS.AigCoursesComponent;

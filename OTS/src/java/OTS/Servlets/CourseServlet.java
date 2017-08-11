@@ -154,6 +154,15 @@ public class CourseServlet extends Servlet {
                      service= new CourseDataService(new MySqlDataSource());
                       return service.AssociateCourseKnowledgeMaps(teacherId, teacherCourseId, knowledgeMaps);    
               
+                   case "Aig-DeleteAllAssociatedCourseKnowledgeMaps" :
+                       String  currentCourseId=request.getParameter("CourseId");
+                       teacherId=userProfile.UserId;
+                   
+                     service= new CourseDataService(new MySqlDataSource());
+                      return service.DeleteAllAssociatedCourseKnowledgeMaps(teacherId, currentCourseId);    
+              
+                      //Aig-DeleteAllAssociatedCourseKnowledgeMaps
+                      
                       case "Aig-ListTeacherCourseKnowledgeMap":
                      teacherId=userProfile.UserId;
                      service= new CourseDataService(new MySqlDataSource());

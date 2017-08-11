@@ -9,7 +9,8 @@ OTS.AigCourseDataSource=function(){
         DeleteCourse:"Aig-DeleteCourse",
         ListTeacherCourseKnowledgeMap:"Aig-ListTeacherCourseKnowledgeMap",
         ListTeacherKnowledgeMaps:"Aig-ListTeacherKnowledgeMaps",
-        AssociateCourseKnowledgeMaps:"Aig-AssociateCourseKnowledgeMaps"
+        AssociateCourseKnowledgeMaps:"Aig-AssociateCourseKnowledgeMaps",
+        DeleteAllAssociatedCourseKnowledgeMaps:"Aig-DeleteAllAssociatedCourseKnowledgeMaps"
     };
    me.ListAllCourses=function(callbackFunction){
        var callback=callbackFunction;
@@ -78,6 +79,14 @@ OTS.AigCourseDataSource=function(){
        });
    };
    
+   
+    me.DeleteAllAssociatedCourseKnowledgeMaps=function(courseId, callbackFunction){
+          var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.DeleteAllAssociatedCourseKnowledgeMaps,CourseId:courseId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+   };
 };
 
 
