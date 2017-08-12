@@ -43,6 +43,7 @@ OTS.AigStudentViewModel=function(){
     
     me.Courses=ko.observableArray([]);
     me.SelectedCourses=ko.observableArray([]);
+    me.BatchEmails=ko.observable("");
     
     var validateEmail=function(mail)   
      {  
@@ -105,6 +106,7 @@ OTS.AigStudentViewModel=function(){
                  me.Actions.enableEnrollCourses(false);
                  me.Actions.formHeading("Create Batch Student Accounts");
                  me.Actions.enableCancel(true);
+                 me.SelectedAction= me.ActionType.BATCHMODE;
              }
              else{
                  me.Actions.enableSingleMode(true);
@@ -142,6 +144,7 @@ OTS.AigStudentViewModel=function(){
            me.Actions.enableSingleMode(true);
            me.Actions.enableBatchMode(false);
            me.Actions.readonlyEmail(true);
+           me.BatchEmails=ko.observable("");
            $("#chk-batch").prop('checked',false);
             me.SelectedAction=me.ActionType.NEW;
              $('#sel-courses option:selected').removeAttr('selected');
@@ -210,6 +213,7 @@ OTS.AigStudentViewModel=function(){
             
         },
         onSave:function(data,e){
+           if(me.SelectedAction ===!me.ActionType.BATCHMODE){
             if(me.FirstName()==="" ){
                  alertBox.ShowErrorMessage("First Name required");  
                 return ;
@@ -227,8 +231,8 @@ OTS.AigStudentViewModel=function(){
             if(!validateEmail(me.Email())){
                alertBox.ShowErrorMessage("The Email entered is not valid");  
                 return ;
-            }
-            
+             }
+           }
             switch(me.SelectedAction){
                 case me.ActionType.NEW:
                     var studentItem=new OTS.StudentItem();
@@ -316,7 +320,27 @@ OTS.AigStudentViewModel=function(){
                    break;
                    
                   case me.ActionType.BATCHMODE:
-                  
+                   var emails=me.BatchEmails();
+                   if(emails=== undefined || emails ===null || emails===""){
+                       alertBox.ShowErrorMessage("Please enter the emails and try again"); 
+                   }
+                   else{
+                      var emailItems= emails.split(",");
+                      //CreateBatchStudents
+                      studentComponent.CreateBatchStudents(emails,function(e){
+                               var result=JSON.parse(e);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                        var contents=JSON.parse(result.Content);
+                         me.DataBind(contents);
+                         me.Actions.ResetForm();
+                         alertBox.ShowSuccessMessage("Accounts Created");
+                      }
+                     else{
+                         alertBox.ShowErrorMessage(result.Message);  
+                        }
+                      });
+                   }
+                   
                   break;
                 default:
                     break;

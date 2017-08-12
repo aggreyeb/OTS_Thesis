@@ -12,7 +12,8 @@ OTS.AigStudentDataSource=function(){
         ResetPassword:"Aig-ResetPassword",
         ListTeacherCourses:"Aig-ListTeacherCourses",
         EnrollStudentCourses:"Aig-EnrollStudentCourses",
-        DeleteAllStudentEnrolledCourses:"Aig-DeleteAllStudentEnrolledCourses"
+        DeleteAllStudentEnrolledCourses:"Aig-DeleteAllStudentEnrolledCourses",
+        CreateBatchStudents:"Aig-CreateBatchStudents"
     };
     
      me.ListAllStudents=function(callbackFunction){
@@ -83,6 +84,14 @@ OTS.AigStudentDataSource=function(){
     me.DeleteAllStudentEnrolledCourses=function(studentId,callbackFunction){
         var callback=callbackFunction;
        $.post("UserManagementServlet",{action:actionType.DeleteAllStudentEnrolledCourses,studentId:studentId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   me.CreateBatchStudents=function(emails,callbackFunction){
+        var callback=callbackFunction;
+       $.post("UserManagementServlet",{action:actionType.CreateBatchStudents,emails:emails},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
      });

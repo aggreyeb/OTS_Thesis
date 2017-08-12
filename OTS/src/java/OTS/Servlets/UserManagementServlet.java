@@ -138,8 +138,12 @@ public class UserManagementServlet extends Servlet {
                  service= new StudentDataService(new MySqlDataSource());
                  return service.DeleteAllStudentEnrolledCourses(id);
                 
-                 
-               //DeleteAllStudentEnrolledCourses
+                 //Aig-CreateBatchStudents
+                 case  "Aig-CreateBatchStudents":
+                 String  emails   = request.getParameter("emails");
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.CreateBatchStudent(emails);
+            
              //**********Old Methods*************
              case  "SaveUser":
                 data=  request.getParameter("data");

@@ -57,13 +57,13 @@
     </div>
     <div class="row">
         <div style="margin: 20px" data-bind="visible:Actions.enableBatchMode" id="pan-batch-student-accounts">
-        <div>
+            <div style="display: none">
             <label>Names (e.g) John Smith;Jenny Lee</label>
             <input style="width: 100%" type="text" class="form-control"/>
         </div>
          <div>
             <label>Email Addresses (e.g) js@live.ca;jl@live.ca</label>
-            <input style="width: 100%" type="text" class="form-control"/>
+            <input data-bind="value:BatchEmails" style="width: 100%" type="text" class="form-control"/>
         </div>
       </div>
     </div>

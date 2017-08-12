@@ -132,6 +132,13 @@ OTS.AigStudentAccountComponent=function(){
         });
    };
    
+    me.CreateBatchStudents=function(emails,callbackFunction){
+       var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.CreateBatchStudents(emails,function(msg){
+            callback(msg);
+        });
+   };
    //Aig-DeleteAllStudentEnrolledCourses
 };
 OTS.AigStudentAccountComponent.prototype=  new Aig.IInitializable();

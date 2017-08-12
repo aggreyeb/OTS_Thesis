@@ -27,6 +27,32 @@ public class StudentDataService {
         users= new OTS.ObjectModels.Users(response,dataSource);
     }
     
+      public TransactionResult  CreateBatchStudent(String emails){
+      TransactionResult result= new TransactionResult();
+        try{ 
+           String[] emailArray=emails.split(",");
+           for(String e:emailArray){
+             StudentElement student= new StudentElement();
+              student.Email=e;
+              student.FirstName="{First Name}";
+              student.LastName="{Last Name}";
+              student.Phone="{Phone}";
+              student.UserTypeId=2;
+               this.CreateNewStudent(student);
+           }
+             return ListStudentCourses();
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
      public TransactionResult  ListStudentCourses(){
       TransactionResult result= new TransactionResult();
         try{ 
