@@ -99,4 +99,7 @@ public class Response extends Message  {
     public String CurrentId(){
         return String.valueOf(this.id);
     }
+    
+    public String Message;
+    public Boolean HasErrors;
 }

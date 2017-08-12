@@ -144,7 +144,7 @@ OTS.AigStudentViewModel=function(){
            me.Actions.enableSingleMode(true);
            me.Actions.enableBatchMode(false);
            me.Actions.readonlyEmail(true);
-           me.BatchEmails=ko.observable("");
+           me.BatchEmails("");
            $("#chk-batch").prop('checked',false);
             me.SelectedAction=me.ActionType.NEW;
              $('#sel-courses option:selected').removeAttr('selected');
@@ -213,7 +213,8 @@ OTS.AigStudentViewModel=function(){
             
         },
         onSave:function(data,e){
-           if(me.SelectedAction ===!me.ActionType.BATCHMODE){
+           if(me.SelectedAction ===me.ActionType.NEW ||
+                   me.SelectedAction ===me.ActionType.EDIT){
             if(me.FirstName()==="" ){
                  alertBox.ShowErrorMessage("First Name required");  
                 return ;
@@ -249,10 +250,10 @@ OTS.AigStudentViewModel=function(){
                         var contents=JSON.parse(result.Content);
                          me.DataBind(contents);
                           me.Actions.ResetForm();
-                         alertBox.ShowSuccessMessage("Student Created");
+                         alertBox.ShowSuccessMessage("Student Account Created");
                     }
                     else{
-                         alertBox.ShowErrorMessage("Student Creation Failed");  
+                         alertBox.ShowErrorMessage(result.Message);  
                     }
                      me.SelectedAction=me.ActionType.NEW
                   });
@@ -274,10 +275,10 @@ OTS.AigStudentViewModel=function(){
                           var contents=JSON.parse(result.Content);
                           me.DataBind(contents);
                           me.Actions.ResetForm();
-                         alertBox.ShowSuccessMessage("Student Record Updated");
+                         alertBox.ShowSuccessMessage("Student Account Updated");
                     }
                     else{
-                         alertBox.ShowErrorMessage("Student Record Updated Failed");  
+                         alertBox.ShowErrorMessage(result.Message);  
                     }
                      me.SelectedAction=me.ActionType.NEW
                   });
@@ -296,6 +297,7 @@ OTS.AigStudentViewModel=function(){
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         var contents=JSON.parse(result.Content);
                          me.DataBind(contents);
+                         me.Actions.ResetForm();
                          alertBox.ShowSuccessMessage("Student enrolled in courses");
                       }
                      else{
@@ -325,22 +327,55 @@ OTS.AigStudentViewModel=function(){
                        alertBox.ShowErrorMessage("Please enter the emails and try again"); 
                    }
                    else{
-                      var emailItems= emails.split(",");
-                      //CreateBatchStudents
-                      studentComponent.CreateBatchStudents(emails,function(e){
+                      validEmails=[];
+                      invalidEmails=[];
+                      
+                      var emailItems= emails.split(";");
+                      for(var i=0;i<emailItems.length;i++){
+                          if(validateEmail(emailItems[i].trim())){
+                              validEmails.push(emailItems[i].trim());
+                          }
+                          else{
+                              invalidEmails.push(emailItems[i]);
+                          }
+                      }
+                  if(validEmails.length>0){
+                      studentComponent.CreateBatchStudents(validEmails.join(","),function(e){
                                var result=JSON.parse(e);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         var contents=JSON.parse(result.Content);
                          me.DataBind(contents);
                          me.Actions.ResetForm();
-                         alertBox.ShowSuccessMessage("Accounts Created");
+                         if(invalidEmails.length===0){
+                            if(result.Message===undefined){
+                                result.Message="Student(s) Accounts Created";
+                            }
+                            alertBox.ShowSuccessMessage(result.Message);
+                            return;
+                         }
+                         alertBox.ShowSuccessMessage("Accounts Created for valid\n\
+                          emails. Unable to create accounts for invalid emails "
+                                      + invalidEmails.join(",") );
                       }
                      else{
+                         if(invalidEmails.length>0){
+                             alertBox.ShowErrorMessage(result.Message +
+                                     ". Unable to create accounts for invalid emails "
+                                      + invalidEmails.join(","));
+                             return ;
+                         }
                          alertBox.ShowErrorMessage(result.Message);  
                         }
                       });
-                   }
-                   
+                      }//Has valid emails
+                      else{
+                         //Not valid emals
+                      alertBox.ShowErrorMessage("The eamils \n\
+                        addresss are not valid.Enter valid emails \n\
+                        and try again"); 
+                      } 
+                  }
+                  
                   break;
                 default:
                     break;

@@ -29,6 +29,8 @@ public class StudentDataService {
     
       public TransactionResult  CreateBatchStudent(String emails){
       TransactionResult result= new TransactionResult();
+       String messages="";
+       Boolean hasError=false;
         try{ 
            String[] emailArray=emails.split(",");
            for(String e:emailArray){
@@ -38,11 +40,27 @@ public class StudentDataService {
               student.LastName="{Last Name}";
               student.Phone="{Phone}";
               student.UserTypeId=2;
-               this.CreateNewStudent(student);
-           }
-             return ListStudentCourses();
+               TransactionResult result1= this.CreateNewStudent(student);
+                if(result1.ActionResultType==ActionResultType.ok){
+                    
+                }
+                else{
+                    hasError=true;
+                    messages+=result1.Message;
+                }
+              }
+               result= ListStudentCourses(); 
+               if(hasError){
+                   if(messages.indexOf(",")>0){
+                       messages=messages.substring(0,messages.length()-1);
+                   }
+                   result.ActionResultType=ActionResultType.fail;
+                   result.Message=messages;
+               }
+               return result;
            }
            catch(Throwable ex){
+               
                result.ActionResultType=ActionResultType.exception;
                result.Exception=ex.toString();
                return result;
@@ -112,7 +130,8 @@ public class StudentDataService {
         try{ 
          String[] courseArray=courses.split(",");
          String insertTemplate="Insert into studentcourse (StudentCourseId,StudentId,CourseId) values('%s',%d,'%s')";
-         
+          //Delete all before insert
+          this.DeleteAllStudentEnrolledCourses(StudentId);
            for(String s:courseArray){
                UUID uuid = UUID.randomUUID();
                String studentCourseId= uuid.toString();
@@ -181,12 +200,12 @@ public class StudentDataService {
         item.Password=studentElement.Password;
         users.Save(item);
         if(response.Status().equals("ok")){
-           // result.ActionResultType=ActionResultType.ok;
-           // result.CurrentId=response.CurrentId();
-           // return result;
-          // return ListAllStudents();
-          return ListStudentCourses();
+         result= ListStudentCourses();
+         result.Message=response.Message;
+         result.ActionResultType=ActionResultType.ok;
+          return result;
         }
+        result.Message=response.Message;
         result.ActionResultType=ActionResultType.fail;
         return result;
     }    
@@ -203,12 +222,10 @@ public class StudentDataService {
         //item.Password=studentElement.Password;
         users.Save(item);
         if(response.Status().equals("ok")){
-            //result.ActionResultType=ActionResultType.ok;
-           // result.CurrentId=response.CurrentId();
-           // return result;
-           // return ListAllStudents();
+          
             return ListStudentCourses();
         }
+        result.Message=response.Message;
         result.ActionResultType=ActionResultType.fail;
         return result;
     }
@@ -217,11 +234,10 @@ public class StudentDataService {
        TransactionResult result= new TransactionResult();
         users.Delete(id);
         if(response.Status().equals("ok")){
-           // result.ActionResultType=ActionResultType.ok;
-           // result.CurrentId=response.CurrentId();
-           // return result;
+          
             return ListStudentCourses();
         }
+        result.Message=response.Message;
         result.ActionResultType=ActionResultType.fail;
         return result;
     }   

@@ -163,11 +163,18 @@ public class Users {
     
            if(userAccount.Id<=0){
               if(!this.HasEmail(userAccount)){
-               this.CreateUser(userAccount);
+                 this.CreateUser(userAccount);  
+                response.ChangeStatus("ok");
+                response.HasErrors=true;
+                response.Message="Student Account Created";
               }
               else{
+                userAccount.EmailExistError=true;
+                userAccount.DuplicateMessage="Email already exist(" + userAccount.Email + ")";
                 response.ChangeContent("");
-                response.ChangeStatus(":Email already exist");
+                response.ChangeStatus("fail");
+                response.HasErrors=true;
+                response.Message="Email already exist(" + userAccount.Email + ")";
               }
           }
           else{
@@ -176,12 +183,25 @@ public class Users {
     }
     
     public void SaveBatch(UserAccountItem[] items){
-       try{
+        Boolean EmailExist=false;
+        String emails="";
+        try{
             for(UserAccountItem a:items){
-            this.Save(a);
+             this.Save(a);
+             if(a.EmailExistError){
+                 EmailExist=true;
+                 emails+=a.Email+ ",";
+             }
           }
         response.ChangeContent("");
         response.ChangeStatus("ok");
+        if(EmailExist){
+            if(emails.lastIndexOf(",")>0){
+                emails.substring(0,emails.length()-1);
+            } 
+            response.Message="Email(s) already exist(" + emails + ")"  ;
+        }
+       
        }
        catch(Throwable ex){
         response.UpdateID(0);
