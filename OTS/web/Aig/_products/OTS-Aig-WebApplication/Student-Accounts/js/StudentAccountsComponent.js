@@ -55,6 +55,7 @@ OTS.AigStudentAccountComponent=function(){
               viewModel.DataBind(items);
         });
           ko.applyBindings(viewModel,$("#div-studentAccount-content")[0]);
+          $(".chosen-select").chosen({width:'100%'});
      };
     me.UnInitialize=function(){
         initialized=false;
@@ -107,6 +108,31 @@ OTS.AigStudentAccountComponent=function(){
         });
    };
    
+    me.ListTeacherCourses=function(callbackFunction){
+       var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.ListTeacherCourses(function(msg){
+            callback(msg);
+        });
+   };
+   
+    me.EnrollStudentCourses=function(studentId,courses,callbackFunction){
+       var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.EnrollStudentCourses(studentId,courses,function(msg){
+            callback(msg);
+        });
+   };
+   
+   me.DeleteAllStudentEnrolledCourses=function(studentId,callbackFunction){
+       var callback=callbackFunction;
+         var dataSource= new OTS.AigStudentDataSource();
+        dataSource.DeleteAllStudentEnrolledCourses(studentId,function(msg){
+            callback(msg);
+        });
+   };
+   
+   //Aig-DeleteAllStudentEnrolledCourses
 };
 OTS.AigStudentAccountComponent.prototype=  new Aig.IInitializable();
 OTS.AigStudentAccountComponent.prototype.constructor= OTS.AigStudentAccountComponent;

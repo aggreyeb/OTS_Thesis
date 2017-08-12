@@ -292,9 +292,10 @@ public class Users {
          ua.setUserName(userAccount.Email);
          
          String password=randomString(CHARSET_AZ_09,5);
-         userAccount.Password=password;
-         ua.setPassword(password);
+         userAccount.Password= userAccount.Email;//password;
+         ua.setPassword(userAccount.Email);
          ua.setIsLocked(Boolean.FALSE);
+         
          this.dataSource.Save(ua);
          
         Usertype ut= (Usertype)dataSource.Find(Usertype.class, new Integer(userAccount.UserTypeId));

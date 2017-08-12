@@ -9,9 +9,10 @@ OTS.AigStudentDataSource=function(){
         CreateNewStudent:"Aig-CreateNewStudent",
         UpdateStudent:"Aig-UpdateStudent",
         DeleteStudent:"Aig-DeleteStudent",
-        ResetPassword:"Aig-ResetPassword"
-        
-        
+        ResetPassword:"Aig-ResetPassword",
+        ListTeacherCourses:"Aig-ListTeacherCourses",
+        EnrollStudentCourses:"Aig-EnrollStudentCourses",
+        DeleteAllStudentEnrolledCourses:"Aig-DeleteAllStudentEnrolledCourses"
     };
     
      me.ListAllStudents=function(callbackFunction){
@@ -61,6 +62,32 @@ OTS.AigStudentDataSource=function(){
                 callback(msg);
      });
    };
+   
+    me.ListTeacherCourses=function(callbackFunction){
+        var callback=callbackFunction;
+       $.post("CourseServlet",{action:actionType.ListTeacherCourses},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+   //EnrollStudentCourses
+    me.EnrollStudentCourses=function(studentId,courses,callbackFunction){
+        var callback=callbackFunction;
+       $.post("UserManagementServlet",{action:actionType.EnrollStudentCourses,studentId:studentId,courses:courses},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
+    me.DeleteAllStudentEnrolledCourses=function(studentId,callbackFunction){
+        var callback=callbackFunction;
+       $.post("UserManagementServlet",{action:actionType.DeleteAllStudentEnrolledCourses,studentId:studentId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+     });
+   };
+   
 };
 
 

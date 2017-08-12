@@ -23,7 +23,9 @@ OTS.AigStudentViewModel=function(){
        NEW:"NEW" ,
        EDIT:"EDIT",
        DELETE:"DELETE",
-       RESETPASSWORD:"RESET PASSWORD"
+       RESETPASSWORD:"RESET PASSWORD",
+       ENROLLCOURSES:"ENROLLCOURSE",
+       BATCHMODE:"BATCHMODE"
     };
     me.SelectedAction="";
     me.Binded=false;
@@ -39,6 +41,9 @@ OTS.AigStudentViewModel=function(){
     me.Students=ko.observableArray([]);
     me.SelectedStudent={};
     
+    me.Courses=ko.observableArray([]);
+    me.SelectedCourses=ko.observableArray([]);
+    
     var validateEmail=function(mail)   
      {  
      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))  
@@ -53,6 +58,74 @@ OTS.AigStudentViewModel=function(){
          formHeading:ko.observable("Create new Student Account"),
          emailVisible:ko.observable(true),
          enableCancel:ko.observable(false),
+         enableBatchMode:ko.observable(false),
+         enableEnrollCourses:ko.observable(false),
+         enableSingleMode:ko.observable(true),
+         readonlyFirstName:ko.observable(true),
+         readonlyLastName:ko.observable(true),
+         readonlyPhone:ko.observable(true),
+         readonlyEmail:ko.observable(true),
+         onEnrollCourses:function(data,e){
+             me.SelectedStudent=data;
+           studentComponent.ListTeacherCourses(function(e){
+                var result=JSON.parse(e);
+           if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var items=JSON.parse(result.Content);  
+               me.BindCourses(items);
+             me.Actions.enableSingleMode(true);
+             me.Actions.enableEnrollCourses(true);
+             me.Actions.enableBatchMode(false);
+             me.Actions.EnableSingleModeViewReadonly();
+            
+           me.FirstName(data.FirstName);
+           me.LastName(data.LastName);
+           me.Email(data.Email||data.UserName);
+           me.Phone(data.Phone);
+           me.Password(data.Password);
+           me.UserName(data.UserName);
+           me.Actions.emailVisible(true);
+           me.Actions.enableCancel(true);
+           me.Actions.formHeading("Enroll Student in Courses");
+           me.SelectedAction=me.ActionType.ENROLLCOURSES;
+            $("#chk-batch").prop('checked',false);
+            var courses=me.SelectedStudent.Courses;
+            me.SelectStudentEnrolledCourses(courses);
+           }
+            else{
+             alertBox.ShowErrorMessage(result.Message);  
+            }
+           });
+           
+         },
+         onBatchMode:function(data,e){
+             var checked=e.target.checked;
+             if(checked){
+                 me.Actions.enableBatchMode(true);
+                 me.Actions.enableSingleMode(false);
+                 me.Actions.enableEnrollCourses(false);
+                 me.Actions.formHeading("Create Batch Student Accounts");
+                 me.Actions.enableCancel(true);
+             }
+             else{
+                 me.Actions.enableSingleMode(true);
+                 me.Actions.enableBatchMode(false);
+                 me.Actions.enableEnrollCourses(false); 
+                 me.Actions.formHeading("Create new Student Account");
+                 me.Actions.DisEnableSingleModeViewReadonly();
+             }
+         },
+         EnableSingleModeViewReadonly:function(){
+             me.Actions.readonlyFirstName(false);
+             me.Actions.readonlyLastName(false);
+             me.Actions.readonlyPhone(false);
+             me.Actions.readonlyEmail(false)
+         },
+         DisEnableSingleModeViewReadonly:function(){
+             me.Actions.readonlyFirstName(true);
+             me.Actions.readonlyLastName(true);
+             me.Actions.readonlyPhone(true);
+             me.Actions.readonlyEmail(false)//email always off
+         },
          ResetForm:function(){
            me.FirstName("");
            me.LastName("");
@@ -61,8 +134,18 @@ OTS.AigStudentViewModel=function(){
            me.Password("");
            me.UserName("");
            me.UserType(OTS.UserType.Student);
-           me.Actions.formHeading("Create new Student Accoun");
+           me.Actions.formHeading("Create new Student Account");
            me.Actions.enableCancel(false);
+           me.Actions.enableBatchMode(false);
+           me.Actions.enableEnrollCourses(false);
+           me.Actions.DisEnableSingleModeViewReadonly();
+           me.Actions.enableSingleMode(true);
+           me.Actions.enableBatchMode(false);
+           me.Actions.readonlyEmail(true);
+           $("#chk-batch").prop('checked',false);
+            me.SelectedAction=me.ActionType.NEW;
+             $('#sel-courses option:selected').removeAttr('selected');
+             $('#sel-courses').trigger('chosen:updated');
           },    
         onCreateNew:function(){
             me.Actions.ResetForm();
@@ -77,10 +160,13 @@ OTS.AigStudentViewModel=function(){
            me.Phone(data.Phone);
            me.Password(data.Password);
            me.UserName(data.UserName);
-           me.Actions.emailVisible(false);
+           me.Actions.emailVisible(true);
            me.Actions.enableCancel(true);
-           me.Actions.formHeading("Edit Student Account")
-           me.SelectedAction=me.ActionType.EDIT
+            me.Actions.readonlyEmail(false);
+           me.Actions.formHeading("Edit Student Account");
+           me.SelectedAction=me.ActionType.EDIT;
+           me.Actions.DisEnableSingleModeViewReadonly();
+           me.Actions.enableEnrollCourses(false);
         },
         onCancelEditStudent:function(){
              me.SelectedStudent=null;
@@ -192,28 +278,111 @@ OTS.AigStudentViewModel=function(){
                      me.SelectedAction=me.ActionType.NEW
                   });
                  break;
-                 
+                   case me.ActionType.ENROLLCOURSES:
+                    var studentId=me.SelectedStudent.Id;
+                    var selectedCourses=ko.toJS(me.SelectedCourses());
+                    if(selectedCourses.length>0){
+                      var courses=[];
+                      for(var i=0;i<selectedCourses.length;i++){
+                          courses.push(selectedCourses[i].Id);
+                      }
+                      var courseList=courses.join(",");
+                      studentComponent.EnrollStudentCourses(studentId,courseList,function(e){
+                          var result=JSON.parse(e);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                        var contents=JSON.parse(result.Content);
+                         me.DataBind(contents);
+                         alertBox.ShowSuccessMessage("Student enrolled in courses");
+                      }
+                     else{
+                         alertBox.ShowErrorMessage(result.Message);  
+                        }
+                      });
+                     }
+                     else{
+                         studentComponent.DeleteAllStudentEnrolledCourses(studentId,function(e){
+                          var result=JSON.parse(e);
+                    if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                        var contents=JSON.parse(result.Content);
+                         me.DataBind(contents);
+                        // alertBox.ShowSuccessMessage("Student enrolled in courses");
+                        me.Actions.ResetForm();
+                      }
+                     else{
+                         alertBox.ShowErrorMessage(result.Message);  
+                        }
+                      }); 
+                     }
+                   break;
+                   
+                  case me.ActionType.BATCHMODE:
+                  
+                  break;
                 default:
                     break;
             }
         }
     };
+    
+    me.SelectStudentEnrolledCourses=function(courses){
+       
+        if(courses!==undefined &&
+           courses.length>0){
+             //me.SelectedCourses([]);           
+         //  for(var i=0;i<courses.length;i++){
+               // me.SelectedCourses.push(courses[i]);
+          // }
+           var items=$('#sel-courses option');
+             for(var i=0;i<items.length;i++){
+             me.PopulateSelectedCourses(courses,items[i]);
+           }
+         
+           $(".chosen-select").trigger("chosen:updated");
+       }
+    };
+     me.PopulateSelectedCourses=function(courses,element){
+         for(var i=0;i<courses.length;i++){
+                 if(courses[i].CourseName===element.innerHTML){
+                      $(element).prop('selected', true); 
+                 }
+             }
+     };
+    
+   me.BindCourses=function(items) {
+       if(items===undefined || items===null)return;
+        me.Courses([]);
+        me.SelectedCourses([]);
+       for(var i=0;i<items.length;i++){
+           me.Courses.push(items[i]);
+       }
+      $(".chosen-select").trigger("chosen:updated");
+   };
    me.DataBind=function(items){
        if(items===undefined || items===null)return;
        me.Students([]);
        if(items.length){
            for(var i=0;i<items.length;i++){
+               items[i].FullName=items[i].FirstName + " " + items[i].LastName;
                if(!items[i].Phone){
                   items[i].Phone="" ;
                }
                if(!items[i].Email){
-                  items[i].Email="" ;
+                  items[i].Email="" || items[i].UserName ;
                }
                me.Students.push(items[i]);
            }
        }
        
         me.SelectedAction=me.ActionType.NEW;
+        me.Actions.enableSingleMode(true);
+        me.Actions.enableBatchMode(false);
+        me.Actions.enableEnrollCourses(false);
+        me.Actions.enableCancel(false);
+        me.Actions.formHeading("Create new Student Account")
+        me.Actions.DisEnableSingleModeViewReadonly();
+        me.Actions.readonlyEmail(true);
+        me.Courses.push([]);
+        $(".chosen-select").trigger("chosen:updated");
    }; 
    
    me.AddStudentConponent=function(component){

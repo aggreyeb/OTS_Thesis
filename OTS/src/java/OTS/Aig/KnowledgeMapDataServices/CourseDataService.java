@@ -28,7 +28,6 @@ public class CourseDataService {
     
     
    
-   
      public TransactionResult ListTeacherKnowledgeMaps(int teacherid){
        TransactionResult result= new TransactionResult();
         try{ 

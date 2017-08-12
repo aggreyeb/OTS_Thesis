@@ -5,6 +5,9 @@
  */
 package OTS.Aig.KnowledgeMapDataServices;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author MEA
@@ -19,4 +22,11 @@ public class StudentElement {
   public  int AccountId;
   public  String UserName;
   public  String Password;
+  public List<StudentCourseElement> Courses;
+
+    public StudentElement() {
+       Courses= new ArrayList();
+    }
+  
+  
 }

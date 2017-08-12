@@ -10,21 +10,26 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                     <th>First Name</th>
-                     <th>Last Name</th>
-                     <th>Phone Number</th>
-                     <th class="hide">Email Address</th>
+                     <th>Name</th>
+                     <th>Phone </th>
+                     <th>Email </th>
+                     <th>Enrolled Courses </th>
                       <th>Actions</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach:Students">
                 <tr>
-                    <td data-bind="text:FirstName"> </td>
-                    <td data-bind="text:LastName"> </td>    
+                    <td data-bind="text:FullName"> </td>    
                     <td data-bind="text:Phone"></td>
-                    <td class="hide" data-bind="text:Email"></td>  
-                    <td style="width: 10%"> 
+                    <td data-bind="text:Email"></td>
+                    <td>
+                         <div data-bind="foreach:Courses">
+                            <span class="label label-default" data-bind="text:CourseName"></span>
+                        </div>
+                    </td> 
+                    <td> 
                         <a data-bind="event:{click:$parent.Actions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
+                        <a data-bind="event:{click:$parent.Actions.onEnrollCourses}" title="Enroll Student in Course" href="#"><span class="label label-default">Enroll Course(s)</span></a>
                        <!-- <a data-bind="event:{click:$parent.Actions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>-->
                        <!-- <a data-bind="event:{click:$parent.Actions.onResetPassword}" title="Reset Password" href="#"><i class="fa fa-undo"></i></a>-->
                     </td>  

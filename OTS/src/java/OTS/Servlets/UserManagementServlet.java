@@ -124,8 +124,22 @@ public class UserManagementServlet extends Servlet {
                 
                  case  "Aig-ListAllStudents":
                 service= new StudentDataService(new MySqlDataSource());
-                return service.ListAllStudents();
+                 return service.ListStudentCourses();
+              //  return service.ListAllStudents();
                 
+                 case  "Aig-EnrollStudentCourses":
+                 id   = Integer.parseInt(request.getParameter("studentId"));
+                 String courses=  request.getParameter("courses");
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.EnrollStudentCourses(id, courses);
+                
+                 case  "Aig-DeleteAllStudentEnrolledCourses":
+                 id   = Integer.parseInt(request.getParameter("studentId"));
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.DeleteAllStudentEnrolledCourses(id);
+                
+                 
+               //DeleteAllStudentEnrolledCourses
              //**********Old Methods*************
              case  "SaveUser":
                 data=  request.getParameter("data");

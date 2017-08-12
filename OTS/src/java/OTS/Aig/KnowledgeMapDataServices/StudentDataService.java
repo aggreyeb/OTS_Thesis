@@ -10,6 +10,7 @@ import OTS.ObjectModels.Response;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -25,6 +26,87 @@ public class StudentDataService {
         this.dataSource = dataSource;
         users= new OTS.ObjectModels.Users(response,dataSource);
     }
+    
+     public TransactionResult  ListStudentCourses(){
+      TransactionResult result= new TransactionResult();
+        try{ 
+          String sql="Select a.UserAccountId as AccountId, a.UserName,a.Password,u.UserId as Id,u.Phone,u.UserTypeId,u.FirstName,u.LastName from useraccount a inner join user u on a.UserAccountId=u.UserAccountId where u.UserTypeId=2";
+          List<StudentElement> students= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, students,StudentElement.class);
+          String selectStudentCourseTemplate="select sc.StudentCourseId,u.UserId as Id,c.Id as CourseId,c.Name as CourseName from studentcourse sc \n" +
+                                             "inner join user u on sc.StudentId=u.UserId\n" +
+                                             "inner join course c on c.Id=sc.CourseId where StudentId='%s'";
+         
+          for(StudentElement s:students){
+               String selectStudentCourseSql=String.format(selectStudentCourseTemplate, s.Id);
+              List<StudentCourseElement> studentCourses= new ArrayList();
+               this.dataSource.ExecuteCustomDataSet(selectStudentCourseSql, studentCourses,StudentCourseElement.class);
+               if(studentCourses.size()>0){
+                   s.Courses=studentCourses;
+               }
+           }
+             Gson g = new Gson();
+             result.Content=g.toJson(students);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+       public TransactionResult  DeleteAllStudentEnrolledCourses(int studentId){
+      TransactionResult result= new TransactionResult();
+        try{ 
+         
+          String deletedTemplate="Delete from studentcourse where StudentId='%s' ";
+          String sql=String.format(deletedTemplate, studentId);
+           this.dataSource.ExecuteNonQuery(sql);
+             
+             return ListStudentCourses();
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+     
+      public TransactionResult  EnrollStudentCourses(int StudentId,String courses){
+      TransactionResult result= new TransactionResult();
+        try{ 
+         String[] courseArray=courses.split(",");
+         String insertTemplate="Insert into studentcourse (StudentCourseId,StudentId,CourseId) values('%s',%d,'%s')";
+         
+           for(String s:courseArray){
+               UUID uuid = UUID.randomUUID();
+               String studentCourseId= uuid.toString();
+               String sql=String.format(insertTemplate, studentCourseId,StudentId,s);
+              this.dataSource.ExecuteNonQuery(sql);
+           }
+             
+             return ListStudentCourses();
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
     
     public TransactionResult  ListAllStudents(){
       TransactionResult result= new TransactionResult();
@@ -76,7 +158,8 @@ public class StudentDataService {
            // result.ActionResultType=ActionResultType.ok;
            // result.CurrentId=response.CurrentId();
            // return result;
-           return ListAllStudents();
+          // return ListAllStudents();
+          return ListStudentCourses();
         }
         result.ActionResultType=ActionResultType.fail;
         return result;
@@ -97,7 +180,8 @@ public class StudentDataService {
             //result.ActionResultType=ActionResultType.ok;
            // result.CurrentId=response.CurrentId();
            // return result;
-            return ListAllStudents();
+           // return ListAllStudents();
+            return ListStudentCourses();
         }
         result.ActionResultType=ActionResultType.fail;
         return result;
@@ -107,9 +191,10 @@ public class StudentDataService {
        TransactionResult result= new TransactionResult();
         users.Delete(id);
         if(response.Status().equals("ok")){
-            result.ActionResultType=ActionResultType.ok;
-            result.CurrentId=response.CurrentId();
-            return result;
+           // result.ActionResultType=ActionResultType.ok;
+           // result.CurrentId=response.CurrentId();
+           // return result;
+            return ListStudentCourses();
         }
         result.ActionResultType=ActionResultType.fail;
         return result;
