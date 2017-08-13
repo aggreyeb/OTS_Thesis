@@ -87,7 +87,7 @@ var accountView=function(){
            window.location.href="main.jsp" ;
        }
        if(userType===UserType.Student){
-            window.location.href="main_s.jsp" ;
+            window.location.href="main_s_2.jsp" ;//"main_s.jsp" ;
        }
        if(userType===UserType.Administrator){
             window.location.href="main_a.jsp" ;
