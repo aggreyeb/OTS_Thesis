@@ -180,7 +180,19 @@
      <div id="content-layout-container"></div>   
      <div id="footer-layout-container"></div>   
      <div id="menu-layout-container"></div>  
+     <div  style=" margin-left: 15px;margin-right: 15px" id="pan-student-portal-container">
+      <div id="pan-Courses">
+         Student Courses
+     </div>
+         <div style=" display: none" id="pan-Course-Test">
+         Course Test
+     </div>
      
+     <div style=" display: none" id="pan-Test-Results">
+          Test Results
+     </div>
+     </div>
+   
     </body>
 </html>
 

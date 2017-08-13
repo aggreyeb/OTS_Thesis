@@ -14,14 +14,6 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
    var contentComponent= new OTS.ContentLayoutComponent();
    var footerComponent= new OTS.FooterLayoutComponent();
    var menuComponent=new OTS.MenuComponent();
-     
-   //Initializable Components
- //  var knowledgemapManagementComponent= new OTS.AigKnowledgeMapManagementComponent();
-  // var testManagementManagementComponent=new OTS.AigTestItemGenerationComponent();
-  // var courseManagementComponent=new OTS.AigCoursesComponent();
-  // var teacherCourseAssignment= new OTS.AigTeacherCourseAssignmentComponent();
-  // var studentAccountComponent= new OTS.AigStudentAccountComponent();
- //  var studentsTestComponent= new OTS.AigStudentTestComponent();
    
     var webApp=new Aig.WebApplication(id);
     var settings=null;
@@ -63,15 +55,7 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
       menuComponent.AddEventTarget(me.OnMenuItemClicked);
       menuComponent.Render();
       
-      //Initializable Components
-     // initializableComponents.push(knowledgemapManagementComponent);
-    //  initializableComponents.push(testManagementManagementComponent);
-     // initializableComponents.push(courseManagementComponent);
-     // initializableComponents.push(studentAccountComponent);
-     // initializableComponents.push(studentsTestComponent);
-    //  initializableComponents.push(teacherCourseAssignment);
-  
-         
+    
       for(var i=0;i<initializableComponents.length;i++){
          var component=  initializableComponents[i];
          if(component!==null){
@@ -95,6 +79,21 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
          var target=e.target;
          e.componentContainerId=componentContainerId;
          notifyComponentChanged(e);
+         var name=e.target.innerText.trim();
+         $("#pan-Courses").hide();
+         $("#pan-Course-Test").hide();
+         $("#pan-Course-Test").hide();
+         switch(name){
+             case "Courses":
+               $("#pan-Courses").show();   
+             break;
+         case "My Course Tests":
+             $("#pan-Course-Test").show();
+            break;
+        case "My Test Results":
+             $("#pan-Test-Results").show();
+            break;
+         }
      };
 };
 OTS.AigStudentWebApplication.prototype= new  Aig.IInitializable();
