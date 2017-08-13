@@ -9,6 +9,8 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
     
     var layoutComponents= [];
     var initializableComponents=[];
+    
+    var renderablComponents=[];
    //Layout Components
    var headerComponent=new OTS.HeaderLayoutComponent();
    var contentComponent= new OTS.ContentLayoutComponent();
@@ -34,6 +36,15 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
     
      me.Initialize=function(){
       //1. Read settings
+    //Renderable Components
+    var studentCourseComponent= new   OTS.AigStudentCoursesComponent();
+    var studentCourseTestComponent=new OTS.AigStudentCoursesTestComponent();
+   var studentTestResultsComponent= new  OTS.AigStudentTestResultsComponent();
+    studentCourseComponent.Render();
+    studentCourseTestComponent.Render();
+    studentTestResultsComponent.Render();
+   // renderablComponents.push(studentCourseComponent);
+      
       settings=webApp.ReadSettings()
      
       layoutComponents.push(headerComponent);
@@ -82,7 +93,7 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
          var name=e.target.innerText.trim();
          $("#pan-Courses").hide();
          $("#pan-Course-Test").hide();
-         $("#pan-Course-Test").hide();
+         $("#pan-Test-Results").hide();
          switch(name){
              case "Courses":
                $("#pan-Courses").show();   

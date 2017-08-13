@@ -88,8 +88,21 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-FooterLayoutComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-MainMenu-Component.js" type="text/javascript"></script>
         
+        
+        
         <!--APPLICATION COMPONENTS-->
-      
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-ViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-DataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-component.js" type="text/javascript"></script>
+        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-tests-ViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-tests-DataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-courses-tests-component.js" type="text/javascript"></script>
+        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-tests-results-ViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-tests-results-DataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/student-tests-results-component.js" type="text/javascript"></script>
+        
         
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
@@ -117,8 +130,12 @@
     <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/content.html" id="content-layout-template" type="text/html"> </script>
     <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/footer.html"  id="footer-layout-template" type="text/html"> </script>
     <script src="./Aig/Components/App-Controls-LayoutControls/html-layouts/student-main-menu.html" id="main-menu-layout-template" type="text/html"> </script>
-     
    
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/student-course-list.html" id="pan-Courses-layout-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/course-test-list.html" id="pan-Course-Test-layout-template" type="text/html"> </script>
+    <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/student-test-results.html" id="pan-Test-Results-layout-template" type="text/html"> </script>
+   
+    
             <script type="text/javascript">
              
              //A list of promises that need to resolve before starting
