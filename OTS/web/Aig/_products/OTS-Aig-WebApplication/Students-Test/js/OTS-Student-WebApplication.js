@@ -20,6 +20,11 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
     var webApp=new Aig.WebApplication(id);
     var settings=null;
     
+        
+    var studentCourseComponent ;
+    var studentCourseTestComponent;
+    var studentTestResultsComponent;
+    
     var notifyComponentChanged=function(e){
         for(var i=0;i<menuEventTargerts.length;i++){
             var callback=menuEventTargerts[i];
@@ -96,7 +101,7 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
          $("#pan-Test-Results").hide();
          switch(name){
              case "Courses":
-               $("#pan-Courses").show();   
+               $("#pan-Courses").show();
              break;
          case "My Course Tests":
              $("#pan-Course-Test").show();

@@ -14,6 +14,7 @@ import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
 import OTS.ObjectModels.Response;
 import OTS.ObjectModels.UserAccountItem;
+import OTS.ObjectModels.UserProfile;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -96,6 +97,9 @@ public class UserManagementServlet extends Servlet {
           String data;
            StudentElement studentitem;
             int  id ;
+              String courses;
+            UserProfile userProfile=this.LoadSession(request);
+            int userId=   userProfile.UserId;
         try{
        
          switch(action){
@@ -129,7 +133,7 @@ public class UserManagementServlet extends Servlet {
                 
                  case  "Aig-EnrollStudentCourses":
                  id   = Integer.parseInt(request.getParameter("studentId"));
-                 String courses=  request.getParameter("courses");
+                 courses=  request.getParameter("courses");
                  service= new StudentDataService(new MySqlDataSource());
                  return service.EnrollStudentCourses(id, courses);
                 
@@ -143,6 +147,26 @@ public class UserManagementServlet extends Servlet {
                  String  emails   = request.getParameter("emails");
                  service= new StudentDataService(new MySqlDataSource());
                  return service.CreateBatchStudent(emails);
+                 
+                 case  "Aig-ListStudentRegisteredCourses":
+                
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.ListStudentRegisteredCourse(userId);
+                 
+                case  "Aig-ListStudentUnRegisteredCourses":
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.ListStudentUnRegisteredCourse(userId);
+                
+               
+               case  "Aig-RegisterStudentCourse":
+                 courses=  request.getParameter("courses");
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.RegisterStudentCourse(userId,courses);
+                 
+                 case  "Aig-UnRegisterStudentCourse":
+                 courses=  request.getParameter("courses");
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.UnRegisterStudentCourse(userId,courses);
             
              //**********Old Methods*************
              case  "SaveUser":

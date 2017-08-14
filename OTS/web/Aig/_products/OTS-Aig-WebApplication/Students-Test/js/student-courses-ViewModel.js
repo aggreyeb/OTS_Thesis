@@ -5,14 +5,53 @@ OTS.AigStudentCoursesViewModel=function(){
     me.Courses=ko.observableArray([]);
     me.SelectedCourse=ko.observable();
    
-    me.onRegiserCourse=function(data,e){
+    me.RegisteredCourses=ko.observableArray([]);
+   
+    me.onRegisterCourse=function(data,e){
+        studentCourseConponent.RegisterStudentCourse(data.CourseId,function(msg){
+             var result=JSON.parse(msg);
+           if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var unRegisteredCourses=JSON.parse(result.Content) ;
+               var lookupTables=JSON.parse(result.LookupTables) ;
+               var  registeredCourses=JSON.parse(lookupTables.Content);
+               me.BindUnRegisteredCourses(unRegisteredCourses);
+               me.BindRegisteredCourses(registeredCourses);
+            }
+        });
         
     };
-    me.BindCourses=function(items){
+    
+    me.onUnRegisterCourse=function(data,e){
+       studentCourseConponent.UnRegisterStudentCourse(data.CourseId,function(msg){
+           var result=JSON.parse(msg);
+           if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var unRegisteredCourses=JSON.parse(result.Content) ;
+               var lookupTables=JSON.parse(result.LookupTables) ;
+               var  registeredCourses=JSON.parse(lookupTables.Content);
+               me.BindUnRegisteredCourses(unRegisteredCourses);
+               me.BindRegisteredCourses(registeredCourses);
+             
+            }
+        });
+    };
+    
+    me.BindUnRegisteredCourses=function(items){
         if(items===undefined || items===null) return;
         me.Courses([]);
         for(var i=0;i<items.length;i++){
-            me.Courses.push(items[i]);
+            items[i].TeacherFullName=items[i].TeacherFirstName + " " + 
+                    items[i].TeacherLastName;
+           me.Courses.push(items[i]);
+        }
+    };
+    
+    me.BindRegisteredCourses=function(items){
+        if(items===undefined || items===null) return;
+        me.RegisteredCourses([]);
+        for(var i=0;i<items.length;i++){
+            items[i].TeacherFullName=items[i].TeacherFirstName + " " + 
+                    items[i].TeacherLastName;
+           me.RegisteredCourses.push(items[i]);
         }
     };
     

@@ -27,6 +27,96 @@ public class StudentDataService {
         users= new OTS.ObjectModels.Users(response,dataSource);
     }
     
+    public TransactionResult  ListStudentRegisteredCourse(int studentid){
+         TransactionResult result= new TransactionResult();
+        try{ 
+          
+          String sqlTemplate="select c.Id as CourseId,c.Name as CourseName,u.FirstName as TeacherFirstName,u.LastName as TeacherLastName from course c left join \n" +
+                              "studentcourse sc on c.Id =sc.CourseId inner join user u on c.Createdby=u.UserId\n" +
+                              "where sc.StudentId =%d and sc.CourseId \n" +
+                              "in  (select distinct Id  as CourseId  from  course);";
+           String sql=String.format(sqlTemplate, studentid);
+               
+          List<StudentUnUnRegisteredCourses> studentRegisteredCourse= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourse,StudentUnUnRegisteredCourses.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(studentRegisteredCourse);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+     
+      public TransactionResult  ListStudentUnRegisteredCourse(int studentid){
+          TransactionResult result= new TransactionResult();
+          try{ 
+          
+          String sqlTemplate="select distinct Id as CourseId,Name as CourseName , u.FirstName as TeacherFirstName,u.LastName as  TeacherLastName from  course c inner join user u on u.UserId=c.Createdby\n" +
+"                             where Id not in (select c.Id from course c left join \n" +
+"                             studentcourse sc on c.Id =sc.CourseId \n" +
+"                             where sc.StudentId =%d)";
+           String sql=String.format(sqlTemplate, studentid);
+           
+          List<StudentUnUnRegisteredCourses> studentRegisteredCourse= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourse,StudentUnUnRegisteredCourses.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(studentRegisteredCourse);
+              TransactionResult resultRegistedCourses=this.ListStudentRegisteredCourse(studentid);
+             result.LookupTables=g.toJson(resultRegistedCourses);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+     
+    public TransactionResult  ListStudentCourseTests(int studentid){
+        TransactionResult result= new TransactionResult();
+          try{ 
+          
+          String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
+                " e.Name as TestName, e.StartDate,e.StartTime,\n" +
+                " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
+                "inner join course c on c.Id=sc.CourseId\n" +
+                "where sc.StudentId=%d and e.Activated=1";
+           String sql=String.format(sqlTemplate, studentid);
+           
+          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTest,StudentRegisteredCourseTestItem.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(studentRegisteredCourseTest);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
+    
+    
       public TransactionResult  CreateBatchStudent(String emails){
       TransactionResult result= new TransactionResult();
        String messages="";
@@ -125,6 +215,57 @@ public class StudentDataService {
     }
     
      
+       public TransactionResult  RegisterStudentCourse(int StudentId,String courses){
+             
+           TransactionResult result= new TransactionResult();
+        try{ 
+         String[] courseArray=courses.split(",");
+         String insertTemplate="Insert into studentcourse (StudentCourseId,StudentId,CourseId) values('%s',%d,'%s')";
+         
+           for(String s:courseArray){
+               UUID uuid = UUID.randomUUID();
+               String studentCourseId= uuid.toString();
+               String sql=String.format(insertTemplate, studentCourseId,StudentId,s);
+              this.dataSource.ExecuteNonQuery(sql);
+           }
+             
+              return this.ListStudentUnRegisteredCourse(StudentId);
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+          
+           
+       }  
+       
+       public TransactionResult  UnRegisterStudentCourse(int studentId,String courseId){
+             
+           TransactionResult result= new TransactionResult();
+        try{ 
+         
+          String deletedTemplate="Delete from studentcourse where StudentId='%d' and CourseId='%s' ";
+          String sql=String.format(deletedTemplate, studentId,courseId);
+           this.dataSource.ExecuteNonQuery(sql);
+             
+             return this.ListStudentUnRegisteredCourse(studentId);
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+         
+            
+       } 
+       
       public TransactionResult  EnrollStudentCourses(int StudentId,String courses){
       TransactionResult result= new TransactionResult();
         try{ 
@@ -176,17 +317,9 @@ public class StudentDataService {
             }
     }
     
-    public TransactionResult  ListStudentByCourse(){
-        return null;
-    }
+   
     
-     public TransactionResult  ListStudentRegisteredCourse(){
-        return null;
-    }
-     
-    public TransactionResult  ListStudentCourseTest(){
-        return null;
-    }
+   
         
     public TransactionResult  CreateNewStudent(StudentElement studentElement){
          TransactionResult result= new TransactionResult();
