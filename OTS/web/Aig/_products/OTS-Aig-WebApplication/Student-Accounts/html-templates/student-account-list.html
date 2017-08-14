@@ -13,7 +13,7 @@
                      <th>Name</th>
                      <th>Phone </th>
                      <th>Email </th>
-                     <th>Enrolled Courses </th>
+                     <th style="display: none">Enrolled Courses </th>
                       <th>Actions</th>
                 </tr>
             </thead>
@@ -22,14 +22,14 @@
                     <td data-bind="text:FullName"> </td>    
                     <td data-bind="text:Phone"></td>
                     <td data-bind="text:Email"></td>
-                    <td>
+                    <td style="display: none">
                          <div data-bind="foreach:Courses">
                             <span class="label label-default" data-bind="text:CourseName"></span>
                         </div>
                     </td> 
                     <td> 
                         <a data-bind="event:{click:$parent.Actions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
-                        <a data-bind="event:{click:$parent.Actions.onEnrollCourses}" title="Enroll Student in Course" href="#"><span class="label label-default">Enroll Course(s)</span></a>
+                       <!-- <a data-bind="event:{click:$parent.Actions.onEnrollCourses}" title="Enroll Student in Course" href="#"><span class="label label-default">Enroll Course(s)</span></a>-->
                        <!-- <a data-bind="event:{click:$parent.Actions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>-->
                        <!-- <a data-bind="event:{click:$parent.Actions.onResetPassword}" title="Reset Password" href="#"><i class="fa fa-undo"></i></a>-->
                     </td>  

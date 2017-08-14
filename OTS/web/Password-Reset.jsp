@@ -68,7 +68,7 @@
             <div id="account-message-box" class="alert alert-success"></div>
             <div data-bind="visible:AccountFormVisible">
                 <input id="txtPasswordReset" type="hidden" value="PasswordReset" />
-                <h3> <span  class="label label-default">Reset Password</span></h3>
+                <h3> <span  class="label label-default">Reset Password</span></h3><h4><label class="label label-info">All fields are required</label></h4>
               <form class="form-horizontal" role="form">
                <div class="form-group">
                  <label class="control-label col-sm-2" for="email">Login Email:</label>
@@ -90,7 +90,7 @@
                </div>
                <div class="form-group"> 
                  <div class="col-sm-offset-2 col-sm-10">
-                     <button  data-bind="enable:CanResetPassword, click:PasswordReset" type="submit" class="btn btn-primary pull-right">Submit <i id="create-account-spinner" class="" style="font-size:24px"></i></button>
+                     <button  data-bind="click:PasswordReset" type="submit" class="btn btn-primary pull-right">Submit <i id="create-account-spinner" class="" style="font-size:24px"></i></button>
                  </div>
                </div>
                 </form>

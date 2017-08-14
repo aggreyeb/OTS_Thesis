@@ -67,7 +67,7 @@
           <div class="col-lg-6 ">
             <div id="account-message-box" class="alert alert-success"></div>
             <div data-bind="visible:AccountFormVisible">
-                <h3> <span class="label label-default">Request Account</span></h3> <h4><label class="label label-info">All fields are required</label></h4>
+             <h3> <span class="label label-default">Request Account</span></h3><h4><label class="label label-info">All fields are required</label></h4>
               <form class="form-horizontal" role="form">
                  <div class="form-group">
                  <label class="control-label col-sm-2" for="txtFirstName">First Name:</label>
@@ -109,7 +109,7 @@
             </div>
           </div>
                 <div class="col-lg-3">
-                    <p></p>
+                    <input id="txt-user-type" type="hidden" value="student"/>
                 </div>
             </div>
         </div>
@@ -123,6 +123,6 @@
 </html>
   <script>
             $(document).ready(function(){
-               new  OTS.Modules.UserAccountModule("teacher").Initialize();
+               new  OTS.Modules.UserAccountModule("student").Initialize();
             });
  </script>

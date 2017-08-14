@@ -114,7 +114,8 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        Please contact your teacher to get information on how to request an account.
+                         <b>Please use the links below to request for an account and reset your password</b><br>
+                         <a href="register-student.jsp">Request Account</a> | <a href="Password-Reset.jsp">Forget Password</a>
                     </div>
                     <div class="panel-footer">
                         

@@ -126,7 +126,21 @@ OTS.ViewModels.UserAccountViewModel=function(){
    };
    
    me.PasswordReset=function(){
-      if(passwordResetCallback!==null){
+      
+      
+       $("#account-message-box").hide();
+       $("#account-message-box").removeClass("alert alert-danger");
+      
+       var result= me.ResetPasswordValidation();
+       if(result.Errors.length>0){
+           $("#account-message-box").addClass("alert alert-danger");
+           $("#account-message-box").html(result.Errors.join(","));
+           $("#account-message-box").show();
+          result.Errors=[];
+          return;
+       }
+      
+       if(passwordResetCallback!==null){
           var item={
               Email:me.LoginEmail(),
               Password:me.Password(),
@@ -138,26 +152,18 @@ OTS.ViewModels.UserAccountViewModel=function(){
    me.CreateAccount=function(){
          $("#account-message-box").hide();
          $("#account-message-box").removeClass("alert alert-danger");
-       if(me.Password() !==me.RepeatPassword()){
-          
-           $("#account-message-box").addClass("alert alert-danger");
-           $("#account-message-box").html('<p>Password and  Retyped password are not the same</p>');
-           $("#account-message-box").show();
-           return;
-       }
+      
        
        var result= me.Validate();
        if(result.Errors.length>0){
            $("#account-message-box").addClass("alert alert-danger");
-           $("#account-message-box").html('<p>Please enter all the fields and try again</p>');
+           $("#account-message-box").html(result.Errors.join(","));
            $("#account-message-box").show();
-          
+          result.Errors=[];
           return;
        }
        
-   
-      
-       
+    
        if(createAccountCallback!==null){
           
           var accountItem={
@@ -227,12 +233,13 @@ OTS.ViewModels.UserAccountViewModel=function(){
    };
    
    me.CanResetPassword=ko.computed(function(){
-        var result= me.ResetPasswordValidation();
+       /*
+       var result= me.ResetPasswordValidation();
         
        if(passwordResetValidationCallback!==null){
           passwordResetValidationCallback({IsValid:result.IsValid,Errors:result.Errors})
        }
-       return result.IsValid;
+       return result.IsValid;*/
    });
    
     me.Validate=function(){

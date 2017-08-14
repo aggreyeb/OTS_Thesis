@@ -247,6 +247,64 @@ public class Users {
        
      }
     
+     
+      public void RegisterNewStudent(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
+         
+          Transaction  tx=null;
+          SessionFactory sessionFactory =NewHibernateUtil.getSessionFactory();
+          org.hibernate.Session    session=  sessionFactory.openSession();
+          tx= session.getTransaction();
+          try{
+           tx.begin();
+            if(!this.HasEmail(userAccount)){
+                  //Create User Account
+                    Useraccount ua= new Useraccount();
+                    ua.setUserName(userAccount.Email);
+                    ua.setPassword(userAccount.Password);
+                    ua.setIsLocked(Boolean.FALSE);
+                     //this.dataSource.Save(ua);
+                     session.save(ua);
+                     
+                    //Create User
+                    Usertype ut= (Usertype)dataSource.Find(Usertype.class, new Integer(2)); //student
+                    OTS.DataModels.User user= new OTS.DataModels.User(ua,userAccount.FirstName,userAccount.LastName);
+                    user.setFirstName(userAccount.FirstName);
+                    user.setLastName(userAccount.LastName);
+                    user.setEmail(userAccount.Email);
+                    user.setPhone(userAccount.Phone);
+                    user.setUsertype(ut);
+                    user.setUseraccount(ua);
+                   // this.dataSource.Save(user);
+                    session.save(user);
+                 
+                  
+      
+                    tx.commit();
+                   response.UpdateID(user.getUserId());
+                   userAccount.Id=user.getUserId();
+                   userAccount.Status="ok";
+                   response.ChangeContent(new Gson().toJson(userAccount));
+                   response.ChangeStatus("ok");
+              }
+              else{
+                response.ChangeContent("");
+                response.ChangeStatus("fail");
+                 userAccount.Status="fail";
+                response.UpdateError("Email already exist");
+              }    
+        }
+        catch(Throwable ex){
+        response.UpdateID(0);
+        response.ChangeContent("");
+        response.ChangeStatus("exception");
+        response.UpdateError(ex.toString());
+      
+        }
+        finally{
+          //this.dataSource.Close();
+        }
+    }
+     
     
       public void RegisterNewTeacher(UserAccountItem userAccount,OTS.ObjectModels.Courses courses,Response response){
          

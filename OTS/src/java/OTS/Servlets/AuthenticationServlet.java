@@ -7,12 +7,18 @@
 package OTS.Servlets;
 
 import OTS.Account;
+import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
+import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.AuthenticationResponse;
 import OTS.Credential;
+import OTS.DataModels.DataSource;
+import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
 import OTS.Message;
 import OTS.ObjectModels.Response;
 import OTS.ObjectModels.RoleAccount;
+import OTS.ObjectModels.UserAccountItem;
+import OTS.ObjectModels.Users;
 import OTS.University;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -113,9 +119,46 @@ public class AuthenticationServlet extends Servlet {
               
                   request.getSession().invalidate();
                   message= new  Response("ok","-");
-              case "createAccout":
-                  
-               break;
+              case "createStudentAccount":
+                  TransactionResult result =     new TransactionResult();
+                String  StudentRegistration=  request.getParameter("data");
+                UserAccountItem StudentRegistrationItem=(UserAccountItem)(new Gson().fromJson(StudentRegistration , UserAccountItem.class));
+                  DataSource db=new MySqlDataSource();
+                  Response response= new Response("","");
+                Users users= new OTS.ObjectModels.Users(response,db);
+                users.RegisterNewStudent(StudentRegistrationItem, new OTS.ObjectModels.Courses(db),response);
+                 if(StudentRegistrationItem.Status.equals("ok")){
+                    credential= new Credential(StudentRegistrationItem.Email,StudentRegistrationItem.Password);
+                   credential.userProfile.UserId=StudentRegistrationItem.Id;
+                   this.CreateSession(request, credential.userProfile);
+                   
+                    message.ChangeStatus("ok");
+                 }
+                 else{
+                     message.ChangeStatus("fail");
+                 }
+                 return message;
+             
+                 
+               case "createTeacherAccount":  
+                String  TeacherRegistration=  request.getParameter("data");
+                UserAccountItem TeacherRegistrationItem=(UserAccountItem)(new Gson().fromJson(TeacherRegistration , UserAccountItem.class));
+                 DataSource dbteacher=new MySqlDataSource();
+                  Response teacherresponse= new Response("","");
+                users= new OTS.ObjectModels.Users(teacherresponse,dbteacher);
+                users.RegisterNewTeacher(TeacherRegistrationItem, new OTS.ObjectModels.Courses(dbteacher),teacherresponse);
+                 if(TeacherRegistrationItem.Status.equals("ok")){
+                    credential= new Credential(TeacherRegistrationItem.Email,TeacherRegistrationItem.Password);
+                   credential.userProfile.UserId=TeacherRegistrationItem.Id;
+                   this.CreateSession(request, credential.userProfile);
+                    message.ChangeStatus("ok");
+                 }
+                 else{
+                     message.ChangeStatus("fail");
+                 }
+                 return message;
+             
+                    
                   
               default:
                     return new  Response("invalid action","-");

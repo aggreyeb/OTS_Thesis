@@ -1,8 +1,8 @@
 var OTS=OTS||{};
-OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
+OTS.Views.UserAccountView=function(messageBox,useraccountViewModel,userType){
      var msgBox=messageBox|| new OTS.MessageBox("message-box");
      var viewModel= useraccountViewModel|| new  OTS.ViewModels.UserAccountViewModel();
-     
+     var user=userType;
    var onPasswordReset=function(e){
           $("#create-account-spinner").addClass("fa fa-spinner fa-spin");
       $.post("UserManagementServlet",{action:"ResetPassword",email:e.Email,password:e.Password},function(msg){
@@ -16,7 +16,7 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
                }
                else{
                     $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
-                   msgBox.DisplayError("<p>" + message.response.error + "</p>"); 
+                   msgBox.DisplayError("<p>Unable to reset your password.</p>"); 
                }
              
             }catch(ex){
@@ -28,7 +28,31 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
   
   var onCreateAccount=function(e){
     $("#create-account-spinner").addClass("fa fa-spinner fa-spin");
-      $.post("UserManagementServlet",{action:"RegisterTeacher",data:JSON.stringify(e)},function(msg){
+     
+      if(user!==undefined && user!==null &&  user==="student"){
+          e.UserTypeId=2;
+          $.post("AuthenticationServlet",{action:"createStudentAccount",data:JSON.stringify(e)},function(msg){
+            try{
+               var message =JSON.parse(msg);
+               if(message.response.status==="ok"){
+                 viewModel.AccountFormVisible(false);
+                 window.location.href="./main_s_2.jsp";
+               }
+               else{
+                    $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
+                   msgBox.DisplayError("<p>" + message.response.error + ".Unable to create account. Please use another email address</p>"); 
+               }
+             
+            }catch(ex){
+                $("#create-account-spinner").removeClass("fa fa-spinner fa-spin");
+                alert(ex);
+            }
+        });
+      }
+      
+     
+      else{
+      $.post("AuthenticationServlet",{action:"createTeacherAccount",data:JSON.stringify(e)},function(msg){
             try{
                
                var message =JSON.parse(msg);
@@ -47,6 +71,8 @@ OTS.Views.UserAccountView=function(messageBox,useraccountViewModel){
                 alert(ex);
             }
         });
+    }
+   
   };
   
    var onValidationCompleted=function(e){
