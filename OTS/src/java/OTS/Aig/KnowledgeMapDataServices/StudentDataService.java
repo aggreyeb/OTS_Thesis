@@ -27,6 +27,34 @@ public class StudentDataService {
         users= new OTS.ObjectModels.Users(response,dataSource);
     }
     
+     public TransactionResult  ListStudentTestResults(int studentid){
+         TransactionResult result= new TransactionResult();
+        try{ 
+          
+          String sqlTemplate="select c.Id as CourseId,c.Name as CourseName, e.Id as  TestId,e.Name as TestName,se.StartDateTime,se.EndDateTime,se.Taken,se.Marked,se.Mark from exam e \n" +
+                              "left join studentexam se on e.Id=se.TestId\n" +
+                              "left join course c on c.Id=se.CourseId where se.StudentId=%d;";
+           String sql=String.format(sqlTemplate, studentid);
+               
+          List<StudentTestResultItem> studentTestResults= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentTestResults,StudentTestResultItem.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(studentTestResults);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    }
+    
+    
     public TransactionResult  ListStudentRegisteredCourse(int studentid){
          TransactionResult result= new TransactionResult();
         try{ 

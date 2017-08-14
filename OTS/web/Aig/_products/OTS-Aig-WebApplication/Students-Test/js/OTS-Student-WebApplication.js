@@ -42,9 +42,9 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
      me.Initialize=function(){
       //1. Read settings
     //Renderable Components
-    var studentCourseComponent= new   OTS.AigStudentCoursesComponent();
-    var studentCourseTestComponent=new OTS.AigStudentCoursesTestComponent();
-   var studentTestResultsComponent= new  OTS.AigStudentTestResultsComponent();
+    studentCourseComponent= new   OTS.AigStudentCoursesComponent();
+    studentCourseTestComponent=new OTS.AigStudentCoursesTestComponent();
+    studentTestResultsComponent= new  OTS.AigStudentTestResultsComponent();
     studentCourseComponent.Render();
     studentCourseTestComponent.Render();
     studentTestResultsComponent.Render();
@@ -93,21 +93,26 @@ OTS.AigStudentWebApplication=function(applicationId,applicationName){
      
      me.OnMenuItemClicked=function(e){
          var target=e.target;
-         e.componentContainerId=componentContainerId;
+        // e.componentContainerId=componentContainerId;
          notifyComponentChanged(e);
          var name=e.target.innerText.trim();
          $("#pan-Courses").hide();
          $("#pan-Course-Test").hide();
          $("#pan-Test-Results").hide();
+         
+       // alert("Menu item Changed");
          switch(name){
              case "Courses":
                $("#pan-Courses").show();
+               studentCourseComponent.MenuItemChange(name);
              break;
          case "My Course Tests":
              $("#pan-Course-Test").show();
+             studentCourseTestComponent.MenuItemChange(name);
             break;
         case "My Test Results":
              $("#pan-Test-Results").show();
+             studentTestResultsComponent.MenuItemChange(name);
             break;
          }
      };

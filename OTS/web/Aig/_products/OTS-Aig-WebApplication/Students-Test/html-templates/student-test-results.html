@@ -7,11 +7,11 @@
                      <th>Mark(%)</th>
                 </tr>   
             </thead>
-            <tbody>
+            <tbody  data-bind="foreach:TestResults">
                 <tr>
-                    <td>Software Engineering</td>
-                    <td>Software Engineering Level 1</td>
-                    <td>95</td>
+                    <td data-bind="text:CourseName"></td>
+                    <td data-bind="text:TestName"></td>
+                    <td data-bind="text:Mark"></td>
                 </tr>
             </tbody>
         </table>

@@ -1,7 +1,9 @@
 var OTS=OTS||{};
 OTS.AigStudentCoursesComponent=function(){
     var me =this;
+    var name="Courses";
     var rendered=false;
+    var dataBinded=false;
      var viewModel= new OTS.AigStudentCoursesViewModel();
     me.Render=function(){
         try{
@@ -9,7 +11,7 @@ OTS.AigStudentCoursesComponent=function(){
            var htmlLayout=  $("#pan-Courses-layout-template").html();
            $("#pan-Courses").html(htmlLayout);
             viewModel.RegisterComponent(me);
-            me.ListStudentUnRegisteredCourses();
+           // me.ListStudentUnRegisteredCourses();
            rendered=true;
         }
         catch(error){
@@ -48,11 +50,17 @@ OTS.AigStudentCoursesComponent=function(){
                var  registeredCourses=JSON.parse(lookupTables.Content);
                viewModel.BindUnRegisteredCourses(unRegisteredCourses);
                viewModel.BindRegisteredCourses(registeredCourses);
-               ko.applyBindings(viewModel,$("#pan-Courses")[0]);
+               if(!dataBinded){
+                   ko.applyBindings(viewModel,$("#pan-Courses")[0]);
+                   dataBinded=true;
+               }
             }
            
           });
     };
     
-     
+    me.MenuItemChange=function(uniqueName){
+        if(name!==uniqueName) return;
+        me.ListStudentUnRegisteredCourses();
+    };  
 };

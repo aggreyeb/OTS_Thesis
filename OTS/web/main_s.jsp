@@ -289,7 +289,7 @@
                         <div class=" col-xs-6"><b>Start Date:</b><span data-bind="text:TestSheetViewModel.TestStartDate"></span></div>
                     </div>
                     <div style=" margin-bottom: 2px" class="row">
-                        <div class=" col-xs-6"><b>Start Time</b><span data-bind="text:TestSheetViewModel.TestStartTime"></span></div>
+                        <div class=" col-xs-6"><b>Start Time:</b><span data-bind="text:TestSheetViewModel.TestStartTime"></span></div>
                         <div class=" col-xs-6"><b>End Time:</b><span data-bind="text:TestSheetViewModel.TestEndTime">11:45AM</span></div>
                     </div>
                     <hr>

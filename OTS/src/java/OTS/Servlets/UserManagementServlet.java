@@ -168,6 +168,16 @@ public class UserManagementServlet extends Servlet {
                  service= new StudentDataService(new MySqlDataSource());
                  return service.UnRegisterStudentCourse(userId,courses);
             
+                 case  "Aig-ListStudentCoursesTest":
+                 service= new StudentDataService(new MySqlDataSource());
+                 return service.ListStudentCourseTests(userId);
+                 
+                 //Aig-ListStudentTestResults
+                case  "Aig-ListStudentTestResults":
+                 service= new StudentDataService(new MySqlDataSource());
+                return service.ListStudentTestResults(userId);
+                 
+                 
              //**********Old Methods*************
              case  "SaveUser":
                 data=  request.getParameter("data");

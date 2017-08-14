@@ -1,5 +1,5 @@
 <div style="margin-top: 10px;margin-left: 95px;margin-right: 95px">
-    <div id="pan-student-course-test" style="margin-bottom: 5px" class="table-responsive">
+    <div data-bind="visible:TestListVisible" id="pan-student-course-test" style="margin-bottom: 5px" class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -11,19 +11,71 @@
                      <th>Actions</th>
                 </tr>   
             </thead>
-            <tbody>
+            <tbody data-bind="foreach:Tests">
                 <tr>
-                    <td>Software Engineering</td>
-                    <td>Software Engineering Level 1</td>
-                    <td>Start Date</td>
-                    <td>Start Time</td>
-                    <td>End Time</td>
-                    <td><a href="#"><span>Take Test</span></a></td>
+                    <td data-bind="text:CourseName"></td>
+                    <td data-bind="text:TestName"></td>
+                    <td data-bind="text:StartDate"></td>
+                    <td data-bind="text:StartTime"></td>
+                    <td data-bind="text:EndTime"></td>
+                    <td><a data-bind="event:{click:$parent.onTakeTest}" href="#"><span class="label label-default">Take Test</span></a></td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div id="pan-course-test-sheet">
-        
+    <div data-bind="visible:TestSheetVisible" id="pan-course-test-sheet">
+       
+           <div style=" margin-bottom: 2px" class="row">
+            <div class=" col-xs-6"><b>Name:</b><span  data-bind="text:TestName"></span></div>
+            <div class=" col-xs-6"><b>Start Date:</b><span data-bind="text:TestStartDate"></span></div>
+          </div>
+          <div style=" margin-bottom: 2px" class="row">
+           <div class=" col-xs-6"><b>Start Time:</b><span data-bind="text:TestStartTime"></span></div>
+            <div class=" col-xs-6"><b>End Time:</b><span data-bind="text:TestEndTime">11:45AM</span></div>
+         </div>
+        <hr>
+             <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
+                 <div class="alert alert-info">
+                     Please click on start test to begin. Once you complete the test click on submit. Once you submit you can get access to your test sheet. <button  data-bind="enable:ToggleStartTest,click:onStartTests" class="btn btn-sm btn-primary" >Start Test</button> <button  data-bind="click:onCancelTakeTest" class="btn btn-sm btn-default" >Cancel</button> 
+                 </div>
+                 <div class="alert alert-danger" style=" display: none" id="alert-testsheet-submit-alert">
+                     
+                 </div><br>
+                 <div style="margin-bottom: 3px" class=" pull-right">
+                     <span  class=" pull-right"><button data-bind="enable:ToggleSubmitButton,click:onSubmitStudentTest" class="btn btn-sm btn-success" >Submit</button></span>
+                 </div>
+                 <table class="table table-bordered table-hover ">
+                 <tr>
+                    <th>#</th>
+                     <th>Test Item</th>
+                </tr>
+                <tbody data-bind="foreach:TestItems">
+                 <tr>
+                     <td style=" width: 5%" data-bind="text:Number"></td>
+                     <td style=" width: 95%">
+                  <div class="panel panel-default">
+                   <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
+                      <div class="panel-body">
+                         <div data-bind="text:Stem,style:{'font-weight':'bold'}"></div><br />
+                         <div data-bind="foreach:AnswerOptions">
+                            <!-- <span  data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp; <span data-bind="text:Text"></span><br />-->
+                            <span  data-bind="text:Label,style:{'font-weight':'bold'}"></span>&nbsp; <button style=" margin-bottom: 2px" class="btn btn-sm btn-default" data-bind="text:Text,event:{click:$root.onAnswerOptionClicked} "></button><br />
+                       </div>
+                     </div>
+                    <div class="panel-footer panel-default">
+                        <div style=" display: none" class="form-group">
+                        <label>Key</label><br/> 
+                        <label data-bind="text:CorrectAnswer.Label"></label>&nbsp;<span data-bind="text:CorrectAnswer.Text"></span><br/>                 
+                            
+                        </div>
+                    </div>
+                     </div>
+                 </td>
+
+                </tr>
+             </tbody>
+         </table>
+        </div> <!--Table Responsive-->
+     
     </div>
 </div>
