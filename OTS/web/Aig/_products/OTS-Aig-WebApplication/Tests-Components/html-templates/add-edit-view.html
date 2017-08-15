@@ -12,33 +12,26 @@
             </div>
         </div>
     </div>
-    <div  class="row">
-        
-        <div  class="col-xs-6">
-            <div class="input-group">
-                <label>Marks</label>
-                <input data-bind="value:TotalMark" style="margin-right: 2px" class="form-control" type="text"/>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="input-group">
-                <label>Start Date</label>
-                <input id="txtStartDate" data-bind="value:StartDate"  class="form-control" type="text"/>
-            </div>
-        </div>
-    </div>
     
     <div  class="row">
         <div class="col-xs-6">
-            <div class="input-group">
-                <label>Start Time</label>
+            <label>Start Time</label>
+            <div class="input-group bootstrap-timepicker timepicker">
                 <input id="txt-startTime" data-bind="value:StartTime" class="form-control" type="text"/>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>
         <div class="col-xs-6">
-            <div class="input-group">
-                <label>End Time</label>
+              <label>End Time</label>
+            <div class="input-group bootstrap-timepicker timepicker">
                 <input id="txt-endTime" data-bind="value:EndTime" class="form-control" type="text"/>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            </div>
+        </div>
+         <div class="col-xs-6">
+            <div class="input-group">
+                <label>Start Date</label>
+                <input id="txtStartDate" data-bind="value:StartDate"  class="form-control" type="text"/>
             </div>
         </div>
     </div>
@@ -56,6 +49,6 @@
                 Saved
             </div>
         </div>
-        
+       
     </div>
 </div>

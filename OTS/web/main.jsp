@@ -22,11 +22,19 @@
         <link href="content/jqtree.css" rel="stylesheet" type="text/css"/>
         <link href="content/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
         <link href="content/bootstrap-select.css" rel="stylesheet" type="text/css"/>
+        <!--
+        <link href="scripts/jquery.timepicker.css" rel="stylesheet" type="text/css"/>
+        <link href="scripts/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css"/>
+        -->
       
-        
-       
         <script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
-       <script src="scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+      
+       <!--
+        <script src="scripts/jquery.timepicker.js" type="text/javascript"></script>
+        <script src="scripts/jquery-ui-sliderAccess.js" type="text/javascript"></script>
+        <script src="scripts/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+       -->
        
         <script src="scripts/bootstrap.js" type="text/javascript"></script>
         <script src="scripts/tree.jquery.js" type="text/javascript"></script>
@@ -41,6 +49,7 @@
         <script src="scripts/inputmask.regex.extensions.js" type="text/javascript"></script>
         <script src="scripts/inputmask.numeric.extensions.js" type="text/javascript"></script>
       
+       
         <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-main-menu.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-welcome-view.js" type="text/javascript"></script>
@@ -71,10 +80,12 @@
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
         <script src="js/OTS.MessageBox.js" type="text/javascript"></script>
-      
-        <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
-        <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
-        <script src="scripts/moment.js" type="text/javascript"></script>
+     
+     <link href="scripts/bootstrap-timepicker.css" rel="stylesheet" type="text/css"/>
+     <script src="scripts/bootstrap-datepicker.js" type="text/javascript"></script>
+     <script src="scripts/bootstrap-timepicker.js" type="text/javascript"></script>
+       
+      <script src="scripts/moment.js" type="text/javascript"></script>
         
         <link href="scripts/jPushMenu-master/css/jPushMenu.css" rel="stylesheet" type="text/css"/>
         <link href="scripts/jPushMenu-master/css/demo.css" rel="stylesheet" type="text/css"/>

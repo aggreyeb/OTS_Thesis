@@ -71,7 +71,7 @@ OTS.TestValidtion=function(){
             errors.push("Invalid marks");
        };
     
-      if(item.StartTime!==undefined && item.StartTime!==null && endTime!==undefined && endTime!==null){
+      if(item.StartTime!==undefined && item.StartTime!==null && item.EndTime!==undefined && item.EndTime!==null){
       var startTime=item.StartTime.trim().toLowerCase();
       var endTime=item.EndTime.trim().toLowerCase();
       
@@ -122,7 +122,7 @@ OTS.AigTestViewModel=function(){
     me.Tests=ko.observableArray([]);
     me.Id=ko.observable();
     me.Name=ko.observable("");
-    me.TotalMark=ko.observable();    
+    me.TotalMark=ko.observable(0);    
     me.StartDate=ko.observable();
     me.StartTime=ko.observable();
     me.EndTime=ko.observable();
@@ -200,106 +200,8 @@ OTS.AigTestViewModel=function(){
          },
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
-              var testItems;
-               me.TestBankItems([])
-	       me.TestSheetItems([]);
-	       me.AnswerSheetItems([]);
-               me.TestItems([]);
-	       me.TestItemsModels=[];
-              testComponent.ListCourseTestConceptHierarchy(data.CourseId,function(msg){
-                    var result=JSON.parse(msg);
-             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                  var knowledgeMaps=[]; 
-                  var items=JSON.parse(result.Content);
-                
-                 for(var i=0; i<items.length;i++){
-                   var conceptNodes=items[i].Concepts.replace(/\"/g, "");
-                    var decodedNodes=me.DecodeString(conceptNodes);
-                    var nodes=JSON.parse(decodedNodes);
-                    var knowledgeMap= new  OTS.DataModel.KnowledgeMap(items[i].KnowledgeMapId,items[i].Name);
-                    knowledgeMap.nodes=nodes;
-                    knowledgeMaps.push(knowledgeMap);
-                } 
-                
-               
-          
-               //*********************************************************
-                knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("generate-test-items-tree",new OTS.Serialization());
-                knowledgeMapTreeView.OnNodeSelected(me.ConceptNodeSelected);
-                knowledgeMapTreeView.Render($('#test-items-generation-treeview'),knowledgeMaps);
-                knowledgeMapTreeView.UnSelectNodes();
-                 $("#div-test-list-add-edit-container").hide();
-                 $("#div-test-item-gen-container").show();
-                 
-                
-                 //Validate before Populating  the Tree View
-                var jsonNodes =JSON.parse(knowledgeMapTreeView.ToJson());
-                /*
-                 
-                */
-                  var hasNodes=  me.IsKnowledgeMapsHasNodes(jsonNodes);
-                 //********Now populate the test items and test sheet*******
-                 if(hasNodes){
-                   me.DataBindTestItemGenerationEditor();
-                   me.Actions.enableGenerateAction(true);
-                 }
-                 else{
-                  me.Actions.enableGenerateAction(false);
-                  var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>";
-                  
-                  me.ShowItemGenerationErrorAlert(message);
-                 // alert("CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again");
-                    return;
-                 }
-                 
-                 //Check to see if the knowledge map has 4 nodes
-                  var nodeCount=0;
-                  if(jsonNodes !==undefined && jsonNodes!==null && jsonNodes[0] !==undefined){
-                      nodeCount=jsonNodes[0].nodes.length;
-                  }
-                  //Set it to four when deploying
-                  if(nodeCount<4){
-                       var message="<p>Can not generate test items.Please ensure that the knowledge map has four or more node</p>";
-                        me.ShowItemGenerationErrorAlert(message);
-                        me.Actions.enableGenerateAction(false);
-                       $("#cmd-generate-test-items").prop('disabled', true);
-                       return;
-                  }
-               
-                 //Check that all the concept schema constraints are meet.
-                   var hasConceptSchemaErrors=false;
-                   var errors=[];
-                  for(var i=0;i<jsonNodes.length;i++){
-                      
-                      for(var j=0;j<jsonNodes[i].nodes.length;j++){
-                         var validationResult=dataStructureKnowledgeMap.Validate(jsonNodes[i].nodes[j]) ; 
-                         if(validationResult.HasErrors){
-                             hasConceptSchemaErrors=true;
-                             errors.push(validationResult.Errors);
-                          }
-                      }
-                     
-                   }
-                  if(hasConceptSchemaErrors){
-                     
-                      var message="<p>Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again</p>";
-                     // alert("Can not generate test items.Please enter all the require fields(characteristics,Behaviour Descriptions,Attributes,Functions,Applications) for the concept schema of the knowledge maps and try again");
-                        me.ShowItemGenerationErrorAlert(message);
-                        me.Actions.enableGenerateAction(false);
-                       $("#cmd-generate-test-items").prop('disabled', true);
-                     return;
-                    
-                  }
-                  else{
-                   me.DataBindTestItemGenerationEditor();
-                   me.Actions.enableGenerateAction(true);
-                  }
-                 //Validation section 
-                }
-                else{
-                     alertBox.ShowErrorMessage(result.Message);  
-                }   
-              });
+             
+            
          },
          onTeacherCourseChanged:function(data,e){
              var selectedCourse=ko.toJS(me.SelectedCourse())[0];
@@ -382,7 +284,11 @@ OTS.AigTestViewModel=function(){
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                         me.Tests.remove(me.SelectedTest);
                         me.SelectedTest=null;
-                         alertBox.ShowSuccessMessage("Test Deleted");
+                        me.Name("");
+                        me.TotalMark("");    
+                        me.StartDate("");
+                        me.StartTime("");
+                        alertBox.ShowSuccessMessage("Test Deleted");
                     }
                     else{
                          alertBox.ShowErrorMessage("Test Deletion Failed");  
@@ -652,47 +558,7 @@ OTS.AigTestViewModel=function(){
              
         }
         
-       /* 
-       var selecteditems=[]; //Selected items from test question bank
-       var unselectedItems=[];
-        for(var i=0;i<me.TestBankItems().length;i++){
-             if(me.TestBankItems()[i].checked()){
-                 selecteditems.push(me.TestBankItems()[i]);
-             }
-             else{
-              unselectedItems.push(me.TestBankItems()[i]);
-             }
-       }
-        
-        //Append Current Selected to the existing selected
-         for(var  j=0;j<selecteditems.length;j++){
-             me.TestSheetItems.push(selecteditems[j]);
-         }
-        
-      
-        var testId=me.SelectedTest.Id;
-        var courseId=me.SelectedTest.CourseId;
-        var itemsModels=[];
-        for(var i=0;i<me.TestSheetItems().length;i++){
-            var item= me.FindTestItemModel(me.TestSheetItems()[i].ComponentCode);
-            if(item!==null)
-            {
-                 item.componentCode=me.TestSheetItems()[i].ComponentCode;
-                 itemsModels.push(item);
-            }
-               
-        }
-        var data= me.EncodeString(JSON.stringify(itemsModels));
-       testComponent.UpdateCourseTestSheet(testId,courseId,data,function(msg){
-            var result=JSON.parse(msg);
-            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){ 
-               //DataBind the form again: Get update from server
-               me.DataBindTestItemGenerationEditor();
-                   $(".app-lnk-test-sheet").click();
-            }
-            else{}
-       });
-       */
+       
     }; //end of function
     
    me.DataBindTestItemGenerationEditor=function(){

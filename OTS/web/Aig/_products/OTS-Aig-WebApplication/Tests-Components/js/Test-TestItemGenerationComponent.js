@@ -146,16 +146,23 @@ OTS.AigTestItemGenerationComponent=function(){
              var result=JSON.parse(msg);
              var courses=JSON.parse(result.Content);
              viewModel.DataBind(courses);
-             
+           
          $('#txtStartDate').datepicker({
             autoclose: true,
             todayBtn: "linked",format: 'mm/dd/yyyy'
          });
-    
-         $("#txt-startTime").timepicker('showWidget');;
-         $("#txt-endTime").timepicker('showWidget');
+        
+         $("#txt-startTime").timepicker({minuteStep:5});
+         $("#txt-endTime").timepicker({minuteStep:5});
             
          });
+         
+       //  var startTime= $("#dt-startTime");
+         // var endTime= $("#dt-EndTime");
+        
+          $("#timepicker1").timepicker();
+
+
          viewModel.HideItemGenerationErrorAlert();
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
          
