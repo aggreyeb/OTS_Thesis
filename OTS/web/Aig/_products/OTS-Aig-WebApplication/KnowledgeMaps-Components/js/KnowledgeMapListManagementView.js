@@ -68,7 +68,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
     me.SelectedKnowledgeMap={
            KnowledgeMapId:ko.observable(),
            Name:ko.observable(),
-           Description:ko.observable(),
+           Description:ko.observable(""),
            IsPublic:ko.observable(false),
            IsImported:ko.observable(false),
            IsSharing:ko.observable(false),
@@ -224,10 +224,12 @@ OTS.AigKnowledgeMapListManagementView=function(){
                var item;
              if(me.selectedMode===modeType.New){
                var newKnowledgeMap=ko.toJS( me.SelectedKnowledgeMap);
-             //  newKnowledgeMap.IsPublic=true;
-             //  newKnowledgeMap.IsImported=false;
+            
                newKnowledgeMap.KnowledgeMapId=new Aig.Guid().NewGuid();
                newKnowledgeMap.CreatedBy=0;
+               if(newKnowledgeMap.Description ===undefined || newKnowledgeMap.Description===null ){
+                   newKnowledgeMap.Description="";
+               }
                newKnowledgeMap.Concepts=me.EncodeString(JSON.stringify([]));
                var data=JSON.stringify(newKnowledgeMap);
                 knowledgeMapComponent.SaveKnowledgeMap(data, function(e){
@@ -556,7 +558,10 @@ OTS.AigKnowledgeMapListManagementView=function(){
         if(items===undefined || items===null) return;
           if(items.length>0){
               for(var i=0;i<items.length;i++){
-               if(items[i].IsImported){
+                if(items[i].Description===undefined || items[i].Description===null){
+                    items[i].Description="";
+                }
+                if(items[i].IsImported){
                     items[i].IsImported=ko.observable(items[i].IsImported); 
                     items[i].ImportedIcon=ko.observable(importedKnowldegeMapIcon);
                }
