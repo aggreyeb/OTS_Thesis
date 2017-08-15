@@ -411,7 +411,7 @@ OTS.AigTestViewModel=function(){
    };
    
   //******************************Test Item Generation **********************
-   
+   /*
     me.SelectedNodeForItemsGeneration=null;
     me.TestItems= ko.observableArray([]); //Test items generated array
     me.TestItemsModels=[];//Test Items without html tags/ Seperation of data and style
@@ -601,7 +601,8 @@ OTS.AigTestViewModel=function(){
      })
 	
  };
-  
+  */
+  /*
   me.RenderOnlyTestBankItems=function(currentQuestionBankItems){
       for(var t=0;t<currentQuestionBankItems.length;t++){
                       var currentItem=currentQuestionBankItems[t];
@@ -685,9 +686,9 @@ OTS.AigTestViewModel=function(){
 	      }
  
  };
-  
+  */
     
-    
+ /*   
     me.ToggleCheckAllTestItems=function(state){
        for(var i=0;i<me.TestBankItems().length;i++){
              me.TestBankItems()[i].checked(state);  
@@ -724,10 +725,16 @@ OTS.AigTestViewModel=function(){
         }
        
     };
+    
+    */
+    
+     /*
     me.ConceptNodeSelected=function(e){
        me.SelectedNodeForItemsGeneration=e;
      
    };
+   
+   
     me.PopulateGeneratedItemList = function(items,testItemsModels) {
         me.TestItems([]);
         me.TestItemsModels=testItemsModels;
@@ -749,13 +756,14 @@ OTS.AigTestViewModel=function(){
         }
        
     };
+    
+   
      me.ClearTestItemGenerated=function(){
          me.TestItems([]);
          me.NumberItemsGenerated(0);
     };
     
-    /*Pull existing Course Test Items from Test Question Bank and append
-      current generated items*/
+   
     me.UpdateCourseTestQuestionBankItems=function(existingItems){
          var qustionBankbase64TestQuestions;
           var array=[];
@@ -807,9 +815,9 @@ OTS.AigTestViewModel=function(){
             });
             
     };
-   
-   /*Pull existing Course Test Items from Test Question Bank and append
-      current generated items*/
+    */
+  
+  /*
     me.SaveToTestQuestionBank=function(){
         if(me.SelectedTest!==undefined && me.SelectedTest!==null ){
         
@@ -830,11 +838,12 @@ OTS.AigTestViewModel=function(){
         }
     };
     
-    
+    */
     me.AddDataStructureKnowledgeMap=function(aDataStructureKnowledgeMap){
         dataStructureKnowledgeMap=aDataStructureKnowledgeMap;
     };
     
+    /*
     me.IsKnowledgeMapsHasNodes=function(knowledgeMaps){
          if(knowledgeMaps===undefined ||knowledgeMaps===null )
              return false;
@@ -848,6 +857,7 @@ OTS.AigTestViewModel=function(){
        }
         return hasNodes;
     };
+    */
     
      me.BuildValidationErrorsLayout=function(errors){
         var html="<ul>";
@@ -857,6 +867,7 @@ OTS.AigTestViewModel=function(){
         html+="</ul>";
         return html;
     };
+   
     
     me.ShowItemGenerationErrorAlert=function(message){
        // var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>"
@@ -868,7 +879,7 @@ OTS.AigTestViewModel=function(){
          $("#alert-item-generation-validation-alert").html("<p></p>");
        $("#alert-item-generation-validation-alert").hide();
     };
-    
+   
 }; //end class function
 
 
