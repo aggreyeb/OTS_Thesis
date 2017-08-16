@@ -15,7 +15,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var appendableKnowledgeMapsControl=new Aig.Controls.AppendableControl("knowledgeMap-list-container");
     
     var htmlTemplateKnowledgeMapsTreeViewDataSource=new Aig.HtmlTemplateDataSource("knowledge-maps-tree-template");
-    var appendableKnowledgeMapsTreeViewControl=new Aig.Controls.AppendableControl("knowledgeMaps-tree-container");
+   // var appendableKnowledgeMapsTreeViewControl=new Aig.Controls.AppendableControl("knowledgeMaps-tree-container");
+     var appendableKnowledgeMapsTreeViewControl=new Aig.Controls.AppendableControl("div-knowledgeMaps-Add-Editing");
+   //knowledgeMaps-Add-Editing
    
      var htmlTemplateConcepSchemaDataSource=new Aig.HtmlTemplateDataSource("concept-schma-template");
     var appendableConcepSchemaViewControl=new Aig.Controls.AppendableControl("concept-schema-container");

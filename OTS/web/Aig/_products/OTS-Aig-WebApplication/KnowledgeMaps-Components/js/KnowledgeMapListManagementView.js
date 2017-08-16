@@ -113,6 +113,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            me.selectedMode=modeType.Edit;
         },
         onEdit:function(data,e){
+            /*
             me.CurrentKnowledgeMapTree=data;
             me.ResetConceptSchema();
             me.conceptSchema.selectedRelationship(data.selectedRelationship);
@@ -134,6 +135,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
           
            knowledgeMapTreeView.Render($('#knowledgeMaps-tree'), [knowledgeMap]);
            knowledgeMapTreeView.UnSelectNodes();
+            */
         },
        
         resetForm:function(){
