@@ -22,19 +22,11 @@
         <link href="content/jqtree.css" rel="stylesheet" type="text/css"/>
         <link href="content/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
         <link href="content/bootstrap-select.css" rel="stylesheet" type="text/css"/>
-        <!--
-        <link href="scripts/jquery.timepicker.css" rel="stylesheet" type="text/css"/>
-        <link href="scripts/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css"/>
-        -->
-      
+        
         <script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
         <script src="scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
       
-       <!--
-        <script src="scripts/jquery.timepicker.js" type="text/javascript"></script>
-        <script src="scripts/jquery-ui-sliderAccess.js" type="text/javascript"></script>
-        <script src="scripts/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
-       -->
+       
        
         <script src="scripts/bootstrap.js" type="text/javascript"></script>
         <script src="scripts/tree.jquery.js" type="text/javascript"></script>
@@ -49,7 +41,7 @@
         <script src="scripts/inputmask.regex.extensions.js" type="text/javascript"></script>
         <script src="scripts/inputmask.numeric.extensions.js" type="text/javascript"></script>
       
-       
+       <!--
         <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-main-menu.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-welcome-view.js" type="text/javascript"></script>
@@ -74,7 +66,7 @@
         <script src="classes/common/batch-student-account-viewmodel.js" type="text/javascript"></script>
         <script src="classes/teacher/teacher-student-test-view.js" type="text/javascript"></script>
         <script src="classes/teacher-studentTestReport-viewModel.js" type="text/javascript"></script>
-        
+        -->
         
         <script src="scripts/knockout.mapping-latest.js" type="text/javascript"></script>
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
@@ -129,6 +121,8 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/knowledgmap-treeview.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapListManagementView.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
+       
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js-knowledgemaps/knowledgemap-tree-components/KnowledgeMapTreeViewComponent.js" type="text/javascript"></script>
         
         <!--Test-->
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/TestDataSource.js" type="text/javascript"></script>
@@ -212,13 +206,17 @@
      
     <!--Knowledge Map Management Templates-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
-    <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>
+    <!--<script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/zzKnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
      
       <!--Knowledge Maps-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-treeview-add-edit.html" id="knowledge-map-treeview-actions-template" type="text/html"> </script>
+     
+    //knowledge-map-actions
+    
          <!--Knowledge Maps Validations -->
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/characteristics-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/behaviour-description-validation.js" type="text/javascript"></script>

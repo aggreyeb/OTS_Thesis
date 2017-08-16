@@ -55,7 +55,9 @@
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onRename}" href="#" title="Rename" ><i class="fa fa-pencil-square"></i></a>
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onEdit}" href="#" title="Edit Tree View" ><i class="fa fa-sitemap"></i></a>
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onDuplicate}" href="#" title="Duplicate" ><i class="fa fa-files-o"></i></a>
+                                    <!--ko if: IsSharing===false-->
                                     <a data-bind="event:{click:$parent.knowledgeMaplistViewActions.onDelete}" href="#" title="Delete" ><i class="fa fa-remove"></i></a>
+                                    <!--/ko-->
                                 </div>
                             </td>
                         </tr>

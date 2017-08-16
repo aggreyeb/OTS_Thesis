@@ -15,11 +15,11 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var appendableKnowledgeMapsControl=new Aig.Controls.AppendableControl("knowledgeMap-list-container");
     
     var htmlTemplateKnowledgeMapsTreeViewDataSource=new Aig.HtmlTemplateDataSource("knowledge-maps-tree-template");
-   // var appendableKnowledgeMapsTreeViewControl=new Aig.Controls.AppendableControl("knowledgeMaps-tree-container");
+
      var appendableKnowledgeMapsTreeViewControl=new Aig.Controls.AppendableControl("div-knowledgeMaps-Add-Editing");
-   //knowledgeMaps-Add-Editing
+
    
-     var htmlTemplateConcepSchemaDataSource=new Aig.HtmlTemplateDataSource("concept-schma-template");
+    var htmlTemplateConcepSchemaDataSource=new Aig.HtmlTemplateDataSource("concept-schma-template");
     var appendableConcepSchemaViewControl=new Aig.Controls.AppendableControl("concept-schema-container");
    
     var addEditKnowledgeMapDataSource=new Aig.HtmlTemplateDataSource("add-edit-knowledgemap-template");
@@ -31,9 +31,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     
     var element;
     var control= new  Aig.Controls.Control();
+    //components
     var knowlegemapListManagement;
     var dataDataStructureKnowledgeMap; //Contains the validators
-    
+    var knowledgeMapTreeViewComponent= new OTS.AigKnowledeMapTreeViewComponent();
     
     var componentChanged=function(e){
         if(e.id===id){
@@ -137,7 +138,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
        $(".component-content").hide();
        var panel=  control.SelectById("div-knowledgemaps-content");
        panel.show();
-    
+       
       if(initialized) {
         me.HideKnowledgeMapEditor();
         me.ShowKnowlegeMapList();
@@ -173,7 +174,11 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                 
                knowlegemapListManagement.DataBind(items);
                ko.applyBindings(knowlegemapListManagement,$("#div-knowledgemaps-content")[0]);
-                
+               
+               //Render the Treeview Layout
+               knowledgeMapTreeViewComponent.Render();
+               knowlegemapListManagement.AddKnowledgeMapEditTarget(knowledgeMapTreeViewComponent.onKnowledgeMapEditEvent);
+               knowlegemapListManagement.AddDataStructureKnowledegeMap(me.onKnowledgeMapEditEvent);
               }
               catch(error){
                   console.log(error);
@@ -285,5 +290,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             callback(msg);
         });
    };
+   
+    me.onKnowledgeMapEditEvent=function(data){
+        
+    };
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

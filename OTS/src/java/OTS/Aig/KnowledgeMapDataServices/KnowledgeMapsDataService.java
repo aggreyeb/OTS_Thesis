@@ -203,7 +203,7 @@ public class KnowledgeMapsDataService {
     public TransactionResult ListTeacherKnowledgeMaps(int userId){
           TransactionResult result= new TransactionResult();
         try{ 
-          String sql= "Select * from knowledgemap where Createdby =" + userId;
+          String sql= "Select * from knowledgemap where  Createdby =" + userId + " or IsSharing=1  "  ;
    
           List<KnowledgeMapElement> knowledgemaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapElement.class);
