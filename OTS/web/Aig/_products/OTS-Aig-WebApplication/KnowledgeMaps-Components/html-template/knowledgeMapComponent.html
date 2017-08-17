@@ -34,61 +34,56 @@
             </div> 
             <div class="col-xs-9">
                 <!--Concept Schema View-->
-                 <div>
+                <div style="margin-left: 2px">
                      <h3><span class="label label-default">Node Information</span></h3> 
                   </div> 
-                <div style="  border: 1px; border-radius:2px;border-color: #ddd">
+                <div style="border: 1px solid #ddd;margin-left: 4px;margin-right: 50px;margin-bottom: 10px;  border-radius:2px;border-color: #ddd;padding-bottom: 20px">
                    
-                <div  class="row">
+                    <div   class="row">
                    <div class="col-xs-6">
-                     <label>Node Name</label>
+                       <label style="margin-left: 2px">Node Name</label>
                      <div class="input-group">
-                      <input type="text" class="form-control" >
+                         <input style="margin-left: 2px" type="text" class="form-control" >
                       <span class="input-group-btn">
                         <button class="btn btn-secondary" type="button">Rename</button>
                       </span>
                     </div>
                   </div>
                    <div class="col-xs-6">
-                     <label>Parent</label>
-                     <div class="input-group">
-                      <input type="text" class="form-control" >
-                      <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button">Rename</button>
-                      </span>
+                       <label  style="margin-left: 2px">Parent</label>
+                     <div style="margin-bottom: 5px" class="input-group">
+                         <input style="width: 400px" type="text" class="form-control" >
                     </div>
                   </div>
-                </div>
+                   </div><br>
                     
                    <div  class="row">
                    <div class="col-xs-6">
-                     <label>Relation Type</label>
-                     <div class="input-group">
-                      <input type="text" class="form-control" >
-                      <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button">Update</button>
-                      </span>
+                       <label style="margin-left: 2px" >Relation Type</label>
+                     <div style="margin-bottom: 5px" class="input-group">
+                     <select  class="form-control" style="width: 416px;margin-left: 2px ">
+                         <option value="TypeOf">Type Of</option>
+                         <option value="PartOf">Part Of</option>
+                     </select>
                     </div>
                   </div>
                    <div class="col-xs-6">
-                     <label>Parent</label>
+                     <label>Other</label>
                      <div class="input-group">
-                      <input type="text" class="form-control" >
-                      <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button">Rename</button>
-                      </span>
+                         <input style="width: 400px" type="text" class="form-control" >
                     </div>
                   </div>
                 </div>  
                     
                 </div><!--end information-->
                  <!--start concept schema table-->
-                <div style="margin-top:5px;margin-right: 10px " id="pan-concept-node-List">
-                    <h3><span class="label label-default">Concept Schemas</span></h3>
-                    <div>
-                        <a class="btn btn-sm btn-primary pull-right" href="#">Add New Concept Schema</a>
+                <div style="padding-bottom: 5px; margin-top:5px;margin-right: 50px;border: 1px solid #ddd " id="pan-concept-node-List">
+                    <h3 style="margin-left: 2px"><span class="label label-default">Concept Schemas</span></h3>
+                    <div style="margin-right: 2px;margin-bottom: 5px">
+                        <a style="margin-bottom: 2px;margin-right: 2px" class="btn btn-sm btn-info pull-right" href="#">Add New Concept Schema</a>
                     </div>
-                    <table class="table table-bordered table-hover">
+                    <div style="margin-left: 5px;margin-right:  5px" class="table-responsive" >
+                    <table  class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Relation Name</th>
@@ -111,21 +106,34 @@
                             </tr>
                         </tbody>
                     </table>
-                </div><!--end concept schema table-->
-                <div style="overflow-y: scroll;height: 400px">
-                <div id="div-concept-form">
-                    <div class="form-horizontal">
-                        <div class="row">
+                   </div>
+                </div><br><!--end concept schema table-->
+              <div style="overflow-y: scroll;height: 400px">
+                  <div  id="div-concept-form">
+                   
+                    <div style="border: 1px solid #ddd;margin-right: 32px" class="form-horizontal">
+                        <div  class="row">
                             <div class="col-xs-6">
+                                 <div style="margin-left: 2px">
+                                  <h3><span class="label label-default">Add/Edit Concept Schema</span></h3>
+                                 </div>
+                              <div style="margin-left: 2px">
                                 <label>Relation Name</label>
-                                <input style="width: 400px" class="form-control"  type="text"/>
+                               <select  style="width: 400px" class="form-control">
+                                   <option value="is">is</option>
+                                   <option value="has">has</option>
+                                   <option value="has-a">has a</option>
+                                   <option value="can">can</option>
+                               </select>
+                               </div>
                             </div>
+                            
                         </div>
                         
-                        <div class="form-group">
+                        <div  class="form-group">
                             <div class="col-xs-6">
-                                <label  class="control-label">Concept Name</label>
-                                <input style="width: 400px" class="form-control"  type="text"/>
+                                <label style="margin-left: 2px"  class="control-label">Concept Name</label>
+                                <input style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
                             </div>
                            <div class="col-xs-6">
                                 <label  class="control-label">Action Name</label>
@@ -135,8 +143,8 @@
                         
                          <div class="form-group">
                             <div class="col-xs-6">
-                                <label  class="control-label">Attribute Name</label>
-                                <input style="width: 400px" class="form-control"  type="text"/>
+                                <label style="margin-left: 2px" class="control-label">Attribute Name</label>
+                                <input style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
                             </div>
                            <div class="col-xs-6">
                                 <label  class="control-label">Attribute Value</label>
@@ -144,11 +152,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div style="margin-right: 95px" class="pull-right">
+                            <div style="margin-left: 20px">
                                 <button class="btn btn-sm btn-primary">Save</button>
                                 <button class="btn btn-sm btn-default">Cancel</button>
                             </div>
                         </div>
+                   
                     </div>
                 </div> 
                     
