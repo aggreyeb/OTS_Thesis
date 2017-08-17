@@ -964,7 +964,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
                      me.DataBind(items);
                      me.OnCloseKnowledgeMapForImport();
                    
-                     $("#chk-select-all").prop("checked","false");
+                     $("#chk-select-all").prop("checked",false);
                 }
                
          });

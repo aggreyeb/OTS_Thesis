@@ -15,7 +15,7 @@
   </div>
     <div style="display: none" id="div-knowledgemap-concepts-schema-management">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <!--Knowledge map tree view-->
                 <div id="tree-view-container">
                     <div id="knowledge-map-treeview-actions" style="margin-bottom: 5px;margin-top: 10px;border: 1px solid #ddd; border-radius: 2px">
@@ -32,9 +32,85 @@
                 
                
             </div> 
-            <div class="col-xs-8">
+            <div class="col-xs-9">
                 <!--Concept Schema View-->
-                Concept Schema View
+                 <div>
+                     <h3><span class="label label-default">Node Information</span></h3> 
+                  </div> 
+                <div style="  border: 1px; border-radius:2px;border-color: #ddd">
+                   
+                <div  class="row">
+                   <div class="col-xs-6">
+                     <label>Node Name</label>
+                     <div class="input-group">
+                      <input type="text" class="form-control" >
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button">Rename</button>
+                      </span>
+                    </div>
+                  </div>
+                   <div class="col-xs-6">
+                     <label>Parent</label>
+                     <div class="input-group">
+                      <input type="text" class="form-control" >
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button">Rename</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                    
+                   <div  class="row">
+                   <div class="col-xs-6">
+                     <label>Relation Type</label>
+                     <div class="input-group">
+                      <input type="text" class="form-control" >
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button">Update</button>
+                      </span>
+                    </div>
+                  </div>
+                   <div class="col-xs-6">
+                     <label>Parent</label>
+                     <div class="input-group">
+                      <input type="text" class="form-control" >
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button">Rename</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>  
+                    
+                </div>
+                <div style="margin-top:5px;margin-right: 10px " id="pan-concept-node-List">
+                    <h3><span class="label label-default">Concept Schemas</span></h3>
+                    <div>
+                        <a class="btn btn-sm btn-primary pull-right" href="#">Add New Concept Schema</a>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Relation Name</th>
+                                 <th>Concept Name</th>
+                                 <th>Action Name</th>
+                                 <th>Attribute Name</th>
+                                 <th>Attribute Value</th>
+                                 <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>is</td>
+                                <td>Vegetative organ</td>
+                                <td>absorb</td>
+                                <td>water</td>
+                                <td>Attribute Name</td>
+                                <td>Edit | Delete</td>
+                              
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div> 
         </div>
     </div>
