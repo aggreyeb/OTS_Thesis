@@ -185,7 +185,8 @@ public class KnowledgeMapsDataService {
               String updateTemplate="Update knowledgemap Set Concepts='%s'  Where KnowledgeMapId='%s'";
               String sql=String.format(updateTemplate, data,knowledgeMapId);
               this.dataSource.ExecuteNonQuery(sql);
-              return  this.ListTeacherKnowledgeMaps(userId);
+             // return  this.ListTeacherKnowledgeMaps(userId);
+             return ListTeacherKnowledgeMapById(userId,knowledgeMapId);
           }
         
        catch(Throwable ex){
@@ -198,7 +199,30 @@ public class KnowledgeMapsDataService {
        }
     }
     
-    
+      public TransactionResult ListTeacherKnowledgeMapById(int userId,String knowledgeMapId){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String sql= "Select * from knowledgemap where  Createdby =" + userId + " and  KnowledgeMapId=" + "'" + knowledgeMapId + "'"  ;
+   
+          List<KnowledgeMapElement> knowledgemaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, knowledgemaps,KnowledgeMapElement.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(knowledgemaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+              
+            }
+       }
+     
+     
     
     public TransactionResult ListTeacherKnowledgeMaps(int userId){
           TransactionResult result= new TransactionResult();
@@ -222,6 +246,9 @@ public class KnowledgeMapsDataService {
               // this.dataSource.Close();
             }
        }
+    
+    
+    
     
     private User FindUser(int userId){
          
@@ -278,6 +305,7 @@ public class KnowledgeMapsDataService {
          
          for(KnowledgeMapElement item:items){
             String todaysDate="'" + currentTime + "'";
+            item.IsImported=true;
              String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
             this.dataSource.ExecuteNonQuery(sql);  
          }

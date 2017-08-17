@@ -26,6 +26,7 @@ public class KnowledgeMapElement {
     public Date LastUpdated ;
     public String ImportedIcon="fa fa-";
     public String SharingIcon ;
+    public String KnowledgeMapIcon="-";
     
     
 }

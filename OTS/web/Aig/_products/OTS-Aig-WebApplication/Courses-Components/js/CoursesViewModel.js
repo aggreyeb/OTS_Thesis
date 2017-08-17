@@ -10,7 +10,7 @@ OTS.CourseItem=function(number,name,knowledgeMaps){
 OTS.AigCourseViewModel=function(){
     var me=this;
     var courseComponent;
-    var alertBox=new Aig.AlertBox("course-alert")
+    var alertBox=new Aig.AlertBox("course-alert");
     me.ActionType={
        NEW:"NEW" ,
        EDIT:"EDIT",

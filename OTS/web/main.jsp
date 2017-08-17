@@ -215,7 +215,7 @@
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-treeview-add-edit.html" id="knowledge-map-treeview-actions-template" type="text/html"> </script>
      
-    //knowledge-map-actions
+   
     
          <!--Knowledge Maps Validations -->
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/characteristics-validation.js" type="text/javascript"></script>

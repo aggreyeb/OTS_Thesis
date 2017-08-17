@@ -136,56 +136,14 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         printItems.length = 0;
         return JSON.parse(json);
     };
-
+    
+    /*
     me.UpdateNode = function(nodeItem) {
         try {
 
             if (nodeItem === undefined || nodeItem === null) return;
             if (nodeItem.id === "") return;
             var node = me.FindNode(nodeItem.id);
-           
-            node.relationshipid = nodeItem.relationshipid;//nodeItem.selectedRelationship.id;
-            node.relationshipname =nodeItem.relationshipname; 
-            node.selectedRelationship=nodeItem.selectedRelationship;
-            node.behaviourdescription = nodeItem.behaviourdescription;
-            if (node.behaviourDescriptions !== undefined && node.behaviourDescriptions !== null ) {
-                node.behaviourDescriptions.length = 0;
-                for (var l = 0; l < nodeItem.behaviourDescriptions.length; l++) {
-                    if (nodeItem.behaviourDescriptions[l] !== undefined) {
-                        node.behaviourDescriptions.push(nodeItem.behaviourDescriptions[l]);
-                    }
-                }
-            }
-           
-            if (node.attributes !== undefined && node.attributes !== null ) {
-                node.attributes.length = 0;
-                for (var i = 0; i < nodeItem.attributes.length; i++) {
-                    if (nodeItem.attributes[i] !== undefined) {
-                        node.attributes.push(nodeItem.attributes[i]);
-                    }
-                }
-            }
-
-            if (node.functions !== undefined && node.functions !== null ) {
-                node.functions.length = 0;
-                for (var j = 0; j < nodeItem.functions.length; j++) {
-                    if (nodeItem.functions[j] !== undefined) {
-                        node.functions.push(nodeItem.functions[j]);
-                    }
-
-                }
-            }
-
-            if (node.applications !== undefined && node.applications !== null ) {
-                node.applications.length = 0;
-                for (var k = 0; k < nodeItem.applications.length; k++) {
-                    if (nodeItem.applications[k] !== undefined) {
-                        node.applications.push(nodeItem.applications[k]);
-                    }
-
-                }
-            }
-             
            
 
             var json = serializer.ToString(nodes);
@@ -194,7 +152,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
             console.log(error);
         }
     };
-    
+    */
     me.OnNodeSelected = function(functionCallback) {
         if (functionCallback instanceof Function) {
             nodeSelectedCallback = functionCallback;
@@ -306,23 +264,11 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
 
     me.Render = function(domElement,nodeList) {
         try {
-          //  if (rendered) return;
+        
             nodes = nodeList;
             element = $(domElement);
             initializeTreeView(element);
-            //innerTree = element.treeview({
-            //    data: nodes,
-            //    onNodeSelected: function (event, data) {
-            //        if (nodeSelectedCallback !== undefined &&
-            //            nodeSelectedCallback !== null) {
-            //            var currentNode = me.FindNode(data.id);
-            //            nodeSelectedCallback(currentNode);
-            //        }
-                   
-            //    }
-            //});
-          
-            //rendered = true;
+            
         } catch (error) {
            // rendered = false;
         }
@@ -333,6 +279,10 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         initializeTreeView(element);
     };
 
+    me.Update=function(item){
+        nodes=item ;
+        me.Refresh();
+    };
 
     me.UnRender = function () {
         if (element === undefined || element === null) return;

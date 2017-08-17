@@ -1,8 +1,8 @@
 
-<div  class="container-fluid panel-collapse collapse" id="cmd-import-knowledgemaps">
+<div  class="container-fluid " id="cmd-import-knowledgemaps">
     
     --Import Knowledge map--
-    Hello
+  
 </div>
 <div id="knowledgemap-management-container">
   
@@ -22,7 +22,7 @@
         <div class="col-xs-12">
             <div  style="margin-bottom: 2px" class="pull-right ">
                 <span style="margin-right: 20px">
-                      <a id="lnk-import-list"   title="Import KnowledgeMaps" data-bind="click:onImportKnoledgeMapsClicked" data-toggle="collapse" href="#cmd-import-knowledgemaps" class="btn btn-sm btn-info"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
+                      <a id="lnk-import-list"   title="Import KnowledgeMaps" data-bind="click:onImportKnoledgeMapsClicked"  href="#" class="btn btn-sm btn-info"><i class="fa fa fa-download"></i>Import Knowledge Map(s)</a>
                 </span>
               
             </div>
@@ -45,7 +45,7 @@
                     <tbody data-bind="foreach:KnowledgeMaps">
                         <tr>
                             
-                            <td ><i data-bind="css:ImportedIcon"></i></td>
+                            <td ><i data-bind="css:KnowledgeMapIcon"></i></td>
                             <td  data-bind="text:Name"></td>
                             <td  data-bind="text:Description"></td>
                             <td><input    style="width: 10%;margin-left: 60px" type="checkbox" data-bind="checked:IsPublic,event:{change: $parent.knowledgeMaplistViewActions.onOpenToImport}" /></td>
