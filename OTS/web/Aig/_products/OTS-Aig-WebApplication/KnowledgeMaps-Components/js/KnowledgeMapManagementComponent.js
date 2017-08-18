@@ -35,6 +35,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     var knowlegemapListManagement;
     var dataDataStructureKnowledgeMap; //Contains the validators
     var knowledgeMapTreeViewComponent= new OTS.AigKnowledeMapTreeViewComponent();
+    var conceptSchemaManagementComponent=new OTS.AigConceptSchemaManagementComponent();
     
     var componentChanged=function(e){
         if(e.id===id){
@@ -179,6 +180,11 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                knowledgeMapTreeViewComponent.Render();
                knowlegemapListManagement.AddKnowledgeMapEditTarget(knowledgeMapTreeViewComponent.onKnowledgeMapEditEvent);
                knowlegemapListManagement.AddDataStructureKnowledegeMap(me.onKnowledgeMapEditEvent);
+               
+               //Render the Concept Schema Layout
+               conceptSchemaManagementComponent.Render();
+               knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected)
+               //onConceptNodeSelected
               }
               catch(error){
                   console.log(error);

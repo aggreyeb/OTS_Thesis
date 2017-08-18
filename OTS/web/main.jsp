@@ -123,6 +123,11 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMapManagementComponent.js" type="text/javascript"></script>
        
         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js-knowledgemaps/knowledgemap-tree-components/KnowledgeMapTreeViewComponent.js" type="text/javascript"></script>
+       
+        <!--Concept Schema-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js-knowledgemaps/concept-schema-components/concept-schema-management-viewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js-knowledgemaps/concept-schema-components/concept-schema-management-datasource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js-knowledgemaps/concept-schema-components/concept-schema-management-component.js" type="text/javascript"></script>
         
         <!--Test-->
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js/TestDataSource.js" type="text/javascript"></script>
@@ -145,34 +150,35 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentAccountsComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
         
-        <!--TEST GENERATION COMPONENTS-->
+        <!--TEST GENERATION COMPONENTS
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/DataStructures.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/TestItemGeneration.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/_TestItemGenerationComponents.js" type="text/javascript"></script>
-         <!--REMEMBER-->
+        -->
+        <!--REMEMBER
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseCorrectComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseInCorrectComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeAComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeBComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeCComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeDComponent.js" type="text/javascript"></script>
-       
-        <!--UNDERSTANDING-->
+       -->
+        <!--UNDERSTANDING
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeAComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeBComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeCComponent.js" type="text/javascript"></script>
-        
-        <!--HIGHER COGNITIVE ITEMS
-        <!--APPLICATION-->
+        -->
+      
+        <!--APPLICATION
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Applications/ApplicationTypeAComponent.js" type="text/javascript"></script>
-        
-        <!--Analysis-->
+        -->
+        <!--Analysis
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisQuadraticTimeComplexityTypeAComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisLinearTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-       
-        <!--Evaluate-->
+        -->
+        <!--Evaluate
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Evaluate/EvaluteTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-        
+        -->
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
@@ -206,11 +212,13 @@
      
     <!--Knowledge Map Management Templates-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/concept-schemaView.html" id="concept-schma-template" type="text/html"> </script>
-    <!--<script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/zzKnowledgMapTreeView.html" id="knowledge-maps-tree-template" type="text/html"> </script>-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/KnowledgeMaps.html" id="knowledge-map-list-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgeMapComponent.html" id="knowledge-map-component-template" type="text/html"> </script>
-     
-      <!--Knowledge Maps-->
+   
+    <!--Concept Schema Management Templates-->
+     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-concept-schema-view.html" id="div-knowledgemap-concept-schema-ui-template" type="text/html"> </script>
+    
+    <!--Knowledge Maps-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-add-edit-view.html" id="add-edit-knowledgemap-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/import-knowledgemap-list.html" id="import-knowledgemap-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-treeview-add-edit.html" id="knowledge-map-treeview-actions-template" type="text/html"> </script>

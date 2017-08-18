@@ -62,6 +62,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
                 if (nodeSelectedCallback !== undefined &&
                     nodeSelectedCallback !== null) {
                     var currentNode = me.FindNode(data.id);
+                    currentNode.parentname=data.text;
                     nodeSelectedCallback(currentNode);
                 }
 
@@ -175,7 +176,8 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
             if(selectedNode.parentId===undefined || selectedNode.parentId===null){
                item  = me.FindNode(selectedNode.id);
                 node.parentid=selectedNode.id;
-                 item.nodes.push(node)
+                node.parentname=selectedNode.parentname;
+                 item.nodes.push(node);
                  me.Refresh();
                var selector=$(innerTree).selector;
                $(selector).treeview('expandAll', { silent: true });
@@ -185,7 +187,9 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
           
              item  = me.FindNode(selectedNode.id);
              node.parentid=selectedNode.id;
+             node.parentname=selectedNode.parentname;
              if (item !== null) {
+               
                 item.nodes.push(node);
                  me.Refresh();
                var selector=$(innerTree).selector;

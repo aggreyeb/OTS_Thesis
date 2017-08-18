@@ -7,10 +7,27 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
     var knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("kn-tree",new OTS.Serialization());
     var currentKnowledgeMap=null;
     var selectedConceptNode=null;
+    var nodeSelectedTargets=[];
+    
+    var notifyConceptNodeSelected=function(e){
+        for(var i=0;i<nodeSelectedTargets.length;i++){
+          var callback=  nodeSelectedTargets[i];
+          if(callback!==undefined && callback!==null){
+                var data= JSON.stringify(e);
+                callback(JSON.parse(data));
+          }
+            
+        }
+    };
+    me.AddTreeNodeSelectedEventTarget=function(callbackFunction){
+        if(callbackFunction instanceof Function){
+            nodeSelectedTargets.push(callbackFunction);
+        }
+    };
     
     me.onTreeNodeSelected=function(e){
       selectedConceptNode=e;
-       
+      notifyConceptNodeSelected(e); 
     };
     
     me.onKnowledgeMapEditEvent=function(data){

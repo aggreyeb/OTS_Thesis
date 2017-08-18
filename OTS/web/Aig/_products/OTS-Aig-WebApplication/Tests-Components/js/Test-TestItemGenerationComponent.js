@@ -17,7 +17,7 @@ OTS.AigTestItemGenerationComponent=function(){
    
     //div-test-question-bank-view
     
-    var testGenerationComponents = new Aig.Components.TestItemGenerationComponents();
+  //  var testGenerationComponents = new Aig.Components.TestItemGenerationComponents();
    
     var componentChanged=function(e){
       if(e.id===id){
@@ -29,7 +29,7 @@ OTS.AigTestItemGenerationComponent=function(){
     me.InitializeTestGenerationAlgorithms=function(){
       
     //remember components
-    
+    /*
    new Aig.Components.RememberTypeAComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeBComponent().AddTo(testGenerationComponents);
    new Aig.Components.RememberTypeCComponent().AddTo(testGenerationComponents);
@@ -54,7 +54,7 @@ OTS.AigTestItemGenerationComponent=function(){
     //Evaluate
     
       new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
-      
+      */
     };
     
     
