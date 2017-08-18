@@ -183,7 +183,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                
                //Render the Concept Schema Layout
                conceptSchemaManagementComponent.Render();
-               knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected)
+               conceptSchemaManagementComponent.AddRenameConceptNodeTarget(knowledgeMapTreeViewComponent.RenameConceptNode);
+               knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected);
+             
                //onConceptNodeSelected
               }
               catch(error){

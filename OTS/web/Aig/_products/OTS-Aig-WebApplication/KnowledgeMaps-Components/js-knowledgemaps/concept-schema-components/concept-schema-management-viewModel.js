@@ -2,6 +2,8 @@ var OTS=OTS||{};
 OTS.AigConceptSchemaManagementViewModel=function(){
     var me=this;
     var conceptSchemacomponent;
+    var currentSelectedNode=null;
+    var renameConceptNodeTargets=[];
     me.ConceptSchemas=ko.observableArray([]);
     
     me.ShowConceptSchemaForm=ko.observable(false);
@@ -33,21 +35,58 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         AttributeValue:ko.observable()
     };
     
+    me.enableActionName=ko.observable(false);
+    me.enableAttributeName=ko.observable(false);
+    me.enableAttributeValue=ko.observable(false);
+    me.enableConceptName=ko.observable(true);
+    
+    me.AddRenameConceptNodeTarget=function(callbackFunction){
+        if(callbackFunction instanceof Function){
+            renameConceptNodeTargets.push(callbackFunction);
+        }
+    };
+    
     me.UpdateRelationName=function(relationName){
         me.SelectedRelationName(relationName);
         switch(relationName){
             case "is":
+            case "has-a":
+              me.enableActionName(false);
+              me.enableAttributeName(false);
+              me.enableAttributeValue(false);
+              me.enableConceptName(true);
              break;
                
             case "has":
-                
+              me.enableActionName(false);
+              me.enableAttributeName(true);
+              me.enableAttributeValue(true);
+              me.enableConceptName(false); 
             break
-            
-            case "has-a":
-              break;
+           
           case "can":
+              me.enableActionName(true);
+              me.enableAttributeName(false);
+              me.enableAttributeValue(false);
+              me.enableConceptName(true); 
               break
         }
+    };
+    
+    me.UpdateNodeInformation=function(node){
+       
+        if(node.nodeId===0){ //root node
+            node.parentname="None";
+            $("#sel-relation-type").prop("disabled",true);
+            $("#cmd-rename-conceptNode").prop("disabled",true);
+        }
+        else{
+             $("#sel-relation-type").prop("disabled",false);
+             $("#cmd-rename-conceptNode").prop("disabled",false);
+        }
+         me.InformationView.NodeName(node.text);
+        me.InformationView.ParentName(node.parentname);
+        currentSelectedNode=node;
     };
     
     me.onAddNewConceptSchema=function(){
@@ -71,7 +110,14 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     };
     
     me.onRenameConceptNode=function(){
-        alert("Rename");
+       var currentNode=currentSelectedNode;
+       var newNodeName=ko.toJS(me.InformationView.NodeName());
+        for(var i=0;i<renameConceptNodeTargets.length;i++){
+            var callback=renameConceptNodeTargets[i];
+            if(callback!==undefined && callback!==null){
+                callback({node:currentNode, name:newNodeName});
+            }
+        }
     };
    
     me.onRelationTypeChange=function(data,e){

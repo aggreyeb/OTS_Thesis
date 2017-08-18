@@ -1,45 +1,6 @@
 ﻿var OTS = OTS || {};
 OTS.DataModel = OTS.DataModel || {};
 
-OTS.DataModel.Relationship = { None: "", Typeof: "Type Of", PartOf: "Part of" }
-
-OTS.DataModel.BehaviourDescription = function () {
-    var me = this;
-    me.id = "";
-    me.description =  "";
-};
-
-
-OTS.DataModel.Attribute = function (id, name, value,type) {
-    var me = this;
-    me.id = id||"";
-    me.name = name || "";
-    me.type = type || "";
-    me.attributeValue = value||"";
-};
-
-
-OTS.DataModel.Function = function (id, name, preCondition, postCondition,purpose) {
-    var me = this;
-    me.id = id||"";
-    me.name = name || "";
-    me.purpose = purpose || "";
-    me.preCondition = preCondition||"";
-    me.postCondition = postCondition||"";
-    me.SelectedTimeComplixity=ko.observable();
-    me.algorithm = {text:"",timeComplexity:""};
-    me.psudoCode = { text: "", timeComplexity: "" };
-    me.ReadOnlyTimeComplexity=ko.observable();
-    me.Testing=ko.observable();
-    
-    };
-
-OTS.DataModel.ConceptApplication = function (id, description) {
-    var me = this;
-    me.id = id || "";
-    me.description = description || "";
-};
-
 OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     var me = this;
     me.id = id||"";
@@ -63,13 +24,7 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     //end Style
     me.tags = [];
     me.nodes = []; //collection of conceptNodes
-    me.parentname="";
-    me.relationship = { id: "", name: name }
-    me.behaviorDescription = "";
-    me.attributes = [];
-    me.functions = [];
-    me.applications = [];
-    me.behaviourDescriptions = [];
+   
    
 };
 

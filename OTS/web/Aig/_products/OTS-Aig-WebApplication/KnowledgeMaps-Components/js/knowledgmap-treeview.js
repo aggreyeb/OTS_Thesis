@@ -19,6 +19,7 @@ OTS.TreeNode = function (id, name,parentid) {
     };
     me.tags = [];
     me.nodes = [];
+    me.data={}; //store domain specific enhancement
 };
 
 
@@ -62,7 +63,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
                 if (nodeSelectedCallback !== undefined &&
                     nodeSelectedCallback !== null) {
                     var currentNode = me.FindNode(data.id);
-                    currentNode.parentname=data.text;
+                   
                     nodeSelectedCallback(currentNode);
                 }
 
@@ -138,22 +139,27 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         return JSON.parse(json);
     };
     
-    /*
-    me.UpdateNode = function(nodeItem) {
+   
+    me.RenameNode = function(nodeItem,newName) {
         try {
-
             if (nodeItem === undefined || nodeItem === null) return;
             if (nodeItem.id === "") return;
             var node = me.FindNode(nodeItem.id);
-           
-
-            var json = serializer.ToString(nodes);
-              notifyStateChange({action:changeType.UPDATED,data: json,node:nodeItem});
+            node.name=newName;
+            node.text= newName;
+            var nodeList=node.nodes;
+            if(nodeList.length>0){
+                for(var i=0;i<nodeList.length;i++){
+                    nodeList[i].parentname=newName;
+                }
+            }
+            me.Refresh();
+            
         } catch (error) {
             console.log(error);
         }
     };
-    */
+    
     me.OnNodeSelected = function(functionCallback) {
         if (functionCallback instanceof Function) {
             nodeSelectedCallback = functionCallback;
@@ -176,7 +182,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
             if(selectedNode.parentId===undefined || selectedNode.parentId===null){
                item  = me.FindNode(selectedNode.id);
                 node.parentid=selectedNode.id;
-                node.parentname=selectedNode.parentname;
+                node.parentname=selectedNode.text;
                  item.nodes.push(node);
                  me.Refresh();
                var selector=$(innerTree).selector;
@@ -187,7 +193,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
           
              item  = me.FindNode(selectedNode.id);
              node.parentid=selectedNode.id;
-             node.parentname=selectedNode.parentname;
+             node.parentname=selectedNode.text;
              if (item !== null) {
                
                 item.nodes.push(node);
@@ -203,35 +209,6 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         }
         throw new Error("node is not type of node");
     };
-
-
-   //Rename node
-     me.RenameNode = function(selectedNode,name) {
-           var item = me.FindNode(selectedNode.id);
-           
-            if (item.parentNodeId && item.parentNodeId!==undefined
-                    && item.parentNodeId!== null && item.parentNodeId!=="" ) {
-                var parentNode = me.FindNode(item.parentNodeId);
-                if (parentNode !== null) {
-                    var index = parentNode.nodes.indexOf(item);
-                    if (index >= 0) {
-                     parentNode.nodes[index].name=name;
-                     parentNode.nodes[index].text=name;
-                      me.Refresh();
-                      var selector=$(innerTree).selector;
-                      $(selector).treeview('expandAll', { silent: true });
-                    }
-                }
-           
-            return;
-        }
-        else{
-            //don't do anything!. Its the the root
-        }
-    
-    
-    };
-
 
 
 

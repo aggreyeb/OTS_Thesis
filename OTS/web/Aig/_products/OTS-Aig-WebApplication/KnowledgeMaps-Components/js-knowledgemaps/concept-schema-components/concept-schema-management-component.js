@@ -3,12 +3,34 @@ OTS.AigConceptSchemaManagementComponent=function(){
     var me=this;
     var rendered=false;
     var currentConceptNode;
+    var renameConceptNodeTargets=[];
+    
     var viewModel= new  OTS.AigConceptSchemaManagementViewModel();
-    me.onConceptNodeSelected=function(e){
-        currentConceptNode=e;
-        alert("AigConceptSchemaManagementComponent: Concept Node Selected");
+    
+     var onRenameConceptNode=function(e){
+       
+        for(var i=0;i<renameConceptNodeTargets.length;i++){
+            var callback=renameConceptNodeTargets[i];
+            if(callback!==undefined && callback!==null){
+                callback(e);
+            }
+        }
+     };
+    
+    
+     me.AddRenameConceptNodeTarget=function(callbackFunction){
+        if(callbackFunction instanceof Function){
+            renameConceptNodeTargets.push(callbackFunction);
+        }
     };
     
+    me.onConceptNodeSelected=function(e){
+        currentConceptNode=e;
+       viewModel.UpdateNodeInformation(currentConceptNode);
+    };
+    
+    
+   
     me.Render=function(){
       
         try{
@@ -17,11 +39,11 @@ OTS.AigConceptSchemaManagementComponent=function(){
             $("#div-knowledgemap-concept-schema-ui").html(uihtml);
             $("#div-knowledgemap-concept-schema-ui").find("#sel-relation-names").change(function(e){
                 var selectedValue=$("#sel-relation-names").val();
-                viewModel.SelectedRelationName(selectedValue);
-                     alert(selectedValue);
-             
+                viewModel.UpdateRelationName(selectedValue);
             });
+            viewModel.AddRenameConceptNodeTarget(onRenameConceptNode);
              ko.applyBindings(viewModel,$("#div-knowledgemap-concept-schema-ui")[0]);
+             
              rendered =true;
         }
         catch(error){

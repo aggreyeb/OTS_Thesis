@@ -27,6 +27,15 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
     
     me.onTreeNodeSelected=function(e){
       selectedConceptNode=e;
+      //if root node disable  the remove button
+      var element= $("#knowledge-map-treeview-actions").find("#cmd-remove-conceptNode");
+      if(selectedConceptNode.nodeId===0){
+          element.prop("disabled",true);
+      }
+      else{
+          element.prop("disabled",false); 
+      }
+      
       notifyConceptNodeSelected(e); 
     };
     
@@ -82,10 +91,13 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
           alertBox.ShowErrorMessage("Please select Node and try again");
           return ;
       }
-     
+        if(selectedConceptNode.nodeId===0){
+          alertBox.ShowErrorMessage("Can not delete the root node : " + selectedConceptNode.text);
+          return ;
+      }
       
       knowledgeMapTreeView.RemoveNode(selectedConceptNode);
-      var  knowledgeMapId=currentKnowledgeMap.KnowledgeMapId;
+          var  knowledgeMapId=currentKnowledgeMap.KnowledgeMapId;
           var knowledgeMapJson=  knowledgeMapTreeView.ToJson();
           var dataSource= new   OTS.AigKnowlegeMapDataSource ();
         dataSource.UpdateKnowledgeMapNodes(knowledgeMapId,knowledgeMapJson,function(msg){
@@ -100,11 +112,31 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
         });
     };
     
-    me.RenameConceptNode=function(){
+    me.RenameConceptNode=function(e){
          if(selectedConceptNode===null){
           alertBox.ShowErrorMessage("Please select Node and try again");
           return ;
       }
+      
+       if(e.name ===undefined || e.name===null || e.name===""){
+          alertBox.ShowErrorMessage("Please enter new node name and try again");
+          return ;
+      }
+      
+       knowledgeMapTreeView.RenameNode(selectedConceptNode,e.name);
+        var  knowledgeMapId=currentKnowledgeMap.KnowledgeMapId;
+          var knowledgeMapJson=  knowledgeMapTreeView.ToJson();
+          var dataSource= new   OTS.AigKnowlegeMapDataSource ();
+        dataSource.UpdateKnowledgeMapNodes(knowledgeMapId,knowledgeMapJson,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                 var items=JSON.parse(result.Content);
+                 var kmJson=JSON.parse(items[0].Concepts);
+                 var  knowledgeMap=kmJson[0];
+                 me.UpdateTreeView(knowledgeMap);
+                 knowledgeMapTreeView.UnSelectNodes(); 
+            }
+        });
     };
     
     

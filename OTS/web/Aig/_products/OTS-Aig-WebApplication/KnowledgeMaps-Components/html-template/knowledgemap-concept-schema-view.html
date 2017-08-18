@@ -10,14 +10,14 @@
                      <div class="input-group">
                          <input data-bind="value:InformationView.NodeName" style="margin-left: 2px" type="text" class="form-control" >
                       <span class="input-group-btn">
-                          <button data-bind="click:onRenameConceptNode" class="btn btn-secondary" type="button">Rename</button>
+                          <button id="cmd-rename-conceptNode" data-bind="click:onRenameConceptNode" class="btn btn-secondary" type="button">Rename</button>
                       </span>
                     </div>
          </div>
          <div class="col-xs-6">
                        <label  style="margin-left: 2px">Parent</label>
                      <div style="margin-bottom: 5px" class="input-group">
-                         <input data-bind="value:InformationView.ParentName" style="width: 400px" type="text" class="form-control" >
+                         <input readonly data-bind="value:InformationView.ParentName" style="width: 400px" type="text" class="form-control" >
                     </div>
             </div>
         </div><br>      
@@ -25,7 +25,7 @@
                    <div class="col-xs-6">
                        <label style="margin-left: 2px" >Relation Type</label>
                      <div style="margin-bottom: 5px" class="input-group">
-                      <select id="sel-relation-type"  class="form-control" style="width: 416px;margin-left: 2px ">
+                         <select  id="sel-relation-type"  class="form-control" style="width: 416px;margin-left: 2px ">
                           <option value="TypeOf">Type Of</option>
                           <option value="PartOf">Part Of</option>
                       </select>
@@ -89,7 +89,7 @@
                                 <label>Relation Name</label>
                                <select id="sel-relation-names"  style="width: 400px" class="form-control">
                                    <option value="is">is</option> 
-                                   <option value="has">is</option> 
+                                   <option value="has">has</option> 
                                    <option value="has-a">has a</option> 
                                    <option value="can">can</option>  
                                </select>
@@ -100,22 +100,22 @@
                         <div  class="form-group">
                             <div class="col-xs-6">
                                 <label style="margin-left: 2px"  class="control-label">Concept Name</label>
-                                <input data-bind="value:ConceptSchemaView.ConceptName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
+                                <input data-bind="value:ConceptSchemaView.ConceptName,enable:enableConceptName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
                             </div>
                            <div class="col-xs-6">
                                 <label  class="control-label">Action Name</label>
-                                <input data-bind="value:ConceptSchemaView.ActionName" style="width: 400px" class="form-control"  type="text"/>
+                                <input data-bind="value:ConceptSchemaView.ActionName,enable:enableActionName" style="width: 400px" class="form-control"  type="text"/>
                             </div>
                         </div>
                         
                          <div class="form-group">
                             <div class="col-xs-6">
                                 <label style="margin-left: 2px" class="control-label">Attribute Name</label>
-                                <input data-bind="value:ConceptSchemaView.AttributeName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
+                                <input data-bind="value:ConceptSchemaView.AttributeName,enable:enableAttributeName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
                             </div>
                            <div class="col-xs-6">
                                 <label  class="control-label">Attribute Value</label>
-                                <input data-bind="value:ConceptSchemaView.AttributeValue" style="width: 400px" class="form-control"  type="text"/>
+                                <input data-bind="value:ConceptSchemaView.AttributeValue,enable:enableAttributeValue" style="width: 400px" class="form-control"  type="text"/>
                             </div>
                         </div>
                         <div class="form-group">
