@@ -1,0 +1,132 @@
+<div>
+    <!--Concept Schema View-->
+   <div style="margin-left: 2px">
+    <h3><span class="label label-default">Node Information</span></h3> 
+   </div> 
+ <div style="border: 1px solid #ddd;margin-left: 4px;margin-right: 50px;margin-bottom: 10px;  border-radius:2px;border-color: #ddd;padding-bottom: 20px">
+     <div   class="row">
+          <div class="col-xs-6">
+                       <label style="margin-left: 2px">Node Name</label>
+                     <div class="input-group">
+                         <input data-bind="value:InformationView.NodeName" style="margin-left: 2px" type="text" class="form-control" >
+                      <span class="input-group-btn">
+                          <button data-bind="click:onRenameConceptNode" class="btn btn-secondary" type="button">Rename</button>
+                      </span>
+                    </div>
+         </div>
+         <div class="col-xs-6">
+                       <label  style="margin-left: 2px">Parent</label>
+                     <div style="margin-bottom: 5px" class="input-group">
+                         <input data-bind="value:InformationView.ParentName" style="width: 400px" type="text" class="form-control" >
+                    </div>
+            </div>
+        </div><br>      
+       <div  class="row">
+                   <div class="col-xs-6">
+                       <label style="margin-left: 2px" >Relation Type</label>
+                     <div style="margin-bottom: 5px" class="input-group">
+                      <select id="sel-relation-type"  class="form-control" style="width: 416px;margin-left: 2px ">
+                          <option value="TypeOf">Type Of</option>
+                          <option value="PartOf">Part Of</option>
+                      </select>
+                    </div>
+                  </div>
+                   <div class="col-xs-6 hide">
+                     <label>Other</label>
+                     <div class="input-group">
+                         <input style="width: 400px" type="text" class="form-control" >
+                    </div>
+                  </div>
+       </div>  
+                    
+ </div><!--end information-->
+ <!--start concept schema table-->
+<div style="padding-bottom: 5px; margin-top:5px;margin-right: 50px;border: 1px solid #ddd " id="pan-concept-node-List">
+                    <h3 style="margin-left: 2px"><span class="label label-default">Concept Schemas</span></h3>
+                    <div style="margin-right: 2px;margin-bottom: 5px">
+                        <a data-bind="click:onAddNewConceptSchema" style="margin-bottom: 2px;margin-right: 2px" class="btn btn-sm btn-info pull-right" href="#">Add New Concept Schema</a>
+                    </div>
+                    <div style="margin-left: 5px;margin-right:  5px" class="table-responsive" >
+                    <table  class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Relation Name</th>
+                                 <th>Concept Name</th>
+                                 <th>Action Name</th>
+                                 <th>Attribute Name</th>
+                                 <th>Attribute Value</th>
+                                 <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:ConceptSchemas">
+                            <tr>
+                                <td data-bind="text:RelationName">is</td>
+                                <td data-bind="text:ConceptName">Vegetative organ</td>
+                                <td data-bind="text:ActionName">absorb</td>
+                                <td data-bind="text:AttributeName">water</td>
+                                <td data-bind="text:AttributeValue">Attribute Name</td>
+                                <td>
+                                    <a data-bind="event:{click:$parent.onEditConceptSchema}" href="#" title="Edit Concept Schema" ><i class="fa fa-pencil-square"></i></a>
+                                    <a data-bind="event:{click:$parent.onDeleteConceptSchema}" href="#" title="Delete Concept Schema" ><i class="fa fa-times-circle-o"></i></a>
+                                </td>
+                              
+                            </tr>
+                        </tbody>
+                    </table>
+                   </div>
+ </div><br>
+ <!--end concept schema table-->
+ <!--Start Concept Schema form-->
+ <div data-bind="visible:ShowConceptSchemaForm" style="overflow-y: scroll;height: 400px">
+                  <div  id="div-concept-form">
+                    <div style="border: 1px solid #ddd;margin-right: 32px" class="form-horizontal">
+                        <div  class="row">
+                            <div class="col-xs-6">
+                                 <div style="margin-left: 2px">
+                                     <h3><span data-bind="text:ConceptSchemaFormHeading" class="label label-default">Add/Edit Concept Schema</span></h3>
+                                 </div>
+                              <div style="margin-left: 2px">
+                                <label>Relation Name</label>
+                               <select id="sel-relation-names"  style="width: 400px" class="form-control">
+                                   <option value="is">is</option> 
+                                   <option value="has">is</option> 
+                                   <option value="has-a">has a</option> 
+                                   <option value="can">can</option>  
+                               </select>
+                               </div>
+                            </div>
+                        </div>
+                        
+                        <div  class="form-group">
+                            <div class="col-xs-6">
+                                <label style="margin-left: 2px"  class="control-label">Concept Name</label>
+                                <input data-bind="value:ConceptSchemaView.ConceptName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
+                            </div>
+                           <div class="col-xs-6">
+                                <label  class="control-label">Action Name</label>
+                                <input data-bind="value:ConceptSchemaView.ActionName" style="width: 400px" class="form-control"  type="text"/>
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+                            <div class="col-xs-6">
+                                <label style="margin-left: 2px" class="control-label">Attribute Name</label>
+                                <input data-bind="value:ConceptSchemaView.AttributeName" style="width: 400px;margin-left: 2px" class="form-control"  type="text"/>
+                            </div>
+                           <div class="col-xs-6">
+                                <label  class="control-label">Attribute Value</label>
+                                <input data-bind="value:ConceptSchemaView.AttributeValue" style="width: 400px" class="form-control"  type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="margin-left: 20px">
+                                <button data-bind="click:onSaveConceptSchema" class="btn btn-sm btn-primary">Save</button>
+                                <button data-bind="click:onCancelConceptSchemaForm" class="btn btn-sm btn-default">Cancel</button>
+                            </div>
+                        </div>
+                   
+                    </div>
+                </div> 
+                <!--end form-->
+</div>
+</div> 
