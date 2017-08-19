@@ -139,7 +139,7 @@ OTS.AigTestItemGenerationComponent=function(){
          me.InitializeTestGenerationAlgorithms();
          //initialize DataStructureKnowledgeMap
          initializeDataStructureKnowledgeMap();
-         viewModel.AddDataStructureKnowledgeMap(dataDataStructureKnowledgeMap);
+        // viewModel.AddDataStructureKnowledgeMap(dataDataStructureKnowledgeMap);
          
          var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListTeacherCourses(function(msg){
@@ -163,7 +163,7 @@ OTS.AigTestItemGenerationComponent=function(){
           $("#timepicker1").timepicker();
 
 
-         viewModel.HideItemGenerationErrorAlert();
+        // viewModel.HideItemGenerationErrorAlert();
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
          
      };

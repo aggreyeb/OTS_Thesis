@@ -411,14 +411,15 @@ OTS.AigTestViewModel=function(){
    };
    
   //******************************Test Item Generation **********************
-  
+   /*
     me.AddDataStructureKnowledgeMap=function(aDataStructureKnowledgeMap){
         dataStructureKnowledgeMap=aDataStructureKnowledgeMap;
     };
     
    
-    
-     me.BuildValidationErrorsLayout=function(errors){
+  
+      
+        me.BuildValidationErrorsLayout=function(errors){
         var html="<ul>";
         for(var i=0;i<errors.length;i++){
             html+="<li>" + errors[i] + "</li>"
@@ -427,18 +428,18 @@ OTS.AigTestViewModel=function(){
         return html;
     };
    
-    
+ 
     me.ShowItemGenerationErrorAlert=function(message){
        // var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>"
         $("#alert-item-generation-validation-alert").html(message);
         $("#alert-item-generation-validation-alert").show();
     };
-    
+   
      me.HideItemGenerationErrorAlert=function(){
          $("#alert-item-generation-validation-alert").html("<p></p>");
-       $("#alert-item-generation-validation-alert").hide();
+         $("#alert-item-generation-validation-alert").hide();
     };
-   
+    */
 }; //end class function
 
 
