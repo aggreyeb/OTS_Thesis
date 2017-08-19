@@ -1,7 +1,7 @@
 var OTS=OTS||{};
 OTS.AigKnowledgeMapManagementComponent=function(){
     var me=this;
-     var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
+    // var dataDatabase= new OTS.DataModel.KnowledgeMapDatabase(); 
     var id="lnk-knowledgemaps";
     var tempalateId="knowledge-map-component-template";
     
@@ -158,7 +158,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
             return;
       }//Already Initialized
        renderLayouts();
-       initializeDataStructureKnowledgeMap();
+     //  initializeDataStructureKnowledgeMap();
        me.HideKnowledgeMapEditor();
        me.ShowKnowlegeMapList();
       knowlegemapListManagement= new OTS.AigKnowledgeMapListManagementView();

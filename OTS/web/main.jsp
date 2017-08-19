@@ -171,13 +171,14 @@
    
     
          <!--Knowledge Maps Validations -->
+         <!--
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/characteristics-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/behaviour-description-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/attributes-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/function-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/application-validation.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/DataStructureKnowlegeMap.js" type="text/javascript"></script>
-         
+         -->
          <!--Student Accounts Templates-->
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-component.html" id="student-account-component-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-add-edit-view.html" id="student-account-add-edit-template" type="text/html"> </script>
@@ -214,8 +215,12 @@
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignments-list.html" id="teacher-course-assignments-list-template" type="text/html"> </script>
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-add-edit-view.html" id="teacher-course-assignment-add-edit-template" type="text/html"> </script>
     -->
-    
-            <script type="text/javascript">
+     <!--Test Item Generation Templates-->
+   
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-test-generation-templates/test-generation-options-selection-view.html" id="div-test-generation-options-ui-template" type="text/html"> </script>
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-test-generation-templates/test-items-geneneted-view.html" id="div-test-items-generated-ui-template" type="text/html"> </script>
+           
+      <script type="text/javascript">
              
              //A list of promises that need to resolve before starting
                var loaded = [];
