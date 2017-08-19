@@ -1,4 +1,4 @@
-<div id="tests-component-container">
+<div  data-bind="visible:showTestListView" id="tests-component-container">
     <div class="row ">
         <div id="div-test-list-add-edit-container">
              <div class="col-xs-4">
@@ -11,11 +11,22 @@
         </div>
        
     </div>
-    <div  id="div-test-item-gen-container" style="display: none" class="row ">
-        <div class="col-xs-12">
-            <div id="div-testitem-genertion">
-             
-            </div>
-        </div> 
-    </div>
 </div>
+ <div data-bind="visible:showTestGenerationView"  id="div-test-item-gen-container">
+     <div  style="margin-left: 15px"  id="div-testitem-genertion">
+         <div class="row" >
+             <div class="col-xs-3">
+                 <div id="div-test-generation-options-ui">
+                     Test generation options selection view
+                 </div>
+                 
+             </div>
+              <div class="col-xs-9">
+                  <div id="div-test-items-generated-ui">
+                        Test items generated view
+                  </div>
+               
+             </div>
+         </div>
+   </div>
+ </div>

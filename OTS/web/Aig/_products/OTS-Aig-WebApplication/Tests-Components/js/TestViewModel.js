@@ -108,9 +108,8 @@ OTS.TeacherCourse=function(id,name){
 OTS.AigTestViewModel=function(){
     var me=this;
     var testComponent;
-    var knowledgeMapTreeView;
     var alertBox=new Aig.AlertBox("alert-test-alert");
-    var dataStructureKnowledgeMap;
+   
     
     me.ActionType={
        NEW:"NEW" ,
@@ -129,7 +128,9 @@ OTS.AigTestViewModel=function(){
     me.IsActivated=ko.observable(false);
     me.TeacherCourses=ko.observableArray([]);
     me.SelectedCourse=ko.observable(null);
-
+    
+    me.showTestListView=ko.observable(true);
+    me.showTestGenerationView=ko.observable(false);
    
     
     me.SelectedTest=null;
@@ -200,8 +201,8 @@ OTS.AigTestViewModel=function(){
          },
          onGenetateTestItems:function(data,e){
               me.SelectedTest=data;
-             
-            
+              me.showTestListView(false);
+              me.showTestGenerationView(true);
          },
          onTeacherCourseChanged:function(data,e){
              var selectedCourse=ko.toJS(me.SelectedCourse())[0];
@@ -274,7 +275,7 @@ OTS.AigTestViewModel=function(){
         },
         onDelete:function(data,e){
             me.SelectedTest=data;
-            me.SelectedAction=me.ActionType.DELETE
+            me.SelectedAction=me.ActionType.DELETE;
             if(me.SelectedTest.Activated===1){
               alertBox.ShowErrorMessage("Can not delete activated test");
               return;
@@ -331,7 +332,6 @@ OTS.AigTestViewModel=function(){
                            testItem.DisplayActivated="No";
                             me.Tests.push(testItem);
                             me.Actions.ResetForm();
-                            //me.SelectedCourse(null);
                              $("#sel-teacher-Course").val("");
                          alertBox.ShowSuccessMessage("Test Created");
                     }
@@ -365,7 +365,7 @@ OTS.AigTestViewModel=function(){
                     else{
                          alertBox.ShowErrorMessage("Test Update Failed");  
                     }
-                     me.SelectedAction=me.ActionType.NEW
+                     me.SelectedAction=me.ActionType.NEW;
                   });
                     
                  break;
@@ -385,7 +385,9 @@ OTS.AigTestViewModel=function(){
              me.TeacherCourses.push(item);
            }
        }
-      me.SelectedAction=me.ActionType.NEW
+      me.SelectedAction=me.ActionType.NEW;
+      me.showTestListView(true);
+      me.showTestGenerationView(false);
    }; 
     
    me.PopulateTestList=function(items){
@@ -409,37 +411,7 @@ OTS.AigTestViewModel=function(){
        testComponent=component;
       
    };
-   
-  //******************************Test Item Generation **********************
-   /*
-    me.AddDataStructureKnowledgeMap=function(aDataStructureKnowledgeMap){
-        dataStructureKnowledgeMap=aDataStructureKnowledgeMap;
-    };
-    
-   
   
-      
-        me.BuildValidationErrorsLayout=function(errors){
-        var html="<ul>";
-        for(var i=0;i<errors.length;i++){
-            html+="<li>" + errors[i] + "</li>"
-        }
-        html+="</ul>";
-        return html;
-    };
-   
- 
-    me.ShowItemGenerationErrorAlert=function(message){
-       // var message="<p>CRITICAL ! Can not generate test items. Some of the Knowledgemap to generate the test items has no nodes.Please create nodes with concept schema(s) and try again</p>"
-        $("#alert-item-generation-validation-alert").html(message);
-        $("#alert-item-generation-validation-alert").show();
-    };
-   
-     me.HideItemGenerationErrorAlert=function(){
-         $("#alert-item-generation-validation-alert").html("<p></p>");
-         $("#alert-item-generation-validation-alert").hide();
-    };
-    */
 }; //end class function
 
 

@@ -7,12 +7,12 @@ OTS.AigTestItemGenerationComponent=function(){
     //var componentContainerId;
     var control= new  Aig.Controls.Control();
     var viewModel= new OTS.AigTestViewModel();
-    var  dataDataStructureKnowledgeMap ;
+  //  var  dataDataStructureKnowledgeMap ;
     var htmlTemplateDataSource=new Aig.HtmlTemplateDataSource("tests-component-template");
     var edithtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-add-edit-template");
     var testListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("test-list-template");
-    var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
-    var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
+   // var testgenListhtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generate-test-items-template");
+   // var generatedItemshtmlTemplateDataSource=new Aig.HtmlTemplateDataSource("generated-items-view-template");
    
    
     //div-test-question-bank-view
@@ -21,7 +21,7 @@ OTS.AigTestItemGenerationComponent=function(){
    
     var componentChanged=function(e){
       if(e.id===id){
-        // componentContainerId=e.componentContainerId
+       
          me.Initialize();
        }
     };
@@ -56,8 +56,8 @@ OTS.AigTestItemGenerationComponent=function(){
       new  Aig.Components.EvaluateTimeComplexityTypeAComponent().AddTo(testGenerationComponents); 
       */
     };
-    
-    
+   
+    /*
      var initializeDataStructureKnowledgeMap=function(){
       var  characteristicValidation= new OTS.CharacteristicValidation();
       var  behaviourDescription = new OTS.BehaviourDescriptionValidation();
@@ -73,7 +73,7 @@ OTS.AigTestItemGenerationComponent=function(){
         dataDataStructureKnowledgeMap.Add(functionValidation);
         dataDataStructureKnowledgeMap.Add(applicationValidation);
     };
-    
+    */
     
      me.Initialize=function(){
        
@@ -104,6 +104,7 @@ OTS.AigTestItemGenerationComponent=function(){
         var listappendableControl=new Aig.Controls.AppendableControl("div-tests-list");
          listappendableControl.Append(listHtml,function(e){});
          
+         /*
         var testgenHtml= testgenListhtmlTemplateDataSource.Read();
          var listgenappendableControl=new Aig.Controls.AppendableControl("div-testitem-genertion");
          listgenappendableControl.Append(testgenHtml,function(e){});
@@ -122,6 +123,7 @@ OTS.AigTestItemGenerationComponent=function(){
            html=testQuestionBankTemplateDataSource.Read();
            var testQuestionBankappendableControl=new Aig.Controls.AppendableControl("div-test-question-bank-view");
            testQuestionBankappendableControl.Append(html,function(e){});
+         
          //Test 
           var testSheetTemplateDataSource=new Aig.HtmlTemplateDataSource("test-sheet-view-template");
           html=testSheetTemplateDataSource.Read();
@@ -132,13 +134,13 @@ OTS.AigTestItemGenerationComponent=function(){
           html=answerSheetTemplateDataSource.Read();
           var answerSheetappendableControl=new Aig.Controls.AppendableControl("div-answer-sheet-view");
           answerSheetappendableControl.Append(html,function(e){});
-         
+         */
          viewModel.AddTestComponent(me);
        
          //Initialize Test Generation Algorithms
-         me.InitializeTestGenerationAlgorithms();
+        // me.InitializeTestGenerationAlgorithms();
          //initialize DataStructureKnowledgeMap
-         initializeDataStructureKnowledgeMap();
+        // initializeDataStructureKnowledgeMap();
         // viewModel.AddDataStructureKnowledgeMap(dataDataStructureKnowledgeMap);
          
          var dataSource= new  OTS.AigTestDataSource();
@@ -157,13 +159,9 @@ OTS.AigTestItemGenerationComponent=function(){
             
          });
          
-       //  var startTime= $("#dt-startTime");
-         // var endTime= $("#dt-EndTime");
-        
+    
           $("#timepicker1").timepicker();
 
-
-        // viewModel.HideItemGenerationErrorAlert();
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
          
      };
@@ -236,6 +234,7 @@ OTS.AigTestItemGenerationComponent=function(){
        });
    };
    
+   /*
     me.ListTeacherCourseKnowledgeMap=function(courseId,callbackFunction){
        var callback=callbackFunction;
        var dataSource= new  OTS.AigTeacherCourseAssignmentDataSource();
@@ -251,9 +250,9 @@ OTS.AigTestItemGenerationComponent=function(){
             callback(msg);
         });
    };
-   
+   */
    //******************************Test Items Generation *****************
-    
+    /*
     me.GenerateTestItems=function(e,callbackFunction){
        var callback=callbackFunction;
        var testItems = [];
@@ -276,10 +275,7 @@ OTS.AigTestItemGenerationComponent=function(){
         for(var m=0;m<testItemModels.length;m++){
              itemsItemModels.push(testItemModels[m]);
         }
-        // itemsItemModels.push(items[i])
-        
-       // viewModel.PopulateGeneratedItemList(testItems,itemsItemModels);
-     //  $("#message-box").html("<b><p>Number of items generated:" + testItems.length +"</p></b>")
+       
         if(callback instanceof Function)
             callback(testItems,itemsItemModels);
     };
@@ -341,7 +337,7 @@ OTS.AigTestItemGenerationComponent=function(){
             callback(msg);
         });
     };
-    
+   */ 
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

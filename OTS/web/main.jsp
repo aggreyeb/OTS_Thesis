@@ -41,33 +41,6 @@
         <script src="scripts/inputmask.regex.extensions.js" type="text/javascript"></script>
         <script src="scripts/inputmask.numeric.extensions.js" type="text/javascript"></script>
       
-       <!--
-        <script src="classes/teacher/KnowledgeMapsView.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-main-menu.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-welcome-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-assignedcourses-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-importknowledgemap-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-concept-hierarchy-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-student-account-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-test-view.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-knowledgemap-view.js" type="text/javascript"></script>
-        <script src="classes/teacher-knowledgemap-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/teacher-concept-hierachy-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher.js" type="text/javascript"></script>
-        <script src="classes/teacher-course-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/teacher-import-knowlegemap-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/teacher-test-viewModel.js" type="text/javascript"></script>
-        <script src="classes/teacher-test-generation_viewModel.js" type="text/javascript"></script>
-        <script src="classes/KnowledgeMapItem.js" type="text/javascript"></script>
-        <script src="classes/teacher-review-test-questions-viewmodel.js" type="text/javascript"></script>
-        
-        <script src="classes/admin/admin-course-assignment-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/common/student-account-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/common/batch-student-account-viewmodel.js" type="text/javascript"></script>
-        <script src="classes/teacher/teacher-student-test-view.js" type="text/javascript"></script>
-        <script src="classes/teacher-studentTestReport-viewModel.js" type="text/javascript"></script>
-        -->
-        
         <script src="scripts/knockout.mapping-latest.js" type="text/javascript"></script>
         <script src="scripts/knockout.validation.js" type="text/javascript"></script>
         <script src="scripts/knockout-bootstrap.min .js" type="text/javascript"></script>
@@ -150,35 +123,7 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Student-Accounts/js/StudentAccountsComponent.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Students-Test/js/StudentsTestComponent.js" type="text/javascript"></script>
         
-        <!--TEST GENERATION COMPONENTS
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/DataStructures.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/TestItemGeneration.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/_TestItemGenerationComponents.js" type="text/javascript"></script>
-        -->
-        <!--REMEMBER
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseCorrectComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTrueFalseInCorrectComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeAComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeBComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeCComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Remembering/RememberTypeDComponent.js" type="text/javascript"></script>
-       -->
-        <!--UNDERSTANDING
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeAComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeBComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Understanding/UnderstandTypeCComponent.js" type="text/javascript"></script>
-        -->
       
-        <!--APPLICATION
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Applications/ApplicationTypeAComponent.js" type="text/javascript"></script>
-        -->
-        <!--Analysis
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisQuadraticTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Analysis/AnlysisLinearTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-        -->
-        <!--Evaluate
-        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/test-generation-components/Evaluate/EvaluteTimeComplexityTypeAComponent.js" type="text/javascript"></script>
-        -->
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
@@ -246,14 +191,12 @@
       <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-list.html" id="students-test-list-template" type="text/html"> </script>
      
     <!--Test/Item Generation Templates-->
-    
+    <!--
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/genenerated-items-view.html" id="generated-items-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/answersheet-view.html" id="answer-sheet-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-question-bank-view.html" id="test-questions-bank-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/testsheet-view.html" id="test-sheet-view-template" type="text/html"> </script>
-   
-    
-  
+   -->
     <!--Test Components-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>
@@ -266,10 +209,11 @@
     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-add-edit-view.html" id="courses-add-edit-template" type="text/html"> </script>
     
      <!--Teacher Course Assignment templates-->
+     <!--
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-component.html" id="teacher-course-assignment-component-template" type="text/html"> </script>
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignments-list.html" id="teacher-course-assignments-list-template" type="text/html"> </script>
      <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-add-edit-view.html" id="teacher-course-assignment-add-edit-template" type="text/html"> </script>
-   
+    -->
     
             <script type="text/javascript">
              
