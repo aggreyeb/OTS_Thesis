@@ -4,8 +4,21 @@ OTS.AigConceptSchemaManagementComponent=function(){
     var rendered=false;
     var currentConceptNode;
     var renameConceptNodeTargets=[];
+    var relationTypeChangeTargets=[];
     
     var viewModel= new  OTS.AigConceptSchemaManagementViewModel();
+     
+     var notifyRalationTypeChanged=function(e){
+         currentConceptNode.data.RelationType=e;
+         var data=JSON.stringify(currentConceptNode);
+         var json=JSON.parse(data);
+         for(var i=0;i< relationTypeChangeTargets.length;i++){
+             var callback=relationTypeChangeTargets[i];
+             if(callback!==null){
+                 callback(json);
+             }
+         }
+     };
     
      var onRenameConceptNode=function(e){
        
@@ -16,6 +29,12 @@ OTS.AigConceptSchemaManagementComponent=function(){
             }
         }
      };
+    
+    me.AddRelationTypeChangeTarget=function(callbackFunction){
+        if(callbackFunction instanceof Function){
+            relationTypeChangeTargets.push(callbackFunction);
+        }
+    };
     
     
      me.AddRenameConceptNodeTarget=function(callbackFunction){
@@ -29,28 +48,78 @@ OTS.AigConceptSchemaManagementComponent=function(){
        viewModel.UpdateNodeInformation(currentConceptNode);
     };
     
+    me.Reset=function(){
     
+        viewModel.Reset();
+    };
    
     me.Render=function(){
       
         try{
-            if(rendered )return;
+            
+            if(!rendered ){
             var uihtml=$("#div-knowledgemap-concept-schema-ui-template").html();
             $("#div-knowledgemap-concept-schema-ui").html(uihtml);
             $("#div-knowledgemap-concept-schema-ui").find("#sel-relation-names").change(function(e){
                 var selectedValue=$("#sel-relation-names").val();
                 viewModel.UpdateRelationName(selectedValue);
             });
+            
+            $("#div-knowledgemap-concept-schema-ui").find("#sel-relation-type").change(function(e){
+                var selectedRelationValue=$("#sel-relation-type").val();
+                if(currentConceptNode!==undefined && currentConceptNode!==null){
+                      notifyRalationTypeChanged(selectedRelationValue);
+                }
+              
+            });
+          
+            
             viewModel.AddRenameConceptNodeTarget(onRenameConceptNode);
              ko.applyBindings(viewModel,$("#div-knowledgemap-concept-schema-ui")[0]);
              
-             rendered =true;
+               rendered =true;
+              return;
+            }
+           
         }
         catch(error){
             console.log(error);
             rendered=false;
         }
         
+    };
+    
+    
+     me.SaveConceptNodeConceptSchemas=function(data, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigConceptSchemaManagementDataSource();
+        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+            callback(msg);
+        });
+   };
+   
+    me.UpdateConceptNodeConceptSchemas=function(data, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigConceptSchemaManagementDataSource();
+        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+            callback(msg);
+        });
+    };
+    
+    me.DeleteConceptNodeConceptSchemas=function(data, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigConceptSchemaManagementDataSource();
+        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+            callback(msg);
+        });
+    };
+    
+     me.ListConceptNodeConceptSchemas=function(data, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigConceptSchemaManagementDataSource();
+        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+            callback(msg);
+        });
     };
     
     me.DataBind=function(items){

@@ -5,7 +5,6 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     var me = this;
     me.id = id||"";
     me.name=text;
-    me.conceptNodeDescription="";
     me.parentNodeId = parentNodeId || "";
     me.text = text || "";
     //style
@@ -24,7 +23,7 @@ OTS.DataModel.ConceptNode = function (id,text,parentNodeId) {
     //end Style
     me.tags = [];
     me.nodes = []; //collection of conceptNodes
-   
+    me.data={RelationType:"TypeOf"};
    
 };
 
@@ -126,6 +125,16 @@ OTS.DataModel.KnowledgeMapDatabase = function (localStorage) {
     };
 };
 
-
+OTS.DataModel.ConceptSchema=function(){
+    var me=this;
+    me.ConceptSchemaId="";
+    me.ConceptNodeId="";
+    me.RelationName="";
+    me.ConceptName="";
+    me.ActionName="";
+    me.AttributeName="";
+    me.AttributeValue="";
+    
+};
 
 

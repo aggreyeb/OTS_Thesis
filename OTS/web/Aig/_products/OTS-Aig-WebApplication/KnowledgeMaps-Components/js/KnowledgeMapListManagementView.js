@@ -314,6 +314,20 @@ OTS.AigKnowledgeMapListManagementView=function(){
           if(me.selectedMode===modeType.Edit){
                 var jsdata=ko.toJS( me.SelectedKnowledgeMap); 
                  jsdata.CreatedBy=0;//replace with login user
+                 if(jsdata.Concepts!==undefined && 
+                         jsdata.Concepts!==null && 
+                         jsdata.Concepts!==""){
+                   var concepts=JSON.parse(jsdata.Concepts);
+                   var knowledgeMap=concepts[0];
+                   knowledgeMap.text=jsdata.Name;
+                    knowledgeMap.name=jsdata.Name;
+                    knowledgeMap.parentname="";
+                   for(var i=0;i<knowledgeMap.nodes.length;i++){
+                       var node=knowledgeMap.nodes[i];
+                       node.parentname=jsdata.Name;
+                   }
+                   jsdata.Concepts=JSON.stringify([knowledgeMap]);
+                 }
                 var data=JSON.stringify(jsdata);
                 knowledgeMapComponent.UpdateKnowledgeMap(data,function(e){
                 

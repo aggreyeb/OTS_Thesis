@@ -121,9 +121,19 @@ public class KnowledgeMapsDataService {
      public TransactionResult UpdateKnowledgeMap(int userId,String data){
          Gson g=new Gson();
         try{
-              String updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b Where KnowledgeMapId='%s'";
+            String updateTemplate="";
+           
+              
+            
               KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
-              String sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.KnowledgeMapId);
+              if(item.Concepts.equals("")){
+                   updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b Where KnowledgeMapId='%s'"; 
+              }
+              else{
+                    updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b,Concepts='%s' Where KnowledgeMapId='%s'"; 
+              }
+              
+              String sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.Concepts,item.KnowledgeMapId);
               this.dataSource.ExecuteNonQuery(sql);
               return  this.ListTeacherKnowledgeMaps(userId);
           }
@@ -322,6 +332,89 @@ public class KnowledgeMapsDataService {
             }
        }
      
+     /**************************** Concept Schemas *****************************/
      
-     
+      public TransactionResult CreateConceptNodeConceptSchemas(ConceptSchemaElement item){
+        
+         Gson g = new Gson(); 
+       
+        try{ 
+          TransactionResult result= new TransactionResult();
+         String InsertTemplate="Insert into ConceptSchema ...";     
+         
+               return result;
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+            
+            }
+       }
+      
+       public TransactionResult UpdateConceptNodeConceptSchemas(ConceptSchemaElement item){
+        
+         Gson g = new Gson(); 
+       
+        try{ 
+          TransactionResult result= new TransactionResult();
+         String InsertTemplate="Update ....";     
+         
+               return result;
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+            
+            }
+       }
+       
+       public TransactionResult DeleteConceptNodeConceptSchemas(ConceptSchemaElement item){
+        
+         Gson g = new Gson(); 
+        try{ 
+          TransactionResult result= new TransactionResult();
+         String InsertTemplate="Delete ....";     
+         
+               return result;
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+            
+            }
+       }
+       
+       public TransactionResult ListConceptNodeConceptSchemas(ConceptSchemaElement item){
+        
+         Gson g = new Gson(); 
+        try{ 
+          TransactionResult result= new TransactionResult();
+         String InsertTemplate="Select *  ....";     
+         
+               return result;
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+            
+            }
+       }
+        
+       
 }

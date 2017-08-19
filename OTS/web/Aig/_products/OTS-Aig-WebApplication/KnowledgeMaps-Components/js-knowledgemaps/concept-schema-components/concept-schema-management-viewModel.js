@@ -40,11 +40,25 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     me.enableAttributeValue=ko.observable(false);
     me.enableConceptName=ko.observable(true);
     
+    
+    me.Reset=function(){
+         me.InformationView.NodeName("");
+         me.InformationView.ParentName("");
+         $("#sel-relation-type").val("TypeOf");
+         $("#sel-relation-type").val("is");
+         me.ConceptSchemas([]);
+         me.ConceptSchemaView.ActionName("");
+         me.ConceptSchemaView.AttributeName("");
+         me.ConceptSchemaView.AttributeValue("");
+         me.ConceptSchemaView.ConceptName("");
+         
+    };
     me.AddRenameConceptNodeTarget=function(callbackFunction){
         if(callbackFunction instanceof Function){
             renameConceptNodeTargets.push(callbackFunction);
         }
     };
+    
     
     me.UpdateRelationName=function(relationName){
         me.SelectedRelationName(relationName);
@@ -83,8 +97,17 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         else{
              $("#sel-relation-type").prop("disabled",false);
              $("#cmd-rename-conceptNode").prop("disabled",false);
+              if(node.data.RelationType===undefined){
+                 node.data.RelationType="TypeOf";
+                 $("#sel-relation-type").val(node.data.RelationType);
+              }
+              else{
+                $("#sel-relation-type").val(node.data.RelationType);
+              }
         }
-         me.InformationView.NodeName(node.text);
+       
+            
+        me.InformationView.NodeName(node.text);
         me.InformationView.ParentName(node.parentname);
         currentSelectedNode=node;
     };

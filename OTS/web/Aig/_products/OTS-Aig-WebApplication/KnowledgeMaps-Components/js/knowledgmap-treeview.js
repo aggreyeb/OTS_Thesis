@@ -1,29 +1,5 @@
 ﻿var OTS = OTS || {};
 
-OTS.TreeNode = function (id, name,parentid) {
-    var me = this;
-    me.id = id;
-    me.parent = parentid;
-    me.text = name;
-    me.icon = ""; //glyphicon glyphicon-stop
-    me.selectedIcon = "";//glyphicon glyphicon-stop
-    me.color = "#000000";//
-    me.backColor = "#FFFFFF";//#FFFFFF
-    me.href = "";//#node-1
-    me.selectable = true;
-    me.state = {
-        checked: false,
-        disabled: false,
-        expanded: false,
-        selected: false
-    };
-    me.tags = [];
-    me.nodes = [];
-    me.data={}; //store domain specific enhancement
-};
-
-
-
 OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     var me = this;
     var id = uniqueid;
@@ -139,6 +115,19 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         return JSON.parse(json);
     };
     
+    
+    me.UpdateCustomDataSource=function(selectedNode,data){
+        try {
+            if (selectedNode === undefined || selectedNode === null) return;
+            if (selectedNode.id === "") return;
+            var node = me.FindNode(selectedNode.id);
+            node.data=data;
+            me.Refresh();
+            
+        } catch (error) {
+            console.log(error);
+        }
+    };
    
     me.RenameNode = function(nodeItem,newName) {
         try {

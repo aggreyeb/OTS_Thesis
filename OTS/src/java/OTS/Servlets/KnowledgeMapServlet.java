@@ -6,6 +6,7 @@
 
 package OTS.Servlets;
 
+import OTS.Aig.KnowledgeMapDataServices.ConceptSchemaElement;
 import OTS.Aig.KnowledgeMapDataServices.KnowledgeMapsDataService;
 import OTS.Aig.KnowledgeMapDataServices.StatusItem;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
@@ -122,6 +123,7 @@ public class KnowledgeMapServlet extends Servlet {
           String data;
           String knowledgeMapId;
            Gson g;
+           ConceptSchemaElement conceptSchemaElement;
            switch(action){
             
               case  "Aig-create-new":
@@ -146,13 +148,16 @@ public class KnowledgeMapServlet extends Servlet {
                  data =request.getParameter("data");
                  result= service.DeleteKnowledgeMap(userId, data);
                  return result;
+                
                 case "Aig-Update-KnoledgeMap-ConceptSchemas":
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
-               int id =Integer.parseInt(request.getParameter("ID"));
+                int id =Integer.parseInt(request.getParameter("ID"));
                 data=request.getParameter("data");
                 result= service.UpdateKnoledgeMapConceptSchemas(id,data);
                  return result;
                  
+                
+                    
                //Aig-ListAvailableImportsKnowledgeMap
                 case "Aig-ListAvailableImportsKnowledgeMap":
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
@@ -189,7 +194,41 @@ public class KnowledgeMapServlet extends Servlet {
                 result= service.ToggleOpenToImport(userProfile.UserId,statusitem);
                 return result;
               
+               
                  
+                case "Aig-CreateConceptNodeConceptSchemas":
+                 data=request.getParameter("data");
+                 g= new Gson();
+                 conceptSchemaElement= (ConceptSchemaElement)g.fromJson(data, ConceptSchemaElement.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.CreateConceptNodeConceptSchemas(conceptSchemaElement);
+                return result;
+                    
+                  case "Aig-UpdateConceptNodeConceptSchemas":
+                  data=request.getParameter("data");
+                  g= new Gson();
+                conceptSchemaElement= (ConceptSchemaElement)g.fromJson(data, ConceptSchemaElement.class);
+                 service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.UpdateConceptNodeConceptSchemas(conceptSchemaElement);
+                return result; 
+                      
+                case "Aig-DeleteConceptNodeConceptSchemas":
+                  data=request.getParameter("data");
+                  g= new Gson();
+                conceptSchemaElement= (ConceptSchemaElement)g.fromJson(data, ConceptSchemaElement.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.DeleteConceptNodeConceptSchemas(conceptSchemaElement);
+                return result; 
+                      
+                 case "Aig-ListConceptNodeConceptSchemas":
+                  data=request.getParameter("data");
+                  g= new Gson();
+                conceptSchemaElement= (ConceptSchemaElement)g.fromJson(data, ConceptSchemaElement.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ListConceptNodeConceptSchemas(conceptSchemaElement);
+                return result; 
+                      
+                      //ListConceptNodeConceptSchemas
               /******************Old Service ************************/
                case  "new":
               conceptNode= new ConceptNode(userProfile.UserId,response); // get user id from session

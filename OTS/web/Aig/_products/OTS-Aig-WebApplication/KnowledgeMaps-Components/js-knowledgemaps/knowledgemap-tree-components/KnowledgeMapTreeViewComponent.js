@@ -140,6 +140,23 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
     };
     
     
+    me.UpdateRelationType=function(e){
+         knowledgeMapTreeView.UpdateCustomDataSource(selectedConceptNode,e.data);
+        var  knowledgeMapId=currentKnowledgeMap.KnowledgeMapId;
+          var knowledgeMapJson=  knowledgeMapTreeView.ToJson();
+          var dataSource= new   OTS.AigKnowlegeMapDataSource ();
+        dataSource.UpdateKnowledgeMapNodes(knowledgeMapId,knowledgeMapJson,function(msg){
+            var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                 var items=JSON.parse(result.Content);
+                 var kmJson=JSON.parse(items[0].Concepts);
+                 var  knowledgeMap=kmJson[0];
+                 me.UpdateTreeView(knowledgeMap);
+                 knowledgeMapTreeView.UnSelectNodes(); 
+            }
+        });
+    };
+    
     me.Render=function(){
         if(rendered) return;
         try{
