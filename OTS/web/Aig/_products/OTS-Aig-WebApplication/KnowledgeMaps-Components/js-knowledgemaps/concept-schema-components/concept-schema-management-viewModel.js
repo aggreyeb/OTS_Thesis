@@ -49,6 +49,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     me.enableAttributeName=ko.observable(false);
     me.enableAttributeValue=ko.observable(false);
     me.enableConceptName=ko.observable(true);
+    me.enableAddNewConceptSchema=ko.observable(false);
     
     me.ClearConceptSchemaForm=function(){
          $("#sel-relation-names").val("is");
@@ -58,6 +59,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
          me.ConceptSchemaView.ConceptName("");
     };
     me.Reset=function(){
+         me.enableAddNewConceptSchema(false); 
          me.InformationView.NodeName("");
          me.InformationView.ParentName("");
          $("#sel-relation-type").val("TypeOf");
@@ -123,7 +125,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
               }
         }
        
-            
+        me.enableAddNewConceptSchema(true);    
         me.InformationView.NodeName(node.text);
         me.InformationView.ParentName(node.parentname);
         currentSelectedNode=node;
