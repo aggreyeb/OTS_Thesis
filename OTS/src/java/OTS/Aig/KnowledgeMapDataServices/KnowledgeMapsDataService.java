@@ -339,10 +339,18 @@ public class KnowledgeMapsDataService {
          Gson g = new Gson(); 
        
         try{ 
-          TransactionResult result= new TransactionResult();
-         String InsertTemplate="Insert into ConceptSchema ...";     
-         
-               return result;
+          
+         String InsertTemplate="insert into conceptschema (ConceptSchemaId,ConceptNodeId,RelationName,\n" +
+             "ConceptName,ActionName, AttributeName,AttributeValue)\n" +
+             "Values('%s','%s','%s','%s','%s','%s','%s')";     
+          String sql=String.format(InsertTemplate, item.ConceptSchemaId,
+                           item.ConceptNodeId,item.RelationName,
+                           item.ConceptName,item.ActionName,
+                           item.AttributeName,item.AttributeValue);
+          
+               this.dataSource.ExecuteNonQuery(sql);  
+               
+              return  this.ListConceptNodeConceptSchemas(item);
            }
            catch(Throwable ex){
              TransactionResult result= new TransactionResult(); 
@@ -360,10 +368,18 @@ public class KnowledgeMapsDataService {
          Gson g = new Gson(); 
        
         try{ 
-          TransactionResult result= new TransactionResult();
-         String InsertTemplate="Update ....";     
-         
-               return result;
+        
+         String updateTemplate="update conceptschema set RelationName='%s' ,\n" +
+"                        ConceptName='%s' ,ActionName='%s',\n" +
+"			 AttributeName='%s',\n" +
+"			 AttributeValue='%s' where ConceptSchemaId='%s'"; 
+           
+           String sql=String.format(updateTemplate,item.RelationName,
+                   item.ConceptName,item.ActionName,
+                   item.AttributeName,item.AttributeValue,
+                   item.ConceptSchemaId);
+                this.dataSource.ExecuteNonQuery(sql);
+              return  this.ListConceptNodeConceptSchemas(item);
            }
            catch(Throwable ex){
              TransactionResult result= new TransactionResult(); 
@@ -380,10 +396,11 @@ public class KnowledgeMapsDataService {
         
          Gson g = new Gson(); 
         try{ 
-          TransactionResult result= new TransactionResult();
-         String InsertTemplate="Delete ....";     
-         
-               return result;
+          
+         String updateTemplate="Delete from conceptschema where ConceptSchemaId='%s'";     
+         String sql=String.format(updateTemplate, item.ConceptSchemaId);
+           this.dataSource.ExecuteNonQuery(sql);
+             return  this.ListConceptNodeConceptSchemas(item);
            }
            catch(Throwable ex){
              TransactionResult result= new TransactionResult(); 
@@ -401,9 +418,14 @@ public class KnowledgeMapsDataService {
          Gson g = new Gson(); 
         try{ 
           TransactionResult result= new TransactionResult();
-         String InsertTemplate="Select *  ....";     
-         
-               return result;
+          String selectTemplate="Select * from  conceptschema where ConceptNodeId='%s'";     
+          String sql=String.format(selectTemplate, item.ConceptNodeId);
+           List<ConceptSchemaElement> conceptSchemas= new ArrayList();
+           this.dataSource.ExecuteCustomDataSet(sql, conceptSchemas,ConceptSchemaElement.class);
+          
+             result.Content=g.toJson(conceptSchemas);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
            }
            catch(Throwable ex){
              TransactionResult result= new TransactionResult(); 

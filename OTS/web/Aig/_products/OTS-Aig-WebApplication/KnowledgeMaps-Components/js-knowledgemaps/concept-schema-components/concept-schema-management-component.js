@@ -73,7 +73,7 @@ OTS.AigConceptSchemaManagementComponent=function(){
               
             });
           
-            
+            viewModel.AddComponent(me);
             viewModel.AddRenameConceptNodeTarget(onRenameConceptNode);
              ko.applyBindings(viewModel,$("#div-knowledgemap-concept-schema-ui")[0]);
              
@@ -90,10 +90,10 @@ OTS.AigConceptSchemaManagementComponent=function(){
     };
     
     
-     me.SaveConceptNodeConceptSchemas=function(data, callbackFunction){
+     me.CreateConceptNodeConceptSchemas=function(data, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigConceptSchemaManagementDataSource();
-        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+        datasource.CreateConceptNodeConceptSchemas(data,function(msg){
             callback(msg);
         });
    };
@@ -101,7 +101,7 @@ OTS.AigConceptSchemaManagementComponent=function(){
     me.UpdateConceptNodeConceptSchemas=function(data, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigConceptSchemaManagementDataSource();
-        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+        datasource.UpdateConceptNodeConceptSchemas(data,function(msg){
             callback(msg);
         });
     };
@@ -109,7 +109,7 @@ OTS.AigConceptSchemaManagementComponent=function(){
     me.DeleteConceptNodeConceptSchemas=function(data, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigConceptSchemaManagementDataSource();
-        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+        datasource.DeleteConceptNodeConceptSchemas(data,function(msg){
             callback(msg);
         });
     };
@@ -117,7 +117,7 @@ OTS.AigConceptSchemaManagementComponent=function(){
      me.ListConceptNodeConceptSchemas=function(data, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigConceptSchemaManagementDataSource();
-        datasource.SaveConceptNodeConceptSchemas(data,function(msg){
+        datasource.ListConceptNodeConceptSchemas(data,function(msg){
             callback(msg);
         });
     };
