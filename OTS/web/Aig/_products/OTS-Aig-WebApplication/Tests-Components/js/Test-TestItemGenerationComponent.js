@@ -144,6 +144,10 @@ OTS.AigTestItemGenerationComponent=function(){
        });
    };
   
+   me.ListCourseKnowledgeMaps=function(selectedTest){
+       testgenerationOptionsSelectionComponent.ListCourseKnowledgeMaps(selectedTest);
+   };
+  
 };
 OTS.AigTestItemGenerationComponent.prototype=  new Aig.IInitializable();
 OTS.AigTestItemGenerationComponent.prototype.constructor= OTS.AigTestItemGenerationComponent;

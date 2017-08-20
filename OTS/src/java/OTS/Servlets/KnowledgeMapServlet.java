@@ -132,9 +132,15 @@ public class KnowledgeMapServlet extends Servlet {
               result= service.CreateNew(userId, data);
                return result ;
               
-              case "Aig-List-Teacher-KnowledgeMaps":
+              case "Aig-List-Teacher-KnowledgeMaps": 
               service= new KnowledgeMapsDataService(new MySqlDataSource());
               result= service.ListTeacherKnowledgeMaps(userId);
+              return result ;
+              
+               case "Aig-List-Course-KnowledgeMaps":
+               String courseId =request.getParameter("CourseId");     
+              service= new KnowledgeMapsDataService(new MySqlDataSource());
+              result= service.ListCourseKnowledgeMaps(courseId);
               return result ;
              
               case "Aig-Update-KnowledgeMap":

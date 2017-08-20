@@ -5,6 +5,7 @@
  */
 package OTS.Aig.KnowledgeMapDataServices;
 
+import OTS.Aig.KnowledgeMapDataServices.TestItemGeneration.CourseKnowledgeMapElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.User;
 import com.google.gson.Gson;
@@ -233,6 +234,32 @@ public class KnowledgeMapsDataService {
        }
      
      
+     public TransactionResult ListCourseKnowledgeMaps(String courseId){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String selectTemplate= "select k.KnowledgeMapId,k.Name ,k.Concepts from  knowledgemap k left join  courseknowledgemap ck \n" +
+                      "on ck.KnowledgeMapId=k.KnowledgeMapId where ck.CourseId='%s'";
+          String sql=String.format(selectTemplate, courseId);
+          List<CourseKnowledgeMapElement> courseKnowledgemaps= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, courseKnowledgemaps,CourseKnowledgeMapElement.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(courseKnowledgemaps);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+              // this.dataSource.Close();
+            }
+       }
+    
+      
+      
     
     public TransactionResult ListTeacherKnowledgeMaps(int userId){
           TransactionResult result= new TransactionResult();

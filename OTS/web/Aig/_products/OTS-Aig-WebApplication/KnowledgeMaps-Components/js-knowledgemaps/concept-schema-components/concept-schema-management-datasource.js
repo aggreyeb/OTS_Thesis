@@ -32,7 +32,7 @@ OTS.AigConceptSchemaManagementDataSource=function(){
                 callback(msg);
         });
       };
-      
+    
        me.ListConceptNodeConceptSchemas=function(data,callbackFunction){
           var callback=callbackFunction;
         $.post("KnowledgeMapServlet",{action:actionType.ListConceptNodeConceptSchemas,data:data},function(msg){

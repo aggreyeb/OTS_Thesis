@@ -1,17 +1,17 @@
 <div>
     <div class="row">
        <div  style="margin: 2px" class="col-xs-12">
-        <button class="btn btn-sm btn-success pull-right">Generate</button>
+        <button id="cmd-generate-test-items" class="btn btn-sm btn-success pull-right">Generate</button>
        </div> 
     </div>
-    <div style="display: none" class="alert alert-danger">
+    <div id="alert-generate-items" style="display: none" class="alert alert-danger">
         Select Cognitive Types
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
               <h4><span class="label label-info">Select Cognitive Types</span></h4>
-              <select style="width: 350px" class="form-control">
+              <select id="sel-cognitive-type"  multiple style="width: 350px" class="form-control chosen-select">
                   <option value="1">Remember</option>
                   <option value="2">Understand</option>
                   <option value="3">Apply</option>

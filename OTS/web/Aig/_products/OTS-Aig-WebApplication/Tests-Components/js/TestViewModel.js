@@ -203,6 +203,8 @@ OTS.AigTestViewModel=function(){
               me.SelectedTest=data;
               me.showTestListView(false);
               me.showTestGenerationView(true);
+              //Tell test-generation options selection to Load
+              testComponent.ListCourseKnowledgeMaps(data);
          },
          onTeacherCourseChanged:function(data,e){
              var selectedCourse=ko.toJS(me.SelectedCourse())[0];
