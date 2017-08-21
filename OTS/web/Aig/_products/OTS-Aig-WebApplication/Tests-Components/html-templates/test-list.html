@@ -32,12 +32,12 @@
             </thead>
             <tbody data-bind="foreach:Tests">
                 <tr>
-                    <td style="width: 40%" data-bind="text:Name"> Name </td>
+                    <td style="width: 35%" data-bind="text:Name"> Name </td>
                     <td style="width: 10%" data-bind="text:StartDate"> 2016/09/10 </td> 
                     <td style="width: 10%" data-bind="text:StartTime"> 10PM </td>  
                     <td style="width: 10%" data-bind="text:EndTime"> 12PM </td>  
                     <td style="width: 5%;text-align: center" data-bind="text:DisplayActivated">  </td> 
-                    <td style="width: 30%">  
+                    <td style="width: 35%">  
                         <a data-bind="event:{click:$parent.Actions.onEdit}" title="Edit" href="#"><i class="fa fa-pencil-square-o"></i></a>
                         <a data-bind="event:{click:$parent.Actions.onDelete}" title="Delete" href="#"><i class="fa fa-remove"></i></a>
                         <a data-bind="event:{click:$parent.Actions.onActivate}" title="Activate" href="#"><i class="fa fa-chevron-circle-up"></i></a>
