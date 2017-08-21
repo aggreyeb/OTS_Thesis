@@ -84,6 +84,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         switch(relationName){
             case "is":
             case "has-a":
+            case "is-a":
               me.enableActionName(false);
               me.enableAttributeName(false);
               me.enableAttributeValue(false);
@@ -250,6 +251,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         for(var i=0;i<items.length;i++){
             me.ConceptSchemas.push(items[i]);
         }
+     
     };
 };
 
