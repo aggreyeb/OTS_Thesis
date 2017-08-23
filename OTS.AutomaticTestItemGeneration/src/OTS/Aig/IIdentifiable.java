@@ -11,4 +11,5 @@ package OTS.Aig;
  */
 public interface IIdentifiable {
     Boolean HasId(String Id);
+    Boolean HasName(String name);
 }

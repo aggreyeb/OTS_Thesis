@@ -7,7 +7,6 @@
 package OTS.Servlets;
 
 import OTS.Account;
-import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.AuthenticationResponse;
 import OTS.Credential;

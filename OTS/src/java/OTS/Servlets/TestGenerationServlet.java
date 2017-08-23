@@ -5,8 +5,19 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.CognitiveType;
+import OTS.Aig.ComponentModel.AnalysisComponent;
+import OTS.Aig.ComponentModel.ApplicationComponent;
+import OTS.Aig.ComponentModel.EvaluationComponent;
+import OTS.Aig.ComponentModel.RememberingComponent;
+import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
+import OTS.Aig.ComponentModel.UnderstandingComponent;
+import OTS.Aig.ConceptNode;
+import OTS.Aig.IComponentGroup;
+import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
+import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -68,6 +79,7 @@ public class TestGenerationServlet extends  Servlet {
      */
     
    private String AlgorithmKey="AlgorithmKey";
+   private String OTSAigAppKey="OTS-AigAppKey";
    
    protected ITestItemGeneration FindAlgorithm(HttpServletRequest request,String name){
        
@@ -94,6 +106,26 @@ public class TestGenerationServlet extends  Servlet {
            out.println(ser.ToJson());
         }
     }
+    
+     protected IComponentGroup LoadTestItemGenerationComponents(){
+         IComponentGroup componentGroup= new TestItemGenerationComponentGroup();
+         
+         //Remembering Components
+          new  RememberingComponent().AddTo(componentGroup);
+          
+          //Understanding Component
+          new UnderstandingComponent().AddTo(componentGroup);
+           
+          //Appliccation Component
+          new ApplicationComponent().AddTo(componentGroup);
+          
+          new AnalysisComponent().AddTo(componentGroup);
+          
+          new EvaluationComponent().AddTo(componentGroup);
+       
+         return componentGroup;
+     }
+    
     
      protected List<ITestItemGeneration> LoadAlgorithm(){
        MySqlDataSource db=  new MySqlDataSource();
@@ -210,6 +242,7 @@ public class TestGenerationServlet extends  Servlet {
           Gson json;
           TestElement element;
            String  ID;
+           HttpSession session;
         try{
         UserProfile userProfile=this.LoadSession(request);
          switch(action){
@@ -308,8 +341,34 @@ public class TestGenerationServlet extends  Servlet {
                     academicTest2.DeActivate(testId, response);
                   break;      
                      
+                  case "Aig-GenerateTestItem":
+                    session= request.getSession(false);
+                   IComponentGroup groupComponent=  (IComponentGroup)session.getAttribute(OTSAigAppKey);
+                    if(groupComponent==null){
+                          session.setAttribute(OTSAigAppKey, this.LoadTestItemGenerationComponents());
+                    }
+   
+                     String   conceptNodeId=request.getParameter("ConceptNodeId");
+                     String   conceptNodeName=request.getParameter("ConceptNodeName");
+                     String   conceptNodeParentId=request.getParameter("ConceptNodeParentId");
+                     String   conceptNodeParentName=request.getParameter("ConceptNodeParentName");
+                    
+                     ConceptNode conceptNode=new OTS.Aig.ConceptNode(conceptNodeId, 
+                             conceptNodeName, conceptNodeParentId,conceptNodeParentName);
+                     
+                      
+                      String  cognitiveTypeId=request.getParameter("CognitiveTypeId");
+                      String  cognitiveTypeName=request.getParameter("CognitiveTypeName");
+                       OTS.Aig.CognitiveType cognitiveType = new CognitiveType(cognitiveTypeId,cognitiveTypeName);
+                       List<CognitiveType> cognitiveTypes= new ArrayList();
+                       cognitiveTypes.add(cognitiveType);
+                       groupComponent.Generate(conceptNode, cognitiveTypes);
+                       response.ChangeStatus("ok");
+                       
+                     break;     
+                 /*     
                  case "GenerateTestItem":
-                   HttpSession session= request.getSession(false);
+                    session= request.getSession(false);
                     List<ITestItemGeneration> list=  (List<ITestItemGeneration>)session.getAttribute(AlgorithmKey);
                     if(list==null){
                           session.setAttribute(AlgorithmKey, this.LoadAlgorithm());
@@ -342,7 +401,7 @@ public class TestGenerationServlet extends  Servlet {
                      
                      
                      break;
-                  
+                  */
                  case "ListTestQuestions":
                    AcademicTests tqs = new AcademicTests( db );
                    int tid= Integer.parseInt(request.getParameter("TestId"));

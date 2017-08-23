@@ -11,6 +11,6 @@ import java.util.List;
  *
  * @author Eb
  */
-public interface Generatable {
-    List<TestItem> Generate(String conceptNodeId,List<Integer> congnitiveType);
+public interface IGeneratable {
+    List<TestItem> Generate(ConceptNode conceptNode,List<CognitiveType> congnitiveTypes);
 }
