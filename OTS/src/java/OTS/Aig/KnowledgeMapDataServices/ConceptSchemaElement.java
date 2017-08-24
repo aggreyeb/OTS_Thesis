@@ -10,6 +10,8 @@ package OTS.Aig.KnowledgeMapDataServices;
  * @author Eb
  */
 public class ConceptSchemaElement {
+    String RootId;//KnowledgeMapId
+    String ParentId;
     String ConceptSchemaId;
     String ConceptNodeId;
     String RelationName;

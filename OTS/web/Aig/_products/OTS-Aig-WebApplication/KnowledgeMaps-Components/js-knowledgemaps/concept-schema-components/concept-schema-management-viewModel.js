@@ -3,6 +3,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     var me=this;
     var conceptSchemacomponent;
     var currentSelectedNode=null;
+    var currentknowledgeMap=null;
     var renameConceptNodeTargets=[];
     me.ActionType={
        NEW:"NEW" ,
@@ -24,7 +25,6 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     
     me.RelationNames=ko.observableArray([{Id:"is",Name:"is"},
                                           {Id:"has",Name:"has"},
-                                          {Id:"has-a",Name:"has a"},
                                           {Id:"can",Name:"can"}
                                         ]);
     me.SelectedRelationName=ko.observable();
@@ -36,6 +36,8 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     };
     
     me.ConceptSchemaView={
+        RootId:ko.observable(""),
+        ParentId:ko.observable(""),
         ConceptSchemaId:ko.observable(""),
         ConceptNodeId:ko.observable(""),
         RelationName:ko.observable(""),
@@ -51,8 +53,13 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     me.enableConceptName=ko.observable(true);
     me.enableAddNewConceptSchema=ko.observable(false);
     
+    
+    me.UpdateKnowledgeMapSelected=function(knowledgeMap){
+        currentknowledgeMap=knowledgeMap;
+    };
+    
     me.ClearConceptSchemaForm=function(){
-         $("#sel-relation-names").val("is");
+         $("#sel-relation-names").val("has");
          me.ConceptSchemaView.ActionName("");
          me.ConceptSchemaView.AttributeName("");
          me.ConceptSchemaView.AttributeValue("");
@@ -63,7 +70,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
          me.InformationView.NodeName("");
          me.InformationView.ParentName("");
          $("#sel-relation-type").val("TypeOf");
-         $("#sel-relation-names").val("is");
+         $("#sel-relation-names").val("has");
          me.ConceptSchemas([]);
          me.ConceptSchemaView.ActionName("");
          me.ConceptSchemaView.AttributeName("");
@@ -83,8 +90,6 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         me.SelectedRelationName(relationName);
         switch(relationName){
             case "is":
-            case "has-a":
-            case "is-a":
               me.enableActionName(false);
               me.enableAttributeName(false);
               me.enableAttributeValue(false);
@@ -183,6 +188,8 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         switch (me.SelectedAction){
             case me.ActionType.NEW:
               var conceptSchema=ko.toJS(me.ConceptSchemaView);
+              conceptSchema.RootId=currentknowledgeMap.KnowledgeMapId;
+              conceptSchema.ParentId=currentSelectedNode.parentid;
               conceptSchema.ConceptSchemaId= new Aig.Guid().NewGuid();
               conceptSchema.ConceptNodeId=currentSelectedNode.id;
               conceptSchema.RelationName=$("#sel-relation-names").val();

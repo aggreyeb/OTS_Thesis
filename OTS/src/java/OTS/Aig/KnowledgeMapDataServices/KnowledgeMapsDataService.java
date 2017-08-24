@@ -370,12 +370,12 @@ public class KnowledgeMapsDataService {
         try{ 
           
          String InsertTemplate="insert into conceptschema (ConceptSchemaId,ConceptNodeId,RelationName,\n" +
-             "ConceptName,ActionName, AttributeName,AttributeValue)\n" +
-             "Values('%s','%s','%s','%s','%s','%s','%s')";     
+             "ConceptName,ActionName, AttributeName,AttributeValue,RootId,ParentId)\n" +
+             "Values('%s','%s','%s','%s','%s','%s','%s','%s','%s')";     
           String sql=String.format(InsertTemplate, item.ConceptSchemaId,
                            item.ConceptNodeId,item.RelationName,
                            item.ConceptName,item.ActionName,
-                           item.AttributeName,item.AttributeValue);
+                           item.AttributeName,item.AttributeValue,item.RootId,item.ParentId);
           
                this.dataSource.ExecuteNonQuery(sql);  
                

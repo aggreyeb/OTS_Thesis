@@ -3,6 +3,7 @@ OTS.AigConceptSchemaManagementComponent=function(){
     var me=this;
     var rendered=false;
     var currentConceptNode;
+    var currentKnowledgeMap=null;
     var renameConceptNodeTargets=[];
     var relationTypeChangeTargets=[];
     
@@ -29,6 +30,12 @@ OTS.AigConceptSchemaManagementComponent=function(){
             }
         }
      };
+    
+    me.onKnowledgeMapSelected=function(e){
+        currentKnowledgeMap=e;
+        viewModel.UpdateKnowledgeMapSelected(currentKnowledgeMap);
+    };
+    
     
     me.AddRelationTypeChangeTarget=function(callbackFunction){
         if(callbackFunction instanceof Function){

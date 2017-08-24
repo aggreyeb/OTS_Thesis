@@ -179,12 +179,16 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                //Render the Treeview Layout
                knowledgeMapTreeViewComponent.Render();
                knowlegemapListManagement.AddKnowledgeMapEditTarget(knowledgeMapTreeViewComponent.onKnowledgeMapEditEvent);
+               
                knowlegemapListManagement.AddDataStructureKnowledegeMap(me.onKnowledgeMapEditEvent);
                
                //Render the Concept Schema Layout
                conceptSchemaManagementComponent.Render();
                conceptSchemaManagementComponent.AddRenameConceptNodeTarget(knowledgeMapTreeViewComponent.RenameConceptNode);
                conceptSchemaManagementComponent.AddRelationTypeChangeTarget(knowledgeMapTreeViewComponent.UpdateRelationType);
+               
+              knowlegemapListManagement.AddKnowledgeMapEditTarget(conceptSchemaManagementComponent.onKnowledgeMapSelected);
+               
                
                knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected);
                knowlegemapListManagement.AddKnowledgeMapEditTarget(conceptSchemaManagementComponent.Reset);
