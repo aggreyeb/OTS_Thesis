@@ -79,6 +79,9 @@ OTS.AigConceptSchemaManagementComponent=function(){
                 }
               
             });
+            
+            
+          
           
             viewModel.AddComponent(me);
             viewModel.AddRenameConceptNodeTarget(onRenameConceptNode);

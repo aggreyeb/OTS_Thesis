@@ -87,6 +87,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     
     
     me.UpdateRelationName=function(relationName){
+      
         me.SelectedRelationName(relationName);
         switch(relationName){
             case "is":
@@ -151,6 +152,7 @@ OTS.AigConceptSchemaManagementViewModel=function(){
     me.onAddNewConceptSchema=function(){
         me.ShowConceptSchemaForm(true);
        $("#sel-relation-names").prop("disabled",false);
+       $("#sel-relation-names").change();
     };
     
     me.onEditConceptSchema=function(data,e){
