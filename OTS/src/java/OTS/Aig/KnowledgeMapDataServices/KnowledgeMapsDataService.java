@@ -123,18 +123,20 @@ public class KnowledgeMapsDataService {
          Gson g=new Gson();
         try{
             String updateTemplate="";
-           
+            String sql="";
               
             
               KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
               if(item.Concepts.equals("")){
                    updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b Where KnowledgeMapId='%s'"; 
+                    sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.KnowledgeMapId);
               }
               else{
                     updateTemplate="Update knowledgemap Set Name='%s' ,Description='%s', IsPublic=%b,IsSharing=%b,Concepts='%s' Where KnowledgeMapId='%s'"; 
+                     sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.Concepts,item.KnowledgeMapId);
               }
               
-              String sql=String.format(updateTemplate, item.Name,item.Description,item.IsPublic,item.IsSharing,item.Concepts,item.KnowledgeMapId);
+              
               this.dataSource.ExecuteNonQuery(sql);
               return  this.ListTeacherKnowledgeMaps(userId);
           }

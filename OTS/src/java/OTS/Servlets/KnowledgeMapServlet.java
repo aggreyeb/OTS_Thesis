@@ -142,7 +142,7 @@ public class KnowledgeMapServlet extends Servlet {
               service= new KnowledgeMapsDataService(new MySqlDataSource());
               result= service.ListCourseKnowledgeMaps(courseId);
               return result ;
-             
+           
               case "Aig-Update-KnowledgeMap":
                 service= new KnowledgeMapsDataService(new MySqlDataSource());
                  data =request.getParameter("data");
