@@ -15,12 +15,52 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
        var cognitiveTypes=$("#sel-cognitive-type").val();
        if(cognitiveTypes===undefined || cognitiveTypes===null)
        {
-           me.ShowAlertMessage("<p>Please Select Congnitive Type(s)</p>");
+           me.ShowAlertMessage("<p>Please select songnitive type(s)</p>");
            return;
        }
+       
+        if(selectedNode===undefined || selectedNode===null)
+       {
+           me.ShowAlertMessage("<p>Please select root node or concept node</p>");
+           return;
+       }
+       
        if(cognitiveTypes.length>0){
            alert(cognitiveTypes.join(","));
        }
+       
+       var conceptNodes=[];
+       if(selectedNode.parentid ===undefined){
+           var items=knowledgeMapTreeView.ToList();
+           for(var i=0;i<items.length;i++){
+               if(items[i].parentid!==undefined){
+                   var conceptNode={
+                       ConceptNodeId:items[i].id,
+                       ConceptNodeName:items[i].name,
+                       ParentName:items[i].parentid
+                   };
+                   conceptNodes.push(conceptNode);
+               }
+           }
+       }
+       else{
+           conceptNodes = [{ConceptNodeId:selectedNode.id,
+                   ConceptNodeName:selectedNode.text,
+                   ParentId:selectedNode.parentId}];
+        }
+      
+      var data={
+          CognitiveTypes:cognitiveTypes.join(","),
+          ConceptNodes:conceptNodes
+      };
+      var dataSource= new OTS.AigGenerationOptionsSelectionDataSource();
+       dataSource.GenerateTestItems(JSON.stringify(data),function(msg){
+             var result=JSON.parse(msg);
+           if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                var contents=JSON.parse(result.Content);
+                     me.DataBind(contents);
+            }   
+         });
       
    };
    
@@ -93,7 +133,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                me.ShowAlertMessage("<p>There is no knowledgemap(s) associated with course</p>"); 
             }
             
-           
+           knowledgeMapTreeView.UnSelectNodes();
        }
        catch(error){
            dataBinded=false;
@@ -101,5 +141,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
        }
       
    };
+   
+   
 };
 

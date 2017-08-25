@@ -11,6 +11,7 @@ import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
 import OTS.Aig.ComponentModel.RememberingComponent;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
+import OTS.Aig.ComponentModel.TestItemGenerationDataService;
 import OTS.Aig.ComponentModel.UnderstandingComponent;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -341,13 +342,18 @@ public class TestGenerationServlet extends  Servlet {
                     academicTest2.DeActivate(testId, response);
                   break;      
                      
-                  case "Aig-GenerateTestItem":
+                  case "Aig-GenerateTestItems":
                     session= request.getSession(false);
                    IComponentGroup groupComponent=  (IComponentGroup)session.getAttribute(OTSAigAppKey);
                     if(groupComponent==null){
                           session.setAttribute(OTSAigAppKey, this.LoadTestItemGenerationComponents());
                     }
-   
+                    data=request.getParameter("data");
+                     Gson gg= new Gson();
+                    TestElement testElement= (TestElement)gg.fromJson(data, TestElement.class);
+                    
+                    
+                    /*
                      String   conceptNodeId=request.getParameter("ConceptNodeId");
                      String   conceptNodeName=request.getParameter("ConceptNodeName");
                      String   conceptNodeParentId=request.getParameter("ConceptNodeParentId");
@@ -362,8 +368,11 @@ public class TestGenerationServlet extends  Servlet {
                        OTS.Aig.CognitiveType cognitiveType = new CognitiveType(cognitiveTypeId,cognitiveTypeName);
                        List<CognitiveType> cognitiveTypes= new ArrayList();
                        cognitiveTypes.add(cognitiveType);
+                    
                        //CreateTestItem Generation Service;
-                       groupComponent.Generate(conceptNode);
+                       groupComponent.Generate(conceptNode);*/
+                    TestItemGenerationDataService testItemsGenerationService= new TestItemGenerationDataService(groupComponent,new MySqlDataSource());
+                     // testItemsGenerationService.GenerateTestItems(conceptNode, cognitiveTypes)
                        response.ChangeStatus("ok");
                        
                      break;     
