@@ -24,7 +24,7 @@ OTS.AigTestItemsGeneratedComponent=function(){
               var htmlAnswerSheet=$("#answer-sheet-view-template").html();
              $("#div-answer-sheet-content").html(htmlAnswerSheet);
              
-           
+             ko.applyBindings(viewModel,$("#div-testItem-generation-container")[0]);
        }
        catch(error){
            console.log(error);
