@@ -97,7 +97,8 @@ public class TestItemGenerationDataService {
                  + "Stimulus,Stem,StimulusFormatting,StemFormatting) "
                  + "values('%s','%s', '%s','%s','%s','%s','%s');";
          for(TestItem t:testItems ){
-            
+               t.TestId=testId;
+               t.CourseId=courseId;
              if(this.CanSaveTestItem(t)){
              UUID uuid = UUID.randomUUID();
              String testItemId = uuid.toString();
@@ -140,7 +141,7 @@ public class TestItemGenerationDataService {
     
       
   public Boolean CanSaveTestItem(TestItem testItem){
-      String sqlTemplate="Select * from questionbank where Stimulus='%s'"
+      String sqlTemplate="Select TestId,CourseId from questionbank where binary Stimulus='%s'"
               + " and TestId='%s' and CourseId='%s'";
       String sql=String.format(sqlTemplate, testItem.Stimulus,testItem.TestId,testItem.CourseId);
       List<TestItem> items= new ArrayList();
