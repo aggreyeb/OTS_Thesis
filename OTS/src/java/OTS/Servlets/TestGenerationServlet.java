@@ -129,71 +129,7 @@ public class TestGenerationServlet extends  Servlet {
      }
     
     
-     protected List<ITestItemGeneration> LoadAlgorithm(){
-       MySqlDataSource db=  new MySqlDataSource();
-       List<ITestItemGeneration> algorithems= new ArrayList();
-       algorithems.add(new ListTrueFalseCorrectAlgorithm(db,"ListTrueOrFalseCorrect",new ConceptRelationMap("has","is") ));
-       algorithems.add(new ListTrueFalseNegativeAlgorithm(db,"ListTrueOrFalseNegative",new ConceptRelationMap("does not have","is not")));
-       algorithems.add(new ListTrueFalseInCorrectAlgorithm(db,"ListTrueOrFalseIncorrect",new ConceptRelationMap("has","is")));
-       algorithems.add(new ListTrueFalseNegativeInCorrectAlgorithm(db,"ListTrueOrFalseNegative-Incorrect", new ConceptRelationMap("does not have","is not")));
-       
-       
-       //ListSingleAnswerMultipleChoiceAlgorithm  l= new  ListSingleAnswerMultipleChoiceAlgorithm(db,"ListSingleAnswerMultipleChoice");
-       ListSingleAnswerMultipleChoiceAlgorithm  l= new  ListSingleAnswerMultipleChoiceAlgorithm(db,"ListMultipleChoice-SingleAnswerCorrect");
-        l.Add(new ListTrueFalseCorrectAlgorithm(db,"ListTrueOrFalseCorrect",new ConceptRelationMap("has","is")));
-        l.Add(new ListTrueFalseNegativeAlgorithm(db,"ListTrueOrFalseNegative", new ConceptRelationMap("does not have","is not")));
-        l.Add(new ListTrueFalseInCorrectAlgorithm(db,"ListTrueOrFalseIncorrect",new ConceptRelationMap("has","is")));
-        l.Add(new ListTrueFalseNegativeInCorrectAlgorithm(db,"ListTrueOrFalseNegative-Incorrect", new ConceptRelationMap("does not have","is not")));
-       algorithems.add(l);
-       
-       ListMultipleAnswersMultipleChoice  lm= new  ListMultipleAnswersMultipleChoice(db,"ListMultipleChoice-MultipleAnwsersCorrect");
-       lm.Add(new ListTrueFalseCorrectAlgorithm(db,"ListTrueOrFalseCorrect",new ConceptRelationMap("has","is")));
-       lm.Add(new ListTrueFalseInCorrectAlgorithm(db,"ListTrueOrFalseIncorrect",new ConceptRelationMap("has","is")));
-       algorithems.add(lm);
-       
-       
-       algorithems.add(new DescribeTrueFalseCorrectAlgorithm(db,"DescribeTrueOrFalseCorrect"));
-       algorithems.add(new DescribeTrueFalseNagativeAlgorithm(db,"DescribeTrueOrFalseNegative"));
-       algorithems.add(new DescribeTrueFalseIncorrectAlgorithm(db,"DescribeTrueOrFalseInCorrect"));
-       algorithems.add(new DescribeTrueFalseNegativeIncorrectAlgorithm(db,"DescribeTrueOrFalseNegative-Incorrect"));
-       
-     String appendLast1="None of the above statement is true";
-     DescribeSingleAnswerMultipleChoiceAlgorithm describeSingleAnswerMultipleChoiceAlgorithm= new DescribeSingleAnswerMultipleChoiceAlgorithm(db,"DescribeMultipleChoice-SingleAnswerCorrect",appendLast1);
-     describeSingleAnswerMultipleChoiceAlgorithm.Add( new DescribeTrueFalseCorrectAlgorithm(db,"DescribeTrueOrFalseCorrect"));
-     describeSingleAnswerMultipleChoiceAlgorithm.Add( new DescribeTrueFalseNagativeAlgorithm(db,"DescribeTrueOrFalseNegative"));
-     describeSingleAnswerMultipleChoiceAlgorithm.Add(new DescribeTrueFalseIncorrectAlgorithm(db,"DescribeTrueOrFalseInCorrect"));
-     describeSingleAnswerMultipleChoiceAlgorithm.Add(new DescribeTrueFalseNegativeIncorrectAlgorithm(db,"DescribeTrueOrFalseNegative-Incorrect"));
-
-     algorithems.add(describeSingleAnswerMultipleChoiceAlgorithm);
-     
-      
-       String appendLast="None of the above statement is true";
-       DescribeMultipleAnswerMultipleChoiceAlgorithm describeMultipleAnswerMultipleChoiceAlgorithm= new DescribeMultipleAnswerMultipleChoiceAlgorithm(db,"DescribeMultipleChoice-MultipleAnwsersCorrect",appendLast);
-       describeMultipleAnswerMultipleChoiceAlgorithm.Add( new DescribeTrueFalseCorrectAlgorithm(db,"DescribeTrueOrFalseCorrect"));
-       describeMultipleAnswerMultipleChoiceAlgorithm.Add(new DescribeTrueFalseIncorrectAlgorithm(db,"DescribeTrueOrFalseInCorrect"));
-       algorithems.add(describeMultipleAnswerMultipleChoiceAlgorithm);
-       
-       algorithems.add(new SummarizeMultipleChoiceAlgorithm(db,"SummarizeMultipleChoice-MultipleAnwsersCorrect"));
-       algorithems.add( new ClassifyMultipleChoiceAlgorithm(db,"ClassifyMultipleChoice-MultipleAnwsersCorrect"));
-       
-       DescribeTrueFalseCorrectAlgorithm describeTrueFalseCorrectAlgorithm=new DescribeTrueFalseCorrectAlgorithm(db,"DescribeTrueOrFalseCorrect");
-       algorithems.add(describeTrueFalseCorrectAlgorithm);
-       
-       DescribeTrueFalseIncorrectAlgorithm describeTrueFalseIncorrectAlgorithm=new DescribeTrueFalseIncorrectAlgorithm(db,"DescribeTrueOrFalseInCorrect");
-        algorithems.add(describeTrueFalseIncorrectAlgorithm);
-        
-        DescribeTrueFalseNagativeAlgorithm describeTrueFalseNagativeAlgorithm= new DescribeTrueFalseNagativeAlgorithm(db,"DescribeTrueOrFalseNegative");
-        algorithems.add(describeTrueFalseNagativeAlgorithm);
-        
-        DescribeTrueFalseNegativeIncorrectAlgorithm describeTrueFalseNegativeIncorrectAlgorithm= new DescribeTrueFalseNegativeIncorrectAlgorithm(db,"DescribeTrueOrFalseNegativeIncorrect");
-        algorithems.add(describeTrueFalseNegativeIncorrectAlgorithm);
-        
-        //Add Classify 
-        //Multiple Choice - Single Answer
-        ClassifyMultipleChoiceSingleAnswerAlgorithm classifyMultipleChoiceSingleAnswerAlgorithm= new ClassifyMultipleChoiceSingleAnswerAlgorithm(db,"ClassifyMultipleChoice-SingleAnswerCorrect");
-        algorithems.add(classifyMultipleChoiceSingleAnswerAlgorithm);
-        return algorithems;
-    }
+   
     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -292,6 +228,7 @@ public class TestGenerationServlet extends  Servlet {
                    IComponentGroup groupComponent=  (IComponentGroup)session.getAttribute(OTSAigAppKey);
                     if(groupComponent==null){
                           session.setAttribute(OTSAigAppKey, this.LoadTestItemGenerationComponents());
+                          groupComponent=(IComponentGroup)session.getAttribute(OTSAigAppKey);
                     }
                     data=request.getParameter("data");
                      Gson gg= new Gson();

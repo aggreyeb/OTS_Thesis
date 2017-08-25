@@ -89,12 +89,20 @@ public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponen
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        conceptNode=cn;
+        AnswerOption CorrectAnswer= new AnswerOption();
+        CorrectAnswer.Label="A.";
+        CorrectAnswer.Text="I";
+        CorrectAnswer.IsKey=true;
+        CorrectAnswer.IsCorrect=true;
+        CorrectAnswer.BackgroundColor="Green";
+        
         List<TestItem> testItems= new ArrayList();
         TestItem testItem= new TestItem();
         testItem.Stimulus=this.ConstructStimulus();
         testItem.Stem =this.PrepareStem();
         testItem.AnswerOptions=this.CreateAnswerOptions();
-        testItem.CongniveTypeName=cognitiveType;
+        testItem.CognitiveTypeName=cognitiveType;
+        testItem.CorrectAnswer= CorrectAnswer;
         testItems.add(testItem);
         return testItems;
     } 

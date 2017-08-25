@@ -18,15 +18,17 @@ public class TestItem {
     public String Stimulus;
     public String Stem;
     public List<AnswerOption> AnswerOptions;
+    public AnswerOption CorrectAnswer;
     public Boolean IsHigherCognitiveLevel;
     public String CongnitiveTypeId;
-    public String CongniveTypeName;
+    public String CognitiveTypeName;
     public Boolean HasError;
     public List<String> ErrorsMessage;
 
     public TestItem() {
        AnswerOptions= new ArrayList();
        ErrorsMessage= new ArrayList();
+       CorrectAnswer= new AnswerOption();
     }
     
     
