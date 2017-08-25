@@ -10,6 +10,7 @@ import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
 import OTS.Aig.ComponentModel.RememberingComponent;
+import OTS.Aig.ComponentModel.TestElementModel;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
 import OTS.Aig.ComponentModel.TestItemGenerationDataService;
 import OTS.Aig.ComponentModel.UnderstandingComponent;
@@ -285,63 +286,7 @@ public class TestGenerationServlet extends  Servlet {
                    ID=request.getParameter("ID");
                     service= new TestDataService(new MySqlDataSource());
                    return  service.DeActivateTest(ID);
-                   
-                  
-                
-                   //SaveToTestQuestionBank,Id:id, TestId:testid, CourseId:courseId
-                   
-                  //old methods
-             case  "ListTeacherCourse":
-               AcademicTests tests=  new AcademicTests( db);
-               tests.ListTeacherCourse(userProfile.UserId, response);
-                  break;
-              case "ListCourseTest":
-               int courseId= Integer.parseInt(request.getParameter("CourseId"));
-               AcademicTests tests1=  new AcademicTests( db);
-               tests1.ListCourseTest(courseId,userProfile.UserId, response);
-                  break;
-                  
-              case "CreateNewTest":  
-                  AcademicTest academicTest = new AcademicTest(new AcademicTests( db ));
-                   int _courseId= Integer.parseInt(request.getParameter("CourseId"));
-                   String description=  request.getParameter("AcademicTest");
-                   String startDate=request.getParameter("StartDate");
-                           
-                   Gson g = new Gson();
-                 AcademicTestDescription desc= (AcademicTestDescription) g.fromJson(description, AcademicTestDescription.class);
-                 desc.StartDate= new Date(startDate);
-                   academicTest.Save(_courseId, userProfile.UserId, desc, response);
-                  break;
-           
-              case "ModifyTest":
-                   //DeSerialize  AcademicTestDescription
-                    AcademicTest academicTest1 = new AcademicTest(new AcademicTests( db ));
-                    String descriptionModify=  request.getParameter("AcademicTest");
-                    String startDateModify=request.getParameter("StartDate");
-                    Gson gson = new Gson();
-                    AcademicTestDescription desc1= (AcademicTestDescription) gson.fromJson(descriptionModify, AcademicTestDescription.class);
-                    desc1.StartDate= new Date(startDateModify);
-                    academicTest1.Modify(desc1, response);
-                  break;   
-                  
-                 case "DeleteTest":
-                   AcademicTest academicTest2 = new AcademicTest(new AcademicTests( db ));
-                   int testId= Integer.parseInt(request.getParameter("TestId"));
-                   academicTest2.Delete(testId, response);
-                  break;   
-                     
-                  case "ActivateTest":
-                    academicTest2 = new AcademicTest(new AcademicTests( db ));
-                    testId= Integer.parseInt(request.getParameter("TestId"));
-                    academicTest2.Activate(testId, response);
-                  break; 
-                      
-                  case "DeActivateTest":
-                    academicTest2 = new AcademicTest(new AcademicTests( db ));
-                    testId= Integer.parseInt(request.getParameter("TestId"));
-                    academicTest2.DeActivate(testId, response);
-                  break;      
-                     
+                 
                   case "Aig-GenerateTestItems":
                     session= request.getSession(false);
                    IComponentGroup groupComponent=  (IComponentGroup)session.getAttribute(OTSAigAppKey);
@@ -350,104 +295,13 @@ public class TestGenerationServlet extends  Servlet {
                     }
                     data=request.getParameter("data");
                      Gson gg= new Gson();
-                    TestElement testElement= (TestElement)gg.fromJson(data, TestElement.class);
+                    TestElementModel testElement= (TestElementModel)gg.fromJson(data, TestElementModel.class);
                     
-                    
-                    /*
-                     String   conceptNodeId=request.getParameter("ConceptNodeId");
-                     String   conceptNodeName=request.getParameter("ConceptNodeName");
-                     String   conceptNodeParentId=request.getParameter("ConceptNodeParentId");
-                     String   conceptNodeParentName=request.getParameter("ConceptNodeParentName");
-                    
-                     ConceptNode conceptNode=new OTS.Aig.ConceptNode(conceptNodeId, 
-                             conceptNodeName, conceptNodeParentId,conceptNodeParentName);
-                     
-                      
-                      String  cognitiveTypeId=request.getParameter("CognitiveTypeId");
-                      String  cognitiveTypeName=request.getParameter("CognitiveTypeName");
-                       OTS.Aig.CognitiveType cognitiveType = new CognitiveType(cognitiveTypeId,cognitiveTypeName);
-                       List<CognitiveType> cognitiveTypes= new ArrayList();
-                       cognitiveTypes.add(cognitiveType);
-                    
-                       //CreateTestItem Generation Service;
-                       groupComponent.Generate(conceptNode);*/
-                    TestItemGenerationDataService testItemsGenerationService= new TestItemGenerationDataService(groupComponent,new MySqlDataSource());
-                     // testItemsGenerationService.GenerateTestItems(conceptNode, cognitiveTypes)
-                       response.ChangeStatus("ok");
-                       
-                     break;     
-                 /*     
-                 case "GenerateTestItem":
-                    session= request.getSession(false);
-                    List<ITestItemGeneration> list=  (List<ITestItemGeneration>)session.getAttribute(AlgorithmKey);
-                    if(list==null){
-                          session.setAttribute(AlgorithmKey, this.LoadAlgorithm());
-                    }
                    
-                        //Find Algorithm by name
-                    data=request.getParameter("data");
-                    
-                     TestGenerationInput input= new Gson().fromJson(data, TestGenerationInput.class);
-                     ITestItemGeneration gen=   this.FindAlgorithm(request, input.UniqueId);
-                     List<TestItemGenerationOutput> result= gen.Generate(input);
-                     
-                     Questions questions= new Questions(db,response);
-                     if(!input.InvalidOutput){
-                       questions.SaveQTestItems(input, result);
-                       String content=new Gson().toJson(result);
-                     response.ChangeContent(content);
-                     response.ChangeStatus("ok");
-                     }
-                     else{
-                     TestGenerationResponse genResponse=new  TestGenerationResponse();
-                     genResponse.Error=input.InvalidOutputText;
-                     genResponse.HasErrors=true;
-                     genResponse.Items=result;
-                    String content=new Gson().toJson(genResponse);
-                     response.ChangeContent(content);
-                     response.ChangeContent(content);
-                     response.ChangeStatus("fail");
-                     }
-                     
-                     
-                     break;
-                  */
-                 case "ListTestQuestions":
-                   AcademicTests tqs = new AcademicTests( db );
-                   int tid= Integer.parseInt(request.getParameter("TestId"));
-                   int cid= Integer.parseInt(request.getParameter("CourseId"));
-                   tqs.ListTestQuestions(userProfile.UserId, cid, tid, response);
-                  break;  
-                 
-                 case "ListTestQuestionLineItems":
-                   AcademicTests qqs = new AcademicTests( db );
-                   int qd= Integer.parseInt(request.getParameter("QuestionId"));
-                   qqs.ListTestQuestionLineItems(qd, response);
-                  break;
-                    
-                  case "UpdateQuestionLineItem":
-                   AcademicTests up = new AcademicTests( db );
-                   int upqd= Integer.parseInt(request.getParameter("QuestionLineItemId"));
-                   String iscorrect= request.getParameter("IsCorrect");
-                   Boolean status=false;
-                   if(iscorrect.equals("true")){
-                       status=true;
-                   }
-                   up.UpdateQuestionLineItem(upqd,status ,response);
-                  break;
-                   case "UpdateQuestionLineItemBatch":
-                   AcademicTests batch = new AcademicTests( db );
-                   String items= request.getParameter("QuestionLineItems");
-                   Gson x= new Gson();
-                   TestQuestionLineItem[] LineItems=  x.fromJson(items, TestQuestionLineItem[].class);
-                   batch.UpdateQuestionLineItem(LineItems ,response);
-                  break;
-                       
-                   case "MarkTest":
-                    TestMarking marker = new TestMarking(db);
-                    testId= Integer.parseInt(request.getParameter("TestId"));
-                    marker.Mark(testId, response);
-                  break; 
+                    TestItemGenerationDataService testItemsGenerationService= new TestItemGenerationDataService(groupComponent,new MySqlDataSource());
+                    return testItemsGenerationService.GenerateTestItems(testElement);
+                        
+                
                        
               default:
                   response.UpdateError("Invalid action");

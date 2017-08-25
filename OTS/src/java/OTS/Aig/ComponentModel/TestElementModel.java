@@ -9,8 +9,7 @@ package OTS.Aig.ComponentModel;
  *
  * @author MEA
  */
-public class ConceptNodeELement {
-     String ConceptNodeId;
-     String ConceptNodeName;
-     String ParentId;
+public class TestElementModel {
+    public  String CognitiveTypes;
+    public  String ConceptNodes;         
 }

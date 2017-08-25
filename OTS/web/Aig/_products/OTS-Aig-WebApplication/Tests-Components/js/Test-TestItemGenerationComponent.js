@@ -57,6 +57,8 @@ OTS.AigTestItemGenerationComponent=function(){
          //Render components
          testgenerationOptionsSelectionComponent.Render();
          testItemsGeneratedComponent.Render();
+        // wire the events
+        testgenerationOptionsSelectionComponent.AddTestItemsGenerateEventTarget(testItemsGeneratedComponent.onTestItemsGenerated);
       
          var dataSource= new  OTS.AigTestDataSource();
          dataSource.ListTeacherCourses(function(msg){

@@ -15,6 +15,7 @@ import OTS.Aig.TestItem;
 import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,24 +25,37 @@ import java.util.List;
 public class TestItemGenerationDataService {
     private final IComponentGroup componentGroup;
     private final DataSource dataSource;
+    private HashMap cognitiveTypes;
 
+   
+
+    
     public TestItemGenerationDataService(IComponentGroup componentGroup, DataSource dataSource) {
         this.componentGroup = componentGroup;
         this.dataSource = dataSource;
+        cognitiveTypes=new HashMap();
+        cognitiveTypes.put("1", "Remember");
+        cognitiveTypes.put("2", "Understand");
+        cognitiveTypes.put("3", "Apply");
+        cognitiveTypes.put("4", "Analyse");
+        cognitiveTypes.put("5", "Evaluate");
     }
     
-    public TransactionResult GenerateTestItems(TestElement testElement){
-        /*
+    public TransactionResult GenerateTestItems(TestElementModel testElement){
+        
         Gson g=new Gson();
           List<TestItem> testItems=new ArrayList();
           TransactionResult result= new TransactionResult();
-          String[] cognitiveItems=  testElement.CognitiveTypes.split(",");
-          conceptnodes  testElement( g.fromJson(testElement.ConceptNodes, ConceptNodeELement.class);
+         
         try{
-         for(CognitiveType c:cognitiveTypes){
-            ITestItemGenerationComponent component=  this.componentGroup.Find(c.Name());
+            String[] cognitiveItems=  testElement.CognitiveTypes.split(",");
+            ConceptNodeELement[] conceptnodes  = (ConceptNodeELement[])g.fromJson(testElement.ConceptNodes, ConceptNodeELement[].class);
+            for(String c:cognitiveItems){
+               String cognitiveTypeName=cognitiveTypes.get(c).toString();
+               ITestItemGenerationComponent component=  this.componentGroup.Find(cognitiveTypeName);
             if(component!=null){
-              List<TestItem> items=  component.Generate(conceptNode);
+                
+             List<TestItem> items= this.GenerateConceptNodeTestItems(conceptnodes, component);
               testItems.addAll(items);
             }
          }  
@@ -57,10 +71,20 @@ public class TestItemGenerationDataService {
        }
        finally{
        }
-       */
-        return null;
-    }
+
+     }
   
+     protected List<TestItem> GenerateConceptNodeTestItems(ConceptNodeELement[] conceptnodes,ITestItemGenerationComponent component){
+         List<TestItem> testItems= new ArrayList();
+         for(ConceptNodeELement e:conceptnodes){
+             ConceptNode conceptNode= new ConceptNode(e.ConceptNodeId,e.ConceptNodeName,e.ParentId,"");
+             
+             List<TestItem> items=   component.Generate(conceptNode);
+             testItems.addAll(items);
+         }
+         return testItems;
+     } 
+    
       public TransactionResult SaveTestItems(List<TestItem> testItems){
          Gson g=new Gson();
          TransactionResult result= new TransactionResult();

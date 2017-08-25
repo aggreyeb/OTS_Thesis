@@ -174,16 +174,6 @@
      <script src="./Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/html-template/knowledgemap-treeview-add-edit.html" id="knowledge-map-treeview-actions-template" type="text/html"> </script>
      
    
-    
-         <!--Knowledge Maps Validations -->
-         <!--
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/characteristics-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/behaviour-description-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/attributes-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/function-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/application-validation.js" type="text/javascript"></script>
-         <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/Validdations/DataStructureKnowlegeMap.js" type="text/javascript"></script>
-         -->
          <!--Student Accounts Templates-->
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-component.html" id="student-account-component-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Student-Accounts/html-templates/student-account-add-edit-view.html" id="student-account-add-edit-template" type="text/html"> </script>
@@ -197,12 +187,12 @@
       <script src="./Aig/_products/OTS-Aig-WebApplication/Students-Test/html-templates/students-test-list.html" id="students-test-list-template" type="text/html"> </script>
      
     <!--Test/Item Generation Templates-->
-    <!--
+    
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/genenerated-items-view.html" id="generated-items-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/answersheet-view.html" id="answer-sheet-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/test-question-bank-view.html" id="test-questions-bank-view-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/testsheet-view.html" id="test-sheet-view-template" type="text/html"> </script>
-   -->
+  
     <!--Test Components-->
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/add-edit-view.html" id="test-add-edit-template" type="text/html"> </script>
     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-templates/generate-test-items.html" id="generate-test-items-template" type="text/html"> </script>

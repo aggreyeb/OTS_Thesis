@@ -5,9 +5,25 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
    var knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("kn-tree",new OTS.Serialization());
    var selectedTest=null;
    var selectedNode=null;
+   var itemsGeneratedEventTargets=[];
    var onTreeNodeSelected=function(e){
        selectedNode=e;
-       alert(e.text);
+   };
+   
+   
+   var notifyTestItemsGenerated=function(items){
+       for(var i=0;i<itemsGeneratedEventTargets.length;i++){
+           var callback=itemsGeneratedEventTargets[i];
+           if(callback!==undefined && callback!==null ){
+               callback(items);
+           }
+       }
+   };
+   
+   me.AddTestItemsGenerateEventTarget=function(callbackFunction){
+       if(callbackFunction instanceof Function){
+           itemsGeneratedEventTargets.push(callbackFunction);
+       }
    };
    
    me.onGenerateTestItems=function(e){
@@ -25,10 +41,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
            return;
        }
        
-       if(cognitiveTypes.length>0){
-           alert(cognitiveTypes.join(","));
-       }
-       
+     
        var conceptNodes=[];
        if(selectedNode.parentid ===undefined){
            var items=knowledgeMapTreeView.ToList();
@@ -37,7 +50,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                    var conceptNode={
                        ConceptNodeId:items[i].id,
                        ConceptNodeName:items[i].name,
-                       ParentName:items[i].parentid
+                       ParentId:items[i].parentid
                    };
                    conceptNodes.push(conceptNode);
                }
@@ -51,14 +64,16 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
       
       var data={
           CognitiveTypes:cognitiveTypes.join(","),
-          ConceptNodes:conceptNodes
+          ConceptNodes:JSON.stringify(conceptNodes)
       };
       var dataSource= new OTS.AigGenerationOptionsSelectionDataSource();
        dataSource.GenerateTestItems(JSON.stringify(data),function(msg){
              var result=JSON.parse(msg);
            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-                var contents=JSON.parse(result.Content);
-                     me.DataBind(contents);
+               var contents=JSON.parse(result.Content);
+                     notifyTestItemsGenerated({Items:contents,
+                         ActionResultType:result.ActionResultType,
+                         Message:result.Message})
             }   
          });
       

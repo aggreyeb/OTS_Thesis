@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Remembering-Component";
+    private final String id="Remember";
     private final String name="Remember";
     private String cognitiveType="Remember";
     private ConceptNode conceptNode =null;

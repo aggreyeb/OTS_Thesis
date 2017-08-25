@@ -1,11 +1,9 @@
 <div style="margin-top: 2px">
-    <div  class="row">
-        <h3 style="margin-left: 15px"><span class="label label-info" > <i class="fa fa-info-circle"></i>Please select a root node or child node of knowledge map and click on generate</span><a id="cmd-generate-test-items" data-bind="click:OnStartGenerateTestsItems,enable:Actions.enableGenerateAction" style="margin-right: 25px" class=" pull-right btn btn-sm btn-primary" href="#">Generate</a>
-    </div>
+   
     <div data-bind="visible:ShowItemsGeneratedAlert" style="margin-right: 10px" class="alert alert-success" >
-        Number of items generated: <span  data-bind="text:NumberItemsGenerated" class="badge" >0</span> <span class="pull-right"><a  data-bind="click:ClearTestItemGenerated" class=" btn btn-default" href="#">Clear</a>&nbsp;<a  data-bind="click:SaveToTestQuestionBank" class="pull-right btn btn-success" href="#">Save to test question bank</a></span>
+        Number of items generated: <span  data-bind="text:NumberItemsGenerated" class="badge" >0</span> <span class="pull-right"><a  data-bind="click:ClearTestItemGenerated" class=" btn btn-default" href="#">Clear</a>
    </div>
-    <div  id="alert-item-generation-validation-alert" class="alert alert-danger">
+    <div  style="display: none" id="alert-item-generation-validation-alert" class="alert alert-danger">
        
     </div>
     <div class="row">
@@ -17,8 +15,8 @@
                 </tr>
                 <tbody data-bind="foreach:TestItems">
                  <tr>
-                  <td data-bind="text:Number"></td>
-                  <td>
+                  <td style="width:5%" data-bind="text:Number"></td>
+                  <td style="width: 95%">
                   <div class="panel panel-default">
                    <div data-bind="html:Stimulus,style:{'font-weight':'bold'}" class="panel-heading "></div>
                       <div class="panel-body">
