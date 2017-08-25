@@ -5,12 +5,14 @@
  */
 package OTS.Aig;
 
+import java.util.List;
+
 /**
  *
  * @author Eb
  */
 public interface ITestItemContent {
-    String ConstructStimulus(ConceptNode conceptNode,CognitiveType congnitiveType);
-    String PrepareStem(ConceptNode conceptNode,CognitiveType congnitiveType);
-    String CreateAnswerOptions(ConceptNode conceptNode,CognitiveType congnitiveType);
+    String ConstructStimulus();
+    String PrepareStem();
+    List<AnswerOption> CreateAnswerOptions();
 }

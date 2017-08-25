@@ -9,7 +9,7 @@ package OTS.Aig;
  *
  * @author Eb
  */
-public class AnswerOptions {
+public class AnswerOption {
   
    public String Label;
    public String Text;

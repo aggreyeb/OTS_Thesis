@@ -362,7 +362,8 @@ public class TestGenerationServlet extends  Servlet {
                        OTS.Aig.CognitiveType cognitiveType = new CognitiveType(cognitiveTypeId,cognitiveTypeName);
                        List<CognitiveType> cognitiveTypes= new ArrayList();
                        cognitiveTypes.add(cognitiveType);
-                       groupComponent.Generate(conceptNode, cognitiveTypes);
+                       //CreateTestItem Generation Service;
+                       groupComponent.Generate(conceptNode);
                        response.ChangeStatus("ok");
                        
                      break;     

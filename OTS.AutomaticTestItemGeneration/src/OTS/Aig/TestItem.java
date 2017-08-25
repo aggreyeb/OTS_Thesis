@@ -17,7 +17,7 @@ public class TestItem {
     public int SortOrder;
     public String Stimulus;
     public String Stem;
-    public List<AnswerOptions> AnswerOptions;
+    public List<AnswerOption> AnswerOptions;
     public Boolean IsHigherCognitiveLevel;
     public String CongnitiveTypeId;
     public String CongniveTypeName;

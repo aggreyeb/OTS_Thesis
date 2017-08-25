@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TestItemGenerationComponentGroup implements IComponentGroup { 
     private Components components;
-
+    
     public TestItemGenerationComponentGroup() {
     components = new Components();
     }
@@ -53,34 +53,8 @@ public class TestItemGenerationComponentGroup implements IComponentGroup {
     }
 
     @Override
-    public List<TestItem> Generate(ConceptNode cn, List<CognitiveType> list) {
-         List<TestItem> testItems= new ArrayList(); 
-        for(CognitiveType t:list){
-            switch (t.Name()){
-                case "Remember":
-                break;
-               
-                case "Understand":
-                break;
-                    
-                case "Apply":
-                break;
-                    
-                case "Analyze":
-                break; 
-                    
-                case "Evalute":
-                break; 
-                default:
-                    
-                break;
-                    
-            }
-        }
-        
-       return testItems;
+    public List<TestItem> Generate(ConceptNode cn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 
-  
 }

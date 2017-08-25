@@ -5,12 +5,14 @@
  */
 package OTS.Aig.ComponentModel;
 
+import OTS.Aig.AnswerOption;
 import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.ITestItemGenerationComponent;
 import OTS.Aig.TestItem;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,24 +84,39 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
     }
 
     @Override
-    public List<TestItem> Generate(ConceptNode cn, List<CognitiveType> list) {
+    public List<TestItem> Generate(ConceptNode cn) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @Override
-    public String ConstructStimulus(ConceptNode cn, CognitiveType ct) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     @Override
+    public String ConstructStimulus() {
+       String stimulus="";
+       List<String> actors=new ArrayList();
+       actors.add("software developer");
+       
+       String template="A %s was presented with following behaviour descriptions of an object during software training course: The object  deescribes what data structure does,can have multiple implementation, and provides specification about the type of supported operations . \n" +
+                "Select the best object(s)  that exibit the above  behaviour description.\n" +
+                "I.	Interface\n" +
+                "II.	Implementation\n" +
+                "III.	Inheritance\n" +
+                "IV.	Interface and Implementation";
+      stimulus= String.format(template, actors.get(0));
+       return stimulus;
     }
 
     @Override
-    public String PrepareStem(ConceptNode cn, CognitiveType ct) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String PrepareStem() {
+        String stem="Select the best object(s)  that exibit the above  behaviour description.";
+        return stem;
     }
 
     @Override
-    public String CreateAnswerOptions(ConceptNode cn, CognitiveType ct) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<AnswerOption> CreateAnswerOptions(){
+       String answerOptionTemplate= "A.	I\n" +
+                                    "B.	II\n" +
+                                    "C.	III\n" +
+                                    "D.	I,III";
+       return null;
     }
 
-   
 }
