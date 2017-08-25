@@ -10,6 +10,8 @@ package OTS.Aig.ComponentModel;
  * @author MEA
  */
 public class TestElementModel {
+    public String TestId;
+    public String CourseId;
     public  String CognitiveTypes;
     public  String ConceptNodes;         
 }

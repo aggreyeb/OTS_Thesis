@@ -5,6 +5,7 @@
  */
 package OTS.Aig.ComponentModel;
 
+import OTS.Aig.AnswerOption;
 import OTS.Aig.CognitiveType;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -59,6 +61,8 @@ public class TestItemGenerationDataService {
               testItems.addAll(items);
             }
          }  
+           //Save the test items 
+           this.SaveTestItems(testItems, testElement.TestId, testElement.CourseId);
            result.ActionResultType=ActionResultType.ok;
            result.Content=g.toJson(testItems);
            return result;
@@ -85,11 +89,39 @@ public class TestItemGenerationDataService {
          return testItems;
      } 
     
-      public TransactionResult SaveTestItems(List<TestItem> testItems){
+      public TransactionResult SaveTestItems(List<TestItem> testItems,String testId,String courseId){
          Gson g=new Gson();
          TransactionResult result= new TransactionResult();
         try{
-         
+         String insertTemplate="insert into questionbank (TestItemId,TestId,CourseId,"
+                 + "Stimulus,Stem,StimulusFormatting,StemFormatting) "
+                 + "values('%s','%s', '%s','%s','%s','%s','%s');";
+         for(TestItem t:testItems ){
+            
+             if(this.CanSaveTestItem(t)){
+             UUID uuid = UUID.randomUUID();
+             String testItemId = uuid.toString();
+             String sql=String.format(insertTemplate, testItemId,
+                     testId,courseId,t.Stimulus,
+                     t.Stem,t.StimulusFormatting,t.StemFormatting) ; 
+               //Save Stimulus and Stem
+                 this.dataSource.ExecuteNonQuery(sql);
+                 
+                //Save AnswerOption
+                 String insertAnswerOptionTemplate="insert into "
+                         + "questionbankansweroption (AnswerOptionId,"
+                         + "TestItemId,Label,Text,IsKey) values('%s','%s','%s','%s',%b)";
+                 for(AnswerOption p:t.AnswerOptions){
+                      UUID uuidOption = UUID.randomUUID();
+                   String answerOptionId = uuidOption.toString();
+                     String optionSql=String.format(insertAnswerOptionTemplate, 
+                             answerOptionId,testItemId,p.Label,p.Text,p.IsKey);
+                     this.dataSource.ExecuteNonQuery(optionSql);
+                 }
+            
+             }
+          }
+            
            result.ActionResultType=ActionResultType.ok;
            result.Content=g.toJson(testItems);
            return result;
@@ -104,6 +136,20 @@ public class TestItemGenerationDataService {
        }
     }
    
+      
+    
+      
+  public Boolean CanSaveTestItem(TestItem testItem){
+      String sqlTemplate="Select * from questionbank where Stimulus='%s'"
+              + " and TestId='%s' and CourseId='%s'";
+      String sql=String.format(sqlTemplate, testItem.Stimulus,testItem.TestId,testItem.CourseId);
+      List<TestItem> items= new ArrayList();
+      this.dataSource.ExecuteCustomDataSet(sql, items, TestItem.class);
+      if(items.isEmpty()){
+          return true;
+      }
+      return false;
+  }
       
   public TransactionResult ListTestItems(String testId,String courseId){
          Gson g=new Gson();

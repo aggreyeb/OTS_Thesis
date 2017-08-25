@@ -132,8 +132,8 @@ public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponen
     @Override
     public List<AnswerOption> CreateAnswerOptions(){
       List<AnswerOption> answers= new ArrayList();
-      String[] labels=new  String[]{"A.","B.I","C.I","D.I"};
-      String[] options=new  String[]{"I","B.II","C.III","D.I ,II"};
+      String[] labels=new  String[]{"A.","B.","C.","D."};
+      String[] options=new  String[]{"I","II","III","I ,II"};
        for(int i=0;i<options.length;i++){
            AnswerOption answerOption= new AnswerOption();
            answerOption.Label=labels[i];

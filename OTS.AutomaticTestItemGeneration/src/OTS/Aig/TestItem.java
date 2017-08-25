@@ -24,7 +24,10 @@ public class TestItem {
     public String CognitiveTypeName;
     public Boolean HasError;
     public List<String> ErrorsMessage;
-
+    public String StimulusFormatting;
+    public String StemFormatting;
+    public String TestId;
+    public String CourseId;
     public TestItem() {
        AnswerOptions= new ArrayList();
        ErrorsMessage= new ArrayList();

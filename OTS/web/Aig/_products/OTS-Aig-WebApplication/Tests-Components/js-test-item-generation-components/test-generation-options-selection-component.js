@@ -63,6 +63,8 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
         }
       
       var data={
+          TestId:selectedTest.Id,
+          CourseId:selectedTest.CourseId,
           CognitiveTypes:cognitiveTypes.join(","),
           ConceptNodes:JSON.stringify(conceptNodes)
       };
@@ -73,7 +75,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                var contents=JSON.parse(result.Content);
                      notifyTestItemsGenerated({Items:contents,
                          ActionResultType:result.ActionResultType,
-                         Message:result.Message})
+                         Message:result.Message});
             }   
          });
       
