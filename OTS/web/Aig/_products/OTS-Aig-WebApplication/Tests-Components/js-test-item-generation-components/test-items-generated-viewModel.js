@@ -12,13 +12,8 @@ OTS.AigTestItemsGeneratedViewModel=function(){
        alert("Add to test sheet");
    };
    
-   me.CheckAllItestItems=function(){
-      
-   };
    
-   me.UpdateTestBankList=function(items){
-       alert("Load this bank for");
-   };
+  
    
    me.onCheckAllItestItems=function(data,e){
         var status=e.target.checked;
@@ -56,5 +51,26 @@ OTS.AigTestItemsGeneratedViewModel=function(){
            me.TestBankItems.push(items[i]);
        }
    };
+   
+   me.BindTestSheet=function(items){
+        if(items===undefined || items===null) return;
+       me.TestSheetItems([]);
+       for(var i=0;i<items.length;i++){
+           items[i].Number=i+1;
+           me.TestSheetItems.push(items[i]);
+       }
+       
+       me.BindAnswerSheet(items);
+   };
+   
+   me.BindAnswerSheet=function(items){
+        if(items===undefined || items===null) return;
+       me.AnswerSheetItems([]);
+       for(var i=0;i<items.length;i++){
+           items[i].Number=i+1;
+           me.AnswerSheetItems.push(items[i]);
+       }
+   };
+   
 };
 

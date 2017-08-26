@@ -9,6 +9,16 @@ OTS.AigTestItemsGeneratedComponent=function(){
       dataSource.ListCourseTestBankItems(courseId,testId,function(e){
          var result=JSON.parse(e);
          var items=JSON.parse(result.Content);
+          viewModel.BindTestSheet(items);
+      });
+   };
+   
+   
+    me.ListCourseTestSheetItems=function(courseId,testId){
+       var dataSource= new  OTS.AigTestItemsGeneratedDataSource();
+      dataSource.ListCourseTestSheetItems(courseId,testId,function(e){
+         var result=JSON.parse(e);
+         var items=JSON.parse(result.Content);
           viewModel.BindQuestionTestBank(items);
       });
    };
@@ -38,6 +48,11 @@ OTS.AigTestItemsGeneratedComponent=function(){
              ko.applyBindings(viewModel,$("#div-testItem-generation-container")[0]);
              $("#cmd-test-question-bank").click(function(){
                 me.ListCourseTestBankItems(currentSelectedTest.CourseId,
+                currentSelectedTest.Id);
+             });
+             
+             $("#cmd-course-test-sheet").click(function(){
+                 me.ListCourseTestSheetItems(currentSelectedTest.CourseId,
                 currentSelectedTest.Id);
              });
        }

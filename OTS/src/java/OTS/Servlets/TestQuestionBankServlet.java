@@ -91,7 +91,8 @@ public class TestQuestionBankServlet extends Servlet {
     protected ISerializable ExecuteCommand(String action, HttpServletRequest request) {
            Response response= new Response("","");
           DataSource db=new MySqlDataSource();
-          TestQuestionBankDataService service;
+         // TestQuestionBankDataService service;
+         CourseTestQuestionBankDataService service;
             String testId;
             String acourseId;
           UserProfile userProfile=this.LoadSession(request);
@@ -107,10 +108,15 @@ public class TestQuestionBankServlet extends Servlet {
                     case "Aig-List-Course-Test-QuestionBankItems":
                      String courseId=  data=request.getParameter("CourseId");
                       testId=  data=request.getParameter("TestId");
-                     CourseTestQuestionBankDataService testBankService= new CourseTestQuestionBankDataService(new MySqlDataSource());
-                     return testBankService.ListTestItems(testId, courseId);
+                     service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                     return service.ListTestItems(testId, courseId);
                     
-             
+                      case "Aig-List-Course-Test-Sheet":
+                      courseId=  data=request.getParameter("CourseId");
+                      testId=  data=request.getParameter("TestId");
+                       service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                      return service.ListTestSheetItems(testId, courseId);
+                    
              
              
                      case "Aig-SubmitStudentTest":
@@ -128,9 +134,9 @@ public class TestQuestionBankServlet extends Servlet {
                      testSheetElement.Marked=1;
                      testSheetElement.Taken=1;
                      testSheetElement.StudentId=userProfile.UserId;
-                     service= new TestQuestionBankDataService(new MySqlDataSource());
-                     return service.UpdateStudentTest(testSheetElement);
-             
+                    // service= new TestQuestionBankDataService(new MySqlDataSource());
+                     //return service.UpdateStudentTest(testSheetElement);
+                     return null;
                      
               default:
                   response.UpdateError("Invalid action");
