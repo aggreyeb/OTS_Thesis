@@ -148,6 +148,7 @@ OTS.AigTestItemGenerationComponent=function(){
   
    me.ListCourseKnowledgeMaps=function(selectedTest){
        testgenerationOptionsSelectionComponent.ListCourseKnowledgeMaps(selectedTest);
+       testItemsGeneratedComponent.UpdateTestSelected(selectedTest);
    };
   
 };

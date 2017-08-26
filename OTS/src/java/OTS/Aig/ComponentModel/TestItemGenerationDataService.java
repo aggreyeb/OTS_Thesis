@@ -141,6 +141,7 @@ public class TestItemGenerationDataService {
     
       
   public Boolean CanSaveTestItem(TestItem testItem){
+     /*
       String sqlTemplate="Select TestId,CourseId from questionbank where binary Stimulus='%s'"
               + " and TestId='%s' and CourseId='%s'";
       String sql=String.format(sqlTemplate, testItem.Stimulus,testItem.TestId,testItem.CourseId);
@@ -150,6 +151,8 @@ public class TestItemGenerationDataService {
           return true;
       }
       return false;
+      */
+      return true;
   }
       
   public TransactionResult ListTestItems(String testId,String courseId){

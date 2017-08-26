@@ -4,7 +4,7 @@
    </div>
     <div class="row">
         <div class="col-xs-12">
-            <span style="margin-right: 18px;margin-bottom: 2px" class="pull-right"><a  data-bind="click:onAddToTestSheet" class="pull-right btn btn-success" href="#">Add To Test Sheet</a></span>
+         <span style="margin-right: 18px;margin-bottom: 2px" class="pull-right"><a  data-bind="click:onAddToTestSheet" class="pull-right btn btn-success" href="#">Add To Test Sheet</a></span>
         </div>
         
     </div>
@@ -14,7 +14,7 @@
                  <tr>
                     <th>#</th>
                      <th>Test Item</th>
-                     <th><span><input id="chk-all-question-bank-items" data-bind="checked:CheckAllItestItems,event:{change:onCheckAllItestItems}" title="Select All" type="checkbox"/></span></th>
+                     <th><span><input id="chk-all-question-bank-items" data-bind="event:{change:onCheckAllItestItems}" title="Select All" type="checkbox"/></span></th>
                 </tr>
                 <tbody data-bind="foreach:TestBankItems">
                  <tr>
@@ -34,7 +34,7 @@
                      </div>
                  </td>
                  <td style="width: 5%">
-                     <input data-bind="checked:checked" type="checkbox"/>
+                     <input data-bind="checked:Checked" type="checkbox"/>
                  </td>
                 </tr>
              </tbody>

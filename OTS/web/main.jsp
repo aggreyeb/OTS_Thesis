@@ -128,7 +128,7 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-generation-options-selection-component.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-items-generated-component.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-generation-options-selection-datasource.js" type="text/javascript"></script>
-        
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-items-generated-component-datasource.js" type="text/javascript"></script>
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>

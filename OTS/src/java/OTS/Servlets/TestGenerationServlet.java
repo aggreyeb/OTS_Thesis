@@ -5,59 +5,28 @@
  */
 package OTS.Servlets;
 
-import OTS.Aig.CognitiveType;
 import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
+import OTS.Aig.ComponentModel.CourseTestQuestionBankDataService;
 import OTS.Aig.ComponentModel.EvaluationComponent;
 import OTS.Aig.ComponentModel.RememberingComponent;
 import OTS.Aig.ComponentModel.TestElementModel;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
 import OTS.Aig.ComponentModel.TestItemGenerationDataService;
 import OTS.Aig.ComponentModel.UnderstandingComponent;
-import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
-import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
-import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
 import OTS.Message;
-import OTS.ObjectModels.AcademicTest;
-import OTS.ObjectModels.AcademicTestDescription;
-import OTS.ObjectModels.AcademicTests;
-import OTS.ObjectModels.ConceptRelationMap;
 import OTS.ObjectModels.ITestItemGeneration;
-import OTS.ObjectModels.QuestionManagement.Questions;
-import OTS.ObjectModels.QuestionManagement.TestMarking;
 import OTS.ObjectModels.Response;
-import OTS.ObjectModels.TestAlgorithms.ClassifyMultipleChoiceAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ClassifyMultipleChoiceSingleAnswerAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeMultipleAnswerMultipleChoiceAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeSingleAnswerMultipleChoiceAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeTrueFalseCorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeTrueFalseIncorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeTrueFalseNagativeAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.DescribeTrueFalseNegativeIncorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ListMultipleAnswersMultipleChoice;
-import OTS.ObjectModels.TestAlgorithms.ListSingleAnswerMultipleChoiceAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ListTrueFalseCorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ListTrueFalseInCorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ListTrueFalseNegativeAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.ListTrueFalseNegativeInCorrectAlgorithm;
-import OTS.ObjectModels.TestAlgorithms.SummarizeMultipleChoiceAlgorithm;
-import OTS.ObjectModels.TestGenerationInput;
-import OTS.ObjectModels.TestGenerationResponse;
-import OTS.ObjectModels.TestItemGenerationOutput;
-import OTS.ObjectModels.TestQuestionLineItem;
 import OTS.ObjectModels.UserProfile;
-import OTS.University;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -237,8 +206,7 @@ public class TestGenerationServlet extends  Servlet {
                    
                     TestItemGenerationDataService testItemsGenerationService= new TestItemGenerationDataService(groupComponent,new MySqlDataSource());
                     return testItemsGenerationService.GenerateTestItems(testElement);
-                        
-                
+                  
                        
               default:
                   response.UpdateError("Invalid action");
