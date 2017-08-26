@@ -29,11 +29,13 @@ public class CourseTestQuestionBankDataService {
          Gson g=new Gson();
          TransactionResult result= new TransactionResult();
         try{
-         
-      String sqlTemplate="Select * from questionbank "
-              + "where TestId='%s' and CourseId='%s'";
+        String sqlTemplate="select * from questionbank q where q.TestId='%s' and \n" +
+            "q.CourseId='%s' and q.TestItemId not in (select TestItemId from testsheet)"; 
+            
+     // String sqlTemplate="Select * from questionbank "
+            //  + "where TestId='%s' and CourseId='%s'";
              
-      String sql=String.format(sqlTemplate, testId,courseId);
+      String sql=String.format(sqlTemplate,testId,courseId);
       List<TestItem> items= new ArrayList();
       this.dataSource.ExecuteCustomDataSet(sql, items, TestItem.class);
       
@@ -82,4 +84,65 @@ public class CourseTestQuestionBankDataService {
        finally{
        }
     }
+    
+    
+    
+    public TransactionResult ListTestSheetItems(String testId,String courseId){
+         Gson g=new Gson();
+         TransactionResult result= new TransactionResult();
+        try{
+         
+      String sqlTemplate=" select * from questionbank q where q.TestId='%s' and \n" +
+"                           q.CourseId='%s' and q.TestItemId in (select TestItemId from testsheet)";
+             
+      String sql=String.format(sqlTemplate,testId, courseId);
+      List<TestItem> items= new ArrayList();
+      this.dataSource.ExecuteCustomDataSet(sql, items, TestItem.class);
+      
+       String selectOption="Select * from questionbankansweroption where TestItemId='%s' order by Label";
+    
+        for(TestItem t: items){
+            Boolean hasKey=false;
+            List<AnswerOption> answerOptions= new ArrayList();
+            String optionSql=String.format(selectOption, t.TestItemId);
+             this.dataSource.ExecuteCustomDataSet(optionSql, answerOptions, AnswerOption.class);
+             t.AnswerOptions=answerOptions;
+             for(AnswerOption a:t.AnswerOptions){
+                 if(a.IsKey){
+                    AnswerOption option=new AnswerOption();
+                    option.Label=a.Label;
+                    option.Text=a.Text;
+                    option.IsKey=true;
+                    option.IsCorrect=true;
+                     t.CorrectAnswer= option;
+               
+                     hasKey=true;
+                 }
+             }
+             if(!hasKey){ //This code should be remove. Alway set the correct answer
+                 
+               AnswerOption opt=  t.AnswerOptions.get(0);
+               opt.IsKey=true;
+               opt.IsCorrect=true;
+               t.CorrectAnswer=opt;
+             }
+        }
+        
+        //
+      
+       result.Content=g.toJson(items);
+       result.ActionResultType=ActionResultType.ok;
+          
+           return result;
+        } 
+       catch(Throwable ex){
+          
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+    
 }
