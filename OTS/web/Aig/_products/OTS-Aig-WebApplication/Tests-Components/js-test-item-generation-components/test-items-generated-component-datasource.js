@@ -5,7 +5,8 @@ OTS.AigTestItemsGeneratedDataSource=function(){
     var actionType={
                       LIST:"Aig-List-Course-Test-QuestionBankItems",
                       ListCourseTestSheetItems:"Aig-List-Course-Test-Sheet",
-                      SaveCourseTestSheetItems:"Aig-Save-CourseTest-SheetItems"
+                      SaveCourseTestSheetItems:"Aig-Save-CourseTest-SheetItems",
+                      DeleteCourseTestSheetItems:"Aig-Delete-CourseTest-SheetItems"
                     };
     
      me.ListCourseTestBankItems=function(courseId,testId,callbackFunction){
@@ -31,6 +32,15 @@ OTS.AigTestItemsGeneratedDataSource=function(){
                 callback(msg);
        });
     };
+    
+      me.DeleteCourseTestSheetItems=function(courseId,testId,data,callbackFunction){
+       var callback=callbackFunction;
+        $.post("TestQuestionBankServlet",{action:actionType.DeleteCourseTestSheetItems,CourseId:courseId,TestId:testId,data:data},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+    };
+     
      
 };
 

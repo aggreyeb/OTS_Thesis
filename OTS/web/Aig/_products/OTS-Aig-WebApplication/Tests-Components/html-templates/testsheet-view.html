@@ -2,14 +2,18 @@
     <div id="alert-question-bank-alert" style="margin-right: 10px" class="alert alert-success" >
        Test Items Added to Test Sheet
    </div>
-    
+    <div class="row">
+        <div style="margin-left: 2px;margin-right: 40px;margin-bottom: 3px" class="pull-right">
+            <button id="cmd-remove-testsheet-items" class="btn btn-sm btn-danger">Remove Selected Test Items</button>
+        </div>
+    </div>
     <div class="row">
         <div style="overflow-y: scroll; height: 450px;margin-left: 15px;margin-right: 15px" class="table-responsive">
              <table class="table table-bordered table-hover ">
                  <tr>
                     <th>#</th>
                      <th>Test Item</th>
-                     <th class="hide">Item Mark</th>
+                     <th><input data-bind="event:{change:onRemoveAllItestSheetItems}" title="Select all the test sheet items" style="text-align: center" id="chk-remove-all-testsheet-items" type="checkbox"/></th>
                      
                 </tr>
                 <tbody data-bind="foreach:TestSheetItems">
@@ -29,8 +33,8 @@
                     </div>
                      </div>
                  </td>
-                 <td class="hide" style="width:10% ">
-                     <input  style="width:50px" type="text"/>
+                 <td  style="width:5% ">
+                     <input  style="text-align: center" type="checkbox"/>
                  </td>
                
                 </tr>

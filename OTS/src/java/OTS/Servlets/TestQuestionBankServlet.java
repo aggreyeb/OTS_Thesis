@@ -123,6 +123,13 @@ public class TestQuestionBankServlet extends Servlet {
                        service= new CourseTestQuestionBankDataService(new MySqlDataSource());
                       return service.SaveTestSheetItems(testId, courseId,data);
                     
+                      case "Aig-Delete-CourseTest-SheetItems":
+                       data=request.getParameter("data");
+                       courseId= request.getParameter("CourseId");
+                       testId= request.getParameter("TestId");
+                       service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                      return service.DeleteTestSheetItems(testId, courseId,data);
+                    
                       
              
                      case "Aig-SubmitStudentTest":

@@ -18,6 +18,17 @@ OTS.AigTestItemsGeneratedViewModel=function(){
        }
        return ko.toJS(items);
    };
+   
+   me.ListSelectedTestSheetItems=function(){
+         var items=[];
+       for(var i=0;i<me.TestSheetItems().length;i++){
+           if(me.TestSheetItems()[i].Checked()){
+              
+               items.push(me.TestSheetItems()[i]);
+           }
+       }
+       return ko.toJS(items);
+   };
   
    me.onCheckAllItestItems=function(data,e){
         var status=e.target.checked;
@@ -25,11 +36,26 @@ OTS.AigTestItemsGeneratedViewModel=function(){
        me.ToggleSelectAllTestItems(status);
    };
    
+   
+    me.onRemoveAllItestSheetItems=function(data,e){
+       alert("Remove all from test sheet");
+        var status=e.target.checked;
+       
+       me.ToggleRemoveAllTestItems(status);
+   };
+   
    me.ToggleSelectAllTestItems=function(status){
       for(var i=0;i<me.TestBankItems().length;i++){
             me.TestBankItems()[i].Checked(status);
       } 
    };
+   
+    me.ToggleRemoveAllTestItems=function(status){
+      for(var i=0;i<me.TestSheetItems().length;i++){
+            me.TestSheetItems()[i].Checked(status);
+      } 
+   };
+   
    me.ClearTestItemGenerated=function(){
        me.TestBankItems([]);
    };
@@ -60,6 +86,7 @@ OTS.AigTestItemsGeneratedViewModel=function(){
         if(items===undefined || items===null) return;
        me.TestSheetItems([]);
        for(var i=0;i<items.length;i++){
+          items[i].Checked=ko.observable(false);
            items[i].Number=i+1;
            me.TestSheetItems.push(items[i]);
        }

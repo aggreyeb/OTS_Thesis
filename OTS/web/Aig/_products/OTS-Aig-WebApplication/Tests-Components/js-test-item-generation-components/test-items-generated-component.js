@@ -40,6 +40,24 @@ OTS.AigTestItemsGeneratedComponent=function(){
       });
    };
    
+   
+    me.DeleteCourseTestSheetItems=function(courseId,testId,items){
+       if(items===undefined || items===null)return;
+       var testItems=[];
+       for(var i=0;i<items.length;i++){
+           testItems.push(items[i].TestItemId);
+       }
+       var data=testItems.join(",");
+       var dataSource= new  OTS.AigTestItemsGeneratedDataSource();
+      dataSource.DeleteCourseTestSheetItems(courseId,testId,data,function(e){
+         var result=JSON.parse(e);
+         var items=JSON.parse(result.Content);
+          viewModel.BindTestSheet(items);
+          $("#cmd-course-test-sheet").click();
+          //me.ResetSelectAllQuestionBankItems();
+      });
+   };
+   
    me.ResetSelectAllQuestionBankItems=function(){
        $("#chk-all-question-bank-items").prop("checked",false);
    }
@@ -82,6 +100,14 @@ OTS.AigTestItemsGeneratedComponent=function(){
                me.SaveCourseTestSheetItems(currentSelectedTest.CourseId,
                 currentSelectedTest.Id,items);
              });
+            
+            $("#cmd-remove-testsheet-items").click(function(){
+               var items=  viewModel.ListSelectedTestSheetItems();
+               me.DeleteCourseTestSheetItems(currentSelectedTest.CourseId,
+                currentSelectedTest.Id,items);
+             });
+             
+             //
        }
        catch(error){
            console.log(error);

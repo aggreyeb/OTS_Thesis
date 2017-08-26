@@ -174,5 +174,32 @@ public class CourseTestQuestionBankDataService {
     } 
     
     
+     
+     //Delete Test Sheet Items
+     public TransactionResult DeleteTestSheetItems(String testId,String courseId,String selectedTestItems){
+         Gson g=new Gson();
+         TransactionResult result= new TransactionResult();
+        try{
+      String sqlTemplate="Delete from  testsheet where TestSheetId='%s'";
+       
+      String[] testItems=selectedTestItems.split(",");
+      for(String s:testItems){
+         
+          String sql=String.format(sqlTemplate,s);
+           this.dataSource.ExecuteNonQuery(sql);
+      }
+          return this.ListTestSheetItems(testId, courseId);
+          
+        } 
+       catch(Throwable ex){
+          
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    } 
+    
     
 }
