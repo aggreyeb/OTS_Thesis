@@ -8,13 +8,16 @@ OTS.AigTestItemsGeneratedViewModel=function(){
    me.TestSheetItems=ko.observableArray([]);
    me.AnswerSheetItems=ko.observableArray([]);
    
-   me.onAddToTestSheet=function(){
-       alert("Add to test sheet");
+   me.ListSelectedTestBankItems=function(){
+       var items=[];
+       for(var i=0;i<me.TestBankItems().length;i++){
+           if(me.TestBankItems()[i].Checked){
+               items.push(me.TestBankItems()[i]);
+           }
+       }
+       return ko.toJS(items);
    };
-   
-   
   
-   
    me.onCheckAllItestItems=function(data,e){
         var status=e.target.checked;
        

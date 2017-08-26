@@ -6,7 +6,6 @@
 package OTS.Aig.ComponentModel;
 
 import OTS.Aig.AnswerOption;
-import OTS.Aig.CognitiveType;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.ITestItemGenerationComponent;

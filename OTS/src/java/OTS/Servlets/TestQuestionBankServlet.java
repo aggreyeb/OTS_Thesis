@@ -7,7 +7,6 @@ package OTS.Servlets;
 
 import OTS.Aig.ComponentModel.CourseTestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.StudentTestSheetElement;
-import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
@@ -106,18 +105,25 @@ public class TestQuestionBankServlet extends Servlet {
              
                    
                     case "Aig-List-Course-Test-QuestionBankItems":
-                     String courseId=  data=request.getParameter("CourseId");
-                      testId=  data=request.getParameter("TestId");
+                     String courseId= request.getParameter("CourseId");
+                      testId= request.getParameter("TestId");
                      service= new CourseTestQuestionBankDataService(new MySqlDataSource());
                      return service.ListTestItems(testId, courseId);
                     
                       case "Aig-List-Course-Test-Sheet":
-                      courseId=  data=request.getParameter("CourseId");
-                      testId=  data=request.getParameter("TestId");
+                      courseId=  request.getParameter("CourseId");
+                      testId=  request.getParameter("TestId");
                        service= new CourseTestQuestionBankDataService(new MySqlDataSource());
                       return service.ListTestSheetItems(testId, courseId);
                     
-             
+                       case "Aig-Save-CourseTest-SheetItems":
+                       data=request.getParameter("data");
+                       courseId= request.getParameter("CourseId");
+                       testId= request.getParameter("TestId");
+                       service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                      return service.SaveTestSheetItems(testId, courseId,data);
+                    
+                      
              
                      case "Aig-SubmitStudentTest":
                     //TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet

@@ -4,7 +4,8 @@ OTS.AigTestItemsGeneratedDataSource=function(){
     
     var actionType={
                       LIST:"Aig-List-Course-Test-QuestionBankItems",
-                      ListCourseTestSheetItems:"Aig-List-Course-Test-Sheet"
+                      ListCourseTestSheetItems:"Aig-List-Course-Test-Sheet",
+                      SaveCourseTestSheetItems:"Aig-Save-CourseTest-SheetItems"
                     };
     
      me.ListCourseTestBankItems=function(courseId,testId,callbackFunction){
@@ -23,6 +24,13 @@ OTS.AigTestItemsGeneratedDataSource=function(){
        });
     };
      
-    
+      me.SaveCourseTestSheetItems=function(courseId,testId,data,callbackFunction){
+       var callback=callbackFunction;
+        $.post("TestQuestionBankServlet",{action:actionType.SaveCourseTestSheetItems,CourseId:courseId,TestId:testId,data:data},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+       });
+    };
+     
 };
 

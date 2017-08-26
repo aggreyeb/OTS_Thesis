@@ -13,6 +13,7 @@ import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -144,5 +145,34 @@ public class CourseTestQuestionBankDataService {
        finally{
        }
     }
+   
+     public TransactionResult SaveTestSheetItems(String testId,String courseId,String selectedTestItems){
+         Gson g=new Gson();
+         TransactionResult result= new TransactionResult();
+        try{
+      String sqlTemplate="insert into testsheet(TestSheetId,TestId,"
+              + "CourseId,TestSheetItemId) values('%s','%s','%s','%s')";
+       
+      String[] testItems=selectedTestItems.split(",");
+      for(String s:testItems){
+           UUID uuid = UUID.randomUUID();
+             String testSheetId = uuid.toString();
+          String sql=String.format(sqlTemplate, testSheetId,testId,courseId,s);
+           this.dataSource.ExecuteNonQuery(sql);
+      }
+          return this.ListTestSheetItems(testId, courseId);
+          
+        } 
+       catch(Throwable ex){
+          
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    } 
+    
+    
     
 }
