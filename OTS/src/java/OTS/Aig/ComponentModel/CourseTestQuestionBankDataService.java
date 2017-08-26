@@ -151,7 +151,7 @@ public class CourseTestQuestionBankDataService {
          TransactionResult result= new TransactionResult();
         try{
       String sqlTemplate="insert into testsheet(TestSheetId,TestId,"
-              + "CourseId,TestSheetItemId) values('%s','%s','%s','%s')";
+              + "CourseId,TestItemId) values('%s','%s','%s','%s')";
        
       String[] testItems=selectedTestItems.split(",");
       for(String s:testItems){

@@ -11,7 +11,8 @@ OTS.AigTestItemsGeneratedViewModel=function(){
    me.ListSelectedTestBankItems=function(){
        var items=[];
        for(var i=0;i<me.TestBankItems().length;i++){
-           if(me.TestBankItems()[i].Checked){
+           if(me.TestBankItems()[i].Checked()){
+              
                items.push(me.TestBankItems()[i]);
            }
        }

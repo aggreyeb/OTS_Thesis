@@ -35,9 +35,14 @@ OTS.AigTestItemsGeneratedComponent=function(){
          var result=JSON.parse(e);
          var items=JSON.parse(result.Content);
           viewModel.BindTestSheet(items);
+          $("#cmd-course-test-sheet").click();
+          me.ResetSelectAllQuestionBankItems();
       });
    };
    
+   me.ResetSelectAllQuestionBankItems=function(){
+       $("#chk-all-question-bank-items").prop("checked",false);
+   }
    
    me.Render=function(){
        try{
