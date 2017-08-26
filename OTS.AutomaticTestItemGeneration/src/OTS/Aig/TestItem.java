@@ -13,6 +13,7 @@ import java.util.List;
  * @author Eb
  */
 public class TestItem {
+    public String TestItemId;
     public int Number;
     public int SortOrder;
     public String Stimulus;

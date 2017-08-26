@@ -61,11 +61,11 @@ public class TestItemGenerationDataService {
               testItems.addAll(items);
             }
          }  
-           //Save the test items 
-           this.SaveTestItems(testItems, testElement.TestId, testElement.CourseId);
-           result.ActionResultType=ActionResultType.ok;
-           result.Content=g.toJson(testItems);
-           return result;
+           //Save and return all the items that has been generated for the test. 
+           return  this.SaveTestItems(testItems, testElement.TestId, testElement.CourseId);
+          // result.ActionResultType=ActionResultType.ok;
+           //result.Content=g.toJson(testItems);
+           //return result;
         } 
        catch(Throwable ex){
           
@@ -94,8 +94,8 @@ public class TestItemGenerationDataService {
          TransactionResult result= new TransactionResult();
         try{
          String insertTemplate="insert into questionbank (TestItemId,TestId,CourseId,"
-                 + "Stimulus,Stem,StimulusFormatting,StemFormatting) "
-                 + "values('%s','%s', '%s','%s','%s','%s','%s');";
+                 + "Stimulus,Stem,StimulusFormatting,StemFormatting,CognitiveTypeName) "
+                 + "values('%s','%s', '%s','%s','%s','%s','%s','%s');";
          for(TestItem t:testItems ){
                t.TestId=testId;
                t.CourseId=courseId;
@@ -104,7 +104,7 @@ public class TestItemGenerationDataService {
              String testItemId = uuid.toString();
              String sql=String.format(insertTemplate, testItemId,
                      testId,courseId,t.Stimulus,
-                     t.Stem,t.StimulusFormatting,t.StemFormatting) ; 
+                     t.Stem,t.StimulusFormatting,t.StemFormatting,t.CognitiveTypeName) ; 
                //Save Stimulus and Stem
                  this.dataSource.ExecuteNonQuery(sql);
                  
@@ -122,10 +122,10 @@ public class TestItemGenerationDataService {
             
              }
           }
-            
-           result.ActionResultType=ActionResultType.ok;
-           result.Content=g.toJson(testItems);
-           return result;
+         //  result.ActionResultType=ActionResultType.ok;
+          // result.Content=g.toJson(testItems);
+         //  return result;
+           return this.ListTestItems(testId, courseId);
         } 
        catch(Throwable ex){
           
@@ -157,7 +157,46 @@ public class TestItemGenerationDataService {
          TransactionResult result= new TransactionResult();
         try{
          
-           result.ActionResultType=ActionResultType.ok;
+      String sqlTemplate="Select * from questionbank "
+              + "where TestId='%s' and CourseId='%s'";
+             
+      String sql=String.format(sqlTemplate, testId,courseId);
+      List<TestItem> items= new ArrayList();
+      this.dataSource.ExecuteCustomDataSet(sql, items, TestItem.class);
+      
+       String selectOption="Select * from questionbankansweroption where TestItemId='%s' order by Label";
+    
+        for(TestItem t: items){
+            Boolean hasKey=false;
+            List<AnswerOption> answerOptions= new ArrayList();
+            String optionSql=String.format(selectOption, t.TestItemId);
+             this.dataSource.ExecuteCustomDataSet(optionSql, answerOptions, AnswerOption.class);
+             t.AnswerOptions=answerOptions;
+             for(AnswerOption a:t.AnswerOptions){
+                 if(a.IsKey){
+                    AnswerOption option=new AnswerOption();
+                    option.Label=a.Label;
+                    option.Text=a.Text;
+                    option.IsKey=true;
+                    option.IsCorrect=true;
+                     t.CorrectAnswer= option;
+               
+                     hasKey=true;
+                 }
+             }
+             if(!hasKey){ //This code should be remove. Alway set the correct answer
+                 
+               AnswerOption opt=  t.AnswerOptions.get(0);
+               opt.IsKey=true;
+               opt.IsCorrect=true;
+               t.CorrectAnswer=opt;
+             }
+        }
+        
+        //
+      
+       result.Content=g.toJson(items);
+       result.ActionResultType=ActionResultType.ok;
           
            return result;
         } 

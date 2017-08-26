@@ -10,7 +10,8 @@ package OTS.Aig;
  * @author Eb
  */
 public class AnswerOption {
-  
+   public String AnswerOptionId;
+   public String TestItemId;
    public String Label;
    public String Text;
    public Boolean IsKey;
