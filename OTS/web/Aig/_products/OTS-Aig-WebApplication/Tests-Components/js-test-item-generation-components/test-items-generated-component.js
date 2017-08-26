@@ -9,7 +9,7 @@ OTS.AigTestItemsGeneratedComponent=function(){
       dataSource.ListCourseTestBankItems(courseId,testId,function(e){
          var result=JSON.parse(e);
          var items=JSON.parse(result.Content);
-          viewModel.BindTestSheet(items);
+          viewModel.BindQuestionTestBank(items);
       });
    };
    
@@ -19,7 +19,7 @@ OTS.AigTestItemsGeneratedComponent=function(){
       dataSource.ListCourseTestSheetItems(courseId,testId,function(e){
          var result=JSON.parse(e);
          var items=JSON.parse(result.Content);
-          viewModel.BindQuestionTestBank(items);
+          viewModel.BindTestSheet(items);
       });
    };
    
