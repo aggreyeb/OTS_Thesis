@@ -98,12 +98,12 @@ OTS.AigStudentPortalViewModel=function(){
     
     me.onAnswerOptionClicked=function(data,e){
      
-        var parentId=data.ParentId;
+        var parentId=data.TestItemId;
         var item=null;
         //Find the item of the selected Answer Option
-        var testItems= me.TestSheetViewModel.TestItems();
+        var testItems= me.TestItems();
         for(var i=0;i<testItems.length;i++){
-            if(testItems[i].Id===parentId){
+            if(testItems[i].TestItemId===parentId){
                 item=testItems[i];
                 break;
             }
