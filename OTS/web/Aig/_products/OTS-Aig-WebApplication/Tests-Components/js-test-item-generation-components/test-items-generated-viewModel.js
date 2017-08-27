@@ -57,7 +57,8 @@ OTS.AigTestItemsGeneratedViewModel=function(){
    };
    
    me.ClearTestItemGenerated=function(){
-       me.TestBankItems([]);
+       me.TestItems([]);
+       me.NumberItemsGenerated(0);
    };
    
    me.BindedTestItems=function(items){
