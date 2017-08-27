@@ -14,5 +14,6 @@ public class StudentUnUnRegisteredCourses {
     public String CourseName;
     public String TeacherFirstName;
     public String TeacherLastName;
+    public Boolean CanUnRegister;
     
 }

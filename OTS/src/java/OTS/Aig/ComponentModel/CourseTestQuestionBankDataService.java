@@ -185,17 +185,17 @@ public class CourseTestQuestionBankDataService {
      public TransactionResult UpdateStudentTest(StudentTestSheetElement element){
           TransactionResult result= new TransactionResult();
         try{ 
-          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d,testItemCount=%d WHERE TestId='%s' AND StudentId='%s'";
-          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestItemCount, element.TestId,element.StudentId);
+          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d,testItemCount=%d,CourseId='%s' WHERE TestId='%s' AND StudentId='%s'";
+          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestItemCount,element.CourseId, element.TestId,element.StudentId);
           this.dataSource.ExecuteNonQuery(sql);
           
           
-          String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
+          String sqlTemplate="select se.TestSheet, c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
                 " e.Name as TestName, e.StartDate,e.StartTime,\n" +
                 " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
                 "inner join course c on c.Id=sc.CourseId\n" +
                 "left join studentexam se on e.Id=se.TestId\n"+ 
-                "where sc.StudentId=%d and e.Activated=1 and se.Taken =null";
+                "where sc.StudentId=%d and e.Activated=1";
             sql=String.format(sqlTemplate, element.StudentId);
            
           List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();

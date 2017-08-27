@@ -139,7 +139,7 @@ public class TestQuestionBankServlet extends Servlet {
                       return service.SaveStudentTestStartTime(testId, userProfile.UserId);
                     
                      case "Aig-SubmitStudentTest":
-                    //TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet
+                     courseId=request.getParameter("CourseId");
                      testId=request.getParameter("TestId");
                      int mark=Integer.parseInt(request.getParameter("Mark"));
                      //TestItemCount
@@ -147,6 +147,7 @@ public class TestQuestionBankServlet extends Servlet {
                      String testSheet=request.getParameter("TestSheet");
                      StudentTestSheetElement  testSheetElement= new StudentTestSheetElement();
                      testSheetElement.TestId=testId;
+                     testSheetElement.CourseId=courseId;
                      testSheetElement.Mark=mark;
                      testSheetElement.TestItemCount=testItemCount;
                      testSheetElement.TestSheet=testSheet;

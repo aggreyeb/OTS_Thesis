@@ -21,6 +21,7 @@ OTS.AigStudentCoursesTestViewModel=function(){
     me.onSubmitStudentTest=function(){
          var testItems = me.TestItems();
         var testId=currentSelectedTest.TestId;
+        var courseId=currentSelectedTest.CourseId;
         var selectedAnswers=[];
         //Calculate the marks
         var mark=0;
@@ -45,6 +46,7 @@ OTS.AigStudentCoursesTestViewModel=function(){
         var studentTestItem={
             StudentId:"unknown", //replace at server side
             TestId:testId,
+            CourseId:courseId,
             Marked:true,
             Taken:true,
             Mark:mark,

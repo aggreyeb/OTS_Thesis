@@ -39,7 +39,11 @@
             <tr>
                 <td data-bind="text:CourseName"></td>
                 <td data-bind="text:TeacherFullName"></td>
-                <td><a data-bind="event:{click:$parent.onUnRegisterCourse}" href="#"><span class="label label-default">UnRegister</span></a></td>
+                <td>
+                    <!--ko if:CanUnRegister===true-->
+                    <a data-bind="event:{click:$parent.onUnRegisterCourse}" href="#"><span class="label label-default">UnRegister</span></a>
+                    <!--/ko-->
+                </td>
             </tr>
         </tbody>
     </table>

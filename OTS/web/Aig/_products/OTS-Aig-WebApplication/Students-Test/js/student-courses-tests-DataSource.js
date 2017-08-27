@@ -43,7 +43,7 @@ OTS.AigStudentCoursesTestDataSource=function(){
     
       me.SubmitStudentTest=function(data,callbackFunction){
         var callback= callbackFunction;
-         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet,TestItemCount:data.TestItemCount},function(msg){
+         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet,TestItemCount:data.TestItemCount,CourseId:data.CourseId},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
           });

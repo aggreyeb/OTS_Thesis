@@ -19,4 +19,6 @@ public class StudentRegisteredCourseTestItem {
    public String StartDate;
    public String StartTime;
    public String EndTime;
+   public String TestSheet;
+   public Boolean TestTaken; 
 }

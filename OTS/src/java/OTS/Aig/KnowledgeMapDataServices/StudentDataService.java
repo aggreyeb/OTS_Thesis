@@ -65,11 +65,13 @@ public class StudentDataService {
                               "in  (select distinct Id  as CourseId  from  course);";
            String sql=String.format(sqlTemplate, studentid);
                
-          List<StudentUnUnRegisteredCourses> studentRegisteredCourse= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourse,StudentUnUnRegisteredCourses.class);
-       
+          List<StudentUnUnRegisteredCourses> studentRegisteredCourses= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourses,StudentUnUnRegisteredCourses.class);
+            for(StudentUnUnRegisteredCourses r:studentRegisteredCourses){
+                r.CanUnRegister = CanUnRegisterCourse(r.CourseId);
+            }
              Gson g = new Gson();
-             result.Content=g.toJson(studentRegisteredCourse);
+             result.Content=g.toJson(studentRegisteredCourses);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -83,6 +85,20 @@ public class StudentDataService {
             }
     }
      
+    public Boolean CanUnRegisterCourse(String courseId){
+        String sqlTemplate="select CourseId from exam where CourseId='%s'  and Activated=1";
+        String sql =String.format(sqlTemplate, courseId);
+        
+        
+      List<TestElement> items= new ArrayList();
+      this.dataSource.ExecuteCustomDataSet(sql, items, TestElement.class);
+      if(items.isEmpty()){
+          return true;
+      }
+      return false;
+        
+    }
+    
       public TransactionResult  ListStudentUnRegisteredCourse(int studentid){
           TransactionResult result= new TransactionResult();
           try{ 
@@ -122,20 +138,28 @@ public class StudentDataService {
                 " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
                 "inner join course c on c.Id=sc.CourseId\n" +
                 "where sc.StudentId=%d and e.Activated=1";*/
-           String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
+           String sqlTemplate="select se.TestSheet, c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
                 " e.Name as TestName, e.StartDate,e.StartTime,\n" +
                 " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
                 "inner join course c on c.Id=sc.CourseId\n" +
                 "left join studentexam se on e.Id=se.TestId\n"+ 
-                "where sc.StudentId=%d and e.Activated=1 and se.Taken =null";
+                "where sc.StudentId=%d and e.Activated=1";
           
            String sql=String.format(sqlTemplate, studentid);
            
-          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTest,StudentRegisteredCourseTestItem.class);
+          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTests= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTests,StudentRegisteredCourseTestItem.class);
        
+          List<StudentRegisteredCourseTestItem> UntakenCourseTest= new ArrayList();
+          for(StudentRegisteredCourseTestItem t:studentRegisteredCourseTests){
+              if(t.TestSheet==null || t.TestSheet.equals("") ){
+                  t.TestTaken=false;
+                  UntakenCourseTest.add(t);
+              }
+          }
+          
              Gson g = new Gson();
-             result.Content=g.toJson(studentRegisteredCourseTest);
+             result.Content=g.toJson(UntakenCourseTest);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }

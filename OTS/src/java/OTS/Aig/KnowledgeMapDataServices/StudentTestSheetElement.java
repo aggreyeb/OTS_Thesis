@@ -15,6 +15,7 @@ public class StudentTestSheetElement {
    public  String Id;
    public String Name;
    public String TestId;
+   public String CourseId;
    public  int StudentId;
    public  String TestSheet;
    public  Date StartDateTime;
