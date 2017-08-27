@@ -55,8 +55,8 @@ OTS.AigTestItemGenerationComponent=function(){
          viewModel.AddTestComponent(me);
          
          //Render components
-         testgenerationOptionsSelectionComponent.Render();
-         testItemsGeneratedComponent.Render();
+        // testgenerationOptionsSelectionComponent.Render();
+        // testItemsGeneratedComponent.Render();
         // wire the events
         testgenerationOptionsSelectionComponent.AddTestItemsGenerateEventTarget(testItemsGeneratedComponent.onTestItemsGenerated);
       
@@ -76,6 +76,12 @@ OTS.AigTestItemGenerationComponent=function(){
             
          });
          ko.applyBindings(viewModel ,$("#div-Tests-content")[0]);
+         
+          
+         //Render components
+         testgenerationOptionsSelectionComponent.Render();
+         testItemsGeneratedComponent.Render();
+        // wire the events
      };
      
      

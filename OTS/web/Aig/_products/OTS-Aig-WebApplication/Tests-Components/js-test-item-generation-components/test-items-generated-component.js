@@ -85,26 +85,25 @@ OTS.AigTestItemsGeneratedComponent=function(){
             var htmlUi=$("#div-test-items-generated-ui-template").html();
             $("#div-test-items-generated-ui").html(htmlUi);
             
-           
-          //Test Question Bank
-             var htmlTestQuestionBank=$("#test-questions-bank-view-template").html();
-             $("#div-test-questionbank-content").html(htmlTestQuestionBank);
-             
-            //Test Sheet
-             var htmlTestSheet=$("#test-sheet-view-template").html();
-             $("#div-testsheet-content").html(htmlTestSheet);
-             
-             //Answer Sheet
-              var htmlAnswerSheet=$("#answer-sheet-view-template").html();
-             $("#div-answer-sheet-content").html(htmlAnswerSheet);
-              
-           //Items Generated Content
+            
+            //Items Generated Content
             var htmlItemsgeneratedContent=$("#generated-items-view-template").html();
             $("#div-items-generated-content").html(htmlItemsgeneratedContent);
             
+             //Test Question Bank
+             var htmlTestQuestionBank=$("#test-questions-bank-view-template").html();
+             $("#div-test-questionbank-content").html(htmlTestQuestionBank);
+             
+             //Test Sheet
+             var htmlTestSheet=$("#test-sheet-view-template").html();
+             $("#div-testsheet-content").html(htmlTestSheet);
+             
+           
+             //Answer Sheet
+              var htmlAnswerSheet=$("#answer-sheet-view-template").html();
+             $("#div-answer-sheet-content").html(htmlAnswerSheet);
             
-            
-             ko.applyBindings(viewModel,$("#div-testItem-generation-container")[0]);
+           
              $("#cmd-test-question-bank").click(function(){
                 me.ListCourseTestBankItems(currentSelectedTest.CourseId,
                 currentSelectedTest.Id);
@@ -127,10 +126,7 @@ OTS.AigTestItemsGeneratedComponent=function(){
                me.SaveCourseTestSheetItems(currentSelectedTest.CourseId,
                 currentSelectedTest.Id,items);
              });
-             
-            
-             
-            
+          
             $("#cmd-remove-testsheet-items").click(function(){
                var items=  viewModel.ListSelectedTestSheetItems();
                me.DeleteCourseTestSheetItems(currentSelectedTest.CourseId,
@@ -138,6 +134,7 @@ OTS.AigTestItemsGeneratedComponent=function(){
              });
              
              //
+               ko.applyBindings(viewModel,$("#div-testItem-generation-container")[0]);
        }
        catch(error){
            console.log(error);
