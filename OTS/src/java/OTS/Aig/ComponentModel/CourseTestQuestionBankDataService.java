@@ -11,7 +11,10 @@ import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.Aig.TestItem;
 import OTS.DataModels.DataSource;
 import com.google.gson.Gson;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +24,15 @@ import java.util.UUID;
  */
 public class CourseTestQuestionBankDataService {
     DataSource dataSource;
-
+    String currentTime;
     public CourseTestQuestionBankDataService(DataSource dataSource) {
         this.dataSource = dataSource;
+        SimpleDateFormat   sdf= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         Date   dt =new Date();
+        currentTime = sdf.format(dt);
     }
+    
+    
     
     public TransactionResult ListTestItems(String testId,String courseId){
          Gson g=new Gson();
@@ -199,5 +207,45 @@ public class CourseTestQuestionBankDataService {
        }
     } 
     
+     public Boolean IsStudentTestExist(String TestId,int studentid){
+       
+          String countTemplate="Select Count(*) FROM studentexam  WHERE TestId='%s' AND StudentId=%d";
+          String sql= String.format(countTemplate,TestId, studentid);
+           List<BigInteger> items=new ArrayList();
+          this.dataSource.ExecuteDataSet(sql, items);
+          
+            BigInteger count= BigInteger.valueOf(items.get(0).intValue());
+            if(count.intValue()>0){
+                return true;
+            }
+            return false;
+       }
+     
+      public TransactionResult SaveStudentTestStartTime(String testId,int studentId){
+         TransactionResult result= new TransactionResult();
+        try{ 
+            if(!this.IsStudentTestExist(testId, studentId)){
+          String InsertTemplate="INSERT INTO studentexam (Id,TestId,StudentId,StartDateTime) Values('%s','%s','%s','%s')";
+           UUID uuid = UUID.randomUUID();
+             String id = uuid.toString();
+          String sql= String.format(InsertTemplate,id,testId,studentId,currentTime);
+          this.dataSource.ExecuteNonQuery(sql);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+            }
+            result.Message="Test has been started already";
+            result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
     
 }

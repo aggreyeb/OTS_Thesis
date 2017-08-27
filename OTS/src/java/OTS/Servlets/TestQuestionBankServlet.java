@@ -7,6 +7,7 @@ package OTS.Servlets;
 
 import OTS.Aig.ComponentModel.CourseTestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.StudentTestSheetElement;
+import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
@@ -111,6 +112,7 @@ public class TestQuestionBankServlet extends Servlet {
                      return service.ListTestItems(testId, courseId);
                     
                       case "Aig-List-Course-Test-Sheet":
+                      case "Aig-Load-Student-Course-Test-Sheet":
                       courseId=  request.getParameter("CourseId");
                       testId=  request.getParameter("TestId");
                        service= new CourseTestQuestionBankDataService(new MySqlDataSource());
@@ -130,8 +132,12 @@ public class TestQuestionBankServlet extends Servlet {
                        service= new CourseTestQuestionBankDataService(new MySqlDataSource());
                       return service.DeleteTestSheetItems(testId, courseId,data);
                     
-                      
-             
+                      //Aig-SaveStudentTestStartTime
+                       case "Aig-SaveStudentTestStartTime":
+                       testId= request.getParameter("TestId");
+                       service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                      return service.SaveStudentTestStartTime(testId, userProfile.UserId);
+                    
                      case "Aig-SubmitStudentTest":
                     //TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet
                      testId=request.getParameter("TestId");
@@ -147,8 +153,8 @@ public class TestQuestionBankServlet extends Servlet {
                      testSheetElement.Marked=1;
                      testSheetElement.Taken=1;
                      testSheetElement.StudentId=userProfile.UserId;
-                    // service= new TestQuestionBankDataService(new MySqlDataSource());
-                     //return service.UpdateStudentTest(testSheetElement);
+                  TestQuestionBankDataService   service1= new TestQuestionBankDataService(new MySqlDataSource());
+                   //  return service1.UpdateStudentTest(testSheetElement);
                      return null;
                      
               default:

@@ -37,9 +37,44 @@ OTS.AigStudentCoursesTestComponent=function(){
           });
     };
     
+    
+     me.LoadStudentCourseTestSheet=function(testId,courseId){
+         
+          var dataSource= new  OTS.AigStudentCoursesTestDataSource();
+          dataSource.LoadStudentCourseTestSheet(testId,courseId,function(msg){
+               var result=JSON.parse(msg);
+              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+               var items=JSON.parse(result.Content);
+               viewModel.BindTestSheetItems(items);
+               if(!dataBinded){
+                   ko.applyBindings(viewModel,$("#pan-Course-Test")[0]);
+                   dataBinded=true;
+               }
+            }
+           
+          });
+    
+    };
+    
+     me.SaveStudentTestStartTime=function(courseId,testId){
+         
+          var dataSource= new  OTS.AigStudentCoursesTestDataSource();
+          dataSource.SaveStudentTestStartTime(courseId,testId,function(msg){
+                var result=JSON.parse(msg);
+              if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+              
+                viewModel.EnableSubmit();
+               }
+               else{
+                  viewModel.DisableSubmit(); 
+               }
+          });
+     };
+    
     me.MenuItemChange=function(uniqueName){
         if(name!==uniqueName) return;
         me.ListStudentCoursesTest();
+       
          viewModel.TestListVisible(true);
           viewModel.TestSheetVisible(false);
     };  
