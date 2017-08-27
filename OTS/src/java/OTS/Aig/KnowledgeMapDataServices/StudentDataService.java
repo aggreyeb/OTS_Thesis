@@ -116,12 +116,19 @@ public class StudentDataService {
     public TransactionResult  ListStudentCourseTests(int studentid){
         TransactionResult result= new TransactionResult();
           try{ 
-          
+          /*
           String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
                 " e.Name as TestName, e.StartDate,e.StartTime,\n" +
                 " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
                 "inner join course c on c.Id=sc.CourseId\n" +
-                "where sc.StudentId=%d and e.Activated=1";
+                "where sc.StudentId=%d and e.Activated=1";*/
+           String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
+                " e.Name as TestName, e.StartDate,e.StartTime,\n" +
+                " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
+                "inner join course c on c.Id=sc.CourseId\n" +
+                "left join studentexam se on e.Id=se.TestId\n"+ 
+                "where sc.StudentId=%d and e.Activated=1 and se.Taken =null";
+          
            String sql=String.format(sqlTemplate, studentid);
            
           List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();

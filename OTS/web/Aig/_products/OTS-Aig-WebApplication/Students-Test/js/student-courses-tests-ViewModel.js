@@ -1,10 +1,12 @@
 var OTS=OTS||{};
 OTS.AigStudentCoursesTestViewModel=function(){
     var me=this;
+     var submitAlertBox= new Aig.AlertBox("alert-testsheet-submit-alert");
+   
     var studentCourseTestConponent;
     var currentSelectedTest=null;
     me.Tests=ko.observableArray([]);
-    me.TestItems=ko.observableArray([]);
+    me.TestItems=ko.observableArray([]);//TestSheet Items
     me.SelectedTests=ko.observable();
     me.TestListVisible=ko.observable(true);
     me.TestSheetVisible=ko.observable(false);
@@ -17,12 +19,65 @@ OTS.AigStudentCoursesTestViewModel=function(){
     me.TestEndTime=ko.observable("");
     
     me.onSubmitStudentTest=function(){
+         var testItems = me.TestItems();
+        var testId=currentSelectedTest.TestId;
+        var selectedAnswers=[];
+        //Calculate the marks
+        var mark=0;
+        for(var i=0;i<testItems.length;i++){
+           if(testItems[i].Mark){
+               mark+=testItems[i].Mark;
+           }
+           else{
+               mark+=0;
+           }
+        }
         
+        for(var d=0;d<testItems.length;d++){
+             for(var x=0;x<testItems[d].AnswerOptions.length;x++){
+                 var item=testItems[d].AnswerOptions[x];
+                 delete item.element;
+             }
+        }
+        var testTaken= JSON.stringify(testItems);
+       // var decodedTest=me.EncodeString(testTaken);
+    
+        var studentTestItem={
+            StudentId:"unknown", //replace at server side
+            TestId:testId,
+            Marked:true,
+            Taken:true,
+            Mark:mark,
+            TestItemCount:testItems.length,
+            TestSheet:testTaken,
+            StartTime:"",
+            EndTime:"",
+            Comments:""
+        };
+        studentCourseTestConponent.SubmitStudentTest(studentTestItem,function(msg){
+               var result=JSON.parse(msg);
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+              var items=JSON.parse(result.Content);
+               me.BindTests(items);
+               me.TestListVisible(true);
+               me.TestSheetVisible(false);
+               me.TestItems([]);
+             }
+             else{
+               me.TestListVisible(false);
+               me.TestSheetVisible(true);
+                var errorMessage="Failed to Submit your test sheet";
+                 if(result.Message!==""){
+                     errorMessage=result.Message;
+                 }
+                submitAlertBox.ShowErrorMessage(errorMessage);
+             }
+        });
     };
+    
     me.onAnswerOptionClicked=function(data,e){
          var parentId=data.TestItemId;
         var item=null;
-        //Find the item of the selected Answer Option
         var testItems= me.TestItems();
         for(var i=0;i<testItems.length;i++){
             if(testItems[i].TestItemId===parentId){
@@ -129,6 +184,10 @@ OTS.AigStudentCoursesTestViewModel=function(){
             me.TestItems.push(items[i]);
         }
     };
+    
+    
+   
+    
     
     
     me.RegisterComponent=function(component){

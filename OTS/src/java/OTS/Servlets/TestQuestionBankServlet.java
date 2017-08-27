@@ -153,9 +153,8 @@ public class TestQuestionBankServlet extends Servlet {
                      testSheetElement.Marked=1;
                      testSheetElement.Taken=1;
                      testSheetElement.StudentId=userProfile.UserId;
-                  TestQuestionBankDataService   service1= new TestQuestionBankDataService(new MySqlDataSource());
-                   //  return service1.UpdateStudentTest(testSheetElement);
-                     return null;
+                     service= new CourseTestQuestionBankDataService(new MySqlDataSource());
+                     return service.UpdateStudentTest(testSheetElement);
                      
               default:
                   response.UpdateError("Invalid action");

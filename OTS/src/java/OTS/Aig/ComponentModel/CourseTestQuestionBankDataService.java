@@ -7,6 +7,9 @@ package OTS.Aig.ComponentModel;
 
 import OTS.Aig.AnswerOption;
 import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
+import OTS.Aig.KnowledgeMapDataServices.StudentRegisteredCourseTestItem;
+import OTS.Aig.KnowledgeMapDataServices.StudentTest;
+import OTS.Aig.KnowledgeMapDataServices.StudentTestSheetElement;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
 import OTS.Aig.TestItem;
 import OTS.DataModels.DataSource;
@@ -179,7 +182,41 @@ public class CourseTestQuestionBankDataService {
        }
     } 
     
-    
+     public TransactionResult UpdateStudentTest(StudentTestSheetElement element){
+          TransactionResult result= new TransactionResult();
+        try{ 
+          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d,testItemCount=%d WHERE TestId='%s' AND StudentId='%s'";
+          String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestItemCount, element.TestId,element.StudentId);
+          this.dataSource.ExecuteNonQuery(sql);
+          
+          
+          String sqlTemplate="select c.Id as CourseId, c.Name as CourseName, e.Id as TestId,\n" +
+                " e.Name as TestName, e.StartDate,e.StartTime,\n" +
+                " e.EndTime from studentcourse sc left join exam e on sc.CourseId=e.CourseId\n" +
+                "inner join course c on c.Id=sc.CourseId\n" +
+                "left join studentexam se on e.Id=se.TestId\n"+ 
+                "where sc.StudentId=%d and e.Activated=1 and se.Taken =null";
+            sql=String.format(sqlTemplate, element.StudentId);
+           
+          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTest,StudentRegisteredCourseTestItem.class);
+        
+          
+           Gson g=new Gson();
+           result.ActionResultType=ActionResultType.ok;
+            result.Content= g.toJson(studentRegisteredCourseTest);
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+       
+    }
      
      //Delete Test Sheet Items
      public TransactionResult DeleteTestSheetItems(String testId,String courseId,String selectedTestItems){

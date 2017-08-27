@@ -5,12 +5,8 @@
  */
 package OTS.Servlets;
 
-import OTS.Aig.KnowledgeMapDataServices.ActionResultType;
 import OTS.Aig.KnowledgeMapDataServices.StudentDataService;
 import OTS.Aig.KnowledgeMapDataServices.StudentElement;
-import OTS.Aig.KnowledgeMapDataServices.TransactionResult;
-import OTS.AuthenticationResponse;
-import OTS.Credential;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;

@@ -5,7 +5,8 @@ OTS.AigStudentCoursesTestDataSource=function(){
     var actionType={
         ListStudentCoursesTest:"Aig-ListStudentCoursesTest",
         LoadStudentCourseTestSheet:"Aig-Load-Student-Course-Test-Sheet",
-        SaveStudentTestStartTime:"Aig-SaveStudentTestStartTime"
+        SaveStudentTestStartTime:"Aig-SaveStudentTestStartTime",
+        SubmitStudentTest:"Aig-SubmitStudentTest"
     };
     
      me.ListStudentCoursesTest=function(callbackFunction){
@@ -31,5 +32,21 @@ OTS.AigStudentCoursesTestDataSource=function(){
                 callback(msg);
           });
     }; 
+    
+      me.SaveStudentTestStartTime=function(courseId,testId,callbackFunction){
+        var callback= callbackFunction;
+         $.post("TestQuestionBankServlet",{action:actionType.SaveStudentTestStartTime,Id:courseId,TestId:testId},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+          });
+    }; 
+    
+      me.SubmitStudentTest=function(data,callbackFunction){
+        var callback= callbackFunction;
+         $.post("TestQuestionBankServlet",{action:actionType.SubmitStudentTest,TestId:data.TestId,Mark:data.Mark,TestSheet:data.TestSheet,TestItemCount:data.TestItemCount},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+          });
+    };
    
 };

@@ -71,6 +71,14 @@ OTS.AigStudentCoursesTestComponent=function(){
           });
      };
     
+     me.SubmitStudentTest=function(studentTestItem,callbackFunction){
+          var callback= callbackFunction;
+          var dataSource= new  OTS.AigStudentCoursesTestDataSource();
+          dataSource.SubmitStudentTest(studentTestItem,function(msg){
+              callback(msg);
+          });
+     };
+    
     me.MenuItemChange=function(uniqueName){
         if(name!==uniqueName) return;
         me.ListStudentCoursesTest();
