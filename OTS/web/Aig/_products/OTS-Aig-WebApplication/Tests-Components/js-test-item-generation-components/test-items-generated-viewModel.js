@@ -38,7 +38,7 @@ OTS.AigTestItemsGeneratedViewModel=function(){
    
    
     me.onRemoveAllItestSheetItems=function(data,e){
-       alert("Remove all from test sheet");
+     
         var status=e.target.checked;
        
        me.ToggleRemoveAllTestItems(status);

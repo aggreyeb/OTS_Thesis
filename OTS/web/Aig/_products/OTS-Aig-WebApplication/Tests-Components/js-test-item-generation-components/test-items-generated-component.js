@@ -54,13 +54,17 @@ OTS.AigTestItemsGeneratedComponent=function(){
          var items=JSON.parse(result.Content);
           viewModel.BindTestSheet(items);
           $("#cmd-course-test-sheet").click();
-          //me.ResetSelectAllQuestionBankItems();
+          me.ResetRemoveAllQuestionBankItems();
       });
    };
    
    me.ResetSelectAllQuestionBankItems=function(){
        $("#chk-all-question-bank-items").prop("checked",false);
-   }
+   };
+   
+   me.ResetRemoveAllQuestionBankItems=function(){
+       $("#chk-remove-all-testsheet-items").prop("checked",false);
+   };
    
    me.Render=function(){
        try{

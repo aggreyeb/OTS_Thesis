@@ -33,8 +33,6 @@ public class CourseTestQuestionBankDataService {
         String sqlTemplate="select * from questionbank q where q.TestId='%s' and \n" +
             "q.CourseId='%s' and q.TestItemId not in (select TestItemId from testsheet)"; 
             
-     // String sqlTemplate="Select * from questionbank "
-            //  + "where TestId='%s' and CourseId='%s'";
              
       String sql=String.format(sqlTemplate,testId,courseId);
       List<TestItem> items= new ArrayList();
@@ -180,12 +178,12 @@ public class CourseTestQuestionBankDataService {
          Gson g=new Gson();
          TransactionResult result= new TransactionResult();
         try{
-      String sqlTemplate="Delete from  testsheet where TestSheetId='%s'";
+      String sqlTemplate="Delete from  testsheet where TestId='%s' and CourseId='%s' and TestItemId='%s'";
        
       String[] testItems=selectedTestItems.split(",");
       for(String s:testItems){
          
-          String sql=String.format(sqlTemplate,s);
+          String sql=String.format(sqlTemplate,testId,courseId,s);
            this.dataSource.ExecuteNonQuery(sql);
       }
           return this.ListTestSheetItems(testId, courseId);
