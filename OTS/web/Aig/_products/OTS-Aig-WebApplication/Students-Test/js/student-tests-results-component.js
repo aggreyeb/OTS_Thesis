@@ -12,6 +12,7 @@ OTS.AigStudentTestResultsComponent=function(){
            $("#pan-Test-Results").html(htmlLayout);
            
            viewModel.RegisterComponent(me);
+         
            rendered=true;
         }
         catch(error){
@@ -20,8 +21,8 @@ OTS.AigStudentTestResultsComponent=function(){
         
     };
     
-     me.ListStudentTestResults=function(callbackFunction){
-         var callback= callbackFunction;
+     me.ListStudentTestResults=function(){
+        
           var dataSource= new  OTS.AigStudentTestsResultsDataSource();
           dataSource.ListStudentTestResults(function(msg){
                var result=JSON.parse(msg);

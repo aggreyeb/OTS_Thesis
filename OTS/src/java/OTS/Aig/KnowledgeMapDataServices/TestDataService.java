@@ -81,7 +81,7 @@ public class TestDataService {
                                     testElement.StartDate,
                                     testElement.StartTime,
                                     testElement.EndTime,
-                                    testElement.TotalMark,
+                                    0,
                                     testElement.Activated,
                                     testElement.CourseId);
           this.dataSource.ExecuteNonQuery(sql);
@@ -109,7 +109,7 @@ public class TestDataService {
                                     testElement.StartDate,
                                     testElement.StartTime,
                                     testElement.EndTime,
-                                    testElement.TotalMark,
+                                    0,
                                     testElement.Id);
           this.dataSource.ExecuteNonQuery(sql);
              result.ActionResultType=ActionResultType.ok;

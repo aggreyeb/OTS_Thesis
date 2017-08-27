@@ -134,14 +134,15 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                         knowledgeMaps.push(jsonitems[0]);
                     }
                 }
-                if(!dataBinded){
+                //if(!dataBinded){
+                    $('#div-concept-hierarchy-ui').empty();
                     knowledgeMapTreeView.OnNodeSelected(onTreeNodeSelected); 
                     knowledgeMapTreeView.Render($('#div-concept-hierarchy-ui'), knowledgeMaps); 
-                    dataBinded=true;
-                }
-                else{
-                   knowledgeMapTreeView.Update(knowledgeMaps);
-                }
+                    //dataBinded=true;
+               // }
+               // else{
+                  // knowledgeMapTreeView.Update(knowledgeMaps[0]);
+               // }
                 me.ToggleGenerateAction(false);
                 me.HideAlertMessage();
             }

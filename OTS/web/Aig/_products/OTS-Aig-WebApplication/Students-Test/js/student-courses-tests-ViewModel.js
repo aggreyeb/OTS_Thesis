@@ -42,14 +42,14 @@ OTS.AigStudentCoursesTestViewModel=function(){
         }
         var testTaken= JSON.stringify(testItems);
        // var decodedTest=me.EncodeString(testTaken);
-    
+         var percentageMarks=(mark/testItems.length)*100;
         var studentTestItem={
             StudentId:"unknown", //replace at server side
             TestId:testId,
             CourseId:courseId,
             Marked:true,
             Taken:true,
-            Mark:mark,
+            Mark:percentageMarks,
             TestItemCount:testItems.length,
             TestSheet:testTaken,
             StartTime:"",

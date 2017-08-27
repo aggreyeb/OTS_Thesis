@@ -31,7 +31,7 @@ public class StudentDataService {
          TransactionResult result= new TransactionResult();
         try{ 
           
-          String sqlTemplate="select c.Id as CourseId,c.Name as CourseName, e.Id as  TestId,e.Name as TestName,se.StartDateTime,se.EndDateTime,se.Taken,se.Marked,se.Mark from exam e \n" +
+          String sqlTemplate="select c.Id as CourseId,c.Name as CourseName, e.Id as  TestId,e.Name as TestName,se.StartDateTime,se.EndDateTime,se.Taken,se.Marked,se.Mark,se.TestItemCount from exam e \n" +
                               "left join studentexam se on e.Id=se.TestId\n" +
                               "left join course c on c.Id=se.CourseId where se.StudentId=%d;";
            String sql=String.format(sqlTemplate, studentid);

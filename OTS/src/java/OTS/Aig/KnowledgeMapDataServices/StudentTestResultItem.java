@@ -5,6 +5,8 @@
  */
 package OTS.Aig.KnowledgeMapDataServices;
 
+import java.util.Date;
+
 /**
  *
  * @author MEA
@@ -15,9 +17,10 @@ public class StudentTestResultItem {
     public String TestName;
     public String CourseId;
     public String CourseName;
-    public String StartDateTime;
-    public String EndDataTime;
-    public Boolean Taken;
-    public Boolean Marked;
+    public Date StartDateTime;
+    public Date EndDateTime;
+    public int Taken;
+    public int Marked;
     public int Mark;
+    public int TestItemCount;
 }

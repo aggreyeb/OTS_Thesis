@@ -64,13 +64,13 @@ OTS.TestValidtion=function(){
             error+="<li>End Time is required: format nn:mm</li>";
             errors.push("End Time is required: format nn:mm");
       }
-    
+     /*
       if(!me.isNumeric(item.TotalMark)){
             hasError=true;
             error+="<li>Invalid marks</li>";
             errors.push("Invalid marks");
        };
-    
+      */
       if(item.StartTime!==undefined && item.StartTime!==null && item.EndTime!==undefined && item.EndTime!==null){
       var startTime=item.StartTime.trim().toLowerCase();
       var endTime=item.EndTime.trim().toLowerCase();
@@ -227,7 +227,7 @@ OTS.AigTestViewModel=function(){
             me.SelectedTest=data;
             me.Id(data.Id);
             me.Name(data.Name);
-            me.TotalMark(data.TotalMark);    
+           // me.TotalMark(data.TotalMark);    
             me.StartDate(data.StartDate);
             me.StartTime(data.StartTime);
             me.EndTime(data.EndTime);
@@ -304,7 +304,7 @@ OTS.AigTestViewModel=function(){
            var testValidation=new OTS.TestValidtion();
             var item={
                 Name:me.Name(),
-                TotalMark: me.TotalMark(),
+                //TotalMark: me.TotalMark(),
                 StartDate:me.StartDate(),
                 StartTime:me.StartTime(),
                 EndTime:me.EndTime(),
@@ -322,7 +322,7 @@ OTS.AigTestViewModel=function(){
                      var selectedCourse=ko.toJS(me.SelectedCourse())[0];
                     var testItem= new  OTS.TestItem(me.Name());
                         testItem.Id= new Aig.Guid().NewGuid();
-                        testItem.TotalMark=me.TotalMark();
+                       // testItem.TotalMark=me.TotalMark();
                         testItem.StartDate=  me.StartDate();
                         testItem.StartTime=  me.StartTime();
                         testItem.Activated=0;
@@ -349,7 +349,7 @@ OTS.AigTestViewModel=function(){
                      var selectedTest=ko.toJS(me.SelectedTest);
                      var testItem= new  OTS.TestItem(me.Name());
                         testItem.Id=selectedTest.Id;
-                        testItem.TotalMark=me.TotalMark();
+                       // testItem.TotalMark=me.TotalMark();
                         testItem.StartDate=  me.StartDate();
                         testItem.StartTime=  me.StartTime();
                         testItem.Activated=0;
@@ -363,11 +363,13 @@ OTS.AigTestViewModel=function(){
                         me.Actions.ResetForm();
                         alertBox.ShowSuccessMessage("Test Updated");
                          $("#sel-teacher-Course").val("");
+                         me.SelectedAction=me.ActionType.NEW;
                     }
                     else{
+                         me.SelectedAction=me.ActionType.NEW;
                          alertBox.ShowErrorMessage("Test Update Failed");  
                     }
-                     me.SelectedAction=me.ActionType.NEW;
+                     
                   });
                     
                  break;

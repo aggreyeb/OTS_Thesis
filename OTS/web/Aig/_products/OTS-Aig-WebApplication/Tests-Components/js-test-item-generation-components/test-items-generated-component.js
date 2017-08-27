@@ -79,15 +79,12 @@ OTS.AigTestItemsGeneratedComponent=function(){
    
    me.Render=function(){
        try{
-           //Base Template with tabs
-          var htmlUi=$("#div-test-items-generated-ui-template").html();
-            $("#div-test-items-generated-ui").html(htmlUi);
-            
-            //Items Generated Content
+           
+           //Items Generated Content
             var htmlItemsgeneratedContent=$("#generated-items-view-template").html();
             $("#div-items-generated-content").html(htmlItemsgeneratedContent);
             
-            //Test Question Bank
+          //Test Question Bank
              var htmlTestQuestionBank=$("#test-questions-bank-view-template").html();
              $("#div-test-questionbank-content").html(htmlTestQuestionBank);
              
@@ -98,7 +95,13 @@ OTS.AigTestItemsGeneratedComponent=function(){
              //Answer Sheet
               var htmlAnswerSheet=$("#answer-sheet-view-template").html();
              $("#div-answer-sheet-content").html(htmlAnswerSheet);
-             
+              
+           //Base Template with tabs
+            var htmlUi=$("#div-test-items-generated-ui-template").html();
+            $("#div-test-items-generated-ui").html(htmlUi);
+            
+            
+            
              ko.applyBindings(viewModel,$("#div-testItem-generation-container")[0]);
              $("#cmd-test-question-bank").click(function(){
                 me.ListCourseTestBankItems(currentSelectedTest.CourseId,

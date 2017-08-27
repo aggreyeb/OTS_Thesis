@@ -198,13 +198,20 @@ public class CourseTestQuestionBankDataService {
                 "where sc.StudentId=%d and e.Activated=1";
             sql=String.format(sqlTemplate, element.StudentId);
            
-          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTest= new ArrayList();
-          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTest,StudentRegisteredCourseTestItem.class);
+          List<StudentRegisteredCourseTestItem> studentRegisteredCourseTests= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, studentRegisteredCourseTests,StudentRegisteredCourseTestItem.class);
         
+            List<StudentRegisteredCourseTestItem> UntakenCourseTest= new ArrayList();
+          for(StudentRegisteredCourseTestItem t:studentRegisteredCourseTests){
+              if(t.TestSheet==null || t.TestSheet.equals("") ){
+                  t.TestTaken=false;
+                  UntakenCourseTest.add(t);
+              }
+          }
           
            Gson g=new Gson();
            result.ActionResultType=ActionResultType.ok;
-            result.Content= g.toJson(studentRegisteredCourseTest);
+            result.Content= g.toJson(UntakenCourseTest);
              return result;
            }
            catch(Throwable ex){

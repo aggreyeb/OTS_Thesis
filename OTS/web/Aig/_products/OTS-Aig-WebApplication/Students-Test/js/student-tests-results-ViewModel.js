@@ -10,6 +10,7 @@ OTS.AigStudentTestResultsViewModel=function(){
         if(items===undefined || items===null) return;
         me.TestResults([]);
         for(var i=0;i<items.length;i++){
+            
             me.TestResults.push(items[i]);
         }
     };
