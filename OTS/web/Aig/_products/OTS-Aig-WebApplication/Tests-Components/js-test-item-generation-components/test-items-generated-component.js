@@ -23,6 +23,17 @@ OTS.AigTestItemsGeneratedComponent=function(){
       });
    };
    
+    me.ListCourseTestAnswerSheetItems=function(courseId,testId){
+       var dataSource= new  OTS.AigTestItemsGeneratedDataSource();
+      dataSource.ListCourseTestSheetItems(courseId,testId,function(e){
+         var result=JSON.parse(e);
+         var items=JSON.parse(result.Content);
+          viewModel.BindAnswerSheet(items);
+         
+      });
+   };
+   
+   
    me.SaveCourseTestSheetItems=function(courseId,testId,items){
        if(items===undefined || items===null)return;
        var testItems=[];
@@ -99,11 +110,21 @@ OTS.AigTestItemsGeneratedComponent=function(){
                 currentSelectedTest.Id);
              });
              
+              //cmd-course-test-answer-sheet
+              $("#cmd-course-test-answer-sheet").click(function(){
+                  me.ListCourseTestAnswerSheetItems(currentSelectedTest.CourseId,
+                  currentSelectedTest.Id);
+             });
+             
+             
              $("#cmd-add-to-testsheet").click(function(){
                var items=  viewModel.ListSelectedTestBankItems();
                me.SaveCourseTestSheetItems(currentSelectedTest.CourseId,
                 currentSelectedTest.Id,items);
              });
+             
+            
+             
             
             $("#cmd-remove-testsheet-items").click(function(){
                var items=  viewModel.ListSelectedTestSheetItems();

@@ -101,6 +101,7 @@ OTS.AigTestItemsGeneratedViewModel=function(){
            items[i].Number=i+1;
            me.AnswerSheetItems.push(items[i]);
        }
+      
    };
    
 };
