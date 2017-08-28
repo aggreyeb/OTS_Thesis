@@ -104,6 +104,9 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
         return JSON.parse(copiedjson);
     };
     
+    
+   
+    
     me.NodeCount=function(){
         return nodes.length;
     };

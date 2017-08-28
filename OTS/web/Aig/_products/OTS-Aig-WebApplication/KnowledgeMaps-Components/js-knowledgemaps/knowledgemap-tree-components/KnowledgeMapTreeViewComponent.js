@@ -8,6 +8,18 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
     var currentKnowledgeMap=null;
     var selectedConceptNode=null;
     var nodeSelectedTargets=[];
+    var nodeRemoveTargets=[];
+    
+     var notifyConceptNodeRemoved=function(e){
+        for(var i=0;i<nodeRemoveTargets.length;i++){
+          var callback=  nodeRemoveTargets[i];
+          if(callback!==undefined && callback!==null){
+                var data= JSON.stringify(e);
+                callback(JSON.parse(data));
+          }
+            
+        }
+    };
     
     var notifyConceptNodeSelected=function(e){
         for(var i=0;i<nodeSelectedTargets.length;i++){
@@ -22,6 +34,12 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
     me.AddTreeNodeSelectedEventTarget=function(callbackFunction){
         if(callbackFunction instanceof Function){
             nodeSelectedTargets.push(callbackFunction);
+        }
+    };
+    
+    me.AddNodeRemovedEventTarget=function(callbackFunction){
+        if(callbackFunction instanceof Function){
+            nodeRemoveTargets.push(callbackFunction);
         }
     };
     
@@ -99,8 +117,19 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
       knowledgeMapTreeView.RemoveNode(selectedConceptNode);
           var  knowledgeMapId=currentKnowledgeMap.KnowledgeMapId;
           var knowledgeMapJson=  knowledgeMapTreeView.ToJson();
+          var conceptNodeId=selectedConceptNode.id;
+          var parentNodeId=selectedConceptNode.parentid;
+          var rootNodeId=currentKnowledgeMap.KnowledgeMapId;
+        
+        var conceptSchemastoDeleted={
+            ConceptNodeId:selectedConceptNode.id,
+            ParentId:selectedConceptNode.parentid,
+            RootId:currentKnowledgeMap.KnowledgeMapId
+          };
+          
           var dataSource= new   OTS.AigKnowlegeMapDataSource ();
-        dataSource.UpdateKnowledgeMapNodes(knowledgeMapId,knowledgeMapJson,function(msg){
+       //UpdateKnowledgeMapNodes
+        dataSource.RemoveConceptNodeAndAssocitedConceptSchemas(knowledgeMapId,knowledgeMapJson,conceptSchemastoDeleted,function(msg){
             var result=JSON.parse(msg);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
                  var items=JSON.parse(result.Content);
@@ -108,6 +137,8 @@ OTS.AigKnowledeMapTreeViewComponent=function(){
                  var  knowledgeMap=kmJson[0];
                  me.UpdateTreeView(knowledgeMap);
                  knowledgeMapTreeView.UnSelectNodes(); 
+                 notifyConceptNodeRemoved(selectedConceptNode);
+                 //Notify the node has been removed
             }
         });
     };

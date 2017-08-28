@@ -6,7 +6,8 @@ OTS.AigConceptSchemaManagementDataSource=function(){
                       CreateConceptNodeConceptSchemas:"Aig-CreateConceptNodeConceptSchemas",
                       UpdateConceptNodeConceptSchemas:"Aig-UpdateConceptNodeConceptSchemas",
                       DeleteConceptNodeConceptSchemas:"Aig-DeleteConceptNodeConceptSchemas",
-                      ListConceptNodeConceptSchemas:"Aig-ListConceptNodeConceptSchemas"
+                      ListConceptNodeConceptSchemas:"Aig-ListConceptNodeConceptSchemas",
+                      ListConceptNodeConceptSchemasByRootNode:"Aig-ListConceptNodeConceptSchemasByRootNode"
                     };
     
      me.CreateConceptNodeConceptSchemas=function(data,callbackFunction){
@@ -36,6 +37,14 @@ OTS.AigConceptSchemaManagementDataSource=function(){
        me.ListConceptNodeConceptSchemas=function(data,callbackFunction){
           var callback=callbackFunction;
         $.post("KnowledgeMapServlet",{action:actionType.ListConceptNodeConceptSchemas,data:data},function(msg){
+             if(callback!==undefined && callback!==null)
+                callback(msg);
+        });
+      };
+      
+      me.ListConceptNodeConceptSchemasByRootNode=function(data,callbackFunction){
+          var callback=callbackFunction;
+        $.post("KnowledgeMapServlet",{action:actionType.ListConceptNodeConceptSchemasByRootNode,rootId:data},function(msg){
              if(callback!==undefined && callback!==null)
                 callback(msg);
         });

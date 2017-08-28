@@ -31,6 +31,10 @@ OTS.AigConceptSchemaManagementComponent=function(){
         }
      };
     
+    me.onConceptNodeRemoved=function(e){
+        viewModel.Reset();
+    };
+    
     me.onKnowledgeMapSelected=function(e){
         currentKnowledgeMap=e;
         viewModel.UpdateKnowledgeMapSelected(currentKnowledgeMap);

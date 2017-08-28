@@ -26,7 +26,7 @@ import java.util.UUID;
 public class TestItemGenerationDataService {
     private final IComponentGroup componentGroup;
     private final DataSource dataSource;
-    private HashMap cognitiveTypes;
+    private final HashMap cognitiveTypes;
 
    
 

@@ -10,13 +10,13 @@ package OTS.Aig.KnowledgeMapDataServices;
  * @author Eb
  */
 public class ConceptSchemaElement {
-    String RootId;//KnowledgeMapId
-    String ParentId;
-    String ConceptSchemaId;
-    String ConceptNodeId;
-    String RelationName;
-    String ConceptName;
-    String ActionName;
-    String AttributeName;
-    String AttributeValue;
+   public String RootId;//KnowledgeMapId
+   public String ParentId;
+   public String ConceptSchemaId;
+   public  String ConceptNodeId;
+   public String RelationName;
+   public String ConceptName;
+   public String ActionName;
+   public String AttributeName;
+   public String AttributeValue;
 }

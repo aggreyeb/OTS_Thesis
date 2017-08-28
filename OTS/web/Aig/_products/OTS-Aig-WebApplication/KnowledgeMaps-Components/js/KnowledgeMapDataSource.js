@@ -13,7 +13,8 @@ OTS.AigKnowlegeMapDataSource=function(){
                     UpdateKnowledgeMapNodes:"Aig-UpdateKnowledgeMapNodes",
                     ListAvailableImportsKnowledgeMap:"Aig-ListAvailableImportsKnowledgeMap",
                     ToggleOpenToSharing:"Aig-ToggleOpenToSharing",
-                    ToggleOpenToImport:"Aig-ToggleOpenToImport"
+                    ToggleOpenToImport:"Aig-ToggleOpenToImport",
+                    RemoveConceptNodeAndAssocitedConceptSchemas:"Aig-RemoveConceptNodeAndAssocitedConceptSchemas"
                     };
       
      me.UpdateKnoledgeMapConceptSchemas=function(data,callbackFunction){
@@ -133,5 +134,29 @@ OTS.AigKnowlegeMapDataSource=function(){
                callback(msg);
         });
      };
+     
+     me.DuplicateKnowledgeMap=function(data,callbackFunction){
+       var callback= callbackFunction;
+       var record={action:actionType.COPY,data:data};
+         
+        $.post("KnowledgeMapServlet",record,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   };
+     
+     me.RemoveConceptNodeAndAssocitedConceptSchemas=function(knowledgeMapId,nodes,data,callbackFunction){
+        var callback=callbackFunction;
+       var record={action:actionType.RemoveConceptNodeAndAssocitedConceptSchemas,
+           knowledgeMapId:knowledgeMapId, data:nodes,
+           RootId:data.RootId,ParentId:data.ParentId,
+           ConceptNodeId:data.ConceptNodeId};
+       
+        $.post("KnowledgeMapServlet",record,function(msg){
+           if(callback!==undefined && callback!==null )
+               callback(msg);
+        });
+   }; 
+     
 };
 

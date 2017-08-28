@@ -27,6 +27,10 @@ public class KnowledgeMapElement {
     public String ImportedIcon="fa fa-";
     public String SharingIcon ;
     public String KnowledgeMapIcon="-";
-    
+    //for Duplicate/imported knowledge
+    //used to find all the associated concept schema 
+    //that was associated to the knowledge map to copy
+    //over to the new one
+    public String CopiedId=""; 
     
 }

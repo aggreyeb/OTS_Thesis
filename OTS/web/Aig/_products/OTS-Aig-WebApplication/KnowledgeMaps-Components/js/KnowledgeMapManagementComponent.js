@@ -191,6 +191,7 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                
                
                knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected);
+               knowledgeMapTreeViewComponent.AddNodeRemovedEventTarget(conceptSchemaManagementComponent.onConceptNodeRemoved)
                knowlegemapListManagement.AddKnowledgeMapEditTarget(conceptSchemaManagementComponent.Reset);
                //onConceptNodeSelected
               }
@@ -308,5 +309,14 @@ OTS.AigKnowledgeMapManagementComponent=function(){
     me.onKnowledgeMapEditEvent=function(data){
         
     };
+    
+    me.DuplicateKnowledgeMap=function(data, callbackFunction){
+        var callback=callbackFunction;
+        var datasource=new OTS.AigKnowlegeMapDataSource();
+        datasource.DuplicateKnowledgeMap(data,function(msg){
+            callback(msg);
+        });
+   };
+    
 };
 OTS.AigKnowledgeMapManagementComponent.prototype= new Aig.IInitializable();

@@ -136,6 +136,9 @@ OTS.AigConceptSchemaManagementViewModel=function(){
         me.InformationView.NodeName(node.text);
         me.InformationView.ParentName(node.parentname);
         currentSelectedNode=node;
+        me.ConceptSchemaView.RootId(currentknowledgeMap.KnowledgeMapId);
+        me.ConceptSchemaView.ParentId(node.parentid);
+        
          var conceptSchema=ko.toJS(me.ConceptSchemaView);
               conceptSchema.ConceptNodeId=currentSelectedNode.id;
               var data=JSON.stringify(conceptSchema);

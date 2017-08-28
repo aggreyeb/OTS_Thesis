@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import OTS.Aig.KnowledgeMapDataServices.ConceptSchemaElement;
 
 /**
  *
@@ -131,6 +132,15 @@ public class KnowledgeMapServlet extends Servlet {
               service= new KnowledgeMapsDataService(new MySqlDataSource());
               result= service.CreateNew(userId, data);
                return result ;
+               
+               
+              case  "Aig-Copy-KnoledgeMap":
+              data =request.getParameter("data");
+              service= new KnowledgeMapsDataService(new MySqlDataSource());
+              result= service.DuplicateKnowledgeMap(userId, data);
+               return result ;
+               //Aig-Copy-KnoledgeMap
+               
               
               case "Aig-List-Teacher-KnowledgeMaps": 
               service= new KnowledgeMapsDataService(new MySqlDataSource());
@@ -184,6 +194,23 @@ public class KnowledgeMapServlet extends Servlet {
                 result= service.UpdateKnowledgeMapNodes(userProfile.UserId,knowledgeMapId, data);
                 return result;
                 
+                 case "Aig-RemoveConceptNodeAndAssocitedConceptSchemas":
+              
+                 knowledgeMapId=request.getParameter("knowledgeMapId");
+                data=request.getParameter("data");
+                String rootId=request.getParameter("RootId");
+                String currentparentId=request.getParameter("ParentId");
+               String  currentconceptNodeid=request.getParameter("ConceptNodeId");
+                ConceptSchemaElement el=new ConceptSchemaElement();
+                el.RootId=rootId;
+                el.ParentId=currentparentId;
+                el.ConceptNodeId=currentconceptNodeid;
+                
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.RemoveConceptNodeAndAssocitedConceptSchemas(userProfile.UserId,knowledgeMapId, data,el);
+                return result;
+                //RemoveConceptNodeAndAssocitedConceptSchemas
+                
                 case "Aig-ToggleOpenToSharing":
                 data=request.getParameter("data");
                  g= new Gson();
@@ -234,6 +261,17 @@ public class KnowledgeMapServlet extends Servlet {
                 result= service.ListConceptNodeConceptSchemas(conceptSchemaElement);
                 return result; 
                       
+                //Aig-ListConceptNodeConceptSchemasByBatch
+                case "Aig-ListConceptNodeConceptSchemasByRootNode":
+                  data=request.getParameter("rootId");
+                  g= new Gson();
+                conceptSchemaElement= (ConceptSchemaElement)g.fromJson(data, ConceptSchemaElement.class);
+                service= new KnowledgeMapsDataService(new MySqlDataSource());
+                result= service.ListConceptNodeConceptSchemas(conceptSchemaElement);
+                return result; 
+                      
+                
+                
                       //ListConceptNodeConceptSchemas
               /******************Old Service ************************/
                case  "new":

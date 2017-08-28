@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -43,6 +44,49 @@ public class KnowledgeMapsDataService {
          String todaysDate="'" + currentTime + "'";
          String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
          this.dataSource.ExecuteNonQuery(sql);
+         return this.ListTeacherKnowledgeMaps(userId);
+        }
+       catch(Throwable ex){
+           TransactionResult result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+    
+    
+     public TransactionResult DuplicateKnowledgeMap(int userId,String data){
+         Gson g=new Gson();
+         String InsertTemplate=
+           
+              "INSERT INTO knowledgemap (KnowledgeMapId,Name,Description,Concepts,CreatedBy,CreateOn,IsPublic,IsImported,IsSharing)"+
+            "Values ('%s','%s','%s','%s',%d,%s,%b,%b,%b)";     
+        try{
+         KnowledgeMapElement item=  (KnowledgeMapElement)g.fromJson(data, KnowledgeMapElement.class);
+         item.CreatedBy=userId;
+         String todaysDate="'" + currentTime + "'";
+         String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
+         this.dataSource.ExecuteNonQuery(sql);
+         
+         //List all the concept schemas associated with the 
+         //original knowledge map coupied
+         List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
+         String selectTemplate="Select * from conceptschema where RootId='%s'";
+         String selectSql=String.format(selectTemplate, item.CopiedId);
+         this.dataSource.ExecuteCustomDataSet(selectSql, originalConceptSchemas, ConceptSchemaElement.class);
+          
+          //Change on the conceptschemaId, and RootId
+         if(originalConceptSchemas.size()>0){
+               for(ConceptSchemaElement s:originalConceptSchemas){
+                   UUID uuid = UUID.randomUUID();
+                   String conceptSchemaId = uuid.toString();
+                   s.ConceptSchemaId=conceptSchemaId;
+                   s.RootId=item.KnowledgeMapId;
+                   this.CreateConceptNodeConceptSchemas(s);
+               }
+           }
          return this.ListTeacherKnowledgeMaps(userId);
         }
        catch(Throwable ex){
@@ -225,6 +269,41 @@ public class KnowledgeMapsDataService {
        }
     }
     
+      public TransactionResult RemoveConceptNodeAndAssocitedConceptSchemas(int userId,String knowledgeMapId, String data,ConceptSchemaElement item){
+         Gson g=new Gson();
+        try{
+              String updateTemplate="Update knowledgemap Set Concepts='%s'  Where KnowledgeMapId='%s'";
+              String sql=String.format(updateTemplate, data,knowledgeMapId);
+              this.dataSource.ExecuteNonQuery(sql);
+             // return  this.ListTeacherKnowledgeMaps(userId);
+             //Remove all Associated Concept Schemas
+             String selecteTemplate="Select * from conceptschema where RootId='%s' and ConceptNodeId='%s' and ParentId='%s'";
+             List<ConceptSchemaElement> deleteItems=new ArrayList();
+             String selListSql=String.format(selecteTemplate, item.RootId,item.ConceptNodeId,item.ParentId);
+             
+             this.dataSource.ExecuteCustomDataSet(selListSql, deleteItems, ConceptSchemaElement.class);
+            
+             
+             for(ConceptSchemaElement s:deleteItems){
+                 String selectSqlTemplate="Delete from conceptschema where ConceptSchemaId='%s'";
+                 String deleteSql=String.format(selectSqlTemplate, s.ConceptSchemaId);
+              this.dataSource.ExecuteNonQuery(deleteSql);
+             }
+             
+             return ListTeacherKnowledgeMapById(userId,knowledgeMapId);
+          }
+        
+       catch(Throwable ex){
+            TransactionResult result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+     
+     
       public TransactionResult ListTeacherKnowledgeMapById(int userId,String knowledgeMapId){
           TransactionResult result= new TransactionResult();
         try{ 
@@ -381,7 +460,9 @@ public class KnowledgeMapsDataService {
          Gson g = new Gson(); 
        
         try{ 
-          
+          if(item.ParentId==null){
+              item.ParentId="00000000-00000000-00000000";//empty Guid
+          }
          String InsertTemplate="insert into conceptschema (ConceptSchemaId,ConceptNodeId,RelationName,\n" +
              "ConceptName,ActionName, AttributeName,AttributeValue,RootId,ParentId)\n" +
              "Values('%s','%s','%s','%s','%s','%s','%s','%s','%s')";     
@@ -460,8 +541,19 @@ public class KnowledgeMapsDataService {
          Gson g = new Gson(); 
         try{ 
           TransactionResult result= new TransactionResult();
-          String selectTemplate="Select * from  conceptschema where ConceptNodeId='%s'";     
-          String sql=String.format(selectTemplate, item.ConceptNodeId);
+         // String selectTemplate="Select * from  conceptschema where ConceptNodeId='%s'"; 
+            String selectTemplate="";
+             String sql;
+            if(item.ParentId ==null || "".equals(item.ParentId)){
+                selectTemplate="Select * from  conceptschema where   RootId='%s' and ParentId='00000000-00000000-00000000'"; 
+                sql=String.format(selectTemplate, item.ConceptNodeId,item.RootId);
+            }
+            else{
+                selectTemplate="Select * from  conceptschema where ConceptNodeId='%s' and ParentId='%s' and RootId='%s'"; 
+                   sql=String.format(selectTemplate, item.ConceptNodeId,item.ParentId,item.RootId);
+            }
+        
+       
            List<ConceptSchemaElement> conceptSchemas= new ArrayList();
            this.dataSource.ExecuteCustomDataSet(sql, conceptSchemas,ConceptSchemaElement.class);
           
@@ -480,5 +572,31 @@ public class KnowledgeMapsDataService {
             }
        }
         
+       
+        public TransactionResult ListConceptNodeConceptSchemasByRootNode(String rootNodeId){
+        
+         Gson g = new Gson(); 
+        try{ 
+          TransactionResult result= new TransactionResult();
+          String selectTemplate="Select * from  conceptschema where RootId in(%s)";     
+          String sql=String.format(selectTemplate, rootNodeId);
+           List<ConceptSchemaElement> conceptSchemas= new ArrayList();
+           this.dataSource.ExecuteCustomDataSet(sql, conceptSchemas,ConceptSchemaElement.class);
+          
+             result.Content=g.toJson(conceptSchemas);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+             TransactionResult result= new TransactionResult(); 
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+            
+            }
+       }
+       
        
 }
