@@ -76,7 +76,20 @@ public class KnowledgeMapsDataService {
              // associated with any course
              if(this.CanDeleteKnowledgeMap(item.KnowledgeMapId)){
                   this.dataSource.ExecuteNonQuery(sql);
-                  return  this.ListTeacherKnowledgeMaps(userId);
+                  
+                  List<ConceptSchemaElement> conceptSchemas=new ArrayList();
+                  String selectTobeDeletedSqlTemplate="Select * from conceptschema  where RootId='%s'";
+                  String deleteListSql=String.format(selectTobeDeletedSqlTemplate, item.KnowledgeMapId);
+                  this.dataSource.ExecuteCustomDataSet(deleteListSql, conceptSchemas, ConceptSchemaElement.class);
+                  
+                  //Delete all the associated conceptsNodes
+                  for(ConceptSchemaElement s:conceptSchemas){
+                      String deleteSqlTemplate="Delete from conceptschema where ConceptSchemaId='%s'";
+                    String deleteSql=String.format(deleteSqlTemplate, s.ConceptSchemaId);
+                    this.dataSource.ExecuteNonQuery(deleteSql);
+                  }
+               
+                return  this.ListTeacherKnowledgeMaps(userId);
              }
              else{
                 TransactionResult result= new TransactionResult();

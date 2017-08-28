@@ -80,7 +80,8 @@
         <script src="Aig/Components/App-Controls-LayoutControls/js/Controls-LayoutControl.js" type="text/javascript"></script>
         <script src="Aig/Components/App-HtmlDataSources/TemplateDataSources.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/Serialization.js" type="text/javascript"></script>
-        
+        <script src="Aig/_products/OTS-Aig-WebApplication/KnowledgeMaps-Components/js/KnowledgeMap.js" type="text/javascript"></script>
+       
         <!-- USER INTERFACE LAYOUT-->
         <script src="Aig/Components/App-Controls/AlertBox.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-HeaderLayoutComponent.js" type="text/javascript"></script>

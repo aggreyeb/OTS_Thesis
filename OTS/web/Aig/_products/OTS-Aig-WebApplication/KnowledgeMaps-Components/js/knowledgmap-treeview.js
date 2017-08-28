@@ -250,9 +250,7 @@ OTS.KnowledgeMapTreeView = function(uniqueid,serialization) {
     };
 
     me.Update=function(items){
-        //nodes=item ;
-        nodes=[];
-        nodes[0]=items;
+        nodes=items ;
         me.Refresh();
     };
 

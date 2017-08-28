@@ -157,30 +157,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            me.ToggleKnowledgemapConceptSchemaTreeView(true);
            me.ToggleKnowledgemapListView(false);
            me.NotifyKnowledgeMapEdit(data);
-            /*
-            me.CurrentKnowledgeMapTree=data;
-            me.ResetConceptSchema();
-            me.conceptSchema.selectedRelationship(data.selectedRelationship);
-            me.ShowKnowledgeMapEditor();
-            me.HideKnowedgeMapList();
-            me.showConceptSchemaAlert(true);
-            me.showConceptSchemaHeading(false);
-             
-            var conceptNodes=data.Concepts.replace(/\"/g, "");
-            var decodedNodes=me.DecodeString(conceptNodes);
-            var nodes=JSON.parse(decodedNodes);
-            var knowledgeMap= new  OTS.DataModel.KnowledgeMap(data.KnowledgeMapId,data.Name);
-            knowledgeMap.nodes=nodes;
-           
-            $("#pan-show-conceptschema-submit").show();
-            $("#submit-spinner").hide();
-           knowledgeMapTreeView.OnNodeSelected(me.knowledgeMapEditorViewModel.onSelectedNode);
-           knowledgeMapTreeView.OnStateChanged(function(e){});
-          
-           knowledgeMapTreeView.Render($('#knowledgeMaps-tree'), [knowledgeMap]);
-           knowledgeMapTreeView.UnSelectNodes();
-            */
-           
+            
            
         },
        
@@ -198,7 +175,14 @@ OTS.AigKnowledgeMapListManagementView=function(){
             me.knowledgeMaplistViewActions.enableCancel(false);
         },
         onDuplicate:function(data,e){
-             var newId= new Aig.Guid().NewGuid();
+           
+         var knowledgeMap=new OTS.KnowledgeMap(new OTS.AigConceptSchemaManagementDataSource(),
+            new OTS.KnowledgeMapTreeView("cx"));
+            knowledgeMap.Clone(data,function(e){
+                var data=e;
+            });
+            /*
+            var newId= new Aig.Guid().NewGuid();
             if(data.Concepts!==""){
            
             var concept=JSON.parse(data.Concepts);
@@ -211,8 +195,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
            jsDuplicate.Name+="Copy";
            jsDuplicate.Description+="Copy";
            jsDuplicate.IsImported=false;
-            //Assign Concept Node Parent Id
-          // var updatedItem=  me.AssignConceptNodeParentId(jsDuplicate);
+           
             
            var newKnowledgeMap=JSON.stringify(jsDuplicate);
             knowledgeMapComponent.SaveKnowledgeMap(newKnowledgeMap, function(e){
@@ -237,9 +220,9 @@ OTS.AigKnowledgeMapListManagementView=function(){
                 $("#div-knowledgeMaps-alert").delay(3200).fadeOut(300);
               
                 }
-             
+               
            });
-           
+           */
         },
         onDelete:function(data,e){
                
