@@ -1,0 +1,13 @@
+truncate table conceptschema;
+truncate table course;
+truncate table courseknowledgemap;
+truncate table domainconcept;
+truncate table exam;
+truncate table knowledgemap;
+truncate table questionbank;
+truncate table questionbankansweroption;
+truncate table studentcourse;
+truncate table studentexam;
+truncate table testitem;
+truncate table testitemansweroption;
+truncate table testsheet;
