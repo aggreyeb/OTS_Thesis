@@ -57,6 +57,38 @@ public class KnowledgeMapsDataService {
     }
     
     
+    public TransactionResult CloneConceptSchema(String copiedId,String rootId){
+        
+        TransactionResult result= new TransactionResult();
+         try{
+         List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
+         String selectTemplate="Select * from conceptschema where RootId='%s'";
+         String selectSql=String.format(selectTemplate, copiedId);
+         this.dataSource.ExecuteCustomDataSet(selectSql, originalConceptSchemas, ConceptSchemaElement.class);
+          
+          //Change on the conceptschemaId, and RootId
+         if(originalConceptSchemas.size()>0){
+               for(ConceptSchemaElement s:originalConceptSchemas){
+                   UUID uuid = UUID.randomUUID();
+                   String conceptSchemaId = uuid.toString();
+                   s.ConceptSchemaId=conceptSchemaId;
+                   s.RootId=rootId;
+                   this.CreateConceptNodeConceptSchemas(s);
+               }
+           }
+           result.ActionResultType=ActionResultType.ok;
+           return result;
+         }
+          catch(Throwable ex){
+            result= new TransactionResult();
+           result.ActionResultType=ActionResultType.exception;
+            result.Message=ex.toString();
+           return result;
+       }
+       finally{
+       }
+    }
+    
      public TransactionResult DuplicateKnowledgeMap(int userId,String data){
          Gson g=new Gson();
          String InsertTemplate=
@@ -438,8 +470,12 @@ public class KnowledgeMapsDataService {
             String todaysDate="'" + currentTime + "'";
             item.IsImported=true;
              String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
-            this.dataSource.ExecuteNonQuery(sql);  
+            this.dataSource.ExecuteNonQuery(sql); 
+            this.CloneConceptSchema(item.CopiedId,item.KnowledgeMapId);
          }
+         
+         
+         
              return this.ListTeacherKnowledgeMaps(userId);
            }
            catch(Throwable ex){
