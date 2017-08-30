@@ -76,7 +76,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
       
        var conceptNodes=[];
           var data=selectedNode.data;
-         var relationType=selectedNode.RelationType;
+         var relationType=data.RelationType;
          
        if(selectedNode.parentid ===undefined){
            var items=knowledgeMapTreeView.ToList();

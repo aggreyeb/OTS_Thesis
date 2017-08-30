@@ -80,9 +80,17 @@ public class TestItemGenerationDataService {
      protected List<TestItem> GenerateConceptNodeTestItems(ConceptNodeELement[] conceptnodes,ITestItemGenerationComponent component){
          List<TestItem> testItems= new ArrayList();
          for(ConceptNodeELement e:conceptnodes){
-             ConceptNode conceptNode= new ConceptNode(e.ConceptNodeId,e.ConceptNodeName,e.ParentId,"");
+            
+             ConceptNode n= new ConceptNode();
+             n.Id=e.ConceptNodeId;
+             n.Name=e.ConceptNodeName;
+             n.ParentId=e.ParentId;
+             n.ParentName=e.ParentName;
+             n.RelationTypeName=e.RelationTypeName;
+             n.RootId=e.RootId;
+             n.RootName=e.RootName;
              
-             List<TestItem> items=   component.Generate(conceptNode);
+             List<TestItem> items=   component.Generate(n);
              testItems.addAll(items);
          }
          return testItems;

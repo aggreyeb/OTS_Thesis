@@ -7,7 +7,6 @@ package OTS.Servlets;
 
 import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
-import OTS.Aig.ComponentModel.CourseTestQuestionBankDataService;
 import OTS.Aig.ComponentModel.EvaluationComponent;
 import OTS.Aig.ComponentModel.RememberingComponent;
 import OTS.Aig.ComponentModel.TestElementModel;

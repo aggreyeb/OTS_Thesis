@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package OTS.Aig.ComponentModel;
+package OTS.Aig.PerformanceAnalysis;
 
 import OTS.Aig.AnswerOption;
+import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.ITestItemGenerationComponent;
+import OTS.Aig.KnowledgeMapDataServices.ConceptSchemaElement;
 import OTS.Aig.TestItem;
+import OTS.DataModels.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +21,17 @@ import java.util.List;
  *
  * @author Eb
  */
-public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class TimeComplexityComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Understanding-Component";
-    private final String name="Understand";
-    
-    public UnderstandingComponent() {
+    private final String id="Analyse";
+    private final String name="Analyse";
+    private String cognitiveType="Analyse";
+    private ConceptNode conceptNode =null;
+    List<CognitiveType>  cognitiveTpes=null;
+    DataSource dataSource;
+    public TimeComplexityComponent(DataSource mySqlDataSource) {
        components= new Components();
+       dataSource=mySqlDataSource;
     }
     
     
@@ -84,10 +91,42 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
 
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+       conceptNode=cn;
+       List<TestItem> testItems= new ArrayList();
+       //List all the concept schema for the concept Node
+       String selectSqlTemplate="Select * from conceptschema where "
+               + "ConceptNodeId='%s' and ParentId='%s' and RootId='%s'";
+       List<ConceptSchemaElement> conceptSchemas=new ArrayList();
+       String selectSql=String.format(selectSqlTemplate, cn.Id,cn.ParentId,cn.RootId);
+       this.dataSource.ExecuteCustomDataSet(selectSql, conceptSchemas, ConceptSchemaElement.class);
+        if(conceptSchemas.size()<=0){
+           return  testItems;
+        }
+       
+       
+       /*
+        AnswerOption CorrectAnswer= new AnswerOption();
+        CorrectAnswer.Label="A.";
+        CorrectAnswer.Text="I";
+        CorrectAnswer.IsKey=true;
+        CorrectAnswer.IsCorrect=true;
+        CorrectAnswer.BackgroundColor="Green";
+        
+      
+        TestItem testItem= new TestItem();
+        testItem.Stimulus=this.ConstructStimulus();
+        testItem.Stem =this.PrepareStem();
+        testItem.AnswerOptions=this.CreateAnswerOptions();
+        testItem.CognitiveTypeName=cognitiveType;
+        testItem.CorrectAnswer= CorrectAnswer;
+        testItems.add(testItem);
+        return testItems;
+          */
+       
+       return testItems;
+    } 
     
-     @Override
+    @Override
     public String ConstructStimulus() {
        String stimulus="";
        List<String> actors=new ArrayList();
@@ -111,11 +150,17 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
 
     @Override
     public List<AnswerOption> CreateAnswerOptions(){
-       String answerOptionTemplate= "A.	I\n" +
-                                    "B.	II\n" +
-                                    "C.	III\n" +
-                                    "D.	I,III";
-       return null;
+      List<AnswerOption> answers= new ArrayList();
+      String[] labels=new  String[]{"A.","B.","C.","D."};
+      String[] options=new  String[]{"I","II","III","I ,II"};
+       for(int i=0;i<options.length;i++){
+           AnswerOption answerOption= new AnswerOption();
+           answerOption.Label=labels[i];
+           answerOption.Text=options[i];
+           answers.add(answerOption);
+       }
+       return answers;
     }
 
+   
 }

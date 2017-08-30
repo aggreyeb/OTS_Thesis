@@ -13,4 +13,8 @@ public class ConceptNodeELement {
      String ConceptNodeId;
      String ConceptNodeName;
      String ParentId;
+     String ParentName;
+     String RelationTypeName;
+     String RootId;
+     String RootName;
 }
