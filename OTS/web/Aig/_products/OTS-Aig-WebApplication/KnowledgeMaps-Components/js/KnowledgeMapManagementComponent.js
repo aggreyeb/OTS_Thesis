@@ -193,7 +193,9 @@ OTS.AigKnowledgeMapManagementComponent=function(){
                knowledgeMapTreeViewComponent.AddTreeNodeSelectedEventTarget(conceptSchemaManagementComponent.onConceptNodeSelected);
                knowledgeMapTreeViewComponent.AddNodeRemovedEventTarget(conceptSchemaManagementComponent.onConceptNodeRemoved)
                knowlegemapListManagement.AddKnowledgeMapEditTarget(conceptSchemaManagementComponent.Reset);
-               //onConceptNodeSelected
+             
+                 // onKnowledgeMapSelectionChanged
+                  //onConceptNodeSelected
               }
               catch(error){
                   console.log(error);

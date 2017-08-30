@@ -5,6 +5,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
    var knowledgeMapTreeView=new OTS.KnowledgeMapTreeView("kn-tree",new OTS.Serialization());
    var selectedTest=null;
    var selectedNode=null;
+   var selectedKnowledgeMaps=null;
    var itemsGeneratedEventTargets=[];
    var onTreeNodeSelected=function(e){
        selectedNode=e;
@@ -20,12 +21,43 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
        }
    };
    
+   
+   me.onKnowledgeMapSelectionChanged=function(e){
+       selectedKnowledgeMap=e;
+   };
+   
    me.AddTestItemsGenerateEventTarget=function(callbackFunction){
        if(callbackFunction instanceof Function){
            itemsGeneratedEventTargets.push(callbackFunction);
        }
    };
    
+   me.FindRootNode=function(node){
+       // var items=knowledgeMapTreeView.ToList();
+       var found=null;
+       for(var i=0;i<selectedKnowledgeMaps.length;i++ ){
+           var knowledgeMap=selectedKnowledgeMaps[i];
+           var nodeiList=knowledgeMapTreeView.NodeToList(knowledgeMap);
+           if(me.InList(nodeiList,node)){
+               found=selectedKnowledgeMaps[i];
+               break;
+           }
+       }
+       return found;
+   };
+   
+   me.InList=function(nodeiList, node){
+       var found=null;
+       for(var i=0;i<nodeiList.length;i++){
+           if(nodeiList[i].id===node.id){
+               found =nodeiList[i];
+               break;
+           }
+       }
+       return found;
+   };
+   
+  
    me.onGenerateTestItems=function(e){
        me.HideAlertMessage();
        var cognitiveTypes=$("#sel-cognitive-type").val();
@@ -41,8 +73,11 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
            return;
        }
        
-     
+      
        var conceptNodes=[];
+          var data=selectedNode.data;
+         var relationType=selectedNode.RelationType;
+         
        if(selectedNode.parentid ===undefined){
            var items=knowledgeMapTreeView.ToList();
            for(var i=0;i<items.length;i++){
@@ -50,22 +85,34 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                    var conceptNode={
                        ConceptNodeId:items[i].id,
                        ConceptNodeName:items[i].name,
-                       ParentId:items[i].parentid
+                       ParentId:items[i].parentid,
+                       ParentName:"",
+                       RelationTypeName:relationType,
+                       RootId:"00000000-00000000-00000000",
+                       RootName:""
                    };
                    conceptNodes.push(conceptNode);
                }
            }
        }
        else{
-           
+         var selectetConceptNodeRootNode=me.FindRootNode(selectedNode);
+        
+        
+         
          var nodeList=  knowledgeMapTreeView.NodeToList(selectedNode);
+      
          
             for(var i=0;i<nodeList.length;i++){
              
                var conceptNode={
                        ConceptNodeId:nodeList[i].id,
                        ConceptNodeName:nodeList[i].name,
-                       ParentId:nodeList[i].parentid 
+                       ParentId:nodeList[i].parentid, 
+                       ParentName:nodeList[i].parentname,
+                       RelationTypeName:relationType,
+                       RootId:selectetConceptNodeRootNode.id,
+                       RootName:selectetConceptNodeRootNode.text
                        //Added Parent Name and rootId
                        //Add Relation Type
                    };
@@ -133,6 +180,8 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
          });
    };
    
+   
+   
    me.DataBind=function(items){
        try{
             
@@ -148,6 +197,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                 //if(!dataBinded){
                     $('#div-concept-hierarchy-ui').empty();
                     knowledgeMapTreeView.OnNodeSelected(onTreeNodeSelected); 
+                    selectedKnowledgeMaps=knowledgeMaps;
                     knowledgeMapTreeView.Render($('#div-concept-hierarchy-ui'), knowledgeMaps); 
                     //dataBinded=true;
                // }
