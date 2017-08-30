@@ -57,9 +57,20 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
            }
        }
        else{
-           conceptNodes = [{ConceptNodeId:selectedNode.id,
-                   ConceptNodeName:selectedNode.text,
-                   ParentId:selectedNode.parentId}];
+           
+         var nodeList=  knowledgeMapTreeView.NodeToList(selectedNode);
+         
+            for(var i=0;i<nodeList.length;i++){
+             
+               var conceptNode={
+                       ConceptNodeId:nodeList[i].id,
+                       ConceptNodeName:nodeList[i].name,
+                       ParentId:nodeList[i].parentid 
+                       //Added Parent Name and rootId
+                       //Add Relation Type
+                   };
+                   conceptNodes.push(conceptNode);
+             }
         }
       
       var data={
