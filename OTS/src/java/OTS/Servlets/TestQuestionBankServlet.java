@@ -7,7 +7,6 @@ package OTS.Servlets;
 
 import OTS.Aig.ComponentModel.CourseTestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.StudentTestSheetElement;
-import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestQuestionBankElement;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;

@@ -6,21 +6,16 @@
 package OTS.Servlets;
 
 import OTS.Aig.ComponentModel.AnalysisComponent;
-import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
-import OTS.Aig.ComponentModel.RememberingComponent;
 import OTS.Aig.ComponentModel.TestElementModel;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
 import OTS.Aig.ComponentModel.TestItemGenerationDataService;
-import OTS.Aig.ComponentModel.UnderstandingComponent;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityComponents;
-import OTS.Aig.PerformanceAnalysis.TimeComplexityConstantBigOComponent;
-import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityEvaluateConstantBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
-import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -99,12 +94,15 @@ public class TestGenerationServlet extends  Servlet {
           //timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
           //timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
           // timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
-          timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
+         // timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
           analysisComponent.Add(timeComplexityComponents);
       
           analysisComponent.AddTo(componentGroup);
           
-         // new EvaluationComponent().AddTo(componentGroup);
+         EvaluationComponent evelauationComponent= new EvaluationComponent();
+         evelauationComponent.Add(new TimeComplexityEvaluateConstantBigOComponent(new MySqlDataSource()));
+         componentGroup.Add(evelauationComponent);
+         
        
          return componentGroup;
      }
