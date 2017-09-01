@@ -19,6 +19,7 @@ import OTS.Aig.KnowledgeMapDataServices.TestElement;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityComponents;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityConstantBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
@@ -97,7 +98,8 @@ public class TestGenerationServlet extends  Servlet {
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
           //timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
           //timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
-           timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
+          // timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
           analysisComponent.Add(timeComplexityComponents);
       
           analysisComponent.AddTo(componentGroup);
