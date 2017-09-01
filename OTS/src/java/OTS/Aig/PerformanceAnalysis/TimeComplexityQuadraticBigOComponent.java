@@ -181,12 +181,11 @@ public class TimeComplexityQuadraticBigOComponent implements OTS.Aig.ITestItemGe
 "               1. Implement %s interface .\n" +
 "               2. Supports  %s  operation\n" +
 "               3. Write algorithm for %s\n" +
-"               The algorithm implemented is as follows :\n" +
-"             for (int i =1 ; i >0 n ; i+=c) {\n" +
-"                           for(int j=i+1;i<n; j+=c) {\n" +
-"                                   O(1) expressions\n" +
-"                            }\n" +
-"             }";
+"               The algorithm implemented is as follows :\n";
+          template+="for(int i= n; i >0; i +=c)"+ "{ \n"
+                  + "   for (int j =i+1; j +=c)"+ "{ \n"
+                  + "//some 0(1) expresions \n" 
+                  + "}\n";
        
        String operation=this.ToOperationList(hasList);
       stimulus= String.format(template, SelectRandomActor(),conceptNode.ParentName, operation,operation);
