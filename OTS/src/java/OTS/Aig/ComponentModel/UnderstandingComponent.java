@@ -20,8 +20,9 @@ import java.util.List;
  */
 public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Understanding-Component";
+    private final String id="Understand";
     private final String name="Understand";
+     private String cognitiveType="Understand";
     
     public UnderstandingComponent() {
        components= new Components();
@@ -116,6 +117,11 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
                                     "C.	III\n" +
                                     "D.	I,III";
        return null;
+    }
+
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+       return components.ItemAt(i);
     }
 
 }

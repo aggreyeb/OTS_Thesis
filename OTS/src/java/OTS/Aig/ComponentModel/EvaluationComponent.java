@@ -6,7 +6,6 @@
 package OTS.Aig.ComponentModel;
 
 import OTS.Aig.AnswerOption;
-import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -21,8 +20,9 @@ import java.util.List;
  */
 public class EvaluationComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Analysis-Component";
-    private final String name="Analyze";
+    private final String id="Evaluate";
+    private final String name="Evaluate";
+    private String cognitiveType="Evaluate";
     
     public EvaluationComponent() {
        components= new Components();
@@ -117,6 +117,11 @@ public class EvaluationComponent implements OTS.Aig.ITestItemGenerationComponent
                                     "C.	III\n" +
                                     "D.	I,III";
        return null;
+    }
+
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+       return components.ItemAt(i);
     }
 
 }

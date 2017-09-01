@@ -6,7 +6,6 @@
 package OTS.Aig.ComponentModel;
 
 import OTS.Aig.AnswerOption;
-import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -21,8 +20,9 @@ import java.util.List;
  */
 public class ApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Application-Component";
+    private final String id="Apply";
     private final String name="Apply";
+    private String cognitiveType="Apply";
     
     public ApplicationComponent() {
        components= new Components();
@@ -117,6 +117,11 @@ public class ApplicationComponent implements OTS.Aig.ITestItemGenerationComponen
                                     "C.	III\n" +
                                     "D.	I,III";
        return null;
+    }
+
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+      return components.ItemAt(i);
     }
 
    

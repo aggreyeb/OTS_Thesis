@@ -6,7 +6,6 @@
 package OTS.Aig.ComponentModel;
 
 import OTS.Aig.AnswerOption;
-import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -21,9 +20,9 @@ import java.util.List;
  */
 public class AnalysisComponent implements OTS.Aig.ITestItemGenerationComponent  {
     private final Components components;
-    private final String id="Analysis-Component";
+    private final String id="Analyze";
     private final String name="Analyze";
-    
+    private String cognitiveType="Analyze";
     public AnalysisComponent() {
        components= new Components();
     }
@@ -55,7 +54,8 @@ public class AnalysisComponent implements OTS.Aig.ITestItemGenerationComponent  
 
     @Override
     public void Add(ITestItemGenerationComponent item) {
-       components.Add(item);
+      
+        components.Add(item);
     }
 
     @Override
@@ -85,38 +85,41 @@ public class AnalysisComponent implements OTS.Aig.ITestItemGenerationComponent  
 
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       List<TestItem> testItems= new ArrayList();
+       for(int i=0;i<components.Count();i++){
+          ITestItemGenerationComponent component=components.ItemAt(i);
+          if(component!=null){
+             List<TestItem> items=  component.Generate(cn);
+              if(items.size()>0){
+                  testItems.addAll(items);
+              }
+          }
+       }
+       return testItems;
     }
     
      @Override
     public String ConstructStimulus() {
        String stimulus="";
-       List<String> actors=new ArrayList();
-       actors.add("software developer");
-       
-       String template="A %s was presented with following behaviour descriptions of an object during software training course: The object  deescribes what data structure does,can have multiple implementation, and provides specification about the type of supported operations . \n" +
-                "Select the best object(s)  that exibit the above  behaviour description.\n" +
-                "I.	Interface\n" +
-                "II.	Implementation\n" +
-                "III.	Inheritance\n" +
-                "IV.	Interface and Implementation";
-      stimulus= String.format(template, actors.get(0));
-       return stimulus;
+        return stimulus;
     }
 
     @Override
     public String PrepareStem() {
-        String stem="Select the best object(s)  that exibit the above  behaviour description.";
+        String stem="";
         return stem;
     }
 
     @Override
     public List<AnswerOption> CreateAnswerOptions(){
-       String answerOptionTemplate= "A.	I\n" +
-                                    "B.	II\n" +
-                                    "C.	III\n" +
-                                    "D.	I,III";
-       return null;
+       List<AnswerOption> list = new ArrayList();
+        return list;
+       
+    }
+
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+       return components.ItemAt(i);
     }
 
    

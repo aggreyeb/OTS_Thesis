@@ -66,6 +66,11 @@ public class Components implements IComponent {
       return  items.size();
     }
 
+    @Override
+    public ITestItemGenerationComponent ItemAt(int index) {
+       return items.get(index);
+    }
+
     
     
 }

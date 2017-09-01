@@ -15,23 +15,35 @@ import OTS.Aig.KnowledgeMapDataServices.ConceptSchemaElement;
 import OTS.Aig.TestItem;
 import OTS.DataModels.DataSource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  *
  * @author Eb
  */
-public class TimeComplexityComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGenerationComponent  {
+    String[] actorList=new String[]{"software developer","programmer",
+                                       "student"};
+    
     private final Components components;
-    private final String id="Analyse";
-    private final String name="Analyse";
-    private String cognitiveType="Analyse";
+    private final String id="O(1)";
+    private final String name="O(1)";
+    private String cognitiveType="O(1)";
+    
     private ConceptNode conceptNode =null;
     List<CognitiveType>  cognitiveTpes=null;
     DataSource dataSource;
-    public TimeComplexityComponent(DataSource mySqlDataSource) {
+    
+    List<ConceptSchemaElement> conceptSchemas;
+    String selectedActor="";
+    String selectedOperation="";
+    String selectedKey="";
+    
+    public TimeComplexityConstantBigOComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
+       conceptSchemas= new ArrayList();
     }
     
     
@@ -92,69 +104,92 @@ public class TimeComplexityComponent implements OTS.Aig.ITestItemGenerationCompo
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        conceptNode=cn;
-       List<TestItem> testItems= new ArrayList();
+        List<TestItem> testItems= new ArrayList();
+      
        //List all the concept schema for the concept Node
        String selectSqlTemplate="Select * from conceptschema where "
                + "ConceptNodeId='%s' and ParentId='%s' and RootId='%s'";
-       List<ConceptSchemaElement> conceptSchemas=new ArrayList();
        String selectSql=String.format(selectSqlTemplate, cn.Id,cn.ParentId,cn.RootId);
        this.dataSource.ExecuteCustomDataSet(selectSql, conceptSchemas, ConceptSchemaElement.class);
-        if(conceptSchemas.size()<=0){
-           return  testItems;
-        }
-       
-       
-       /*
-        AnswerOption CorrectAnswer= new AnswerOption();
-        CorrectAnswer.Label="A.";
-        CorrectAnswer.Text="I";
-        CorrectAnswer.IsKey=true;
-        CorrectAnswer.IsCorrect=true;
-        CorrectAnswer.BackgroundColor="Green";
+       // if(conceptSchemas.size()<=0){
+          // return  testItems;
+       // }
         
-      
         TestItem testItem= new TestItem();
         testItem.Stimulus=this.ConstructStimulus();
         testItem.Stem =this.PrepareStem();
         testItem.AnswerOptions=this.CreateAnswerOptions();
+        
+         for(AnswerOption p:testItem.AnswerOptions){
+             if(p.IsKey){
+                 testItem.CorrectAnswer=p;
+                 break;
+             }
+         }
+       
         testItem.CognitiveTypeName=cognitiveType;
-        testItem.CorrectAnswer= CorrectAnswer;
         testItems.add(testItem);
         return testItems;
-          */
-       
-       return testItems;
     } 
     
     @Override
     public String ConstructStimulus() {
        String stimulus="";
-       List<String> actors=new ArrayList();
-       actors.add("software developer");
+       String[] actorList=new String[]{"software developer","programmer",
+                                       "student"};
+        //actors {"software developer","programmer","student"}
+        //interfaces {List, USet , SSet}
+        //Operations {Add, Remove , Set, Get, Size}
        
-       String template="A %s was presented with following behaviour descriptions of an object during software training course: The object  deescribes what data structure does,can have multiple implementation, and provides specification about the type of supported operations . \n" +
-                "Select the best object(s)  that exibit the above  behaviour description.\n" +
-                "I.	Interface\n" +
-                "II.	Implementation\n" +
-                "III.	Inheritance\n" +
-                "IV.	Interface and Implementation";
-      stimulus= String.format(template, actors.get(0));
+       
+       String template="A %s designed and implemented %s"
+               + " to be used in software component. "
+               + "The data structure implemented %s interface"
+               + " which supports  %s  operation."
+               + " The student implemented the %s"
+               + "  as follows :\n" +
+"			//Here c is a constant\n" +
+"           		for (int i =1 ; i <= c ; i++){\n" +
+"			   // some  O(1) expressions\n" +
+                       "}";
+      stimulus= String.format(template, SelectRandomActor(),conceptNode.Name, conceptNode.ParentName,"Add,Remove","Add");
        return stimulus;
     }
 
     @Override
     public String PrepareStem() {
-        String stem="Select the best object(s)  that exibit the above  behaviour description.";
-        return stem;
+        String stemTemplate="What is the time complexity  of  the algorithm?";
+       String stem=String.format(stemTemplate, this.selectedActor);
+       return stem;
     }
 
     @Override
     public List<AnswerOption> CreateAnswerOptions(){
       List<AnswerOption> answers= new ArrayList();
       String[] labels=new  String[]{"A.","B.","C.","D."};
-      String[] options=new  String[]{"I","II","III","I ,II"};
-       for(int i=0;i<options.length;i++){
+      // Time complexities O(1),O(n),O(n^2),O(log n),O(logLogn)
+      String CorrectAnswer ="O(1)";
+      String[] options=new  String[]{"O(n)","O(n^2)","O(log n)" ,"O(logLogn)"};
+      
+      //Create Distractor List
+      List<String> distractors= new ArrayList();
+      for(String s:options){
+          distractors.add(s);
+      }
+     Collections.shuffle(distractors);
+     //Select  three options and add the correct answer key
+     List<String> answerOptions= new ArrayList();
+     answerOptions.add(CorrectAnswer);
+     for(int i=0;i<distractors.size();i++){
+         answerOptions.add(distractors.get(i));
+     }
+     
+       for(int i=0;i<answerOptions.size()-1;i++){
            AnswerOption answerOption= new AnswerOption();
+           if(answerOptions.get(i).equals(CorrectAnswer)){
+               answerOption.IsCorrect=true;
+               answerOption.IsKey=true;
+           }
            answerOption.Label=labels[i];
            answerOption.Text=options[i];
            answers.add(answerOption);
@@ -162,5 +197,22 @@ public class TimeComplexityComponent implements OTS.Aig.ITestItemGenerationCompo
        return answers;
     }
 
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+       return components.ItemAt(i);
+    }
+
+    
+    protected String SelectRandomActor(){
+        String actor="";
+        List<String> actors= new ArrayList();
+        for(String s: actorList){
+            actors.add(s);
+        }
+        Collections.shuffle(actors);
+        actor =actors.get(0);
+        return actor;
+    }
+   
    
 }

@@ -5,7 +5,6 @@
  */
 package OTS.Aig.ComponentModel;
 
-import OTS.Aig.CognitiveType;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;

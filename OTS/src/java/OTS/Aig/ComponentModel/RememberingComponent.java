@@ -143,5 +143,10 @@ public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponen
        return answers;
     }
 
+    @Override
+    public ITestItemGenerationComponent ItemAt(int i) {
+       return components.ItemAt(i);
+    }
+
    
 }

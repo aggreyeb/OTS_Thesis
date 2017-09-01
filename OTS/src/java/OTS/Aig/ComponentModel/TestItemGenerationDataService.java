@@ -38,7 +38,7 @@ public class TestItemGenerationDataService {
         cognitiveTypes.put("1", "Remember");
         cognitiveTypes.put("2", "Understand");
         cognitiveTypes.put("3", "Apply");
-        cognitiveTypes.put("4", "Analyse");
+        cognitiveTypes.put("4", "Analyze");
         cognitiveTypes.put("5", "Evaluate");
     }
     
@@ -61,10 +61,10 @@ public class TestItemGenerationDataService {
             }
          }  
            //Save and return all the items that has been generated for the test. 
-           return  this.SaveTestItems(testItems, testElement.TestId, testElement.CourseId);
-          // result.ActionResultType=ActionResultType.ok;
-           //result.Content=g.toJson(testItems);
-           //return result;
+          this.SaveTestItems(testItems, testElement.TestId, testElement.CourseId);
+           result.ActionResultType=ActionResultType.ok;
+          result.Content=g.toJson(testItems);
+           return result;
         } 
        catch(Throwable ex){
           
@@ -91,7 +91,8 @@ public class TestItemGenerationDataService {
              n.RootName=e.RootName;
              
              List<TestItem> items=   component.Generate(n);
-             testItems.addAll(items);
+             if(items.size()>0)
+               testItems.addAll(items);
          }
          return testItems;
      } 

@@ -16,4 +16,5 @@ public interface IComponent {
      ITestItemGenerationComponent FindByName(String name);
      Boolean HasItems();
      int Count();
+     ITestItemGenerationComponent ItemAt(int index);
 }

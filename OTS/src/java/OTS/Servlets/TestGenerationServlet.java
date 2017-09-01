@@ -16,6 +16,8 @@ import OTS.Aig.ComponentModel.UnderstandingComponent;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityComponents;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityConstantBigOComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -81,17 +83,23 @@ public class TestGenerationServlet extends  Servlet {
          IComponentGroup componentGroup= new TestItemGenerationComponentGroup();
          
          //Remembering Components
-          new  RememberingComponent().AddTo(componentGroup);
+        //  new  RememberingComponent().AddTo(componentGroup);
           
           //Understanding Component
-          new UnderstandingComponent().AddTo(componentGroup);
+         // new UnderstandingComponent().AddTo(componentGroup);
            
           //Appliccation Component
-          new ApplicationComponent().AddTo(componentGroup);
+         // new ApplicationComponent().AddTo(componentGroup);
           
-          new AnalysisComponent().AddTo(componentGroup);
+          AnalysisComponent analysisComponent=  new AnalysisComponent();
           
-          new EvaluationComponent().AddTo(componentGroup);
+          TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
+          timeComplexityComponents.Add( new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
+          analysisComponent.Add(timeComplexityComponents);
+      
+          analysisComponent.AddTo(componentGroup);
+          
+         // new EvaluationComponent().AddTo(componentGroup);
        
          return componentGroup;
      }

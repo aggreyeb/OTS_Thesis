@@ -75,8 +75,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
        
       
        var conceptNodes=[];
-          var data=selectedNode.data;
-         var relationType=data.RelationType;
+          
          
        if(selectedNode.parentid ===undefined){
            var items=knowledgeMapTreeView.ToList();
@@ -86,8 +85,8 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                        ConceptNodeId:items[i].id,
                        ConceptNodeName:items[i].name,
                        ParentId:items[i].parentid,
-                       ParentName:"",
-                       RelationTypeName:relationType,
+                       ParentName:items[i].parentname,
+                       RelationTypeName:items[i].data.RelationType,
                        RootId:"00000000-00000000-00000000",
                        RootName:""
                    };
@@ -96,10 +95,19 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
            }
        }
        else{
-         var selectetConceptNodeRootNode=me.FindRootNode(selectedNode);
-        
-        
          
+           var data=null;
+           var relationType=null;
+          if(selectedNode.data){
+              data=selectedNode.data;
+           relationType=data.RelationType;
+          } 
+          else{
+              selectedNode.data={RelationType:"None"};
+              relationType=data.RelationType;
+          }
+           var selectetConceptNodeRootNode=me.FindRootNode(selectedNode);
+       
          var nodeList=  knowledgeMapTreeView.NodeToList(selectedNode);
       
          
@@ -113,8 +121,7 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                        RelationTypeName:relationType,
                        RootId:selectetConceptNodeRootNode.id,
                        RootName:selectetConceptNodeRootNode.text
-                       //Added Parent Name and rootId
-                       //Add Relation Type
+                      
                    };
                    conceptNodes.push(conceptNode);
              }
