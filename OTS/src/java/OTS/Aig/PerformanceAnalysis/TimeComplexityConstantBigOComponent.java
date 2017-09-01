@@ -27,15 +27,20 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
                                        "student"};
     //comments
     private final Components components;
-    private final String id="O(1)";
-    private final String name="O(1)";
-    private String cognitiveType="O(1)";
+    private final String id="TimeComplexity-Constant-Analyze";
+    private final String name="TimeComplexity-Constant-Analyze";
+    private String cognitiveType="Analyze";
     
     private ConceptNode conceptNode =null;
     List<CognitiveType>  cognitiveTpes=null;
     DataSource dataSource;
     
-    List<ConceptSchemaElement> conceptSchemas;
+       List<ConceptSchemaElement> conceptSchemas;
+       List<TestItem> testItems= new ArrayList();
+       List<ConceptSchemaElement>   hasList= null;
+      List<ConceptSchemaElement>   isList= null;
+      List<ConceptSchemaElement>   canList= null;
+      
     String selectedActor="";
     String selectedOperation="";
     String selectedKey="";
@@ -44,6 +49,9 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
        components= new Components();
        dataSource=mySqlDataSource;
        conceptSchemas= new ArrayList();
+       testItems= new ArrayList();
+       
+      
     }
     
     
@@ -104,29 +112,55 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        conceptNode=cn;
-        List<TestItem> testItems= new ArrayList();
+      String[] labels=new  String[]{"A.","B.","C.","D."};
+      List<TestItem> testItems= new ArrayList();
+       hasList= new ArrayList();
+       isList= new ArrayList();
+       canList= new ArrayList();
       
        //List all the concept schema for the concept Node
        String selectSqlTemplate="Select * from conceptschema where "
                + "ConceptNodeId='%s' and ParentId='%s' and RootId='%s'";
        String selectSql=String.format(selectSqlTemplate, cn.Id,cn.ParentId,cn.RootId);
        this.dataSource.ExecuteCustomDataSet(selectSql, conceptSchemas, ConceptSchemaElement.class);
-       // if(conceptSchemas.size()<=0){
-          // return  testItems;
-       // }
+       if(conceptSchemas.size()>0){
+           //return  testItems;
+           for(ConceptSchemaElement e:conceptSchemas){
+               if(e.RelationName.equals("is")){
+                   isList.add(e);
+               }
+              if(e.RelationName.equals("has")){
+                   hasList.add(e);
+               }
+              if(e.RelationName.equals("can")){
+                   canList.add(e);
+              }
+           }
+       }
+       
         
         TestItem testItem= new TestItem();
         testItem.Stimulus=this.ConstructStimulus();
         testItem.Stem =this.PrepareStem();
         testItem.AnswerOptions=this.CreateAnswerOptions();
-        
+         int count=0;
+         //Select the correct answer
          for(AnswerOption p:testItem.AnswerOptions){
+            
              if(p.IsKey){
                  testItem.CorrectAnswer=p;
                  break;
              }
+           
          }
-       
+         //set the labels
+         Collections.shuffle(testItem.AnswerOptions);
+         for(AnswerOption p:testItem.AnswerOptions){
+            
+            p.Label=labels[count];
+             count+=1;
+         }
+        
         testItem.CognitiveTypeName=cognitiveType;
         testItems.add(testItem);
         return testItems;
@@ -152,13 +186,15 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
 "           		for (int i =1 ; i <= c ; i++){\n" +
 "			   // some  O(1) expressions\n" +
                        "}";
-      stimulus= String.format(template, SelectRandomActor(),conceptNode.Name, conceptNode.ParentName,"Add,Remove","Add");
+       
+       String operation=this.ToOperationList(hasList);
+      stimulus= String.format(template, SelectRandomActor(),conceptNode.Name, conceptNode.ParentName,operation,operation);
        return stimulus;
     }
 
     @Override
     public String PrepareStem() {
-        String stemTemplate="What is the time complexity  of  the algorithm?";
+        String stemTemplate="If c is constant then what is the time complexity  of  the algorithm?";
        String stem=String.format(stemTemplate, this.selectedActor);
        return stem;
     }
@@ -166,7 +202,7 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
     @Override
     public List<AnswerOption> CreateAnswerOptions(){
       List<AnswerOption> answers= new ArrayList();
-      String[] labels=new  String[]{"A.","B.","C.","D."};
+     
       // Time complexities O(1),O(n),O(n^2),O(log n),O(logLogn)
       String CorrectAnswer ="O(1)";
       String[] options=new  String[]{"O(n)","O(n^2)","O(log n)" ,"O(logLogn)"};
@@ -179,21 +215,24 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
      Collections.shuffle(distractors);
      //Select  three options and add the correct answer key
      List<String> answerOptions= new ArrayList();
-     answerOptions.add(CorrectAnswer);
      for(int i=0;i<distractors.size();i++){
          answerOptions.add(distractors.get(i));
      }
      
        for(int i=0;i<answerOptions.size()-1;i++){
            AnswerOption answerOption= new AnswerOption();
-           if(answerOptions.get(i).equals(CorrectAnswer)){
-               answerOption.IsCorrect=true;
-               answerOption.IsKey=true;
-           }
-           answerOption.Label=labels[i];
+           //answerOption.Label=labels[i];
+           answerOption.IsCorrect=false;
+           answerOption.IsKey=false;
+           answerOption.Label="";
            answerOption.Text=options[i];
            answers.add(answerOption);
        }
+        AnswerOption key= new AnswerOption();
+        key.Text=CorrectAnswer;
+        key.IsKey=true;
+        key.IsCorrect=true;
+        answers.add(key);
        return answers;
     }
 
@@ -214,5 +253,18 @@ public class TimeComplexityConstantBigOComponent implements OTS.Aig.ITestItemGen
         return actor;
     }
    
-   
+    protected String ToOperationList(List<ConceptSchemaElement> conceptSchemas){
+        
+        String s="M1()";
+        if(conceptSchemas==null ||conceptSchemas.size()<=0){
+            return s;
+        }
+        Collections.shuffle(conceptSchemas);
+        String op=conceptSchemas.get(0).AttributeName;
+        if(op.equals("operation") || op.equals("Operation") ){
+            s=conceptSchemas.get(0).AttributeValue;
+            return s+ "()";
+        }
+       return s;
+    }
 }
