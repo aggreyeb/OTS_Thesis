@@ -90,11 +90,10 @@ public class TestGenerationServlet extends  Servlet {
            
           //Appliccation Component
          // new ApplicationComponent().AddTo(componentGroup);
-          
           AnalysisComponent analysisComponent=  new AnalysisComponent();
           
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
-          timeComplexityComponents.Add( new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
           analysisComponent.Add(timeComplexityComponents);
       
           analysisComponent.AddTo(componentGroup);
