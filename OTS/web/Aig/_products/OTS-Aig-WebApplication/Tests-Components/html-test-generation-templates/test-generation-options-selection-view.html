@@ -3,6 +3,9 @@
        <div  style="margin: 2px" class="col-xs-12">
         <button id="cmd-generate-test-items" class="btn btn-sm btn-success pull-right">Generate</button>
        </div> 
+        <div style="display: none" class="alert alert-info" id="alert-generating-items-alert">
+            Please wait generating test items...
+        </div>
     </div>
     <div id="alert-generate-items" style="display: none" class="alert alert-danger">
         Select Cognitive Types
@@ -12,12 +15,13 @@
             <div class="form-group">
               <h4><span class="label label-info">Select Cognitive Types</span></h4>
               <select id="sel-cognitive-type"  multiple style="width: 350px" class="form-control chosen-select">
+                  <option value="3">Apply</option>
                   <option value="4">Analyze</option>
                   <option value="5">Evaluate</option>
                   <!--
                   <option value="1">Remember</option>
                   <option value="2">Understand</option>
-                  <option value="3">Apply</option>
+                 
                  
                   -->
               </select>

@@ -5,7 +5,9 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
 import OTS.Aig.ComponentModel.AnalysisComponent;
+import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
 import OTS.Aig.ComponentModel.TestElementModel;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
@@ -14,8 +16,12 @@ import OTS.Aig.IComponentGroup;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityComponents;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityConstantBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityEvaluateConstantBigOComponent;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityEvaluateQuadraticBigOComponent;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
+import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -87,22 +93,26 @@ public class TestGenerationServlet extends  Servlet {
          // new UnderstandingComponent().AddTo(componentGroup);
            
           //Appliccation Component
-         // new ApplicationComponent().AddTo(componentGroup);
-          AnalysisComponent analysisComponent=  new AnalysisComponent();
+       ApplicationComponent applicationComponent=  new ApplicationComponent();
+       applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
+          applicationComponent.AddTo(componentGroup);
+         /*
+         AnalysisComponent analysisComponent=  new AnalysisComponent();
           
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
-          //timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
-          //timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
-          // timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
-         // timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
           analysisComponent.Add(timeComplexityComponents);
       
           analysisComponent.AddTo(componentGroup);
           
          EvaluationComponent evelauationComponent= new EvaluationComponent();
          evelauationComponent.Add(new TimeComplexityEvaluateConstantBigOComponent(new MySqlDataSource()));
+         evelauationComponent.Add(new TimeComplexityEvaluateQuadraticBigOComponent(new MySqlDataSource()));
          componentGroup.Add(evelauationComponent);
-         
+         */
        
          return componentGroup;
      }

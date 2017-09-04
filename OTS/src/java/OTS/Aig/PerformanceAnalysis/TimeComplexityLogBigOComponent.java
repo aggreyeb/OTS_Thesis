@@ -176,9 +176,9 @@ public class TimeComplexityLogBigOComponent implements OTS.Aig.ITestItemGenerati
         //Operations {Add, Remove , Set, Get, Size}
        
        
-       String template="A %s is was asked to implement generic data structure"
-               + " G&lt;T&gt; implements %s inteface. \n" +
-"               The specification for the al is as follows:\n" +
+       String template="A %s was asked to implement generic data structure"
+               + " G&lt;T&gt; which implements %s inteface. \n" +
+"               The specification for the data structure is as follows:\n" +
 "                1. Implement algorithm for %s\n" +
 "                2. The algorithm should run efficiently\n" +
 "               The algorithm implemented is shown below :\n";

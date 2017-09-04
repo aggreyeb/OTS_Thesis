@@ -59,11 +59,12 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
    
   
    me.onGenerateTestItems=function(e){
+       try{
        me.HideAlertMessage();
        var cognitiveTypes=$("#sel-cognitive-type").val();
        if(cognitiveTypes===undefined || cognitiveTypes===null)
        {
-           me.ShowAlertMessage("<p>Please select songnitive type(s)</p>");
+           me.ShowAlertMessage("<p>Please select cognitive type(s)</p>");
            return;
        }
        
@@ -133,6 +134,8 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
           CognitiveTypes:cognitiveTypes.join(","),
           ConceptNodes:JSON.stringify(conceptNodes)
       };
+      $("#cmd-generate-test-items").prop("disabled",true);
+      $("#alert-generating-items-alert").show();
       var dataSource= new OTS.AigGenerationOptionsSelectionDataSource();
        dataSource.GenerateTestItems(JSON.stringify(data),function(msg){
              var result=JSON.parse(msg);
@@ -141,9 +144,16 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                      notifyTestItemsGenerated({Items:contents,
                          ActionResultType:result.ActionResultType,
                          Message:result.Message});
+                        $("#alert-generating-items-alert").hide();
+                        $("#cmd-generate-test-items").prop("disabled",false);
+                    
             }   
          });
-      
+     }
+     catch(error){
+          $("#alert-generating-items-alert").hide();
+          $("#cmd-generate-test-items").prop("disabled",false);       
+     }
    };
    
    me.ToggleGenerateAction=function(status){

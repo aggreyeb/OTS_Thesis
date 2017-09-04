@@ -171,18 +171,24 @@ public class TimeComplexityEvaluateQuadraticBigOComponent implements OTS.Aig.ITe
        String stimulus="";
        String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
-        //actors {"software developer","programmer","student"}
-        //interfaces {List, USet , SSet}
-        //Operations {Add, Remove , Set, Get, Size}
+     
+       List<String> dataList= new ArrayList();
+       dataList.add("10,000");
+       dataList.add("25,000");
+       dataList.add("50,000");
+       dataList.add("100,000");
+       dataList.add("1000,000");
        
-       
-       String template="Four %ss A,B,C D design and implemented %s operation of data "
-                       + "structure which implements %s inteface. "
-                       + "The computer processing  "
-                       + " as a function of time complexity for the %s operation "
-                       + " algorithmns were analysed and  the the result "
-                       + "is shown below:  TA(n)   =n^2 , "
-                       + "TB(n) = n^3, TC(n) log n, TD(n) = n";
+       Collections.shuffle(dataList);
+       String dataSet= dataList.get(0);
+        
+       String template="A  %s is considering using a third party "
+               + "data structure(TPDS) to implement generic data structure S<T>"
+               + " which should be able process about %s data items.Additionally,"
+               + " it should implement %s inteface and provide algorithm for the %s operation. The computer processing time"
+               + " in relationship to time complexity  for the %s operation of "
+               + " TPDS as follows. A1(n)=n^2 ,A2(n) = 5.3n^3, "
+               + "A3(n)=log n, A4(n)=200n^3";
        
        String operation=this.ToOperationList(hasList);
        String intefaceName="";
@@ -192,7 +198,7 @@ public class TimeComplexityEvaluateQuadraticBigOComponent implements OTS.Aig.ITe
        else{
             intefaceName=conceptNode.ParentName;
        }
-      stimulus= String.format(template, SelectRandomActor(), operation,intefaceName,operation);
+      stimulus= String.format(template, SelectRandomActor(),dataSet, intefaceName, operation,operation);
        return stimulus;
     }
 
@@ -209,9 +215,10 @@ public class TimeComplexityEvaluateQuadraticBigOComponent implements OTS.Aig.ITe
       List<AnswerOption> answers= new ArrayList();
      
       // Time complexities O(1),O(n),O(n^2),O(log n),O(logLogn)
-      String CorrectAnswer ="TD(n)= n";
-      //TA(n)   =n^2 , TB(n) = n^3, TC(n) log n, TD(n) = n . 
-      String[] options=new  String[]{"TA(n)=n^2","TB(n)= n^3","TC(n)= log n"};
+      String CorrectAnswer ="A1(n)=n^2";
+     //A1(n)=n^2 ,A2(n) = 5.3n^3, "
+             //"A3(n)=log n, A4(n)=200n^3
+      String[] options=new  String[]{"A2(n) = 5.3n^3","A3(n)=log n","A2(n) = 5.3n^3"};
       
       //Create Distractor List
       List<String> distractors= new ArrayList();
