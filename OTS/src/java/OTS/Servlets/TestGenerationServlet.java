@@ -5,6 +5,7 @@
  */
 package OTS.Servlets;
 
+import OTS.Aig.ApplicationCognitive.DictionaryApplicationComponent;
 import OTS.Aig.ApplicationCognitive.QueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
 import OTS.Aig.ComponentModel.AnalysisComponent;
@@ -96,9 +97,10 @@ public class TestGenerationServlet extends  Servlet {
           //Appliccation Component
        ApplicationComponent applicationComponent=  new ApplicationComponent();
      //  applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
-        applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
-       //QueueApplicationComponent
-       applicationComponent.AddTo(componentGroup);
+      //  applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
+//DictionaryApplicationComponent
+         applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
+         applicationComponent.AddTo(componentGroup);
          /*
          AnalysisComponent analysisComponent=  new AnalysisComponent();
           
