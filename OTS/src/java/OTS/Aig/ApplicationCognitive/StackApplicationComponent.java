@@ -188,9 +188,11 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
        String[] interfaces=new String[]{"List","Linked List"};
        
        String template="A %s implemented generic Stack&#60;T&#62;"
-               + " using %s which implements %s as internal data structure for software component."
-               + " Opon unit testing the %s performed the following sequence operations\n %s"
-               + " on the instance of the instance of the data structure";
+               + " using %s which implements %s as internal data structure for "
+               + "software component to reverse input string "
+               + " Opon unit testing the %s performed the following sequence "
+               + "operations\n %s"
+               + " on the instance of the data structure";
               
        String actor=this.SelectRandomActor();
        String dataStructure=conceptNode.Name;
