@@ -89,6 +89,19 @@ public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponen
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        conceptNode=cn;
+       
+        List<TestItem> testItems= new ArrayList();
+       for(int i=0;i<components.Count();i++){
+          ITestItemGenerationComponent component=components.ItemAt(i);
+          if(component!=null){
+             List<TestItem> items=  component.Generate(cn);
+              if(items.size()>0){
+                  testItems.addAll(items);
+              }
+          }
+       }
+       return testItems;
+       /*
         AnswerOption CorrectAnswer= new AnswerOption();
         CorrectAnswer.Label="A.";
         CorrectAnswer.Text="I";
@@ -105,6 +118,8 @@ public class RememberingComponent implements OTS.Aig.ITestItemGenerationComponen
         testItem.CorrectAnswer= CorrectAnswer;
         testItems.add(testItem);
         return testItems;
+       */
+       
     } 
     
     @Override

@@ -11,9 +11,11 @@ import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
 import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
+import OTS.Aig.ComponentModel.RememberingComponent;
 import OTS.Aig.ComponentModel.TestElementModel;
 import OTS.Aig.ComponentModel.TestItemGenerationComponentGroup;
 import OTS.Aig.ComponentModel.TestItemGenerationDataService;
+import OTS.Aig.ComponentModel.UnderstandingComponent;
 import OTS.Aig.IComponentGroup;
 import OTS.Aig.KnowledgeMapDataServices.TestDataService;
 import OTS.Aig.KnowledgeMapDataServices.TestElement;
@@ -24,6 +26,7 @@ import OTS.Aig.PerformanceAnalysis.TimeComplexityEvaluateQuadraticBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
+import OTS.Aig.RememberingCognitive.RememberRootIdentifyTrueFalseComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -89,19 +92,20 @@ public class TestGenerationServlet extends  Servlet {
          IComponentGroup componentGroup= new TestItemGenerationComponentGroup();
          
          //Remembering Components
-        //  new  RememberingComponent().AddTo(componentGroup);
-          
-          //Understanding Component
-         // new UnderstandingComponent().AddTo(componentGroup);
+         RememberingComponent rememberingComponent =  new  RememberingComponent(); //.AddTo(componentGroup);
+      // rememberingComponent.Add(new RememberRootIdentifyTrueFalseComponent(new MySqlDataSource()));
+         componentGroup.Add(rememberingComponent);
+      
+        //Understanding Component
+         new UnderstandingComponent().AddTo(componentGroup);
            
           //Appliccation Component
-       ApplicationComponent applicationComponent=  new ApplicationComponent();
-     //  applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
-      //  applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
-//DictionaryApplicationComponent
-         applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
-         applicationComponent.AddTo(componentGroup);
-         /*
+          ApplicationComponent applicationComponent=  new ApplicationComponent();
+          applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
+          applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
+          applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
+          applicationComponent.AddTo(componentGroup);
+         
          AnalysisComponent analysisComponent=  new AnalysisComponent();
           
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
@@ -117,7 +121,7 @@ public class TestGenerationServlet extends  Servlet {
          evelauationComponent.Add(new TimeComplexityEvaluateConstantBigOComponent(new MySqlDataSource()));
          evelauationComponent.Add(new TimeComplexityEvaluateQuadraticBigOComponent(new MySqlDataSource()));
          componentGroup.Add(evelauationComponent);
-         */
+         
        
          return componentGroup;
      }

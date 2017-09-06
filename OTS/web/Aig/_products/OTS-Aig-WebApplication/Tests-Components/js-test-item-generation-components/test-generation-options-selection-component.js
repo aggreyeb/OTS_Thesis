@@ -131,10 +131,10 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
       var data={
           TestId:selectedTest.Id,
           CourseId:selectedTest.CourseId,
-          CognitiveTypes:cognitiveTypes.join(","),
+          CognitiveTypes:cognitiveTypes,//cognitiveTypes.join(","),
           ConceptNodes:JSON.stringify(conceptNodes)
       };
-      $("#cmd-generate-test-items").prop("disabled",true);
+      //$("#cmd-generate-test-items").prop("disabled",true);
       $("#alert-generating-items-alert").show();
       var dataSource= new OTS.AigGenerationOptionsSelectionDataSource();
        dataSource.GenerateTestItems(JSON.stringify(data),function(msg){
@@ -145,14 +145,15 @@ OTS.AigTestItemGenerationOptionsSelectionComponent=function(){
                          ActionResultType:result.ActionResultType,
                          Message:result.Message});
                         $("#alert-generating-items-alert").hide();
-                        $("#cmd-generate-test-items").prop("disabled",false);
+                       // $("#cmd-generate-test-items").prop("disabled",false);
                     
             }   
          });
      }
      catch(error){
           $("#alert-generating-items-alert").hide();
-          $("#cmd-generate-test-items").prop("disabled",false);       
+          $("#cmd-generate-test-items").prop("disabled",false);   
+          console.log(error);
      }
    };
    

@@ -182,7 +182,7 @@ public class TimeComplexityEvaluateConstantBigOComponent implements OTS.Aig.ITes
                        + " as a function of time complexity for the %s operation "
                        + " algorithmns were analysed and  the the result "
                        + "is shown below:  TA(n)   =n^2 , "
-                       + "TB(n) = n^3, TC(n) log n, TD(n) = n";
+                       + "TB(n) = n^3, TC(n)=log n, TD(n) = n";
        
        String operation=this.ToOperationList(hasList);
        String intefaceName="";

@@ -218,7 +218,7 @@ public class TimeComplexityEvaluateQuadraticBigOComponent implements OTS.Aig.ITe
       String CorrectAnswer ="A1(n)=n^2";
      //A1(n)=n^2 ,A2(n) = 5.3n^3, "
              //"A3(n)=log n, A4(n)=200n^3
-      String[] options=new  String[]{"A2(n) = 5.3n^3","A3(n)=log n","A2(n) = 5.3n^3"};
+      String[] options=new  String[]{"A2(n)= 9n^3","A3(n)=logn","A2(n)= 5.3n^3,A4(n)=n^3 + nlogn"};
       
       //Create Distractor List
       List<String> distractors= new ArrayList();
