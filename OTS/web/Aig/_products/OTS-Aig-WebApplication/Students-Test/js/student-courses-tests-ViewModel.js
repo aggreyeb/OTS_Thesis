@@ -42,14 +42,14 @@ OTS.AigStudentCoursesTestViewModel=function(){
         }
         var testTaken= JSON.stringify(testItems);
        // var decodedTest=me.EncodeString(testTaken);
-         var percentageMarks=(mark/testItems.length)*100;
+         var percentageMarks= (mark/testItems.length)*100;
         var studentTestItem={
             StudentId:"unknown", //replace at server side
             TestId:testId,
             CourseId:courseId,
             Marked:true,
             Taken:true,
-            Mark:percentageMarks,
+            Mark:percentageMarks.toFixed(2),
             TestItemCount:testItems.length,
             TestSheet:testTaken,
             StartTime:"",
@@ -69,7 +69,7 @@ OTS.AigStudentCoursesTestViewModel=function(){
                me.TestListVisible(false);
                me.TestSheetVisible(true);
                 var errorMessage="Failed to Submit your test sheet";
-                 if(result.Message!==""){
+                 if(result.Message!==undefined && result.Message!==""){
                      errorMessage=result.Message;
                  }
                 submitAlertBox.ShowErrorMessage(errorMessage);

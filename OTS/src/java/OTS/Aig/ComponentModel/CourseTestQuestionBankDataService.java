@@ -185,7 +185,7 @@ public class CourseTestQuestionBankDataService {
      public TransactionResult UpdateStudentTest(StudentTestSheetElement element){
           TransactionResult result= new TransactionResult();
         try{ 
-          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%d,testItemCount=%d,CourseId='%s' WHERE TestId='%s' AND StudentId='%s'";
+          String upateTemplate="UPDATE studentexam SET Taken =%b ,Marked=%b,EndDateTime='%s',TestSheet='%s',Mark=%.2f,testItemCount=%d,CourseId='%s' WHERE TestId='%s' AND StudentId='%s'";
           String sql= String.format(upateTemplate, element.Taken,element.Marked,currentTime,element.TestSheet,element.Mark,element.TestItemCount,element.CourseId, element.TestId,element.StudentId);
           this.dataSource.ExecuteNonQuery(sql);
           

@@ -140,7 +140,7 @@ public class TestQuestionBankServlet extends Servlet {
                      case "Aig-SubmitStudentTest":
                      courseId=request.getParameter("CourseId");
                      testId=request.getParameter("TestId");
-                     int mark=Integer.parseInt(request.getParameter("Mark"));
+                     float mark=Float.parseFloat(request.getParameter("Mark"));
                      //TestItemCount
                      int testItemCount=Integer.parseInt(request.getParameter("TestItemCount"));
                      String testSheet=request.getParameter("TestSheet");

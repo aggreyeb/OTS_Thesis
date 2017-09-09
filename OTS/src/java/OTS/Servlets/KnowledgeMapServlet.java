@@ -6,7 +6,6 @@
 
 package OTS.Servlets;
 
-import OTS.Aig.KnowledgeMapDataServices.ConceptSchemaElement;
 import OTS.Aig.KnowledgeMapDataServices.KnowledgeMapsDataService;
 import OTS.Aig.KnowledgeMapDataServices.StatusItem;
 import OTS.Aig.KnowledgeMapDataServices.TransactionResult;

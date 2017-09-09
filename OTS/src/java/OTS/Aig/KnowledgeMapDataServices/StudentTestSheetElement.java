@@ -22,7 +22,7 @@ public class StudentTestSheetElement {
    public   Date EndDateTime;
    public  int Marked;
    public  int Taken;
-   public  int Mark;
+   public  float Mark;
    public int TestItemCount;
    public  String Comments;
 }

@@ -6,7 +6,6 @@
 package OTS.Aig.KnowledgeMapDataServices;
 
 import OTS.DataModels.DataSource;
-import antlr.StringUtils;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,12 +55,12 @@ public class CourseDataService {
    public TransactionResult ListTeacherCourseKnowledgeMap(int teacherid){
        TransactionResult result= new TransactionResult();
         try{ 
-          String sqlTemplate= "Select Id as CourseId,Name as CourseName from Course where Createdby=%d";
+          String sqlTemplate= "Select Id as CourseId,Name as CourseName from course where Createdby=%d";
           String sql=String.format(sqlTemplate, teacherid);
           List<TeacherCourseKnowledgeMapItem> courseKnowlwdgeMaps= new ArrayList();
           this.dataSource.ExecuteCustomDataSet(sql, courseKnowlwdgeMaps,TeacherCourseKnowledgeMapItem.class);
            
-          String kmsqlTemplate="Select k.KnowledgeMapId as Id ,k.Name  from Course c \n" +
+          String kmsqlTemplate="Select k.KnowledgeMapId as Id ,k.Name  from course c \n" +
                         "inner join courseknowledgemap m on  m.CourseId=c.Id \n" +
                         "inner join knowledgemap k on m.KnowledgeMapId=k.KnowledgeMapId\n" +
                         "Where c.Id='%s'";
