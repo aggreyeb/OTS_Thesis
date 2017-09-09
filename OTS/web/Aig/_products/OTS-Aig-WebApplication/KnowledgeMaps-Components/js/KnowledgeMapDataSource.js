@@ -135,9 +135,9 @@ OTS.AigKnowlegeMapDataSource=function(){
         });
      };
      
-     me.DuplicateKnowledgeMap=function(data,callbackFunction){
+     me.DuplicateKnowledgeMap=function(data,originalConceptNodeElementsJson,callbackFunction){
        var callback= callbackFunction;
-       var record={action:actionType.COPY,data:data};
+       var record={action:actionType.COPY,data:data,OriginalConceptNodeElements:originalConceptNodeElementsJson};
          
         $.post("KnowledgeMapServlet",record,function(msg){
            if(callback!==undefined && callback!==null )

@@ -32,5 +32,6 @@ public class KnowledgeMapElement {
     //that was associated to the knowledge map to copy
     //over to the new one
     public String CopiedId=""; 
+ 
     
 }

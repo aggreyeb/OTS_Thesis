@@ -89,7 +89,7 @@ public class KnowledgeMapsDataService {
        }
     }
     
-     public TransactionResult DuplicateKnowledgeMap(int userId,String data){
+     public TransactionResult DuplicateKnowledgeMap(int userId,String data,String originalConceptNodeElementsJson){
          Gson g=new Gson();
          String InsertTemplate=
            
@@ -102,6 +102,27 @@ public class KnowledgeMapsDataService {
          String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
          this.dataSource.ExecuteNonQuery(sql);
          
+         //List of all the concept Nodes includeing the root
+         ConceptSchemaElement[] originalConceptNodes=(ConceptSchemaElement[]) g.fromJson(originalConceptNodeElementsJson, ConceptSchemaElement[].class);
+         for(ConceptSchemaElement c:originalConceptNodes){
+            String selectTemplate="";
+            String selectSql="";
+             List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
+             if(c.ParentId.equals("") && c.RootId.equals("00000000-00000000-00000000")){
+                 //
+                 selectTemplate="Select * from conceptschema where  ConceptNodeId='%s'";
+                 selectSql=String.format(selectTemplate,c.ConceptNodeId);
+             }
+             else{
+               selectTemplate="Select * from conceptschema where RootId='%s'and ParentId='%s' and ConceptNodeId='%s'";
+               selectSql=String.format(selectTemplate, c.RootId,c.ParentId,c.ConceptNodeId);   
+             }
+           
+             this.dataSource.ExecuteCustomDataSet(selectSql, originalConceptSchemas, ConceptSchemaElement.class);
+             this.CopyConceptSchemas(originalConceptSchemas,item.KnowledgeMapId);
+         }
+         
+         /*
          //List all the concept schemas associated with the 
          //original knowledge map coupied
          List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
@@ -119,6 +140,7 @@ public class KnowledgeMapsDataService {
                    this.CreateConceptNodeConceptSchemas(s);
                }
            }
+         */
          return this.ListTeacherKnowledgeMaps(userId);
         }
        catch(Throwable ex){
@@ -131,6 +153,18 @@ public class KnowledgeMapsDataService {
        }
     }
     
+     
+    public void CopyConceptSchemas(List<ConceptSchemaElement> conceptSchemas,String newKnowledgeMapId){
+        if(conceptSchemas==null || conceptSchemas.isEmpty()) return ;
+       
+        for(ConceptSchemaElement s:conceptSchemas){
+                   UUID uuid = UUID.randomUUID();
+                   String conceptSchemaId = uuid.toString();
+                   s.ConceptSchemaId=conceptSchemaId;
+                   s.RootId=newKnowledgeMapId;
+                   this.CreateConceptNodeConceptSchemas(s);
+               }
+    }
     
     public Boolean CanDeleteKnowledgeMap(String kowledgeMapId){
          // Check if it is not associated with any Course

@@ -135,8 +135,10 @@ public class KnowledgeMapServlet extends Servlet {
                
               case  "Aig-Copy-KnoledgeMap":
               data =request.getParameter("data");
+              String originalConceptNodeElements =request.getParameter("OriginalConceptNodeElements");
+            
               service= new KnowledgeMapsDataService(new MySqlDataSource());
-              result= service.DuplicateKnowledgeMap(userId, data);
+              result= service.DuplicateKnowledgeMap(userId, data,originalConceptNodeElements);
                return result ;
                //Aig-Copy-KnoledgeMap
                

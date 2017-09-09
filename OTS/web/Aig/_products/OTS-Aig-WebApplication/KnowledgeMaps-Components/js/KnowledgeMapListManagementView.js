@@ -43,6 +43,19 @@ OTS.AigKnowledgeMapListManagementView=function(){
    
     me.selectedMode="";
    var selectedNodeText="Selected Node:";
+   
+    var printItems=[];
+    var printRecursive = function(node) {
+        var treeNodes = node.nodes;
+        //console.log(node.text + '\r');
+        printItems.push(node);
+        for (var i = 0; i < treeNodes.length; i++) {
+            printRecursive(treeNodes[i]);
+        }
+        return printItems;
+    };
+   
+   
    me.EncodeString=function(text){
        var str=window.btoa(text);
        return str;
@@ -187,16 +200,23 @@ OTS.AigKnowledgeMapListManagementView=function(){
            
             var concept=JSON.parse(data.Concepts);
             
+              //Convert KnowledgeMap to List;
+            var conceptNodeList=me.NodeToList(concept[0]);
+            //Convert the conceptNodes to serializable ConceptNode
+            //Elements
+           var originalConceptNodeElements=  me.ToConceptNodeElements(conceptNodeList,concept[0]);
+            
             originalKnowledgeMapId=concept[0].id;
             concept[0].text=data.Name;
             concept[0].id=newId;
             
+          
             var nodes=concept[0].nodes;
             if(nodes!==undefined && nodes!==null && nodes.length){
             for(var i=0;i<nodes.length;i++){
                 nodes[i].parentname=data.Name + "Copy";
-                nodes[i].parentid=newId;
-                nodes[i].parentNodeId=newId;
+               // nodes[i].parentid=newId;
+               // nodes[i].parentNodeId=newId;
             }
           }
             data.Concepts=JSON.stringify(concept);
@@ -209,9 +229,10 @@ OTS.AigKnowledgeMapListManagementView=function(){
            jsDuplicate.Description=data.Description + "Copy";
            jsDuplicate.IsImported=false;
            jsDuplicate.CopiedId=originalKnowledgeMapId;
-            
+           
            var newKnowledgeMap=JSON.stringify(jsDuplicate);
-            knowledgeMapComponent.DuplicateKnowledgeMap(newKnowledgeMap, function(e){
+           var originalConceptNodeElementsJson=JSON.stringify(originalConceptNodeElements);
+            knowledgeMapComponent.DuplicateKnowledgeMap(newKnowledgeMap, originalConceptNodeElementsJson,  function(e){
               
               var result=JSON.parse(e);
             if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
@@ -1042,6 +1063,48 @@ OTS.AigKnowledgeMapListManagementView=function(){
             
           // var newKnowledgeMap=JSON.stringify(jsDuplicate);
            return jsDuplicate;
+    };
+    
+   
+    
+     me.NodeToList = function(node) {
+       
+        var list = printRecursive(node);
+       
+        var json = JSON.stringify(list);
+        printItems.length = 0;
+        return JSON.parse(json);
+    };
+    
+    me.ToConceptNodeElements=function(items,knowledgeMap){
+      var  conceptNodes=[];
+        for(var i=0;i<items.length;i++){
+               if(items[i].parentid===undefined ||items[i].parentid===null){
+                   var conceptNode={
+                       ConceptNodeId:items[i].id,
+                       ConceptNodeName:items[i].text,
+                       ParentId:"",
+                       ParentName:"",
+                       RelationTypeName:"None",
+                       RootId:"00000000-00000000-00000000",
+                       RootName:""
+                   };
+                   conceptNodes.push(conceptNode);
+               }
+               else{
+                    var conceptNode={
+                       ConceptNodeId:items[i].id,
+                       ConceptNodeName:items[i].name,
+                       ParentId:items[i].parentid,
+                       ParentName:items[i].parentname,
+                       RelationTypeName:items[i].data.RelationType,
+                       RootId:knowledgeMap.id,
+                       RootName:knowledgeMap.text
+                   };
+                   conceptNodes.push(conceptNode);
+               }
+           }
+           return conceptNodes;
     };
 };
 

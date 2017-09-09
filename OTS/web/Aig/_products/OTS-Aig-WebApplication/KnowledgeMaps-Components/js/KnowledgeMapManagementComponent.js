@@ -312,10 +312,10 @@ OTS.AigKnowledgeMapManagementComponent=function(){
         
     };
     
-    me.DuplicateKnowledgeMap=function(data, callbackFunction){
+    me.DuplicateKnowledgeMap=function(data,originalConceptNodeElementsJson, callbackFunction){
         var callback=callbackFunction;
         var datasource=new OTS.AigKnowlegeMapDataSource();
-        datasource.DuplicateKnowledgeMap(data,function(msg){
+        datasource.DuplicateKnowledgeMap(data,originalConceptNodeElementsJson,function(msg){
             callback(msg);
         });
    };
