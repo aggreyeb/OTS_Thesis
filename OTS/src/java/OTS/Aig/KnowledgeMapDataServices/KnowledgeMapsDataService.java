@@ -108,10 +108,11 @@ public class KnowledgeMapsDataService {
             String selectTemplate="";
             String selectSql="";
              List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
-             if(c.ParentId.equals("") && c.RootId.equals("00000000-00000000-00000000")){
+             if(c.ConceptNodeId.equals("") && c.ParentId.equals("00000000-00000000-00000000")){
                  //
-                 selectTemplate="Select * from conceptschema where  ConceptNodeId='%s'";
-                 selectSql=String.format(selectTemplate,c.ConceptNodeId);
+                 selectTemplate="Select * from conceptschema where  ParentId='%s' and RootId='%s'";
+                // selectTemplate="Select * from conceptschema where  RootId='%s'";
+                 selectSql=String.format(selectTemplate,c.ParentId,c.RootId);
              }
              else{
                selectTemplate="Select * from conceptschema where RootId='%s'and ParentId='%s' and ConceptNodeId='%s'";
@@ -505,7 +506,8 @@ public class KnowledgeMapsDataService {
             item.IsImported=true;
              String sql=String.format(InsertTemplate, item.KnowledgeMapId,item.Name,item.Description,item.Concepts,userId,todaysDate,item.IsPublic,item.IsImported,item.IsSharing);
             this.dataSource.ExecuteNonQuery(sql); 
-            this.CloneConceptSchema(item.CopiedId,item.KnowledgeMapId);
+           // this.CloneConceptSchema(item.CopiedId,item.KnowledgeMapId);
+            this.ImportConceptSchemas(item.OriginalConceptNodeElements, item.KnowledgeMapId);
          }
          
          
@@ -522,6 +524,29 @@ public class KnowledgeMapsDataService {
             
             }
        }
+     
+     public void ImportConceptSchemas(String originalConceptNodeElementsJson,String newKnowledgeMapId){
+         if(originalConceptNodeElementsJson.equals("")) return;
+         Gson g=new Gson();
+         ConceptSchemaElement[] originalConceptNodes=(ConceptSchemaElement[]) g.fromJson(originalConceptNodeElementsJson, ConceptSchemaElement[].class);
+         for(ConceptSchemaElement c:originalConceptNodes){
+            String selectTemplate="";
+            String selectSql="";
+             List<ConceptSchemaElement> originalConceptSchemas= new ArrayList();
+             if(c.ParentId.equals("") && c.RootId.equals("")){
+                 //
+                 selectTemplate="Select * from conceptschema where  ConceptNodeId='%s'";
+                 selectSql=String.format(selectTemplate,c.ConceptNodeId);
+             }
+             else{
+               selectTemplate="Select * from conceptschema where RootId='%s'and ParentId='%s' and ConceptNodeId='%s'";
+               selectSql=String.format(selectTemplate, c.RootId,c.ParentId,c.ConceptNodeId);   
+             }
+           
+             this.dataSource.ExecuteCustomDataSet(selectSql, originalConceptSchemas, ConceptSchemaElement.class);
+             this.CopyConceptSchemas(originalConceptSchemas,newKnowledgeMapId);
+         }
+     }
      
      /**************************** Concept Schemas *****************************/
      

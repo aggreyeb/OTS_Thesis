@@ -205,6 +205,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
             //Convert the conceptNodes to serializable ConceptNode
             //Elements
            var originalConceptNodeElements=  me.ToConceptNodeElements(conceptNodeList,concept[0]);
+           var theoriginalConceptNodeElementsJson=JSON.stringify(originalConceptNodeElements) ;
             
             originalKnowledgeMapId=concept[0].id;
             concept[0].text=data.Name;
@@ -231,7 +232,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
            jsDuplicate.CopiedId=originalKnowledgeMapId;
            
            var newKnowledgeMap=JSON.stringify(jsDuplicate);
-           var originalConceptNodeElementsJson=JSON.stringify(originalConceptNodeElements);
+           
+           var originalConceptNodeElementsJson=theoriginalConceptNodeElementsJson;//JSON.stringify(originalConceptNodeElements);
             knowledgeMapComponent.DuplicateKnowledgeMap(newKnowledgeMap, originalConceptNodeElementsJson,  function(e){
               
               var result=JSON.parse(e);
@@ -978,6 +980,8 @@ OTS.AigKnowledgeMapListManagementView=function(){
         }
         
         var clones=[];
+        //Store the original Knowledge map before cloning
+        
         for(var i=0;i<selectedItems.length;i++){
            var item=    me.CloneKnowledgeMap(selectedItems[i]);
            clones.push(item);
@@ -1032,36 +1036,43 @@ OTS.AigKnowledgeMapListManagementView=function(){
     
     me.CloneKnowledgeMap=function(data){
          var originalKnowledgeMapId="";
+         
             var newId= new Aig.Guid().NewGuid();
            
             if(data.Concepts!==""){
            
             var concept=JSON.parse(data.Concepts);
-            
+            //Get the original Knoweledge map concept schemas before 
+            //Changing any thing
+             var originalConceptNodes=    me.NodeToList(concept[0]);
+             var conceptNodesElements= me.ToImportConceptNodeElements(originalConceptNodes,concept[0]);
+             var conceptNodesElementsJson=JSON.stringify(conceptNodesElements);
+                     
             originalKnowledgeMapId=concept[0].id;
-            concept[0].text=data.Name;
+            concept[0].text=data.Name + "-Imported";
             concept[0].id=newId;
+            
             
             var nodes=concept[0].nodes;
             if(nodes!==undefined && nodes!==null && nodes.length){
             for(var i=0;i<nodes.length;i++){
-                nodes[i].parentname=data.Name + "Imported";
-                nodes[i].parentid=newId;
-                nodes[i].parentNodeId=newId;
+                nodes[i].parentname=concept[0].text;
+               // nodes[i].parentid=newId;
+               // nodes[i].parentNodeId=newId;
             }
           }
             data.Concepts=JSON.stringify(concept);
            }
            var jsDuplicate=ko.toJS(data);
            jsDuplicate.KnowledgeMapId= newId;
-          // jsDuplicate.Name+="Copy";
-          // jsDuplicate.Description+="Copy";
+          
            jsDuplicate.Name=data.Name + "-Imported";
            jsDuplicate.Description=data.Description + "-Imported";
            jsDuplicate.IsImported=true;
            jsDuplicate.CopiedId=originalKnowledgeMapId;
-            
-          // var newKnowledgeMap=JSON.stringify(jsDuplicate);
+           //Include the original Concpet Nodes
+           jsDuplicate.OriginalConceptNodeElements=conceptNodesElementsJson;
+        
            return jsDuplicate;
     };
     
@@ -1076,7 +1087,7 @@ OTS.AigKnowledgeMapListManagementView=function(){
         return JSON.parse(json);
     };
     
-    me.ToConceptNodeElements=function(items,knowledgeMap){
+     me.ToImportConceptNodeElements=function(items,knowledgeMap){
       var  conceptNodes=[];
         for(var i=0;i<items.length;i++){
                if(items[i].parentid===undefined ||items[i].parentid===null){
@@ -1084,10 +1095,11 @@ OTS.AigKnowledgeMapListManagementView=function(){
                        ConceptNodeId:items[i].id,
                        ConceptNodeName:items[i].text,
                        ParentId:"",
-                       ParentName:"",
+                       ParentName:"None",
                        RelationTypeName:"None",
-                       RootId:"00000000-00000000-00000000",
-                       RootName:""
+                       RootId:"",
+                       RootName:"",
+                       Import:true
                    };
                    conceptNodes.push(conceptNode);
                }
@@ -1099,7 +1111,43 @@ OTS.AigKnowledgeMapListManagementView=function(){
                        ParentName:items[i].parentname,
                        RelationTypeName:items[i].data.RelationType,
                        RootId:knowledgeMap.id,
-                       RootName:knowledgeMap.text
+                       RootName:knowledgeMap.text,
+                       Import:true,
+                   };
+                   conceptNodes.push(conceptNode);
+               }
+           }
+           return conceptNodes;
+    };
+    
+    
+    
+    me.ToConceptNodeElements=function(items,knowledgeMap){
+      var  conceptNodes=[];
+        for(var i=0;i<items.length;i++){
+               if(items[i].parentid===undefined ||items[i].parentid===null){
+                   var conceptNode={
+                       ConceptNodeId:"",
+                       ConceptNodeName:items[i].text,
+                       ParentId:"00000000-00000000-00000000",
+                       ParentName:"None",
+                       RelationTypeName:"None",
+                       RootId:items[i].id,
+                       RootName:items[i].text,
+                       Import:false
+                   };
+                   conceptNodes.push(conceptNode);
+               }
+               else{
+                    var conceptNode={
+                       ConceptNodeId:items[i].id,
+                       ConceptNodeName:items[i].name,
+                       ParentId:items[i].parentid,
+                       ParentName:items[i].parentname,
+                       RelationTypeName:items[i].data.RelationType,
+                       RootId:knowledgeMap.id,
+                       RootName:knowledgeMap.text,
+                       Import:false
                    };
                    conceptNodes.push(conceptNode);
                }
