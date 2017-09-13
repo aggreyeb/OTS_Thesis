@@ -1,3 +1,0 @@
-OTS Bugs
-1. Teacher
-    a. Can not create students  account ( System is asking user type which is not need)
