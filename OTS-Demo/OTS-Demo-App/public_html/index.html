@@ -10,21 +10,77 @@
    <script>
      var viewModel={
         currentVideo:1,
-        VideoPath:ko.observable("introduction.mp4"),
-        Heading:ko.observable("Hello World"),
+        Heading:ko.observable("Introduction to Online Test System"),
         Step:ko.observable(1),
+        InformationVisible:ko.observable(false),
+        EnablePrevious:ko.observable(false),
+        EnableNext:ko.observable(true),
+        onPreviousClick:function(){
+         var step=  viewModel.currentVideo-=1;
+         if(step<=0){
+           viewModel.currentVideo=1; 
+           viewModel.EnableNext(true); 
+           viewModel.EnablePrevious(false); 
+            step=1;
+         }
+         viewModel.Step(step);
+        },
         onNextClick:function(){
           var step=  viewModel.currentVideo+=1;
+          viewModel.EnablePrevious(true);
            switch(step){
                case 1:
                    viewModel.Step(1);
+                   viewModel.Heading("Introduction to Online Test System");
                 break;   
                case 2:
                   viewModel.Step(2);
+                  viewModel.Heading("Request Account");
                 break;    
+               case 3:
+                  viewModel.Step(3);
+                  viewModel.Heading("Manage Courses");
+                break; 
+             case 4:
+              viewModel.Step(4);
+              viewModel.Heading("Manage KnowledgeMaps");
+               break; 
                 
-           }  
+            case 5:
+             viewModel.Step(5);
+             viewModel.Heading("Associate KnowledgeMap(s) to Course");
+             break; 
+             case 6:
+             viewModel.Step(6);
+             viewModel.Heading("Manage Test");
+             break; 
+         
+          case 7:
+             viewModel.Step(7);
+             viewModel.Heading("Generate Test Items for Test");
+             break; 
+         case 8:
+             viewModel.Step(8);
+             viewModel.Heading("Activate Test");
+             break; 
+         case 9:
+             viewModel.Step(9);
+             viewModel.Heading("Thank you");
+             viewModel.InformationVisible(true);
+             break; 
+         default:
+           if(step>9) {
+             viewModel.currentVideo=1;  
+             viewModel.EnableNext(true); 
+             viewModel.EnablePrevious(false);
+             viewModel.InformationVisible(false);
+             step=1;
+           } 
+           viewModel.Step(step); 
+           viewModel.Heading("Introduction to Online Test System");
+           break;
         }
+      }
       };
     $(document).ready(function(){
 	 
@@ -66,8 +122,8 @@
                </div>
         </div>
 
-
-        <div id="navbarCollapse" class="collapse navbar-collapse">
+   <!--
+    <div id="navbarCollapse" class="collapse navbar-collapse">
 
             <ul class="nav navbar-nav">
             </ul>
@@ -84,45 +140,108 @@
     </div>
 
         </div>
-
+    -->
+        </div>
     </nav>
 </div><br>
 <div id="div-container" style="margin-top: 5px" class="container">
        <div class="row">
-           <div class="col-xs-2">
-               <span data-bind="text:Heading"></span>
+           <div class="col-xs-1">
+              
            </div>
            
-            <div class="col-xs-8">
+            <div class="col-xs-10">
+                <div style="text-align: center">
+                <div class="col-xs-12">
+                    <h3><span data-bind="text:Heading" class="label label-default"></span></h3>
+                </div>
                 <div  style="margin-top: 5px">
                  <!--ko if:Step()===1 -->   
-                <video   width="600" height="400" controls="controls">
+                <video   width="680" height="400" controls="controls">
                   <source  src='videos\1-ots-introduction.mp4' type="video/mp4" />
                 </video> 
                   <!--/ko-->
                   
                 <!--ko if:Step()===2 -->   
-                <video   width="600" height="400" controls="controls">
-                  <source  src='account.mp4' type="video/mp4" />
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\2-ots-request-account.mp4' type="video/mp4" />
                 </video> 
                   <!--/ko--> 
+                  
+                <!--ko if:Step()===3 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\3-ots-manage-course.mp4' type="video/mp4" />
+                </video> 
+                  <!--/ko--> 
+                  
+                <!--ko if:Step()===4 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\4-ots-manage-knoweldgemap.mp4' type="video/mp4" />
+                </video> 
+                 <!--/ko-->     
+                  
+                 <!--ko if:Step()===5 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\5-ots-course-knoweldgemaps.mp4' type="video/mp4" />
+                </video> 
+                 <!--/ko-->  
+                 
+                <!--ko if:Step()===6 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\6-ots-manage-test.mp4' type="video/mp4" />
+                </video> 
+                 <!--/ko-->  
+                  
+                 <!--ko if:Step()===7 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\7-ots-generate-test-items.mp4' type="video/mp4" />
+                </video> 
+                 <!--/ko-->  
+                   
+                  <!--ko if:Step()===8 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\8-ots-activate-test.mp4' type="video/mp4" />
+                </video> 
+                 <!--/ko-->  
+                 
+                 <!--ko if:Step()===9 -->   
+                <video   width="680" height="400" controls="controls">
+                  <source  src='videos\9-ots-thank-you.mp4' type="video/mp4" />
+                </video> 
+                <!--/ko-->  
+                 
                 </div>
-                <div>
-                    <button data-bind="click:onNextClick" class="btn btn-sm btn-default">Next >></button>
+                    <div  data-bind="visible:InformationVisible" class="col-xs-10">
+                       
+                      <h3 style="text-align: center;padding-left: 80px"><span class="label label-info">Information</span></h3>
+                    <div >
+                        <span style="padding-right:  90px"><b>Please use this link to try Online Test System</b></span>
+                        <a href="http://tinyurl.com/h97gt7m" target="blank">Online Test System</a>
+                    </div>
+                    <div style="margin-left: 90px">
+                        <span><b>Please use this link to fill Online Test System questionnaire</b></span>
+                        <a href="http://tinyurl.com/jzw2oko" target="blank">Online Test System Questionnaire</a>
+                    </div>
+                     <div style="margin-left: 90px">
+                        <span><b>Contact Emails: aggreyeb@shaw.ca |  maigac@gmail.com</b></span>
+                       
+                    </div>
+                </div>
+                <div class="col-xs-10" style="text-align: center">
+                    <div class="btn-group">
+                        <button  data-bind="click:onPreviousClick,enable:EnablePrevious" class="btn btn-sm btn-default"><< Previous</button>&nbsp; <button data-bind="click:onNextClick,enable:EnableNext" class="btn btn-sm btn-default">Next >></button>
+                    </div>
+                    
+                </div>
                 </div>
            </div>
            
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                
            </div>
        </div>
        
    </div>
- <!--
-<video width="320" height="240" controls="controls">
-  <source src="MyMovieCopy.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
- -->
+ 
 </body>
 </html>
