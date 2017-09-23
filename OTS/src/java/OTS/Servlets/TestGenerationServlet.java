@@ -27,6 +27,7 @@ import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerFalseComponent;
+import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerTrueComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -94,8 +95,9 @@ public class TestGenerationServlet extends  Servlet {
          //Remembering Components
          RememberingComponent rememberingComponent =  new  RememberingComponent(); //.AddTo(componentGroup);
           //rememberingComponent.Add(new RememberTrueFalseAnswerTrueComponent(new MySqlDataSource()));
-          rememberingComponent.Add(new RememberTrueFalseAnswerFalseComponent(new MySqlDataSource()));
-        //RememberTrueFalseAnswerFalseComponent
+          //rememberingComponent.Add(new RememberTrueFalseAnswerFalseComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberTrueFalseCorrectnessAnswerTrueComponent(new MySqlDataSource()));
+         
         componentGroup.Add(rememberingComponent);
       
         //Understanding Component
