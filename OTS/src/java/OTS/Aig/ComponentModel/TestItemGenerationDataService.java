@@ -79,6 +79,11 @@ public class TestItemGenerationDataService {
   
      protected List<TestItem> GenerateConceptNodeTestItems(ConceptNodeELement[] conceptnodes,ITestItemGenerationComponent component){
          List<TestItem> testItems= new ArrayList();
+         List<ConceptNodeELement> conceptNodes= new ArrayList();
+         for(ConceptNodeELement c:conceptnodes){
+             conceptNodes.add(c);
+         }
+         
          for(ConceptNodeELement e:conceptnodes){
             
              ConceptNode n= new ConceptNode();
@@ -89,7 +94,7 @@ public class TestItemGenerationDataService {
              n.RelationTypeName=e.RelationTypeName;
              n.RootId=e.RootId;
              n.RootName=e.RootName;
-             
+             n.Conceptnodes=conceptNodes;
              List<TestItem> items=   component.Generate(n);
              if(items.size()>0)
                testItems.addAll(items);

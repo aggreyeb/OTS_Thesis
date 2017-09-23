@@ -5,6 +5,10 @@
  */
 package OTS.Aig;
 
+import OTS.Aig.ComponentModel.ConceptNodeELement;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Eb
@@ -17,4 +21,10 @@ public class ConceptNode {
     public String RelationTypeName;
     public String RootId;
     public String RootName;
+    public List<ConceptNodeELement> Conceptnodes;
+
+    public ConceptNode() {
+      Conceptnodes= new ArrayList();
+    }
+    
 }

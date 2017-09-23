@@ -10,11 +10,11 @@ package OTS.Aig.ComponentModel;
  * @author MEA
  */
 public class ConceptNodeELement {
-     String ConceptNodeId;
-     String ConceptNodeName;
-     String ParentId;
-     String ParentName;
-     String RelationTypeName;
-     String RootId;
-     String RootName;
+    public String ConceptNodeId;
+    public String ConceptNodeName;
+   public  String ParentId;
+  public   String ParentName;
+   public  String RelationTypeName;
+   public  String RootId;
+   public  String RootName;
 }
