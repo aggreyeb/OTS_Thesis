@@ -15,12 +15,59 @@
         InformationVisible:ko.observable(false),
         EnablePrevious:ko.observable(false),
         EnableNext:ko.observable(true),
+        DisplayHeading:function(step){
+            switch(step){
+                case 1:
+                viewModel.Heading("Introduction to Online Test System");
+                break;
+                
+                case 2:
+                 viewModel.Heading("Request Account");    
+                break;
+                
+                case 3:
+                 viewModel.Heading("Manage Courses");
+                break;
+                
+                case 4:
+                viewModel.Heading("Manage KnowledgeMaps");  
+                break;
+                
+                case 5:
+                viewModel.Heading("Associate KnowledgeMap(s) to Course");   
+                break;
+                
+                case 6:
+                   viewModel.Heading("Manage Test");  
+                break;
+                
+                case 7:
+                viewModel.Heading("Generate Test Items for Test");    
+                break;
+                
+                case 8:
+                   viewModel.Heading("Activate Test");
+                break;
+                
+               case 9:
+                 viewModel.Heading("Thank you");
+                break;
+            default:
+                  viewModel.Heading("Introduction to Online Test System");
+                break;
+                
+            }
+        },
         onPreviousClick:function(){
          var step=  viewModel.currentVideo-=1;
+          
+           viewModel.InformationVisible(false);
+           viewModel.DisplayHeading(step);
          if(step<=0){
            viewModel.currentVideo=1; 
            viewModel.EnableNext(true); 
            viewModel.EnablePrevious(false); 
+           viewModel.Heading("Introduction to Online Test System");
             step=1;
          }
          viewModel.Step(step);
@@ -28,44 +75,45 @@
         onNextClick:function(){
           var step=  viewModel.currentVideo+=1;
           viewModel.EnablePrevious(true);
+           viewModel.DisplayHeading(step);
            switch(step){
                case 1:
                    viewModel.Step(1);
-                   viewModel.Heading("Introduction to Online Test System");
+                
                 break;   
                case 2:
                   viewModel.Step(2);
-                  viewModel.Heading("Request Account");
+               
                 break;    
                case 3:
                   viewModel.Step(3);
-                  viewModel.Heading("Manage Courses");
+                
                 break; 
              case 4:
               viewModel.Step(4);
-              viewModel.Heading("Manage KnowledgeMaps");
+            
                break; 
                 
             case 5:
              viewModel.Step(5);
-             viewModel.Heading("Associate KnowledgeMap(s) to Course");
+            
              break; 
              case 6:
              viewModel.Step(6);
-             viewModel.Heading("Manage Test");
+           
              break; 
          
           case 7:
              viewModel.Step(7);
-             viewModel.Heading("Generate Test Items for Test");
+           
              break; 
          case 8:
              viewModel.Step(8);
-             viewModel.Heading("Activate Test");
+           
              break; 
          case 9:
              viewModel.Step(9);
-             viewModel.Heading("Thank you");
+            
              viewModel.InformationVisible(true);
              break; 
          default:
@@ -77,15 +125,13 @@
              step=1;
            } 
            viewModel.Step(step); 
-           viewModel.Heading("Introduction to Online Test System");
+          
            break;
         }
       }
       };
     $(document).ready(function(){
-	 
-       
-        
+	
         ko.applyBindings(viewModel,$("#div-container")[0]);
     });
    </script>
