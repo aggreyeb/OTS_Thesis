@@ -33,6 +33,8 @@ import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerTrueComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerFalseComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerTrueComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandAllPerformaceAnalysisComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandCorrectnessPerformaceAnalysisComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandSpaceComplexityPerformaceAnalysisComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandTimeComplexityPerformaceAnalysisComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
@@ -112,9 +114,10 @@ public class TestGenerationServlet extends  Servlet {
         //Understanding Component
          UnderstandingComponent understandingComponent=   new UnderstandingComponent(); //.AddTo(componentGroup);
          //understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
-         understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
-       
-         componentGroup.Add(understandingComponent);
+         //understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+        // understandingComponent.Add(new UnderstandSpaceComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+        understandingComponent.Add(new UnderstandCorrectnessPerformaceAnalysisComponent(new MySqlDataSource()));   
+        componentGroup.Add(understandingComponent);
          
          //Appliccation Component
           ApplicationComponent applicationComponent=  new ApplicationComponent();
