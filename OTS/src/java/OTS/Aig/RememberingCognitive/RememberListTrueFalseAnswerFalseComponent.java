@@ -7,6 +7,7 @@ package OTS.Aig.RememberingCognitive;
 
 import OTS.Aig.AnswerOption;
 import OTS.Aig.CognitiveType;
+import OTS.Aig.ComponentModel.ConceptNodeELement;
 import OTS.Aig.Components;
 import OTS.Aig.ConceptNode;
 import OTS.Aig.IComponentGroup;
@@ -23,20 +24,16 @@ import java.util.Map;
  *
  * @author Eb
  */
-public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class RememberListTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     
-      String[] implementationBehavioureDescriptions= new String[]{
-         "describes the implementation of each operations it supports",
-         "includes the description of the internal representation of "
-              + " each operations it supports in a specification",
-         "defines the algorithms of each operations it supports "
-      };
+    String[] softwareTypes=new String[]{"software module","software component"};
+                                       
     //comments
     private final Components components;
-    private final String id="Remember-TrueFalse";
-    private final String name="Remember-TrueFalse";
+    private final String id="Remember-List";
+    private final String name="Remember-List";
     private final String cognitiveType="Remember";
     
     private ConceptNode conceptNode =null;
@@ -55,7 +52,7 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     
     Map operationSequenceMap=null;
     
-    public RememberTrueFalseAnswerFalseComponent(DataSource mySqlDataSource) {
+    public RememberListTrueFalseAnswerFalseComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
        conceptSchemas= new ArrayList();
@@ -120,11 +117,11 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        List<TestItem> testItems= new ArrayList();
-     if(cn.ParentName.equals("Interface")){
+     if(cn.RootId.equals("00000000-00000000-00000000")){
        conceptNode=cn;
       String[] labels=new  String[]{"A.","B.","C.","D."};
-    
-      
+     
+        //Start to genenerate true false questions
         TestItem testItem= new TestItem();
         testItem.Stimulus=this.ConstructStimulus();
         testItem.Stem =this.PrepareStem();
@@ -159,20 +156,23 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     @Override
     public String ConstructStimulus() {
         String stimulus="";
-       String template="A %s  is an interface which can %s.";
-        
-       String implementationBahaviour=this.SelectimplementationBehavioureDescriptions();
+       String template="An %s is an interface which can have"
+               + " multiple implementations.";
+        template += " The following data Structures: %s implements %s";
+       String theInterface=conceptNode.ParentName;
+       String datatStructures=this.BuildDataStructureList(conceptNode.Conceptnodes, conceptNode);
+       
+       
+       stimulus= String.format(template,conceptNode.Name ,datatStructures,conceptNode.Name );
      
-      stimulus= String.format(template,
-              conceptNode.Name,
-              implementationBahaviour);
-      
        return stimulus;
     }
 
     @Override
     public String PrepareStem() {
+       
         String stemTemplate="";
+       // String stem=String.format(stemTemplate, conceptNode.Name);
         return stemTemplate;
     }
 
@@ -180,13 +180,13 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     public List<AnswerOption> CreateAnswerOptions(){
       List<AnswerOption> answers= new ArrayList();
        try{
-           
+      
       String correctAnswer ="False";
       List<String> answerOptions=new ArrayList();
-      answerOptions.add("True");
-      answerOptions.add("False");
-      
-    // Collections.shuffle(answerOptions);
+       answerOptions.add("True");
+       answerOptions.add("False");
+   
+     Collections.shuffle(answerOptions);
        for(String s :answerOptions){
            AnswerOption answerOption= new AnswerOption();
             if(s.equals(correctAnswer)){
@@ -228,7 +228,10 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
         String hasItems="";
            if(hasConceptSchemas==null || hasConceptSchemas.size()==0) return "";
         List<ConceptSchemaElement> items= new ArrayList<>();
-        if(hasConceptSchemas==null) return "";
+        if(null!=hasConceptSchemas) {
+        } else {
+            return "";
+        }
        
          Collections.shuffle(hasConceptSchemas);
          Collections.shuffle(hasConceptSchemas);
@@ -261,7 +264,7 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     
     protected String SelectCanRelationship(List<ConceptSchemaElement> canConceptSchemas){
         String hasItems="";
-          if(canConceptSchemas==null || canConceptSchemas.size()==0) return "";
+          if(canConceptSchemas==null || canConceptSchemas.isEmpty()) return "";
         List<ConceptSchemaElement> items= new ArrayList<>();
         if(canConceptSchemas==null) return "";
        
@@ -288,18 +291,51 @@ public class RememberTrueFalseAnswerFalseComponent implements OTS.Aig.ITestItemG
     }
     
     
-    protected String SelectimplementationBehavioureDescriptions(){
-        String description="";
-        List<String> descriptions= new ArrayList();
-        for(String s: implementationBehavioureDescriptions){
-            descriptions.add(s);
+    protected String SelectActor(){
+        List<String> actors= new ArrayList();
+        for(String s:actorList ){
+            actors.add(s);
         }
         
-        Collections.shuffle(descriptions);
-        Collections.shuffle(descriptions);
-        Collections.shuffle(descriptions);
-        description=descriptions.get(0);
-        return description;
+        Collections.shuffle(actors);
+        
+        return actors.get(0);
     }
     
+      protected String BuildDataStructureList(List<ConceptNodeELement> items,ConceptNode conceptNode){
+        List<ConceptNodeELement> incorrectAnsers= new ArrayList();
+        String dataStructures="";
+         Collections.shuffle(items);
+         int count=1;
+        for(ConceptNodeELement s:items ){
+           if(s.ConceptNodeName.equals(conceptNode.Name))
+               continue;
+            if(count>3) break;
+            incorrectAnsers.add(s);
+            count+=1;
+        }
+        for (ConceptNodeELement c:incorrectAnsers) {
+            dataStructures+=c.ConceptNodeName + ",";
+        }
+        
+        if(dataStructures.lastIndexOf(",")>0){
+            dataStructures=dataStructures.substring(0,dataStructures.length()-1);
+        }
+        return dataStructures;
+    }
+      
+    protected List<ConceptNodeELement> SelectCorrectAnswers(List<ConceptNodeELement> items){
+        List<ConceptNodeELement> correctAnsers= new ArrayList();
+         Collections.shuffle(items);
+         int count=0;
+        for(ConceptNodeELement s:items ){
+            if(count>1) break;
+            correctAnsers.add(s);
+            count+=1;
+        }
+        return correctAnsers;
+    }   
+      
+ 
+      
 }

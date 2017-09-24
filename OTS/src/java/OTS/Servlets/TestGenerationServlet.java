@@ -26,7 +26,10 @@ import OTS.Aig.PerformanceAnalysis.TimeComplexityEvaluateQuadraticBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLinearAdditionBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityLogBigOComponent;
 import OTS.Aig.PerformanceAnalysis.TimeComplexityQuadraticBigOComponent;
+import OTS.Aig.RememberingCognitive.RememberListTrueFalseAnswerFalseComponent;
+import OTS.Aig.RememberingCognitive.RememberListTrueFalseAnswerTrueComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerFalseComponent;
+import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerTrueComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerFalseComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerTrueComponent;
 import OTS.DataModels.DataSource;
@@ -95,12 +98,14 @@ public class TestGenerationServlet extends  Servlet {
          
          //Remembering Components
          RememberingComponent rememberingComponent =  new  RememberingComponent(); //.AddTo(componentGroup);
-          //rememberingComponent.Add(new RememberTrueFalseAnswerTrueComponent(new MySqlDataSource()));
-          //rememberingComponent.Add(new RememberTrueFalseAnswerFalseComponent(new MySqlDataSource()));
-          //rememberingComponent.Add(new RememberTrueFalseCorrectnessAnswerTrueComponent(new MySqlDataSource()));
-           rememberingComponent.Add(new RememberTrueFalseCorrectnessAnswerFalseComponent(new MySqlDataSource()));
-       
-        componentGroup.Add(rememberingComponent);
+          rememberingComponent.Add(new RememberTrueFalseAnswerTrueComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberTrueFalseAnswerFalseComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberTrueFalseCorrectnessAnswerTrueComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberTrueFalseCorrectnessAnswerFalseComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberListTrueFalseAnswerTrueComponent(new MySqlDataSource()));
+          rememberingComponent.Add(new RememberListTrueFalseAnswerFalseComponent(new MySqlDataSource()));
+   
+         componentGroup.Add(rememberingComponent);
       
         //Understanding Component
          new UnderstandingComponent().AddTo(componentGroup);
