@@ -113,10 +113,10 @@ public class TestGenerationServlet extends  Servlet {
       
         //Understanding Component
          UnderstandingComponent understandingComponent=   new UnderstandingComponent(); //.AddTo(componentGroup);
-         //understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
-         //understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
-        // understandingComponent.Add(new UnderstandSpaceComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
-        understandingComponent.Add(new UnderstandCorrectnessPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandSpaceComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandCorrectnessPerformaceAnalysisComponent(new MySqlDataSource()));   
         componentGroup.Add(understandingComponent);
          
          //Appliccation Component
