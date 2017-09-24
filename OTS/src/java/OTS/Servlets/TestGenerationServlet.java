@@ -32,6 +32,8 @@ import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerFalseComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseAnswerTrueComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerFalseComponent;
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerTrueComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandAllPerformaceAnalysisComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandTimeComplexityPerformaceAnalysisComponent;
 import OTS.DataModels.DataSource;
 import OTS.DataModels.MySqlDataSource;
 import OTS.ISerializable;
@@ -108,9 +110,13 @@ public class TestGenerationServlet extends  Servlet {
          componentGroup.Add(rememberingComponent);
       
         //Understanding Component
-         new UnderstandingComponent().AddTo(componentGroup);
-           
-          //Appliccation Component
+         UnderstandingComponent understandingComponent=   new UnderstandingComponent(); //.AddTo(componentGroup);
+         //understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+       
+         componentGroup.Add(understandingComponent);
+         
+         //Appliccation Component
           ApplicationComponent applicationComponent=  new ApplicationComponent();
           applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));

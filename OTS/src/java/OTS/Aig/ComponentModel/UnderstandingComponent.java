@@ -23,7 +23,7 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
     private final String id="Understand";
     private final String name="Understand";
      private String cognitiveType="Understand";
-    
+    private ConceptNode conceptNode =null;
     public UnderstandingComponent() {
        components= new Components();
     }
@@ -85,7 +85,19 @@ public class UnderstandingComponent implements OTS.Aig.ITestItemGenerationCompon
 
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       conceptNode=cn;
+       
+        List<TestItem> testItems= new ArrayList();
+       for(int i=0;i<components.Count();i++){
+          ITestItemGenerationComponent component=components.ItemAt(i);
+          if(component!=null){
+             List<TestItem> items=  component.Generate(cn);
+              if(items.size()>0){
+                  testItems.addAll(items);
+              }
+          }
+       }
+       return testItems;
     }
     
      @Override
