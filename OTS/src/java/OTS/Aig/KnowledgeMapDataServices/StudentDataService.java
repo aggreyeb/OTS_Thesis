@@ -20,11 +20,12 @@ public class StudentDataService {
      public Response response;
     DataSource dataSource;
     OTS.ObjectModels.Users users;
-
-    public StudentDataService( DataSource dataSource) {
+    int currentUserId;
+    public StudentDataService( DataSource dataSource,int userId) {
         this.response = new OTS.ObjectModels.Response("", "");
         this.dataSource = dataSource;
         users= new OTS.ObjectModels.Users(response,dataSource);
+        currentUserId=userId;
     }
     
      public TransactionResult  ListStudentTestResults(int studentid){
@@ -228,18 +229,40 @@ public class StudentDataService {
           this.dataSource.ExecuteCustomDataSet(sql, students,StudentElement.class);
           String selectStudentCourseTemplate="select sc.StudentCourseId,u.UserId as Id,c.Id as CourseId,c.Name as CourseName from studentcourse sc \n" +
                                              "inner join user u on sc.StudentId=u.UserId\n" +
-                                             "inner join course c on c.Id=sc.CourseId where StudentId='%s'";
+                                             "inner join course c on c.Id=sc.CourseId where StudentId='%s' and c.Createdby=%d";
          
+          String studentsRegistetedInTeacherCoursesTemplate="Select  sc.StudentCourseId,sc.StudentId as Id,c.Id as CourseId, c.Name as CourseName from course c \n" +
+                                            "left join studentcourse sc on c.Id=sc.CourseId\n" +
+                                            "inner join user u on u.UserId=sc.StudentId\n" +
+                                            "where c.Createdby=%d";
+          
+          String studentsRegistetedInTeacherCoursesSql=String.format(studentsRegistetedInTeacherCoursesTemplate, currentUserId);
+          List<StudentCourseElement> studentsInTeacherCourses= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(studentsRegistetedInTeacherCoursesSql, studentsInTeacherCourses,StudentCourseElement.class);
+          
           for(StudentElement s:students){
-               String selectStudentCourseSql=String.format(selectStudentCourseTemplate, s.Id);
+               if(IsStudentInTeacherCourses(s.Id,studentsInTeacherCourses)){
+                  // continue;
+              String selectStudentCourseSql=String.format(selectStudentCourseTemplate, s.Id,currentUserId);
               List<StudentCourseElement> studentCourses= new ArrayList();
                this.dataSource.ExecuteCustomDataSet(selectStudentCourseSql, studentCourses,StudentCourseElement.class);
                if(studentCourses.size()>0){
                    s.Courses=studentCourses;
+                   }
+               }
+               else{
+                 s.MarkedDelete=true;
                }
            }
+           
+            List<StudentElement> filteredstudents= new ArrayList();
+               for(StudentElement s:students){
+                   if(s.MarkedDelete) continue;
+                   filteredstudents.add(s);
+               }
+            
              Gson g = new Gson();
-             result.Content=g.toJson(students);
+             result.Content=g.toJson(filteredstudents);
              result.ActionResultType=ActionResultType.ok;
              return result;
            }
@@ -252,7 +275,7 @@ public class StudentDataService {
              
             }
     }
-    
+     
        public TransactionResult  DeleteAllStudentEnrolledCourses(int studentId){
       TransactionResult result= new TransactionResult();
         try{ 
@@ -444,6 +467,18 @@ public class StudentDataService {
         }
         result.ActionResultType=ActionResultType.fail;
         return result;
-    }     
+    }   
+    
+    
+    protected Boolean IsStudentInTeacherCourses(int studentId, List<StudentCourseElement> studentInCourses){
+         Boolean  found =false;
+         for(StudentCourseElement e:studentInCourses){
+             if(e.Id==studentId){
+                 found=true;
+                 break;
+             }
+         }
+         return found;
+    }
        
 }

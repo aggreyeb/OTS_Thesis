@@ -23,9 +23,10 @@ public class StudentElement {
   public  String UserName;
   public  String Password;
   public List<StudentCourseElement> Courses;
-
+  public Boolean MarkedDelete;
     public StudentElement() {
        Courses= new ArrayList();
+       MarkedDelete=false;
     }
   
   

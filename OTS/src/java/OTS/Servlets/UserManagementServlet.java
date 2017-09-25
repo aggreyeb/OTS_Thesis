@@ -105,74 +105,74 @@ public class UserManagementServlet extends Servlet {
                case  "Aig-CreateNewStudent":
                 data=  request.getParameter("data");
                 studentitem=new Gson().fromJson(data, StudentElement.class);
-                service= new StudentDataService(new MySqlDataSource());
+                service= new StudentDataService(new MySqlDataSource(),userId);
                 return service.CreateNewStudent(studentitem);
                 
                 case  "Aig-UpdateStudent":
                  data=  request.getParameter("data");
                 studentitem=new Gson().fromJson(data, StudentElement.class);
-                service= new StudentDataService(new MySqlDataSource());
+                service= new StudentDataService(new MySqlDataSource(),userId);
                 return service.UpdateStudent(studentitem);
              
                 case  "Aig-ResetPassword":
                  int  accountId   = Integer.parseInt(request.getParameter("AccountId")); 
-                service= new StudentDataService(new MySqlDataSource());
+                service= new StudentDataService(new MySqlDataSource(),userId);
                 return service.ResetPassword(accountId);
                 
                case  "Aig-DeleteStudent":
                id   = Integer.parseInt(request.getParameter("ID")); 
-                service= new StudentDataService(new MySqlDataSource());
+                service= new StudentDataService(new MySqlDataSource(),userId);
                 return service.DeleteStudent(id);
                 
                  case  "Aig-ListAllStudents":
-                service= new StudentDataService(new MySqlDataSource());
+                service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.ListStudentCourses();
               //  return service.ListAllStudents();
                 
                  case  "Aig-EnrollStudentCourses":
                  id   = Integer.parseInt(request.getParameter("studentId"));
                  courses=  request.getParameter("courses");
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.EnrollStudentCourses(id, courses);
                 
                  case  "Aig-DeleteAllStudentEnrolledCourses":
                  id   = Integer.parseInt(request.getParameter("studentId"));
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.DeleteAllStudentEnrolledCourses(id);
                 
                  //Aig-CreateBatchStudents
                  case  "Aig-CreateBatchStudents":
                  String  emails   = request.getParameter("emails");
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.CreateBatchStudent(emails);
                  
                  case  "Aig-ListStudentRegisteredCourses":
                 
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.ListStudentRegisteredCourse(userId);
                  
                 case  "Aig-ListStudentUnRegisteredCourses":
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.ListStudentUnRegisteredCourse(userId);
                 
                
                case  "Aig-RegisterStudentCourse":
                  courses=  request.getParameter("courses");
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.RegisterStudentCourse(userId,courses);
                  
                  case  "Aig-UnRegisterStudentCourse":
                  courses=  request.getParameter("courses");
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.UnRegisterStudentCourse(userId,courses);
             
                  case  "Aig-ListStudentCoursesTest":
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                  return service.ListStudentCourseTests(userId);
                  
                  //Aig-ListStudentTestResults
                 case  "Aig-ListStudentTestResults":
-                 service= new StudentDataService(new MySqlDataSource());
+                 service= new StudentDataService(new MySqlDataSource(),userId);
                 return service.ListStudentTestResults(userId);
                  
                
