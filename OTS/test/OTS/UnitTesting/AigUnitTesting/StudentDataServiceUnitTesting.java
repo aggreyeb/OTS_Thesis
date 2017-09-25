@@ -30,7 +30,7 @@ public class StudentDataServiceUnitTesting {
        item.UserTypeId=2;
        item.Password="Secret";
        
-        StudentDataService dataService= new StudentDataService(new MySqlDataSource( ));
+        StudentDataService dataService= new StudentDataService(new MySqlDataSource( ),2);
       //Act
        TransactionResult result= dataService.CreateNewStudent(item);
       
@@ -48,7 +48,7 @@ public class StudentDataServiceUnitTesting {
        item.LastName="Lingooo";
       // item.Email="bl@test.com";
        item.Phone="403-908-666";
-       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ));
+       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ),2);
       //Act
        TransactionResult result= dataService.UpdateStudent(item);
       
@@ -62,7 +62,7 @@ public class StudentDataServiceUnitTesting {
     public void ResetStudentPassword(){
       //Arrange
        int accountId=59;
-       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ));
+       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ),2);
       //Act
        TransactionResult result= dataService.ResetPassword(accountId);
       
@@ -73,7 +73,7 @@ public class StudentDataServiceUnitTesting {
      @Test
     public void ListAllStudent(){
       //Arrange
-       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ));
+       StudentDataService dataService= new StudentDataService(new MySqlDataSource( ),2);
       //Act
        TransactionResult result= dataService.ListAllStudents();
       
