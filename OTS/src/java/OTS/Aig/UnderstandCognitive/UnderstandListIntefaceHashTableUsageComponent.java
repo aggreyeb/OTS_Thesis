@@ -23,18 +23,19 @@ import java.util.List;
  *
  * @author Eb
  */
-public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class UnderstandListIntefaceHashTableUsageComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     String selectedActor="";
     String[] softwareTypes=new String[]{"software module","software component"};
       
-    String dataStructure="Stack";
+    String dataStructure="Dictionary";
     String[] dataStructureApplications= new String[]{
-     "implement undo mechanism in text editor",
-     "revise a word or string",
-     "check for matching braces in compiler syntex",
-     "implement back and forward function of modern web browser"
+     "lookup of students records very fast",
+     "implement symbol table for compilers",
+     "implement caching of teachers recrods in momory",
+     "design internet rounter capable of storing hundreads of packets that arrives"       
+    
     };
     //comments
     private final Components components;
@@ -49,7 +50,7 @@ public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestI
     
      
     
-    public UnderstandListIntefaceStackUsageComponent(DataSource mySqlDataSource) {
+    public UnderstandListIntefaceHashTableUsageComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
     
@@ -113,7 +114,7 @@ public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestI
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        List<TestItem> testItems= new ArrayList();
-     if(  cn.ParentName.equals("List")){
+     if(cn.ParentName.equals("USet")){
        conceptNode=cn;
       String[] labels=new  String[]{"A.","B.","C.","D."};
      
@@ -152,7 +153,7 @@ public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestI
     @Override
     public String ConstructStimulus() {
         String stimulus="";
-       String template="A %s was asked to design a data structure which"
+       String template="A %s want to  design a data structure which"
                + " implements %s interface and can be use to %s.";
         
        selectedActor=SelectActor();
@@ -181,9 +182,8 @@ public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestI
            
       String correctAnswer =dataStructure;
       List<String> answerOptions=new ArrayList();
-    
+      answerOptions.add("Stack");
       answerOptions.add("Queue");
-      answerOptions.add("Dictionary");
       answerOptions.add("Tree");
       answerOptions.add("Graph");
       

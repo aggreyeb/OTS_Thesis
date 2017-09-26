@@ -34,7 +34,10 @@ import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerFalseCompo
 import OTS.Aig.RememberingCognitive.RememberTrueFalseCorrectnessAnswerTrueComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandAllPerformaceAnalysisComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandCorrectnessPerformaceAnalysisComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandListIntefaceHashTableUsageComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandListIntefaceQueueUsageComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandListIntefaceStackUsageComponent;
+import OTS.Aig.UnderstandCognitive.UnderstandListIntefaceTreeUsageComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandSpaceComplexityPerformaceAnalysisComponent;
 import OTS.Aig.UnderstandCognitive.UnderstandTimeComplexityPerformaceAnalysisComponent;
 import OTS.DataModels.DataSource;
@@ -114,11 +117,15 @@ public class TestGenerationServlet extends  Servlet {
       
         //Understanding Component
          UnderstandingComponent understandingComponent=   new UnderstandingComponent(); //.AddTo(componentGroup);
-         //understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
-         //understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
-         //understandingComponent.Add(new UnderstandSpaceComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
-         //understandingComponent.Add(new UnderstandCorrectnessPerformaceAnalysisComponent(new MySqlDataSource())); 
-        understandingComponent.Add(new UnderstandListIntefaceStackUsageComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandAllPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandTimeComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandSpaceComplexityPerformaceAnalysisComponent(new MySqlDataSource()));   
+         understandingComponent.Add(new UnderstandCorrectnessPerformaceAnalysisComponent(new MySqlDataSource())); 
+         understandingComponent.Add(new UnderstandListIntefaceStackUsageComponent(new MySqlDataSource())); 
+         understandingComponent.Add(new UnderstandListIntefaceQueueUsageComponent(new MySqlDataSource()));
+         understandingComponent.Add(new UnderstandListIntefaceHashTableUsageComponent(new MySqlDataSource()));
+         understandingComponent.Add(new UnderstandListIntefaceTreeUsageComponent(new MySqlDataSource()));   
+        
         componentGroup.Add(understandingComponent);
          
          //Appliccation Component
