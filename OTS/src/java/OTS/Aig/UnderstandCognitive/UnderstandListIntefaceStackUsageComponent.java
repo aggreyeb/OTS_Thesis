@@ -23,12 +23,19 @@ import java.util.List;
  *
  * @author Eb
  */
-public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class UnderstandListIntefaceStackUsageComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     String selectedActor="";
     String[] softwareTypes=new String[]{"software module","software component"};
-                                       
+      
+    String dataStructure="Stack";
+    String[] dataStructureApplications= new String[]{
+     "implement undo mechanism in text editor",
+     "revise a word or string",
+     "check for matching braces in compiler syntex",
+     "implement back and forward function of modern web browser"
+    };
     //comments
     private final Components components;
     private final String id="Understand-PerformanceAnalysis";
@@ -39,9 +46,10 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
     List<CognitiveType>  cognitiveTpes=null;
     DataSource dataSource;
     
+    
      
     
-    public UnderstandListIntefaceUsageComponent(DataSource mySqlDataSource) {
+    public UnderstandListIntefaceStackUsageComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
     
@@ -105,7 +113,7 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
     @Override
     public List<TestItem> Generate(ConceptNode cn) {
        List<TestItem> testItems= new ArrayList();
-     if(cn.RelationTypeName.equals("TypeOf")&& !cn.ParentName.equals("Interface")){
+     if( cn.ParentName.equals("Interface") || cn.ParentName.equals("List")){
        conceptNode=cn;
       String[] labels=new  String[]{"A.","B.","C.","D."};
      
@@ -144,8 +152,8 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
     @Override
     public String ConstructStimulus() {
         String stimulus="";
-       String template="A %s was asked to implement data structure which"
-               + " extends %s to create a generic data structure D<T> to %s";
+       String template="A %s was asked to design a data structure which"
+               + " implements %s interface and can be use to %s.";
         
        selectedActor=SelectActor();
        String dataStructure=conceptNode.Name;
@@ -160,8 +168,8 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
 
     @Override
     public String PrepareStem() {
-        String stemTemplate="Choose the best best generic data structure"
-                + " the %s has to implement for the software task";
+        String stemTemplate="Choose the  best  data structure"
+                + " the %s has to implement for the software task.";
         String stem=String.format(stemTemplate, selectedActor);
         return stem;
     }
@@ -171,15 +179,27 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
       List<AnswerOption> answers= new ArrayList();
        try{
            
-      String correctAnswer ="Correctness";
+      String correctAnswer =dataStructure;
       List<String> answerOptions=new ArrayList();
-      answerOptions.add("Time Complexity");
-      answerOptions.add("Space Complexity");
-      answerOptions.add("Correctness");
-      answerOptions.add("Auxiliary Space Complexity");
+     // answerOptions.add("Stack");
+      answerOptions.add("Queue");
+      answerOptions.add("Dictionary");
+      answerOptions.add("Tree");
+      answerOptions.add("Graph");
       
      Collections.shuffle(answerOptions);
-       for(String s :answerOptions){
+     List<String> distractors=new ArrayList();
+     int count=1;
+     for(String s:answerOptions){
+         if(count==4){
+             break;
+         }
+         distractors.add(s);
+         count+=1;
+     }
+     distractors.add(correctAnswer);
+     Collections.shuffle(distractors);
+       for(String s :distractors){
            AnswerOption answerOption= new AnswerOption();
             if(s.equals(correctAnswer)){
                 answerOption.IsCorrect=true;
@@ -321,29 +341,13 @@ public class UnderstandListIntefaceUsageComponent implements OTS.Aig.ITestItemGe
     
     protected String SelectDataStructureApplication(){
         String application="";
-        switch(conceptNode.ParentName){
-            case "List":
-            case "Linked List":
-                //Stack Application
-                //Queue Application
-                break;
-                
-            case "USet":
-                //Hash Table Applaction
-                break; 
-                
-             case "SSet":
-                 //Tree Application
-                break; 
-                
-            case "Graph":
-                //Graph Application
-                break; 
-                
-            default:
-                //Unkwown
-                break;
+        List<String> applications= new ArrayList();
+        for(String s:dataStructureApplications){
+            applications.add(s);
         }
+        
+        Collections.shuffle(applications);
+        application=applications.get(0);
         return application;
     }
       
