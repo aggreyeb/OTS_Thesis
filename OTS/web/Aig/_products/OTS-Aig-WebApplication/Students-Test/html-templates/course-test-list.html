@@ -36,7 +36,7 @@
         <hr>
              <div style="overflow-y: scroll; height: 450px;margin-left: 5px;margin-right: 5px" class="table-responsive">
                  <div class="alert alert-info">
-                     Please click on start test to begin. Once you complete the test click on submit. Once  submitted you can get access to your test sheet. <button  data-bind="enable:ToggleStartTest,click:onStartTests" class="btn btn-sm btn-primary" >Start Test</button> <button  data-bind="click:onCancelTakeTest" class="btn btn-sm btn-default" >Cancel</button> 
+                     Once  submitted you can get access to your test sheet. <button  data-bind="enable:ToggleStartTest,click:onStartTests,visible:false" class="btn btn-sm btn-primary" >Start Test</button> <span class="pull-right" ><button  data-bind="click:onCancelTakeTest" class="btn btn-sm btn-default" >Cancel</button> </span>
                  </div>
                  <div class="alert alert-danger" style=" display: none" id="alert-testsheet-submit-alert">
                      

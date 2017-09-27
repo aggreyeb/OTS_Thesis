@@ -11,7 +11,7 @@ OTS.AigStudentCoursesTestViewModel=function(){
     me.TestListVisible=ko.observable(true);
     me.TestSheetVisible=ko.observable(false);
     me.ToggleStartTest=ko.observable(true);
-    me.ToggleSubmitButton=ko.observable(false);
+    me.ToggleSubmitButton=ko.observable(true);
     
     me.TestName=ko.observable("");
     me.TestStartDate=ko.observable("");
@@ -138,7 +138,7 @@ OTS.AigStudentCoursesTestViewModel=function(){
        
         var courseId=currentSelectedTest.Id;
         var testId=currentSelectedTest.TestId;
-        studentCourseTestConponent.SaveStudentTestStartTime(courseId,testId);
+       // studentCourseTestConponent.SaveStudentTestStartTime(courseId,testId);
     };
    
     me.EnableSubmit=function(){
@@ -160,7 +160,15 @@ OTS.AigStudentCoursesTestViewModel=function(){
        me.TestStartTime(data.StartTime);
        me.TestEndTime(data.EndTime);
        //Populate the Test Sheet
-       studentCourseTestConponent.LoadStudentCourseTestSheet(data.TestId,data.CourseId);
+       //Set the start time before loading the test sheet items
+        var courseId=currentSelectedTest.Id;
+        var testId=currentSelectedTest.TestId;
+        studentCourseTestConponent.SaveStudentTestStartTime(courseId,testId,function(result){
+            if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
+                studentCourseTestConponent.LoadStudentCourseTestSheet(data.TestId,data.CourseId); 
+            }
+        });
+       
     };
     
     me.onCancelTakeTest=function(){

@@ -56,17 +56,20 @@ OTS.AigStudentCoursesTestComponent=function(){
     
     };
     
-     me.SaveStudentTestStartTime=function(courseId,testId){
-         
+     me.SaveStudentTestStartTime=function(courseId,testId,functionCallback){
+         var callback=functionCallback;
           var dataSource= new  OTS.AigStudentCoursesTestDataSource();
           dataSource.SaveStudentTestStartTime(courseId,testId,function(msg){
                 var result=JSON.parse(msg);
               if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
-              
-                viewModel.EnableSubmit();
+               
+               // viewModel.EnableSubmit();
                }
                else{
-                  viewModel.DisableSubmit(); 
+                 // viewModel.DisableSubmit(); 
+               }
+               if(callback!==undefined && callback!==null){
+                   callback(result);
                }
           });
      };
