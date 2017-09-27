@@ -129,6 +129,13 @@
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-items-generated-component.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-generation-options-selection-datasource.js" type="text/javascript"></script>
         <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-test-item-generation-components/test-items-generated-component-datasource.js" type="text/javascript"></script>
+       
+        <!--STUDENT TEST RESULTS-->
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-student-test-results-components/StudentTestResultsViewModel.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-student-test-results-components/StudentTestResultsDataSource.js" type="text/javascript"></script>
+        <script src="Aig/_products/OTS-Aig-WebApplication/Tests-Components/js-student-test-results-components/StudentTestResultComponent.js" type="text/javascript"></script>
+        
+        
         <!--WEB APPLICATION -->
          <script src="Aig/Components/Applications-Components/js/Applications-Components.js" type="text/javascript"></script>
          <script src="Aig/_products/OTS-Aig-WebApplication/js/OTS-Aig-WebApplication.js" type="text/javascript"></script>
@@ -207,17 +214,16 @@
      <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses.html" id="courses-template" type="text/html"> </script>
     <script src="Aig/_products/OTS-Aig-WebApplication/Courses-Components/html-templates/courses-add-edit-view.html" id="courses-add-edit-template" type="text/html"> </script>
     
-     <!--Teacher Course Assignment templates-->
-     <!--
-     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-component.html" id="teacher-course-assignment-component-template" type="text/html"> </script>
-     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignments-list.html" id="teacher-course-assignments-list-template" type="text/html"> </script>
-     <script src="Aig/_products/OTS-Aig-WebApplication/Teacher-Course-Assignment-Components/html-templates/teacher-course-assignment-add-edit-view.html" id="teacher-course-assignment-add-edit-template" type="text/html"> </script>
-    -->
+    
      <!--Test Item Generation Templates-->
    
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-test-generation-templates/test-generation-options-selection-view.html" id="div-test-generation-options-ui-template" type="text/html"> </script>
      <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-test-generation-templates/test-items-geneneted-view.html" id="div-test-items-generated-ui-template" type="text/html"> </script>
-           
+     
+     <script src="./Aig/_products/OTS-Aig-WebApplication/Tests-Components/html-student-test-result-template/student-test-results.html" id="div-student-test-results-content-ui-template" type="text/html"> </script>
+    
+   
+     
       <script type="text/javascript">
              
              //A list of promises that need to resolve before starting

@@ -22,7 +22,7 @@ OTS.AigWebApplication=function(applicationId,applicationName){
    var teacherCourseAssignment= new OTS.AigTeacherCourseAssignmentComponent();
    var studentAccountComponent= new OTS.AigStudentAccountComponent();
    var studentsTestComponent= new OTS.AigStudentTestComponent();
-   
+   var studentTestResultsComponent= new OTS.AigStudentTestResultsComponent();
     var webApp=new Aig.WebApplication(id);
     var settings=null;
     
@@ -69,9 +69,9 @@ OTS.AigWebApplication=function(applicationId,applicationName){
       initializableComponents.push(courseManagementComponent);
       initializableComponents.push(studentAccountComponent);
       initializableComponents.push(studentsTestComponent);
-      initializableComponents.push(teacherCourseAssignment);
-  
-         
+     // initializableComponents.push(teacherCourseAssignment);
+      initializableComponents.push(studentTestResultsComponent);
+       
       for(var i=0;i<initializableComponents.length;i++){
          var component=  initializableComponents[i];
          if(component!==null){
