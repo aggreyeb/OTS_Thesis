@@ -23,6 +23,42 @@ public class TestDataService {
         this.dataSource = dataSource;
     }
       
+    public TransactionResult ListStudentsTestResults(String courseid,String testId){
+        String selecteSqltemplate="select StudentsTestResultsElement, u.FirstName,u.LastName,\n" +
+                        "       c.Id as CourseId,c.Name as CourseName,\n" +
+                        "		 e.Id as TestId,e.Name as TestName, \n" +
+                        "		 se.Mark from user u \n" +
+                        "left join  studentexam se on u.UserId=se.StudentId\n" +
+                        "left join course c on c.Id=se.CourseId\n" +
+                        "left join exam  e on e.Id=se.TestId\n" +
+                        "where c.Id='%s' and \n" +
+                        "      e.Id='%s' ";
+    
+           TransactionResult result= new TransactionResult();
+        try{ 
+          String sql= String.format(selecteSqltemplate, courseid,testId);
+        
+          List<StudentsTestResultsElement> tests= new ArrayList();
+          this.dataSource.ExecuteCustomDataSet(sql, tests,StudentsTestResultsElement.class);
+       
+             Gson g = new Gson();
+             result.Content=g.toJson(tests);
+             result.ActionResultType=ActionResultType.ok;
+             return result;
+           }
+           catch(Throwable ex){
+               result.ActionResultType=ActionResultType.exception;
+               result.Exception=ex.toString();
+               return result;
+           }
+           finally{
+             
+            }
+    
+    }
+    
+    
+    
      public TransactionResult  ListAllTest(){
          
          TransactionResult result= new TransactionResult();

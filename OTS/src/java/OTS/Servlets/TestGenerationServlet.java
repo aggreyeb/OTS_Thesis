@@ -231,7 +231,12 @@ public class TestGenerationServlet extends  Servlet {
                   String aigcourseId=request.getParameter("CourseId");
                  service= new TestDataService(new MySqlDataSource());
                  return  service.ListCourseTest(aigcourseId);
-              
+             
+             case "Aig-ListStudentsTestResults":
+                  String thecourseId=request.getParameter("CourseId");
+                  String thetestId=request.getParameter("TestId");
+                  service= new TestDataService(new MySqlDataSource());
+                  return  service.ListStudentsTestResults(thecourseId,thetestId);
                  
              case "Aig-CreateNewTest":
                   data=request.getParameter("data");

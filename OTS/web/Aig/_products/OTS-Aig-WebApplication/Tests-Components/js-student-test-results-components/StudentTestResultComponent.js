@@ -5,7 +5,7 @@ OTS.AigStudentTestResultsComponent=function(){
     var currentApplication;
     var initialized=false;
     var control= new  Aig.Controls.Control();
-    var viewModel=new OTS.AigCourseViewModel();
+    var viewModel=new OTS.AigStudentTestResultsViewModel();
   
      var componentChanged=function(e){
       if(e.id===id){
@@ -35,8 +35,8 @@ OTS.AigStudentTestResultsComponent=function(){
        dataSource.ListTeacherCourses(function(msg){
          var result=JSON.parse(msg);
          var items=JSON.parse(result.Content);
-         viewModel.DataBind(items)
-        //  ko.applyBindings(viewModel,$("#div-student-test-results-content")[0]);
+         viewModel.BindCourses(items)
+         ko.applyBindings(viewModel,$("#div-student-test-results-content")[0]);
        
        });
      
@@ -52,6 +52,32 @@ OTS.AigStudentTestResultsComponent=function(){
        currentApplication=application;
        currentApplication.RegisterComponentChanged(componentChanged);
    };
+ 
+   me.ListCourseTest=function(courseId,callbackFunction){
+        var dataSource= new  OTS.AigStudentTestResultsDataSource();
+     var callback=callbackFunction;
+     dataSource.ListCourseTest(courseId ,function(msg){
+         callback(msg);
+     });
+   };
+   
+    me.ListTeacherCourses=function(callbackFunction){
+        var callback=callbackFunction;
+          var dataSource= new  OTS.AigStudentTestResultsDataSource();
+         var callback=callbackFunction;
+         dataSource.ListTeacherCourses(function(msg){
+             callback(msg);
+         });
+    };
+    
+    me.ListStudentTestResults=function(courseId,testId,callbackFunction){
+         var callback=callbackFunction;
+          var dataSource= new  OTS.AigStudentTestResultsDataSource();
+  
+         dataSource.ListStudentTestResults(courseId,testId,function(msg){
+             callback(msg);
+         });
+    };
  
 };
 OTS.AigStudentTestResultsComponent.prototype=  new Aig.IInitializable();

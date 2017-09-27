@@ -4,16 +4,22 @@
             <div class="input-group">
                 <label>Select Course</label>
                 <span>
-                <select id="sel-teacher-Course"  style="margin-bottom: 5px" class="form-control">
-                    <option>Course1</option>
-                    <option>Course2</option>
+                <select id="sel-teacher-Course"  style="margin-bottom: 5px" class="form-control " data-bind="options:Courses,
+                       optionsText: 'Name',
+                       Value:'Id',
+                       selectedOptions:SelectedCourse,
+                       optionsCaption: 'Choose...',event:{change:CourseChanged}">
+ 
                 </select><br>
                 <span>
                   <label>Select Test</label>   
                 </span>  
-                <select id="sel--Course-Test"  style="margin-bottom: 5px" class="form-control">
-                    <option>Test1</option>
-                    <option>Test2</option>
+                <select id="sel--Course-Test"  style="margin-bottom: 5px" class="form-control" data-bind="options:CourseTests,
+                       optionsText: 'Name',
+                       Value:'Id',
+                       selectedOptions:SelectedCourseTest,
+                       optionsCaption: 'Choose...',event:{change:OnTestChanged}">
+                   
                 </select>    
                     
                 </span>
@@ -35,12 +41,12 @@
                    
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-bind="foreach:StudentTestResults">
                 <tr>
-                    <td>Name </td>
-                    <td>Course</td> 
-                    <td>Test Name</td>  
-                    <td>Mark </td>  
+                    <td data-bind="Fullname">Name </td>
+                    <td data-bind="CourseName">Course</td> 
+                    <td data-bind="TestName">Test Name</td>  
+                    <td data-bind="mark">Mark </td>  
                 </tr>
             </tbody>
         </table>
