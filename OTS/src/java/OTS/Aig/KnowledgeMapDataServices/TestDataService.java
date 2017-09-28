@@ -24,7 +24,7 @@ public class TestDataService {
     }
       
     public TransactionResult ListStudentsTestResults(String courseid,String testId){
-        String selecteSqltemplate="select StudentsTestResultsElement, u.FirstName,u.LastName,\n" +
+        String selecteSqltemplate="select u.UserId as StudentId, u.FirstName,u.LastName,\n" +
                         "       c.Id as CourseId,c.Name as CourseName,\n" +
                         "		 e.Id as TestId,e.Name as TestName, \n" +
                         "		 se.Mark from user u \n" +

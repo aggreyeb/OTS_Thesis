@@ -13,6 +13,7 @@ public class StudentsTestResultsElement {
     public int StudentId;
     public String FirstName;
     public String LastName;
+    public String FullName="-";
     public String CourseId;
     public String CourseName;
     public String TestId;

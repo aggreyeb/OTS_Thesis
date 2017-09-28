@@ -57,8 +57,12 @@ OTS.AigStudentTestResultsViewModel=function(){
    
    me.BindStudentTestResults=function(items){
        me.StudentTestResults([]);
+       if(items===null) return;
+       if(items.length===0) return;
+       
         for(var i=0;i<items.length;i++){
-               me.StudentTestResults.push(items[i]) ;
+            items[i].FullName=  items[i].FirstName + " " + items[i].LastName; 
+           me.StudentTestResults.push(items[i]) ;
          }
    };
    
