@@ -44,8 +44,7 @@ public class AnalyseRunningTimeQuadraticComponent implements OTS.Aig.ITestItemGe
     String currentCorrectAnswer="";
     List<String> currentAnswerOptions=null;
     
-    int[] intitialDataSets= new int[]{100,200,300,400};
-    
+    int[] intitialDataSets= new int[]{200,300,400,100};
      private final double InitialTimeSpent=1;
      private  double intitialDataSet=100;
      private final double requiredDataSet=5000;
@@ -370,8 +369,8 @@ public class AnalyseRunningTimeQuadraticComponent implements OTS.Aig.ITestItemGe
        
          List<String> answerOptions= new ArrayList();
          
-         double requiredTimeSpent=requiredDataSet * requiredDataSet * (InitialTimeSpent/intitialDataSet *intitialDataSet);
-        
+         double requiredTimeSpent=InitialTimeSpent/(intitialDataSet *intitialDataSet) *requiredDataSet * requiredDataSet  ;
+        // answerOptions.add(Integer.toString((int)requiredTimeSpent));
          for(int i :multipliers){
            double value=  i * requiredTimeSpent;
              answerOptions.add( Integer.toString((int)value) +  " " + timeUnit );
