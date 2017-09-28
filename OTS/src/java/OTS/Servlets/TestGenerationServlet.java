@@ -6,6 +6,7 @@
 package OTS.Servlets;
 
 import OTS.Aig.AnalysisCognitive.AnalyseRunningTimeLinearComponent;
+import OTS.Aig.AnalysisCognitive.AnalyseRunningTimeQuadraticComponent;
 import OTS.Aig.ApplicationCognitive.DictionaryApplicationComponent;
 import OTS.Aig.ApplicationCognitive.QueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
@@ -144,15 +145,15 @@ public class TestGenerationServlet extends  Servlet {
          AnalysisComponent analysisComponent=  new AnalysisComponent();
           
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
-          /*
+         
           timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
-          */
           timeComplexityComponents.Add(new AnalyseRunningTimeLinearComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new AnalyseRunningTimeQuadraticComponent(new MySqlDataSource()));
          
-          //AnalyseRunningTimeLinearComponent
+          
           analysisComponent.Add(timeComplexityComponents);
       
           analysisComponent.AddTo(componentGroup);

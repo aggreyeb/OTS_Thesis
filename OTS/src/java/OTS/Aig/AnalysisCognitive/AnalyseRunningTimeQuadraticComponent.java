@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author Eb
  */
-public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class AnalyseRunningTimeQuadraticComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     String selectedActor="";
@@ -44,15 +44,15 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
     String currentCorrectAnswer="";
     List<String> currentAnswerOptions=null;
     
-    int[] initialTimes= new int[]{10,30,40,50};
+    int[] intitialDataSets= new int[]{1000,2000,3000,4000};
     
-     private double InitialTimeSpent=10;
-     private final double intitialDataSet=1000;
-     private final double requiredDataSet=100000;
+     private final double InitialTimeSpent=1;
+     private  double intitialDataSet=1000;
+     private final double requiredDataSet=200000;
     
      
      
-    public AnalyseRunningTimeLinearComponent(DataSource mySqlDataSource) {
+    public AnalyseRunningTimeQuadraticComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
        currentAnswerOptions= new ArrayList();
@@ -120,7 +120,7 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
        conceptNode=cn;
       String[] labels=new  String[]{"A.","B.","C.","D."};
      
-       InitialTimeSpent=  SelectInitialTimeSpent();
+       intitialDataSet=  SelectInitialDataSet();
        Map map=CalculateRunningTime();
        
        currentCorrectAnswer=map.get("correctAnswer").toString();
@@ -161,13 +161,10 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
     @Override
     public String ConstructStimulus() {
         String stimulus="";
-       String template="A %s implemented a %s data structure for a software "
-               + " component. Upon unit"
-               + " testing it was found that one of  algorithm implemented had"
-               + " processing time T(n)=c*O(f(n)) where f(n) is a function of"
-               + " n spent %s milliseconds to process %s data items.";
-              
-       
+       String template="A %s was given a %s data structure to implement software "
+               + " module.After profiling  one of the methods of the module "
+               + " it took %s ms to process %s data contain in the data structure";
+         
        selectedActor=SelectActor();
        String dataStructure=conceptNode.Name;
       // String InitialTime="";
@@ -183,8 +180,9 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
 
     @Override
     public String PrepareStem() {
-        String stemTemplate="How much time will be spent to process %s "
-                + "data items if f(n)=n.";
+        String stemTemplate="How much time will be spent to process %s. Assume that"
+                + " the processing time of the method algorithm is T(n)= Cn^2  where n is the number of data"
+                + " items and C is constant";
         String stem=String.format(stemTemplate, Integer.toString((int)requiredDataSet));
         return stem;
     }
@@ -384,9 +382,9 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
        return map;
    }
    
-   protected int SelectInitialTimeSpent(){
+   protected int SelectInitialDataSet(){
        List<Integer> items= new ArrayList();
-       for(int i :initialTimes){
+       for(int i :intitialDataSets){
            items.add(i);
        }
        
