@@ -14,11 +14,12 @@
                 <span>
                   <label>Select Test</label>   
                 </span>  
+                <!--optionsCaption: 'Choose...',-->
                 <select id="sel--Course-Test"  style="margin-bottom: 5px" class="form-control" data-bind="options:CourseTests,
                        optionsText: 'Name',
                        Value:'Id',
                        selectedOptions:SelectedCourseTest,
-                       optionsCaption: 'Choose...',event:{change:OnTestChanged}">
+                       event:{change:OnTestChanged}">
                    
                 </select>    
                     

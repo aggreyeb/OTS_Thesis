@@ -17,7 +17,12 @@ OTS.AigStudentTestResultsViewModel=function(){
   me.CourseChanged=function(data,e){
       var selectedCourse=me.SelectedCourse()[0];
            
-             if(selectedCourse===undefined || selectedCourse ===null || selectedCourse.Id==="") return;
+             if(selectedCourse===undefined || selectedCourse ===null || selectedCourse.Id==="")
+             {   
+                  me.CourseTests([]);
+                return;
+             
+             }
              studentTestResultComponent.ListCourseTest(selectedCourse.Id,function(msg){
                 var result=JSON.parse(msg);
                     if(result.ActionResultType==="ok" || result.ActionResultType==="0"){
