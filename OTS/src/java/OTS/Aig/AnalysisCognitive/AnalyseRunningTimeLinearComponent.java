@@ -44,8 +44,14 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
     String currentCorrectAnswer="";
     List<String> currentAnswerOptions=null;
     
-     
+    int[] initialTimes= new int[]{10,30,40,50};
     
+     private double InitialTimeSpent=10;
+     private final double intitialDataSet=1000;
+     private final double requiredDataSet=100000;
+    
+     
+     
     public AnalyseRunningTimeLinearComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
@@ -114,7 +120,9 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
        conceptNode=cn;
       String[] labels=new  String[]{"A.","B.","C.","D."};
      
-       Map map=   CalculateRunningTime();
+       InitialTimeSpent=  SelectInitialTimeSpent();
+       Map map=CalculateRunningTime();
+       
        currentCorrectAnswer=map.get("correctAnswer").toString();
        currentAnswerOptions=(List<String>)map.get("aswerOptions");
        
@@ -157,19 +165,18 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
                + " component. Upon unit"
                + " testing it was found that one of  algorithm implemented had"
                + " processing time T(n)=c*O(f(n)) where f(n) is a function of"
-               + " n spend %s seconds for 1000 data items.";
+               + " n spent %s seconds for %s data items.";
               
-        
-      
-      
+       
        selectedActor=SelectActor();
        String dataStructure=conceptNode.Name;
-       String InitialTime="";
+      // String InitialTime="";
 
       stimulus= String.format(template,
               selectedActor,
               dataStructure,
-              InitialTime);
+              Integer.toString((int)InitialTimeSpent),
+              Integer.toString((int)intitialDataSet));
       
        return stimulus;
     }
@@ -178,7 +185,7 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
     public String PrepareStem() {
         String stemTemplate="How much time will be spent to process %s "
                 + "data items if f(n)=n.";
-        String stem=String.format(stemTemplate, selectedActor);
+        String stem=String.format(stemTemplate, Integer.toString((int)requiredDataSet));
         return stem;
     }
 
@@ -359,9 +366,9 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
          //1000 ms
          String timeUnit= "ms";
          int[] multipliers= new int[]{2,3,4};
-         double InitialTimeSpent=10;
-         double intitialDataSet=1000;
-         double requiredDataSet=100000;
+         // InitialTimeSpent=10;
+         // intitialDataSet=1000;
+         // requiredDataSet=100000;
        
          List<String> answerOptions= new ArrayList();
          
@@ -376,5 +383,14 @@ public class AnalyseRunningTimeLinearComponent implements OTS.Aig.ITestItemGener
          map.put("aswerOptions", answerOptions);
        return map;
    }
-      
+   
+   protected int SelectInitialTimeSpent(){
+       List<Integer> items= new ArrayList();
+       for(int i :initialTimes){
+           items.add(i);
+       }
+       
+       Collections.shuffle(items);
+       return items.get(0);
+   }   
 }
