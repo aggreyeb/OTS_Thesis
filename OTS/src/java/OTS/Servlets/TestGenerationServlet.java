@@ -9,6 +9,7 @@ import OTS.Aig.AnalysisCognitive.AnalyseRunningTimeLinearComponent;
 import OTS.Aig.AnalysisCognitive.AnalyseRunningTimeLogComponent;
 import OTS.Aig.AnalysisCognitive.AnalyseRunningTimePolynomialComponent;
 import OTS.Aig.AnalysisCognitive.AnalyseRunningTimeQuadraticComponent;
+import OTS.Aig.ApplicationCognitive.DequeQueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.DictionaryApplicationComponent;
 import OTS.Aig.ApplicationCognitive.QueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
@@ -139,23 +140,25 @@ public class TestGenerationServlet extends  Servlet {
          
          //Appliccation Component
           ApplicationComponent applicationComponent=  new ApplicationComponent();
+         
           applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
+          applicationComponent.Add(new DequeQueueApplicationComponent(new MySqlDataSource()));
+      
           applicationComponent.AddTo(componentGroup);
          
          AnalysisComponent analysisComponent=  new AnalysisComponent();
           
           TimeComplexityComponents timeComplexityComponents= new TimeComplexityComponents();
-          /*
+          
           timeComplexityComponents.Add(new TimeComplexityConstantBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityLinearAdditionBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityQuadraticBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new TimeComplexityLogBigOComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new AnalyseRunningTimeLinearComponent(new MySqlDataSource()));
-          */
-         // timeComplexityComponents.Add(new AnalyseRunningTimeQuadraticComponent(new MySqlDataSource()));
-         // timeComplexityComponents.Add(new AnalyseRunningTimePolynomialComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new AnalyseRunningTimeQuadraticComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new AnalyseRunningTimePolynomialComponent(new MySqlDataSource()));
           
            timeComplexityComponents.Add(new AnalyseRunningTimeLogComponent(new MySqlDataSource()));
       

@@ -186,8 +186,8 @@ public class TimeComplexityEvaluateQuadraticBigOComponent implements OTS.Aig.ITe
                + "data structure(TPDS) to implement generic data structure S<T>"
                + " which should be able process about %s data items.Additionally,"
                + " it should implement %s inteface and provide algorithm for the %s operation. The computer processing time"
-               + " in relationship to time complexity  for the %s operation of "
-               + " TPDS as follows. A1(n)=n^2 ,A2(n) = 5.3n^3, "
+               + " in relationship to time complexity  for the %s operation of the "
+               + " TPDS is as follows. A1(n)=n^2 ,A2(n) = 5.3n^3, "
                + "A3(n)=log n, A4(n)=200n^3";
        
        String operation=this.ToOperationList(hasList);
