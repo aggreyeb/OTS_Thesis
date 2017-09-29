@@ -15,6 +15,14 @@
         InformationVisible:ko.observable(false),
         EnablePrevious:ko.observable(false),
         EnableNext:ko.observable(true),
+        Play:function(step){
+           var el=  document.getElementById("ots-video-" + step.toString());
+            el.play();
+        },
+        Pause:function(step){
+           var el=  document.getElementById("ots-video-" + step.toString());
+            el.pause();
+        },
         DisplayHeading:function(step){
             switch(step){
                 case 1:
@@ -22,6 +30,7 @@
                 break;
                 
                 case 2:
+                    
                  viewModel.Heading("Request Account");    
                 break;
                 
@@ -68,6 +77,8 @@
            viewModel.EnableNext(true); 
            viewModel.EnablePrevious(false); 
            viewModel.Heading("Introduction to Online Test System");
+              $("#cmd-nextButton").show();
+              $("#cmd-previousButton").hide();
             step=1;
          }
          viewModel.Step(step);
@@ -76,44 +87,70 @@
           var step=  viewModel.currentVideo+=1;
           viewModel.EnablePrevious(true);
            viewModel.DisplayHeading(step);
+           var previousStep=1;
+           var baseId="ots-video-";
+           
            switch(step){
                case 1:
                    viewModel.Step(1);
-                
+                   
                 break;   
                case 2:
-                  viewModel.Step(2);
+               
+                viewModel.Step(2);
+                setTimeout(function(){ 
+                    viewModel.Play(2);
+                }, 3000);
                
                 break;    
                case 3:
                   viewModel.Step(3);
-                
+                setTimeout(function(){ 
+                    viewModel.Play(3);
+                }, 3000);
+               
                 break; 
              case 4:
               viewModel.Step(4);
-            
+               setTimeout(function(){ 
+                    viewModel.Play(4);
+                }, 3000);
+               
                break; 
                 
             case 5:
              viewModel.Step(5);
-            
+             setTimeout(function(){ 
+                    viewModel.Play(5);
+                }, 3000);
              break; 
              case 6:
              viewModel.Step(6);
-           
+            setTimeout(function(){ 
+                    viewModel.Play(6);
+                }, 3000);
              break; 
          
           case 7:
              viewModel.Step(7);
+              setTimeout(function(){ 
+                    viewModel.Play(7);
+                }, 3000);
            
              break; 
          case 8:
              viewModel.Step(8);
-           
+            setTimeout(function(){ 
+                    viewModel.Play(8);
+                }, 3000);
              break; 
          case 9:
              viewModel.Step(9);
-            
+             $("#cmd-nextButton").hide();
+             $("#cmd-previousButton").show();
+            setTimeout(function(){ 
+                    viewModel.Play(9);
+                }, 3000);
              viewModel.InformationVisible(true);
              break; 
          default:
@@ -131,8 +168,15 @@
       }
       };
     $(document).ready(function(){
-	
-        ko.applyBindings(viewModel,$("#div-container")[0]);
+	 // loadstart
+     $("#ots-video-1").on("loadeddata", function (e) {
+       viewModel.Play(1);
+     });
+    
+      ko.applyBindings(viewModel,$("#div-container")[0]);
+     
+     
+      
     });
    </script>
   
@@ -168,25 +212,7 @@
                </div>
         </div>
 
-   <!--
-    <div id="navbarCollapse" class="collapse navbar-collapse">
-
-            <ul class="nav navbar-nav">
-            </ul>
- 
-    <div class="btn-group tn-primary pull-right">
-       
-        <div style="margin-right:5px">
-           
-            <ul data-toggle="collapse" class="nav navbar-nav pull-right dropdown-toggle" data-target="#findme">
-            
-            </ul>
-        </div>
-      
-    </div>
-
-        </div>
-    -->
+  
         </div>
     </nav>
 </div><br>
@@ -203,82 +229,87 @@
                 </div>
                 <div  style="margin-top: 5px">
                  <!--ko if:Step()===1 -->   
-                <video   width="680" height="400" controls="controls">
+                 <video   id="ots-video-1"  width="680" height="400" controls="controls">
                   <source  src='videos\1-ots-introduction.mp4' type="video/mp4" />
                 </video> 
                   <!--/ko-->
                   
                 <!--ko if:Step()===2 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-2"  width="680" height="400" controls="controls">
                   <source  src='videos\2-ots-request-account.mp4' type="video/mp4" />
                 </video> 
                   <!--/ko--> 
                   
                 <!--ko if:Step()===3 -->   
-                <video   width="680" height="400" controls="controls">
+                <video id="ots-video-3"  width="680" height="400" controls="controls">
                   <source  src='videos\3-ots-manage-course.mp4' type="video/mp4" />
                 </video> 
                   <!--/ko--> 
                   
                 <!--ko if:Step()===4 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-4"  width="680" height="400" controls="controls">
                   <source  src='videos\4-ots-manage-knoweldgemap.mp4' type="video/mp4" />
                 </video> 
                  <!--/ko-->     
                   
                  <!--ko if:Step()===5 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-5"  width="680" height="400" controls="controls">
                   <source  src='videos\5-ots-course-knoweldgemaps.mp4' type="video/mp4" />
                 </video> 
                  <!--/ko-->  
                  
                 <!--ko if:Step()===6 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-6" width="680" height="400" controls="controls">
                   <source  src='videos\6-ots-manage-test.mp4' type="video/mp4" />
                 </video> 
                  <!--/ko-->  
                   
                  <!--ko if:Step()===7 -->   
-                <video   width="680" height="400" controls="controls">
+                <video id="ots-video-7"  width="680" height="400" controls="controls">
                   <source  src='videos\7-ots-generate-test-items.mp4' type="video/mp4" />
                 </video> 
                  <!--/ko-->  
                    
                   <!--ko if:Step()===8 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-8"  width="680" height="400" controls="controls">
                   <source  src='videos\8-ots-activate-test.mp4' type="video/mp4" />
                 </video> 
                  <!--/ko-->  
                  
                  <!--ko if:Step()===9 -->   
-                <video   width="680" height="400" controls="controls">
+                <video  id="ots-video-9"  width="680" height="400" controls="controls">
                   <source  src='videos\9-ots-thank-you.mp4' type="video/mp4" />
                 </video> 
                 <!--/ko-->  
-                 
+                <div class="col-xs-10" >
+                    <div  style="margin-left: 100px" >
+                        <button style="margin-left: 18px" id="cmd-previousButton"  data-bind="click:onPreviousClick,enable:EnablePrevious,visible:false" class="btn btn-sm btn-default pull-left"><< Previous</button>&nbsp; <button style="margin-left: 18px" id="cmd-nextButton" data-bind="click:onNextClick,enable:true" class="btn btn-sm btn-default pull-left">Next >></button>
+                    </div>
+                   
                 </div>
-                    <div  data-bind="visible:InformationVisible" class="col-xs-10">
-                       
-                      <h3 style="text-align: center;padding-left: 80px"><span class="label label-info">Information</span></h3>
-                    <div >
-                        <span style="padding-right:  90px"><b>Please use this link to try Online Test System</b></span>
-                        <a href="http://tinyurl.com/h97gt7m" target="blank">Online Test System</a>
+               
+                </div>
+                    
+                <div  data-bind="visible:InformationVisible" class="col-xs-12">
+                    <hr>
+                      <h3 style="text-align: center;padding-left: 40px"><span class="label label-info">Information</span></h3>
+                    <div>
+                        <a href="http://onlinetest.is-very-good.org" target="blank">Online Test System (http://onlinetest.is-very-good.org)</a> &nbsp; | <a href="http://tinyurl.com/jzw2oko" target="blank">Questionnaire</a>
                     </div>
-                    <div style="margin-left: 90px">
-                        <span><b>Please use this link to fill Online Test System questionnaire</b></span>
-                        <a href="http://tinyurl.com/jzw2oko" target="blank">Online Test System Questionnaire</a>
-                    </div>
+                  
                      <div style="margin-left: 90px">
-                        <span><b>Contact Emails: aggreyeb@shaw.ca |  maigac@gmail.com</b></span>
+                        <span><b>Contact Emails: aggreyeb@shaw.ca |  maiga.chang@gmail.com</b></span>
                        
                     </div>
                 </div>
-                <div class="col-xs-10" style="text-align: center">
-                    <div class="btn-group">
-                        <button  data-bind="click:onPreviousClick,enable:EnablePrevious" class="btn btn-sm btn-default"><< Previous</button>&nbsp; <button data-bind="click:onNextClick,enable:EnableNext" class="btn btn-sm btn-default">Next >></button>
+                <!--
+                <div class="col-xs-10" >
+                    <div  style="margin-left: 100px" >
+                        <button id="cmd-previousButton"  data-bind="click:onPreviousClick,enable:EnablePrevious,visible:false" class="btn btn-sm btn-default pull-left"><< Previous</button>&nbsp; <button id="cmd-nextButton" data-bind="click:onNextClick,enable:true" class="btn btn-sm btn-default pull-left">Next >></button>
                     </div>
                     
                 </div>
+                -->
                 </div>
            </div>
            
