@@ -168,8 +168,7 @@ public class TestGenerationServlet extends  Servlet {
           timeComplexityComponents.Add(new AnalyseRunningTimeLinearComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new AnalyseRunningTimeQuadraticComponent(new MySqlDataSource()));
           timeComplexityComponents.Add(new AnalyseRunningTimePolynomialComponent(new MySqlDataSource()));
-          
-           timeComplexityComponents.Add(new AnalyseRunningTimeLogComponent(new MySqlDataSource()));
+          timeComplexityComponents.Add(new AnalyseRunningTimeLogComponent(new MySqlDataSource()));
       
           
           analysisComponent.Add(timeComplexityComponents);
