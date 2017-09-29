@@ -46,8 +46,9 @@ public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenera
       List<ConceptSchemaElement>   canList= null;
   
     
-    Map operationSequenceMap=null;
-    
+     Map operationSequenceMap=null;
+     String[] dataSets=null;
+     
     public StackOddItemApplicationComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
@@ -119,10 +120,11 @@ public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenera
      if(cn.ParentName.equals("Interface")) // Interface return
               return testItems;
       
-    if(cn.ParentName.equals("List") || cn.ParentName.equals("Array-Based List"))//valid IFF the interface is List
+    if(cn.ParentName.equals("List") || cn.ParentName.equals("Array-Based List"))
     {      
       
        conceptNode=cn;
+      dataSets=this.ReadDataSet();
       operationSequenceMap=this.BuildOperationSequence();
        String correctAnswer =operationSequenceMap.get("correctAnswer").toString();
        
@@ -191,8 +193,8 @@ public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenera
                                        "student"};
        String[] interfaces=new String[]{"List","Linked List"};
        
-       String template="A %s implemented a software component which takes Stack s as paramter "
-               + " the algorithm implemented is shown below \n";
+       String template="A %s implemented a software component which takes Stack s containing %s as parameter."
+               + " The algorithm implemented is shown below \n";
               
         String append="String output;\n" +
                   " while(s.peek().length()%2==0){\n" +
@@ -200,9 +202,17 @@ public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenera
                         "output=str;\n" +
                     "}";     
              
+         String data="";
+        for(String s: this.dataSets){
+            data+=s + ",";
+        }
+        if(data.lastIndexOf(",")>0){
+            data=data.substring(0,data.length()-1);
+        } 
+        
        String actor=this.SelectRandomActor();
       
-      stimulus= String.format(template, SelectRandomActor());
+      stimulus= String.format(template, SelectRandomActor(),data);
       stimulus+=append;
        return stimulus;
     }

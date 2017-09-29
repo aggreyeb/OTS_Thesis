@@ -17,8 +17,10 @@ import OTS.DataModels.DataSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
@@ -26,7 +28,7 @@ import java.util.Stack;
  *
  * @author Eb
  */
-public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class QueueItemLengthApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     //comments
@@ -47,8 +49,10 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
   
     
     Map operationSequenceMap=null;
-     String[] dataSets=null;
-    public StackEvenItemApplicationComponent(DataSource mySqlDataSource) {
+    
+   String[] dataSets=null;
+    
+    public QueueItemLengthApplicationComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
        conceptSchemas= new ArrayList();
@@ -119,11 +123,11 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
      if(cn.ParentName.equals("Interface")) // Interface return
               return testItems;
       
-    if(cn.ParentName.equals("List") || cn.ParentName.equals("Array-Based List"))
+     if(cn.ParentName.equals("List") || cn.ParentName.equals("Array-Based List"))
     {      
       
        conceptNode=cn;
-          dataSets=this.ReadDataSet();
+       dataSets=this.ReadDataSet();
       operationSequenceMap=this.BuildOperationSequence();
        String correctAnswer =operationSequenceMap.get("correctAnswer").toString();
        
@@ -192,25 +196,25 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
                                        "student"};
        String[] interfaces=new String[]{"List","Linked List"};
        
-       String template="A %s implemented a software component which takes Stack s containing %s as parameter."
+       String template="A %s implemented a software component which takes Queue "
+               + "s containing %s as parameter."
                + " The algorithm implemented is shown below \n";
               
         String append="String output;\n" +
-                  " while(s.peek().length()%2!=0){\n" +
-                       "String str=s.peek();\n" +
-                        "output=str;\n" +
-                    "}";     
-       
-         String data="";
+                  " while(!queue.isEmpty() && queue.peek().length()==2 ){\n" +
+                        "String str=queue.remove();\n" +
+                        "output=queue.peek();\n" +
+                    "}"; 
+        
+        String data="";
         for(String s: this.dataSets){
             data+=s + ",";
         }
         if(data.lastIndexOf(",")>0){
             data=data.substring(0,data.length()-1);
         }       
-        
        String actor=this.SelectRandomActor();
-      
+       
       stimulus= String.format(template, SelectRandomActor(),data);
       stimulus+=append;
        return stimulus;
@@ -353,18 +357,17 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
             
           case "string":
         
-         List<String> odds=this.OddItems();
-         List<String> evens=this.EvenItems();
-         String[] items=this.ReadDataSet();
-         
-          Stack<String> aStack= new Stack();
+        
+         String[] items=dataSets;
+        
+          Queue<String> queue= new LinkedList();
           for(String s: items){
-              aStack.push(s);
+              queue.add(s);
               answerOptions.add(s);
           }
-          while(aStack.peek().length()% 2 !=0){
-              String str=aStack.pop();
-              output=aStack.peek();
+          while(!queue.isEmpty() && queue.peek().length()==2 ){
+              String str=queue.remove();
+              output=queue.peek();
           }
          
            break;
@@ -378,10 +381,10 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
   
     protected String[] ReadDataSet(){
     
-       String[] defaults=new String[]{"Yank", "Fan", "Nanb", "Pod"};
-       String[] item1=new String[]{"Lamp", "Sip", "Blob", "Bulb"};
-       String[] item2=new String[]{"Soup", "Soa", "Soup", "Punk"};
-       String[] item3=new String[]{"Matt", "Jon", "Crep", "Tan"};
+       String[] defaults=new String[]{"ab", "cdv", "eg", "gh"};
+       String[] item1=new String[]{"pk", "tan", "up", "don"};
+       String[] item2=new String[]{"mr", "miss", "dr", "vat"};
+       String[] item3=new String[]{"zp", "matt", "cret", "creek"};
         List<String[]> items= new ArrayList();
        items.add(defaults);
        items.add(item1);
