@@ -26,7 +26,7 @@ import java.util.Stack;
  *
  * @author Eb
  */
-public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class StackSubStringItemApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     //comments
@@ -48,7 +48,7 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
     
     Map operationSequenceMap=null;
      String[] dataSets=null;
-    public StackEvenItemApplicationComponent(DataSource mySqlDataSource) {
+    public StackSubStringItemApplicationComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
        conceptSchemas= new ArrayList();
@@ -196,10 +196,12 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
                + " The algorithm implemented is shown below \n";
               
         String append="String output;\n" +
-                  " while(s.peek().length()%2!=0){\n" +
-                       "String str=s.peek();\n" +
-                        "output=str;\n" +
-                    "}";     
+                  "  while(!s.isEmpty() && s.peek().length()==6){\n" +
+                      "String str=s.pop();\n" +
+                      "output=s.peek().substring(0,1);\n" +
+                      "s.pop();\n" +
+                      "s.push(output);\n" +
+                   "}";       
        
          String data="";
         for(String s: this.dataSets){
@@ -362,11 +364,16 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
               aStack.push(s);
               answerOptions.add(s);
           }
-          while(!aStack.isEmpty() && aStack.peek().length()% 2 !=0){
+          while(!aStack.isEmpty() && aStack.peek().length()==6){
               String str=aStack.pop();
-              output=aStack.peek();
+              output=aStack.peek().substring(0,1);
+              aStack.pop();
+              aStack.push(output);
           }
-         
+          answerOptions.clear();
+           for(String s:aStack){
+              answerOptions.add(s);
+          }
            break;
       
       }
@@ -378,10 +385,10 @@ public class StackEvenItemApplicationComponent implements OTS.Aig.ITestItemGener
   
     protected String[] ReadDataSet(){
     
-       String[] defaults=new String[]{"Yank", "Fan", "Nanb", "Pod"};
-       String[] item1=new String[]{"Lamp", "Sip", "Blob", "Bulb"};
-       String[] item2=new String[]{"Soup", "Soa", "Soup", "Punk"};
-       String[] item3=new String[]{"Matt", "Jon", "Crep", "Tan"};
+       String[] defaults=new String[]{"Ya", "Fan", "Nanby", "Podyah"};
+       String[] item1=new String[]{"La", "Sip", "Bloby", "Bulbyn"};
+       String[] item2=new String[]{"So", "Sop", "Soupy", "Punkyh"};
+       String[] item3=new String[]{"Ma", "Jon", "Crepy", "Tanyav"};
         List<String[]> items= new ArrayList();
        items.add(defaults);
        items.add(item1);

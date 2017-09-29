@@ -363,7 +363,7 @@ public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenera
               aStack.push(s);
               answerOptions.add(s);
           }
-          while(aStack.peek().length()% 2 ==0){
+          while(!aStack.isEmpty() && aStack.peek().length()% 2 ==0){
               String str=aStack.pop();
               output=aStack.peek();
           }

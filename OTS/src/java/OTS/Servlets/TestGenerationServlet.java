@@ -16,6 +16,7 @@ import OTS.Aig.ApplicationCognitive.QueueItemLengthApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackEvenItemApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackOddItemApplicationComponent;
+import OTS.Aig.ApplicationCognitive.StackSubStringItemApplicationComponent;
 import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
 import OTS.Aig.ComponentModel.EvaluationComponent;
@@ -143,7 +144,7 @@ public class TestGenerationServlet extends  Servlet {
          
          //Appliccation Component
           ApplicationComponent applicationComponent=  new ApplicationComponent();
-          
+         
           applicationComponent.Add(new StackApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
@@ -151,7 +152,8 @@ public class TestGenerationServlet extends  Servlet {
           applicationComponent.Add(new StackOddItemApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new StackEvenItemApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new QueueItemLengthApplicationComponent(new MySqlDataSource()));
-         
+          applicationComponent.Add(new StackSubStringItemApplicationComponent(new MySqlDataSource()));
+       
           
           applicationComponent.AddTo(componentGroup);
          
