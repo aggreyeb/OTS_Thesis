@@ -13,6 +13,7 @@ import OTS.Aig.ApplicationCognitive.DequeQueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.DictionaryApplicationComponent;
 import OTS.Aig.ApplicationCognitive.QueueApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackApplicationComponent;
+import OTS.Aig.ApplicationCognitive.StackEvenItemApplicationComponent;
 import OTS.Aig.ApplicationCognitive.StackOddItemApplicationComponent;
 import OTS.Aig.ComponentModel.AnalysisComponent;
 import OTS.Aig.ComponentModel.ApplicationComponent;
@@ -146,10 +147,10 @@ public class TestGenerationServlet extends  Servlet {
           applicationComponent.Add(new QueueApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new DictionaryApplicationComponent(new MySqlDataSource()));
           applicationComponent.Add(new DequeQueueApplicationComponent(new MySqlDataSource()));
-          */
           applicationComponent.Add(new StackOddItemApplicationComponent(new MySqlDataSource()));
-          
-          //StackOddItemApplicationComponent
+          */
+          applicationComponent.Add(new StackEvenItemApplicationComponent(new MySqlDataSource()));
+        
           applicationComponent.AddTo(componentGroup);
          
          AnalysisComponent analysisComponent=  new AnalysisComponent();
