@@ -26,7 +26,7 @@ import java.util.Stack;
  *
  * @author Eb
  */
-public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
+public class StackOddItemApplicationComponent implements OTS.Aig.ITestItemGenerationComponent  {
     String[] actorList=new String[]{"software developer","programmer",
                                        "student"};
     //comments
@@ -34,7 +34,7 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
     private final String id="Stack-Application";
     private final String name="Stack-Application";
     private String cognitiveType="Apply";
-    
+     String pattern= "abcdefghijklmnopqrstuvwxyz";
     private ConceptNode conceptNode =null;
     List<CognitiveType>  cognitiveTpes=null;
     DataSource dataSource;
@@ -48,7 +48,7 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
     
     Map operationSequenceMap=null;
     
-    public StackApplicationComponent(DataSource mySqlDataSource) {
+    public StackOddItemApplicationComponent(DataSource mySqlDataSource) {
        components= new Components();
        dataSource=mySqlDataSource;
        conceptSchemas= new ArrayList();
@@ -124,6 +124,10 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
       
        conceptNode=cn;
       operationSequenceMap=this.BuildOperationSequence();
+       String correctAnswer =operationSequenceMap.get("correctAnswer").toString();
+       
+       if(correctAnswer.equals(""))
+         return  testItems;
       String[] labels=new  String[]{"A.","B.","C.","D."};
      
        hasList= new ArrayList();
@@ -187,20 +191,19 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
                                        "student"};
        String[] interfaces=new String[]{"List","Linked List"};
        
-       String template="A %s implemented generic Stack&#60;T&#62;"
-               + " using %s which implements %s as internal data structure for "
-               + "software component to reverse input string. "
-               + " Opon unit testing the %s performed the following sequence "
-               + "operations\n %s"
-               + " on the instance of the data structure";
+       String template="A %s implemented a software component which takes Stack s as paramter "
+               + " the algorithm implemented is shown below \n";
               
+        String append="String output;\n" +
+                  " while(s.peek().length()%2==0){\n" +
+                       "String str=s.peek();\n" +
+                        "output=str;\n" +
+                    "}";     
+             
        String actor=this.SelectRandomActor();
-       String dataStructure=conceptNode.Name;
-       String Interface=this.RetrieveInterface(conceptNode);
-       
-       String operationsequence=operationSequenceMap.get("operationSequence").toString();
       
-      stimulus= String.format(template, SelectRandomActor(),dataStructure, Interface,actor,operationsequence);
+      stimulus= String.format(template, SelectRandomActor());
+      stimulus+=append;
        return stimulus;
     }
 
@@ -235,7 +238,14 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
            answerOption.Text=s;
            answers.add(answerOption);
        }
-       
+        /*
+        AnswerOption key= new AnswerOption();
+        key.Text=CorrectAnswer;
+        key.IsKey=true;
+        key.IsCorrect=true;
+        
+        answers.add(key);
+        */ 
       return answers;
        
                
@@ -322,66 +332,74 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
       Collections.shuffle(operations);
       
       String buildOption= buildOptions.get(0);
-      String pattern= "abcdefghijklmnopqrstuvwxyz";
-     Object correctAnswer="";
+     
+     String output="";
      List<String> answerOptions=new ArrayList(); 
-  
+      buildOption="string";
       switch(buildOption){
       
           case "integer":
-          int inputLength=4;
-          Stack<Integer> stack= new Stack();
-          for(int i=0;i<inputLength;i++){
-             Random r= new Random();
-             int randomValue=  SelectUniqueInteger();
-              stack.push(randomValue);
-              answerOptions.add(Integer.toString(randomValue));
-              operationSequence+=stackInstace+ ".Push(" + Integer.toString(randomValue)  + ");";
-           }
-            String function=operations.get(0);
-            if(function.equals("Peek()")){
-                correctAnswer=stack.peek();
-                operationSequence+="s.Peek()\n";
-            }
-            
-           if(function.equals("Pop()")){
-                correctAnswer=stack.pop();
-                operationSequence+="s.Pop()\n";
-            }
-           
-           
+          
             break;
             
           case "string":
-         int length=4;
+        
+         List<String> odds=this.OddItems();
+         List<String> evens=this.EvenItems();
+         String[] items=this.ReadDataSet();
+         
           Stack<String> aStack= new Stack();
-          for(int i=0;i<length;i++){
-             Random r= new Random();
-             String  input=  this.randomString(pattern, 5);
-              aStack.push(input);
-              answerOptions.add(input);
-              operationSequence+=stackInstace +".Push(" + input  + ");\n";
+          for(String s: items){
+              aStack.push(s);
+              answerOptions.add(s);
           }
-             function=operations.get(0);
-          if(function.equals("Peek()")){
-                correctAnswer=aStack.peek();
-            }
-            
-           if(function.equals("Pop()")){
-                correctAnswer=aStack.pop();
-            }
-           
+          while(aStack.peek().length()% 2 ==0){
+              String str=aStack.pop();
+              output=aStack.peek();
+          }
+         
            break;
       
       }
-      
-     
-      map.put("operationSequence", operationSequence);
-      map.put("correctAnswer", correctAnswer);
+    
+      map.put("correctAnswer", output);
       map.put("answerOptions", answerOptions);
        return map;
    }
   
+    protected String[] ReadDataSet(){
+    
+       String[] defaults=new String[]{"Jan", "Fran", "Nan", "Stan"};
+       String[] item1=new String[]{"Van", "Pong", "Cat", "Ping"};
+       String[] item2=new String[]{"Zip", "Ping", "Bad", "Good"};
+       String[] item3=new String[]{"Pad", "Sink", "Cod", "Luck"};
+        List<String[]> items= new ArrayList();
+       items.add(defaults);
+       items.add(item1);
+       items.add(item2);
+       items.add(item3);
+       Collections.shuffle(items);
+       return (String[])items.get(0);
+   }
+   
+   protected List<String> OddItems(){
+       List<String> odds= new ArrayList();
+       for(int i=0;i<3;i++){
+         String s=  randomString(pattern,3);
+         odds.add(s);
+       }
+       return odds;
+   }
+   
+   protected List<String> EvenItems(){
+       List<String> evens= new ArrayList();
+       for(int i=0;i<2;i++){
+         String s=  randomString(pattern,4);
+         evens.add(s);
+       }
+       return evens;
+   }
+   
  protected int SelectUniqueInteger() {
      List<Integer> list= new ArrayList();
      int count =1000;
@@ -410,7 +428,7 @@ public class StackApplicationComponent implements OTS.Aig.ITestItemGenerationCom
        
      }
      return distractors;
- };
+ }
    
  protected String randomString(String chars, int length) {
   Random rand = new Random();
